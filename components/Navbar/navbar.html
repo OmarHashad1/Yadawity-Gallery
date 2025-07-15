@@ -1,104 +1,116 @@
-<!-- Yadawity Professional Navbar Component -->
-<nav class="navbar navbar-yadawity" id="yadawity-navbar">
-    <div class="nav-container">
-        <div class="nav-logo">
-            <a href="index.html" class="nav-logo-link">
-                <div class="logo-icon">
-                    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Butterfly Wing Left -->
-                        <path d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z" 
-                              fill="currentColor" opacity="0.8"/>
-                        <!-- Butterfly Wing Right -->
-                        <path d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z" 
-                              fill="currentColor" opacity="0.8"/>
-                        <!-- Butterfly Body -->
-                        <line x1="50" y1="20" x2="50" y2="80" stroke="currentColor" stroke-width="3"/>
-                        <!-- Antennae -->
-                        <path d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12" stroke="currentColor" stroke-width="2" fill="none"/>
-                    </svg>
-                </div>
-                <div class="logo-text">
-                    <span class="logo-name">Yadawity</span>
-                    <span class="logo-est">EST. 1885</span>
-                </div>
-            </a>
-        </div>
-        
-        <div class="nav-menu" id="nav-menu">
-            <!-- Main Navigation Links -->
-            <a href="index.html" class="nav-link" data-page="home">HOME</a>
-            <a href="gallery.html" class="nav-link" data-page="gallery">GALLERY</a>
-            <a href="museum.html" class="nav-link" data-page="museum">MUSEUM</a>
-            <a href="courses.html" class="nav-link" data-page="courses">COURSES</a>
-            <a href="atelier.html" class="nav-link" data-page="atelier">ATELIER</a>
-            <a href="auction.html" class="nav-link" data-page="auction">AUCTION HOUSE</a>
-            <a href="therapy.html" class="nav-link therapy-nav" data-page="therapy">THERAPY</a>
-
-            <!-- Right Side Actions -->
-            <div class="nav-actions">
-                <!-- Search -->
-                <div class="search-container">
-                    <input type="text" placeholder="Search artists, artworks..." class="search-input" id="navbar-search">
-                    <button class="search-btn" id="search-button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-
-                <!-- Wishlist -->
-                <a href="wishlist.html" class="nav-icon-link" title="Wishlist" id="wishlist-link">
-                    <i class="fas fa-heart"></i>
-                    <span class="wishlist-count" id="wishlist-count" style="display: none;">0</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./navbar.css">
+</head>
+<body>
+    <nav class="navbar navbar-yadawity" id="yadawity-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="nav-logo-link">
+                    <div class="logo-icon">
+                        <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Butterfly Wing Left -->
+                            <path d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z" 
+                                  fill="currentColor" opacity="0.8"/>
+                            <!-- Butterfly Wing Right -->
+                            <path d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z" 
+                                  fill="currentColor" opacity="0.8"/>
+                            <!-- Butterfly Body -->
+                            <line x1="50" y1="20" x2="50" y2="80" stroke="currentColor" stroke-width="3"/>
+                            <!-- Antennae -->
+                            <path d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">Yadawity</span>
+                        <span class="logo-est">EST. 1885</span>
+                    </div>
                 </a>
-
-                <!-- Cart -->
-                <a href="cart.html" class="nav-icon-link cart-link" title="Cart" id="cart-link">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count" id="cart-count">0</span>
-                </a>
-
-                <!-- User Account -->
-                <div class="user-dropdown">
-                    <a href="#" class="nav-icon-link" title="Account" id="user-account">
-                        <i class="fas fa-user"></i>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <!-- Main Navigation Links -->
+                <a href="index.html" class="nav-link" data-page="home">HOME</a>
+                <a href="gallery.html" class="nav-link" data-page="gallery">GALLERY</a>
+                <a href="museum.html" class="nav-link" data-page="museum">MUSEUM</a>
+                <a href="courses.html" class="nav-link" data-page="courses">COURSES</a>
+                <a href="atelier.html" class="nav-link" data-page="atelier">ATELIER</a>
+                <a href="auction.html" class="nav-link" data-page="auction">AUCTION HOUSE</a>
+                <a href="therapy.html" class="nav-link therapy-nav" data-page="therapy">THERAPY</a>
+    
+                <!-- Right Side Actions -->
+                <div class="nav-actions">
+                    <!-- Search -->
+                    <div class="search-container">
+                        <input type="text" placeholder="Search artists, artworks..." class="search-input" id="navbar-search">
+                        <button class="search-btn" id="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+    
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="nav-icon-link" title="Wishlist" id="wishlist-link">
+                        <i class="fas fa-heart"></i>
+                        <span class="wishlist-count" id="wishlist-count" style="display: none;">0</span>
                     </a>
-                    <div class="user-dropdown-menu" id="user-menu">
-                        <a href="profile.html" class="dropdown-item">
-                            <i class="fas fa-user-circle"></i>
-                            <span>My Profile</span>
+    
+                    <!-- Cart -->
+                    <a href="cart.html" class="nav-icon-link cart-link" title="Cart" id="cart-link">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+    
+                    <!-- User Account -->
+                    <div class="user-dropdown">
+                        <a href="#" class="nav-icon-link" title="Account" id="user-account">
+                            <i class="fas fa-user"></i>
                         </a>
-                        <a href="orders.html" class="dropdown-item">
-                            <i class="fas fa-box"></i>
-                            <span>My Orders</span>
-                        </a>
-                        <a href="settings.html" class="dropdown-item">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login.html" class="dropdown-item" id="login-logout">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Login</span>
-                        </a>
+                        <div class="user-dropdown-menu" id="user-menu">
+                            <a href="profile.html" class="dropdown-item">
+                                <i class="fas fa-user-circle"></i>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="orders.html" class="dropdown-item">
+                                <i class="fas fa-box"></i>
+                                <span>My Orders</span>
+                            </a>
+                            <a href="settings.html" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="login.html" class="dropdown-item" id="login-logout">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
+    
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
-
-        <div class="nav-toggle" id="nav-toggle">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+    </nav>
+    
+    <!-- Mobile Search Overlay -->
+    <div class="mobile-search-overlay" id="mobile-search-overlay">
+        <div class="mobile-search-container">
+            <input type="text" placeholder="Search artists, artworks..." class="mobile-search-input" id="mobile-search-input">
+            <button class="mobile-search-close" id="mobile-search-close">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
+        <div class="search-suggestions" id="mobile-search-suggestions"></div>
     </div>
-</nav>
-
-<!-- Mobile Search Overlay -->
-<div class="mobile-search-overlay" id="mobile-search-overlay">
-    <div class="mobile-search-container">
-        <input type="text" placeholder="Search artists, artworks..." class="mobile-search-input" id="mobile-search-input">
-        <button class="mobile-search-close" id="mobile-search-close">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-    <div class="search-suggestions" id="mobile-search-suggestions"></div>
-</div>
+    
+</body>
+</html>
