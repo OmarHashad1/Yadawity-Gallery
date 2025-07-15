@@ -147,6 +147,19 @@
         width: 28px;
         height: 28px;
     }
+    
+    .masters-section-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .artisan-filter-navigation {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .artisan-category-btn {
+        border: 1px solid #8b7355;
+    }
 }
 
 @media (max-width: 480px) {
@@ -158,3 +171,4 @@
         font-size: 1.3rem;
     }
 }
+
