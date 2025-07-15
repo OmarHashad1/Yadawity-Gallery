@@ -437,3 +437,56 @@
     margin-top: 20px;
     color: #f9eecf;
   }
+
+  .distinguished-masters-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    text-align: center;
+}
+
+.artisan-decorative-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.artisan-decorative-divider::before,
+.artisan-decorative-divider::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background-color: #8b7355;
+}
+
+.artisan-ornamental-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #8b7355;
+}
+
+.masters-section-header h1 {
+    font-size: 4rem;
+    font-weight: 400;
+    color: #8b7355;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.masters-section-header p {
+    font-size: 1.1rem;
+    color: #8b7355;
+    max-width: 650px;
+    margin: 0 auto 4rem;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
