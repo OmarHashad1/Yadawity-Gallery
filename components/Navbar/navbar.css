@@ -568,10 +568,6 @@
 }
 
 /* Smooth scrolling offset for fixed navbar */
-html {
-    scroll-padding-top: 90px;
-}
-
 /* Loading shimmer effect */
 @keyframes shimmer {
     0% { background-position: -200px 0; }
