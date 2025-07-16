@@ -24,12 +24,12 @@ class BurgerMenu {
     }
 
     bindElements() {
-        this.overlay = document.getElementById('burger-menu-overlay');
-        this.container = document.querySelector('.burger-menu-container');
-        this.closeBtn = document.getElementById('burger-menu-close');
-        this.userDropdown = document.querySelector('.burger-user-dropdown');
-        this.userMenu = document.getElementById('burger-user-menu');
-        this.searchInput = document.getElementById('burger-search-input');
+        this.overlay = document.getElementById('burgerMenuOverlay');
+        this.container = document.querySelector('.burgerMenuContainer');
+        this.closeBtn = document.getElementById('burgerMenuClose');
+        this.userDropdown = document.querySelector('.burgerUserDropdown');
+        this.userMenu = document.getElementById('burgerUserMenu');
+        this.searchInput = document.getElementById('burgerSearchInput');
     }
 
     bindEvents() {
@@ -49,7 +49,7 @@ class BurgerMenu {
 
         // User dropdown toggle
         if (this.userDropdown) {
-            const userAccount = document.getElementById('burger-user-account');
+            const userAccount = document.getElementById('burgerUserAccount');
             if (userAccount) {
                 userAccount.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -73,7 +73,7 @@ class BurgerMenu {
     }
 
     bindSearchEvents() {
-        const searchBtn = document.getElementById('burger-search-button');
+        const searchBtn = document.getElementById('burgerSearchButton');
         
         if (searchBtn) {
             searchBtn.addEventListener('click', () => this.performSearch());
@@ -93,7 +93,7 @@ class BurgerMenu {
     }
 
     bindNavigationEvents() {
-        const navLinks = document.querySelectorAll('.burger-nav-link');
+        const navLinks = document.querySelectorAll('.burgerNavLink');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 // Add loading state
@@ -110,12 +110,7 @@ class BurgerMenu {
             this.overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Focus management
-            setTimeout(() => {
-                if (this.searchInput) {
-                    this.searchInput.focus();
-                }
-            }, 400);
+            // Focus management removed - no automatic focus on search input
         }
     }
 
@@ -131,7 +126,7 @@ class BurgerMenu {
             }
             
             // Reset nav-toggle state when burger menu closes
-            const navToggle = document.querySelector('.nav-toggle');
+            const navToggle = document.querySelector('.navToggle');
             if (navToggle) {
                 navToggle.classList.remove('active');
             }
@@ -195,7 +190,7 @@ class BurgerMenu {
             z-index: 10;
         `;
         
-        const searchContainer = document.querySelector('.burger-search-container');
+        const searchContainer = document.querySelector('.burgerSearchContainer');
         if (searchContainer) {
             searchContainer.style.position = 'relative';
             searchContainer.appendChild(feedback);
@@ -221,14 +216,18 @@ class BurgerMenu {
 
     updateActiveNavLink() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const navLinks = document.querySelectorAll('.burger-nav-link');
+        const navLinks = document.querySelectorAll('.burgerNavLink');
         
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
             if (href === currentPage || (currentPage === '' && href === 'index.html')) {
                 link.classList.add('active');
+                link.style.background = 'rgba(107, 68, 35, 0.15)';
+                link.style.borderColor = 'var(--primary-brown)';
             } else {
                 link.classList.remove('active');
+                link.style.background = '';
+                link.style.borderColor = '';
             }
         });
     }
@@ -236,7 +235,7 @@ class BurgerMenu {
     updateCounters() {
         // Update cart counter
         const cartCount = this.getCartCount();
-        const cartCountElement = document.getElementById('burger-cart-count');
+        const cartCountElement = document.getElementById('burgerCartCount');
         if (cartCountElement) {
             cartCountElement.textContent = cartCount;
             cartCountElement.style.display = cartCount > 0 ? 'flex' : 'none';
@@ -244,7 +243,7 @@ class BurgerMenu {
 
         // Update wishlist counter
         const wishlistCount = this.getWishlistCount();
-        const wishlistCountElement = document.getElementById('burger-wishlist-count');
+        const wishlistCountElement = document.getElementById('burgerWishlistCount');
         if (wishlistCountElement) {
             wishlistCountElement.textContent = wishlistCount;
             wishlistCountElement.style.display = wishlistCount > 0 ? 'flex' : 'none';
@@ -264,7 +263,7 @@ class BurgerMenu {
     }
 
     updateLoginStatus() {
-        const loginLogout = document.getElementById('burger-login-logout');
+        const loginLogout = document.getElementById('burgerLoginLogout');
         const isLoggedIn = this.checkLoginStatus();
         
         if (loginLogout) {
