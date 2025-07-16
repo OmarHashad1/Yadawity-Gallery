@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Yadawity Gallery</title>
-    
+  
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
       rel="stylesheet"
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./public/style.css" />
     <link rel="stylesheet" href="./public/media.css" />
+
   </head>
   <body>
     <nav class="navbar navbar-yadawity" id="yadawity-navbar">
@@ -67,7 +68,7 @@
             >COURSES</a
           >
           <a href="atelier.html" class="nav-link" data-page="atelier"
-            >ATELIER</a
+            >ARTWORKS</a
           >
           <a href="auction.html" class="nav-link" data-page="auction"
             >AUCTION HOUSE</a
@@ -194,10 +195,122 @@
           <h1>Distinguished Masters</h1>
           <p>Discover exceptional talent from our curated fellowship of master artists and distinguished craftspeople</p>
       </div>
+      
+        <div class="distinguished-masters-container">
+      <div class="artisan-decorative-divider">
+          <div class="artisan-ornamental-icon"><i class="fa-solid fa-palette"></i></div>
+      </div>
+      
+      <div class="masters-section-header">
+          <h1>Esteemed Testimonials</h1>
+          <p>Testimonies from our distinguished patrons, collectors, and those who have found solace through our therapeutic arts program</p>
+      </div>
+
+  <div class="slider-container">
+    <div class="card-slider" id="cardSlider">
+      <!-- Card 1 -->
+      <div class="card" style="background-image: url('https://cdn.discordapp.com/attachments/1390306965611089982/1394980134825492613/medium-shot-smiley-woman-library_23-2149204753.avif?ex=6878c7fd&is=6877767d&hm=f1d615dc9206c677a635a699a83b08d716dae52cb3370765830abd194d7ef4ac&');">
+        <div class="card-overlay">
+          <div class="card-title">Artificial Intelligence</div>
+          <div class="card-text">You can do more with AI.</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card" style="background-image: url('https://cdn.discordapp.com/attachments/1390306965611089982/1394980351108972554/1.png?ex=6878c831&is=687776b1&hm=ffd0e512dca37d7dc541999d3c57c0879fa8ece907940a4cd0acee3eb4aa7fa8&');">
+        <div class="card-overlay">
+          <div class="card-title">Productivity</div>
+          <div class="card-text">Enhance your productivity.</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card" style="background-image: url('https://cdn.discordapp.com/attachments/1390306965611089982/1394980654994686063/istockphoto-1365527907-612x612.jpg?ex=6878c879&is=687776f9&hm=5297a3b98e5a96522a85c50b5503d4a1cadd834ea39ede854104b8d899151536&');">
+        <div class="card-overlay">
+          <div class="card-title">Product</div>
+          <div class="card-text">Launching the new Apple Vision Pro.</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card" style="background-image: url('https://cdn.discordapp.com/attachments/1390306965611089982/1394981313706201118/ai-generated-professional-job-looking-successful-adult-smile-businesswoman-manager-office-confident-happy-caucasian-white-career-corporate-worker-work-portrait-person-standing-business-women-female-photo.jpg?ex=6878c916&is=68777796&hm=05ed840aabdda72d2e9a86cb046b646ed085217c52af3c5aeee3f1495e11402e&');">
+        <div class="card-overlay">
+          <div class="card-title">Marketing</div>
+          <div class="card-text">Strategies for digital success.</div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="card" style="background-image: url('https://cdn.discordapp.com/attachments/1390306965611089982/1394981801671266325/young-professor.jpg?ex=6878c98b&is=6877780b&hm=702c99531fb2169dea1134284e183720a47e06c292980dbeec6816a96758ec5d&');">
+        <div class="card-overlay">
+          <div class="card-title">Teamwork</div>
+          <div class="card-text">Collaboration at its best.</div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="card" style="background-image: url('https://cdn.discordapp.com/attachments/1390306965611089982/1394983673144803378/images_1.jpg?ex=6878cb49&is=687779c9&hm=0ab1aa02a03ea75b6e6ddf636be52f1b8c9316806a142b782284e60be7bec3f8&');">
+        <div class="card-overlay">
+          <div class="card-title">Art Collector</div>
+          <div class="card-text">Lord Edmund Blackwood</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-buttons">
+    <button onclick="slideLeft()">←</button>
+    <button onclick="slideRight()">→</button>
+  </div>
+
+  <script>
+    const slider = document.getElementById('cardSlider');
+
+    function slideRight() {
+      slider.scrollBy({ left: 320, behavior: 'smooth' });
+    }
+
+    function slideLeft() {
+      slider.scrollBy({ left: -320, behavior: 'smooth' });
+    }
+  </script>
 
       
   </div>
   <script src="./app.js"></script>
-  </body>
 
+
+
+  <section class="beforeFooterSection">
+    <div class="beforeFooterSection-content">
+      <h1>BEGIN YOUR ARTISTIC JOURNEY</h1>
+      <p>
+        Join our distinguished community of artists, collectors, and individuals discovering<br>
+        healing through the timeless power of fine art
+      </p>
+      <div class="buttons">
+        <a href="#" class="btn light">EXPLORE COLLECTIONS</a>
+        <a href="#" class="btn dark">THERAPEUTIC ARTS</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <div class="info-card">
+      <h2>YADAWITY <span style="font-size: 14px; color: #777;">EXP. 4251</span></h2>
+      <p>A distinguished establishment<br>
+      bridging the timeless traditions of<br>
+      fine art with modern therapeutic<br>
+      practices and commercial excellence.</p>
+      <p class="highlight">Certified with passion for convenience</p>
+    </div>
+  </section>
+
+  
+</>
 </html>
+
+
+
+
+  
