@@ -24,9 +24,9 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 1250px; /* تم زيادة الحجم */
-    max-width: 95%;
-    min-height: 680px; /* تم زيادة الطول */
+    width: 1000px;
+    max-width: 85%;
+    min-height: 500px; 
 }
 
 .container p {
