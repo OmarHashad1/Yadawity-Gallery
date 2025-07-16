@@ -335,3 +335,12 @@ artisanFilterButtons.forEach(button => {
         console.log('Filter selected:', filterValue);
     });
 });
+const slider = document.getElementById('cardSlider');
+
+function slideRight() {
+  slider.scrollBy({ left: 320, behavior: 'smooth' });
+}
+
+function slideLeft() {
+  slider.scrollBy({ left: -320, behavior: 'smooth' });
+}
