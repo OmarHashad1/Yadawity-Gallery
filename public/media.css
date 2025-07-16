@@ -57,7 +57,7 @@
         height: calc(100vh - 90px);
         overflow-y: auto;
         backdrop-filter: blur(20px);
-        border-top: 1px solid var(--primaryBrownBorder);
+        border-top: 1px solid rgba(107, 68, 35, 0.15);
     }
 
     .nav-menu.active {
@@ -71,7 +71,7 @@
         margin: 10px 0;
         border-radius: 8px;
         width: 100%;
-        border-bottom: 1px solid var(--primaryBrownLight);
+        border-bottom: 1px solid rgba(107, 68, 35, 0.1);
     }
 
     .nav-actions {
@@ -83,7 +83,7 @@
         gap: 15px;
         margin-top: 30px;
         padding-top: 30px;
-        border-top: 2px solid var(--primaryBrownMedium);
+        border-top: 2px solid rgba(107, 68, 35, 0.2);
         min-width: auto;
     }
 
@@ -121,7 +121,7 @@
         visibility: visible;
         transform: none;
         box-shadow: none;
-        background: var(--primaryBrownLight);
+        background: rgba(107, 68, 35, 0.1);
         margin-top: 10px;
         border-radius: 8px;
     }
@@ -158,7 +158,7 @@
     }
     
     .artisan-category-btn {
-        border: 1px solid var(--brownBorder);
+        border: 1px solid #8b7355;
     }
 }
 
