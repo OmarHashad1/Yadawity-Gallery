@@ -18,6 +18,7 @@
     />
     <link rel="stylesheet" href="./public/style.css" />
     <link rel="stylesheet" href="./public/media.css" />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
   </head>
   <body>
     <nav class="navbar navbar-yadawity" id="yadawity-navbar">
@@ -178,6 +179,101 @@
       <div class="search-suggestions" id="mobile-search-suggestions"></div>
     </div>
 
+    <!-- Burger Menu Component -->
+    <div class="burger-menu-overlay" id="burger-menu-overlay">
+      <div class="burger-menu-container">
+        <!-- Close button -->
+        <button class="burger-menu-close" id="burger-menu-close">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="burger-nav-links">
+          <a href="index.html" class="burger-nav-link" data-page="home">HOME</a>
+          <a href="gallery.html" class="burger-nav-link" data-page="gallery">GALLERY</a>
+          <a href="courses.html" class="burger-nav-link" data-page="courses">COURSES</a>
+          <a href="atelier.html" class="burger-nav-link" data-page="atelier">ARTWORKS</a>
+          <a href="auction.html" class="burger-nav-link" data-page="auction">AUCTION HOUSE</a>
+          <a href="therapy.html" class="burger-nav-link therapy-nav" data-page="therapy">THERAPY</a>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="burger-quick-actions">
+          <!-- Search -->
+          <div class="burger-search-container">
+            <input
+              type="text"
+              placeholder="Search artists, artworks..."
+              class="burger-search-input"
+              id="burger-search-input"
+            />
+            <button class="burger-search-btn" id="burger-search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+
+          <!-- Action Buttons -->
+          <a
+            href="wishlist.html"
+            class="burger-action-link"
+            title="Wishlist"
+            id="burger-wishlist-link"
+          >
+            <i class="fas fa-heart"></i>
+            <span class="burger-action-text">WISHLIST</span>
+            <span
+              class="burger-wishlist-count"
+              id="burger-wishlist-count"
+              style="display: none"
+            >0</span>
+          </a>
+
+          <a
+            href="cart.html"
+            class="burger-action-link"
+            title="Cart"
+            id="burger-cart-link"
+          >
+            <i class="fas fa-shopping-bag"></i>
+            <span class="burger-action-text">CART</span>
+            <span class="burger-cart-count" id="burger-cart-count">0</span>
+          </a>
+
+          <!-- User Account Dropdown -->
+          <div class="burger-user-dropdown">
+            <a
+              href="#"
+              class="burger-action-link"
+              title="Account"
+              id="burger-user-account"
+            >
+              <i class="fas fa-user"></i>
+              <span class="burger-action-text">ACCOUNT</span>
+            </a>
+            <div class="burger-user-dropdown-menu" id="burger-user-menu">
+              <a href="profile.html" class="burger-dropdown-item">
+                <i class="fas fa-user-circle"></i>
+                <span>My Profile</span>
+              </a>
+              <a href="orders.html" class="burger-dropdown-item">
+                <i class="fas fa-box"></i>
+                <span>My Orders</span>
+              </a>
+              <a href="settings.html" class="burger-dropdown-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+              </a>
+              <div class="burger-dropdown-divider"></div>
+              <a href="login.html" class="burger-dropdown-item" id="burger-login-logout">
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Login</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <section class="hero">
       <h1>
         <span>WHERE CLASSICAL ART</span>
@@ -296,5 +392,6 @@
     </div>
 
     <script src="./app.js"></script>
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
   </body>
 </html>

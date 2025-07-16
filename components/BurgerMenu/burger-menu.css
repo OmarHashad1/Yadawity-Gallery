@@ -1,0 +1,550 @@
+/* Burger Menu Component Styles */
+
+/* Burger Menu Overlay */
+.burger-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--blackOverlayMedium);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+}
+
+.burger-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Burger Menu Container */
+.burger-menu-container {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--creamTransparent), var(--lightGold));
+    backdrop-filter: blur(25px);
+    border-left: 1px solid var(--primaryBrownBorder);
+    box-shadow: -10px 0 30px var(--primaryBrownLight);
+    padding: 30px 25px 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-sizing: border-box;
+}
+
+.burger-menu-overlay.active .burger-menu-container {
+    right: 0;
+}
+
+/* Close Button */
+.burger-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--redAccentLight);
+    border: 2px solid var(--redAccentStrong);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--redAccent);
+    font-size: 1.2rem;
+}
+
+.burger-menu-close:hover {
+    background: var(--redAccentBorder);
+    border-color: var(--redAccent);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Navigation Links */
+.burger-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 40px;
+}
+
+.burger-nav-link {
+    padding: 18px 20px;
+    display: block;
+    border-radius: 12px;
+    width: 100%;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    border: 2px solid var(--goldAccentStrong);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    background: var(--whiteTransparentStrong);
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--textDark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.burger-nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--goldAccentStrong), transparent);
+    transition: left 0.5s;
+}
+
+.burger-nav-link:hover::before {
+    left: 100%;
+}
+
+.burger-nav-link:hover {
+    background: var(--primaryBrownLight);
+    border-color: var(--goldAccent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--primaryBrownShadowMedium);
+    color: var(--primaryBrown);
+}
+
+/* Special styling for HOME link */
+.burger-nav-link[data-page="home"] {
+    background: linear-gradient(135deg, var(--redAccentGradientLight), var(--redAccentGradientUltraLight));
+    border-color: var(--redAccentBorderMedium);
+    color: var(--redAccent);
+    font-weight: 700;
+}
+
+.burger-nav-link[data-page="home"]:hover {
+    background: var(--redAccentShadow);
+    border-color: var(--redAccent);
+    color: var(--redAccent);
+    box-shadow: 0 6px 20px var(--redAccentShadow);
+}
+
+.burger-nav-link.therapy-nav {
+    background: linear-gradient(135deg, var(--greenAccentGradientLight), var(--greenAccentUltraLight));
+    border-color: var(--greenAccentBorder);
+    color: var(--greenAccent);
+}
+
+.burger-nav-link.therapy-nav:hover {
+    background: var(--greenAccentMedium);
+    border-color: var(--greenAccent);
+    color: var(--greenAccent);
+    box-shadow: 0 6px 20px var(--greenAccentShadow);
+}
+
+/* Quick Actions Section */
+.burger-quick-actions {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 32px 18px 18px;
+    gap: 12px;
+    width: 100%;
+    min-height: 320px;
+    background: var(--whiteGradientFull);
+    border-radius: 12px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 25px var(--blackShadowLight);
+    border: 2px solid var(--goldAccentStrong);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.burger-quick-actions:hover {
+    background: var(--primaryBrownUltraLight);
+    border-color: var(--goldAccent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--primaryBrownShadowMedium);
+}
+
+.burger-quick-actions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--goldAccentStrong), transparent);
+    transition: left 0.5s;
+}
+
+.burger-quick-actions:hover::before {
+    left: 100%;
+}
+
+/* Add section title */
+.burger-quick-actions::after {
+    content: 'QUICK ACTIONS';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--whiteBackgroundStrong);
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--primaryBrown);
+    letter-spacing: 1px;
+    border-radius: 8px;
+    border: 1px solid var(--goldAccentBorderThin);
+    z-index: 10;
+}
+
+/* Search Container */
+.burger-search-container {
+    width: 100%;
+    margin-bottom: 12px;
+    height: 56px;
+    min-height: 56px;
+    max-height: 56px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.burger-search-input {
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    padding: 12px 45px 12px 16px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    background: var(--whiteBackgroundStrong);
+    border: 1px solid var(--goldAccentBorderThin);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    outline: none;
+}
+
+.burger-search-input:focus {
+    border-color: var(--primaryBrown);
+    box-shadow: 0 0 0 2px var(--primaryBrownLight);
+}
+
+.burger-search-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--primaryBrown);
+    border: none;
+    border-radius: 6px;
+    color: var(--cream);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.burger-search-btn:hover {
+    background: var(--secondaryBrown);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Action Links */
+.burger-action-link {
+    width: 100%;
+    height: 52px;
+    min-height: 52px;
+    max-height: 52px;
+    font-size: 0.9rem;
+    margin: 4px 0;
+    background: var(--primaryBrownMediumLight);
+    border: 1px solid var(--goldAccentBorderThin);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    position: relative;
+    overflow: visible;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--textDark);
+    box-sizing: border-box;
+    padding: 14px 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.burger-action-link i {
+    font-size: 1rem;
+    margin-right: 8px;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.burger-action-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px var(--primaryBrownShadowStrong);
+    background: var(--primaryBrownMediumStrong);
+    border-color: var(--goldAccent);
+}
+
+/* Action Text */
+.burger-action-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: inherit;
+    display: inline-block;
+    margin-left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    max-width: 100%;
+}
+
+/* Counter badges */
+.burger-cart-count,
+.burger-wishlist-count {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: var(--redAccent);
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 2px solid var(--cream);
+    z-index: 1001;
+    box-shadow: 0 4px 12px var(--blackShadowStrong);
+}
+
+.burger-wishlist-count {
+    background: var(--secondaryBrown);
+}
+
+/* User Dropdown */
+.burger-user-dropdown {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.burger-user-dropdown .burger-action-link {
+    height: 52px;
+    min-height: 52px;
+    max-height: 52px;
+    background: var(--primaryBrownLight);
+    border: 1px solid var(--primaryBrownBorderMedium);
+    margin: 4px 0;
+    padding: 14px 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.burger-user-dropdown .burger-action-link:hover {
+    background: var(--primaryBrownShadowMedium);
+    border-color: var(--primaryBrown);
+}
+
+/* Expand Quick Actions container when dropdown is active */
+.burger-quick-actions:has(.burger-user-dropdown:hover),
+.burger-quick-actions:has(.burger-user-dropdown.active) {
+    min-height: 600px;
+    background: var(--whiteGradientStrong);
+    box-shadow: 0 12px 35px var(--primaryBrownShadowMedium);
+    border-color: var(--goldAccentBorderMedium);
+}
+
+/* User Dropdown Menu */
+.burger-user-dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: 0 8px 25px var(--primaryBrownShadowMedium);
+    background: var(--creamGradientStrong);
+    margin-top: 12px;
+    border-radius: 12px;
+    border: 2px solid var(--goldAccentBorderThin);
+    backdrop-filter: blur(15px);
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.burger-user-dropdown:hover .burger-user-dropdown-menu,
+.burger-user-dropdown.active .burger-user-dropdown-menu {
+    max-height: 280px;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.burger-dropdown-item {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 6px 8px;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--primaryBrownUltraLight);
+    border: 1px solid var(--goldAccentBorderLight);
+    text-decoration: none;
+    color: var(--textDark);
+    font-weight: 600;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.burger-dropdown-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--goldAccentStrong), transparent);
+    transition: left 0.5s;
+}
+
+.burger-dropdown-item:hover::before {
+    left: 100%;
+}
+
+.burger-dropdown-item:hover {
+    background: var(--primaryBrownMediumStrong);
+    transform: translateY(-1px);
+    border-color: var(--goldAccent);
+    box-shadow: 0 4px 12px var(--primaryBrownShadowMedium);
+    color: var(--primaryBrown);
+}
+
+.burger-dropdown-item i {
+    width: 16px;
+    color: var(--primaryBrown);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Special styling for login/logout item */
+.burger-dropdown-item:last-child {
+    background: var(--redAccentGradientDual);
+    border-color: var(--redAccentStrong);
+    color: var(--redAccent);
+    margin-top: 8px;
+}
+
+.burger-dropdown-item:last-child:hover {
+    background: var(--redAccentMedium);
+    border-color: var(--redAccent);
+    color: var(--redAccent);
+    box-shadow: 0 4px 12px var(--redAccentShadow);
+}
+
+.burger-dropdown-item:last-child i {
+    color: var(--redAccent);
+}
+
+/* Dropdown divider styling */
+.burger-dropdown-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--goldAccentStrong), transparent);
+    margin: 8px 12px;
+    border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .burger-menu-container {
+        max-width: 100%;
+        padding: 20px 15px;
+    }
+    
+    .burger-nav-link {
+        padding: 15px 16px;
+        font-size: 0.85rem;
+    }
+    
+    .burger-quick-actions {
+        padding: 18px 14px 14px;
+    }
+}
+
+/* Scrollbar styling */
+.burger-menu-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.burger-menu-container::-webkit-scrollbar-track {
+    background: var(--goldAccentLight);
+    border-radius: 2px;
+}
+
+.burger-menu-container::-webkit-scrollbar-thumb {
+    background: var(--goldAccent);
+    border-radius: 2px;
+}
+
+.burger-menu-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primaryBrown);
+}

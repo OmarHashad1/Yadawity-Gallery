@@ -1,18 +1,6 @@
 /* Yadawity Navbar Component Styles */
 
-/* Yadawity Brand Colors - Elegant Classical Theme */
-:root {
-    --primary-brown: #6b4423;
-    --secondary-brown: #8b5a2b;
-    --gold-accent: #d4a574;
-    --light-gold: #f4e6d3;
-    --dark-brown: #4a2c17;
-    --cream: #faf8f3;
-    --red-accent: #c5534a;
-    --green-accent: #5a7c65;
-    --text-dark: #2c1810;
-    --text-light: #8b7355;
-}
+/* Uses global variables from style.css */
 
 /* Common Navbar Styles */
 .navbar {
@@ -58,7 +46,7 @@
     color: var(--gold-accent);
     font-size: 1.5rem;
     border: 2px solid var(--gold-accent);
-    box-shadow: 0 4px 15px rgba(107, 68, 35, 0.2);
+    box-shadow: 0 4px 15px var(--primaryBrownShadowLight);
 }
 
 .logo-icon svg {

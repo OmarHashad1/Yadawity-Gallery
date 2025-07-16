@@ -2,6 +2,7 @@
 
 // Initialize navbar functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Yadawity Navbar...');
     // Initialize all navbar functions
     initializeNavbar();
 });
@@ -24,37 +25,71 @@ function initializeNavbar() {
     
     // Active page detection
     setActivePage();
+    
+    // Initialize burger menu
+    initializeBurgerMenu();
 }
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle (Burger Menu)
 function setupMobileMenu() {
     const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const bars = document.querySelectorAll('.bar');
 
-    if (navToggle && navMenu) {
+    if (navToggle) {
         navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on links
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
+            // Use the burger menu instance
+            if (window.toggleBurgerMenu) {
+                window.toggleBurgerMenu();
+                navToggle.classList.toggle('active');
             }
         });
     }
+}
+
+// Initialize Burger Menu Integration
+function initializeBurgerMenu() {
+    const navToggle = document.querySelector('.nav-toggle');
+    
+    // Wait for burger menu to be initialized
+    setTimeout(() => {
+        const burgerMenuOverlay = document.getElementById('burger-menu-overlay');
+        const burgerMenuClose = document.getElementById('burger-menu-close');
+        
+        // Handle burger menu close and reset nav-toggle
+        if (burgerMenuClose && navToggle) {
+            burgerMenuClose.addEventListener('click', function() {
+                navToggle.classList.remove('active');
+            });
+        }
+        
+        // Handle overlay click to close
+        if (burgerMenuOverlay && navToggle) {
+            burgerMenuOverlay.addEventListener('click', function(e) {
+                if (e.target === burgerMenuOverlay) {
+                    navToggle.classList.remove('active');
+                }
+            });
+        }
+        
+        // Handle burger nav link clicks
+        const burgerNavLinks = document.querySelectorAll('.burger-nav-link');
+        burgerNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navToggle) {
+                    navToggle.classList.remove('active');
+                }
+            });
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navToggle.classList.contains('active')) {
+                navToggle.classList.remove('active');
+                if (window.closeBurgerMenu) {
+                    window.closeBurgerMenu();
+                }
+            }
+        });
+    }, 100);
 }
 
 // Search Functionality
