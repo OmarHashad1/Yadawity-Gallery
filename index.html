@@ -18,6 +18,7 @@
     />
     <link rel="stylesheet" href="./public/style.css" />
     <link rel="stylesheet" href="./public/media.css" />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
   </head>
   <body>
     <nav class="navbar navbar-yadawity" id="yadawity-navbar">
@@ -162,6 +163,112 @@
         </div>
       </div>
     </nav>
+
+    <!-- Burger Menu Component -->
+    <div class="burger-menu-overlay" id="burger-menu-overlay">
+        <div class="burger-menu-container">
+            <!-- Header -->
+            <div class="burger-menu-header">
+                <a href="index.html" class="burger-menu-logo">Yadawity</a>
+                <button class="burger-menu-close" id="burger-menu-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="burger-nav-links">
+                <a href="index.html" class="burger-nav-link" data-page="home">
+                    <span>Home</span>
+                </a>
+                <a href="gallery.html" class="burger-nav-link" data-page="gallery">
+                    <span>Gallery</span>
+                </a>
+                <a href="artworks.html" class="burger-nav-link" data-page="artworks">
+                    <span>Artworks</span>
+                </a>
+                <a href="courses.html" class="burger-nav-link therapy-nav" data-page="courses">
+                    <span>Art Therapy</span>
+                </a>
+                <a href="about.html" class="burger-nav-link" data-page="about">
+                    <span>About</span>
+                </a>
+                <a href="contact.html" class="burger-nav-link" data-page="contact">
+                    <span>Contact</span>
+                </a>
+            </div>
+
+            <!-- Quick Actions Section -->
+            <div class="burger-quick-actions">
+                <div class="burger-quick-actions-label">QUICK ACTIONS</div>
+                
+                <!-- Search -->
+                <div class="burger-search-container">
+                    <input 
+                        type="text" 
+                        class="burger-search-input" 
+                        id="burger-search-input"
+                        placeholder="Search artworks, artists..."
+                        autocomplete="off"
+                    >
+                    <button class="burger-search-btn" id="burger-search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <!-- Action Links -->
+                <a href="cart.html" class="burger-action-link" id="burger-cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="burger-action-text">Cart</span>
+                    <span class="burger-action-counter" id="burger-cart-count">3</span>
+                </a>
+
+                <a href="wishlist.html" class="burger-action-link" id="burger-wishlist-link">
+                    <i class="fas fa-heart"></i>
+                    <span class="burger-action-text">Wishlist</span>
+                    <span class="burger-action-counter burger-wishlist-count" id="burger-wishlist-count">7</span>
+                </a>
+
+                <a href="favorites.html" class="burger-action-link">
+                    <i class="fas fa-star"></i>
+                    <span class="burger-action-text">Favorites</span>
+                </a>
+
+                <!-- User Account Dropdown -->
+                <div class="burger-user-dropdown" id="burger-user-dropdown">
+                    <a href="#" class="burger-action-link" id="burger-user-account">
+                        <i class="fas fa-user"></i>
+                        <span class="burger-action-text">Account</span>
+                        <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 0.7rem;"></i>
+                    </a>
+                    
+                    <!-- Dropdown Menu -->
+                    <div class="burger-user-dropdown-menu" id="burger-user-menu">
+                        <a href="profile.html" class="burger-dropdown-item">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Profile</span>
+                        </a>
+                        
+                        <a href="orders.html" class="burger-dropdown-item">
+                            <i class="fas fa-box"></i>
+                            <span>My Orders</span>
+                        </a>
+                        
+                        <a href="settings.html" class="burger-dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                        
+                        <hr class="burger-dropdown-divider">
+                        
+                        <a href="login.html" class="burger-dropdown-item" id="burger-login-logout">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="mobile-search-overlay" id="mobile-search-overlay">
       <div class="mobile-search-container">
@@ -403,5 +510,6 @@
       </div>
 
     <script src="./app.js"></script>
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
   </body>
 </html>
