@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Courses</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background-color: #f5f1e8;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            text-align: center;
+            color: #5a3516;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: #7b1f1f;
+            margin-bottom: 50px;
+            font-style: italic;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #5a3516, #7b1f1f, #1f3f2e, transparent);
+            margin: 40px 0;
+        }
+
+        .course-card {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #e0d6c2;
+            position: relative;
+        }
+
+        .course-card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #5a3516, #7b1f1f);
+        }
+
+        .course-title {
+            font-size: 22px;
+            color: #1f3f2e;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .course-features {
+            margin-bottom: 20px;
+            padding-left: 5px;
+        }
+
+        .course-features li {
+            margin-bottom: 8px;
+            list-style-type: none;
+            position: relative;
+            padding-left: 20px;
+            font-size: 15px;
+        }
+
+        .course-features li:before {
+            content: "-";
+            color: #7b1f1f;
+            position: absolute;
+            left: 5px;
+            font-weight: bold;
+        }
+
+        .course-price {
+            font-size: 18px;
+            color: #5a3516;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .course-status {
+            font-size: 13px;
+            color: #7b1f1f;
+            font-style: italic;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .enroll-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: transparent;
+            color: #5a3516;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #5a3516;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .enroll-btn:hover {
+            background-color: #5a3516;
+            color: white;
+        }
+
+        .footer {
+            background-color: #4a2c1f;
+            color: #e0d6c2;
+            padding: 25px 0;
+            text-align: center;
+            margin-top: 60px;
+            font-size: 14px;
+        }
+
+        /* Special styling for the last card with different title format */
+        .course-card.special .course-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .course-card.special .course-subtitle {
+            font-size: 18px;
+            color: #7b1f1f;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MASTER COURSES</h1>
+        <p class="subtitle">Finish a sign as a holiday journey through comprehensive courses taught by distinguished masters and acclaimed scholars of the five arts.</p>
+        
+        <hr class="divider">
+
+        <div class="course-card">
+            <h2 class="course-title">CLASSICAL OIL PAINTING MASTERY</h2>
+            <ul class="course-features">
+                <li>Master Class and Residential</li>
+                <li>Train Class tests</li>
+                <li>Maintain mission techniques and detailed assessment of the importance of the oil class test to establish and principles.</li>
+                <li>Conduct all classes</li>
+                <li>A: Installation</li>
+                <li>B: Collection for details</li>
+            </ul>
+            <div class="course-price">$2,400</div>
+            <div class="course-status">Serving INCREME UPON</div>
+            <a href="#" class="enroll-btn">ENROLL NOW</a>
+        </div>
+
+        <div class="course-card">
+            <h2 class="course-title">CONNECT REGULARITY</h2>
+            <ul class="course-features">
+                <li>General assembly system</li>
+                <li>Main projecting capabilities</li>
+                <li>Detailed discharge profile</li>
+                <li>Certificate of complete</li>
+            </ul>
+            <a href="#" class="enroll-btn">LEARN MORE</a>
+        </div>
+
+        <div class="course-card">
+            <h2 class="course-title">RENAISSANCE DRAWING FUNDAMENTALS</h2>
+            <ul class="course-features">
+                <li>Master Collective (Assembly)</li>
+                <li>Resource collection</li>
+                <li>Provide exceptional service skills through the procession</li>
+                <li>Use of tools to address the difficulties of intervention</li>
+                <li>Create an individual</li>
+            </ul>
+            <div class="course-price">$1,800</div>
+            <div class="course-status">Serving INCREME UPON</div>
+            <a href="#" class="enroll-btn">ENROLL NOW</a>
+        </div>
+
+        <div class="course-card special">
+            <h2 class="course-title">SCULPTURE FROM CLAY TO</h2>
+            <div class="course-subtitle">WATERCOLOR BOTANICAL INTERNATIONAL</div>
+            <a href="#" class="enroll-btn">COMING SOON</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 YADAWITY. All rights reserved.</p>
+    </div>
+</body>
+</html>
