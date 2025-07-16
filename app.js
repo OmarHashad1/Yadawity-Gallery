@@ -31,17 +31,20 @@ function setupMobileMenu() {
     const navMenu = document.querySelector('.nav-menu');
     const bars = document.querySelectorAll('.bar');
 
-    if (navToggle && navMenu) {
+    if (navToggle) {
         navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
+            // Open burger menu instead of toggling nav-menu
+            if (window.toggleBurgerMenu) {
+                window.toggleBurgerMenu();
+            }
             navToggle.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking on links
+        // Close mobile menu when clicking on links (keeping for compatibility)
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
+                if (navMenu) navMenu.classList.remove('active');
                 navToggle.classList.remove('active');
             });
         });
