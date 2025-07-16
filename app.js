@@ -17,7 +17,6 @@ function initializeNavbar() {
     setupUserDropdown();
     
     // Navbar scroll effects
-    setupScrollEffects();
     
     // Cart and wishlist counters
     setupCounters();
@@ -183,37 +182,7 @@ function setupUserDropdown() {
 }
 
 // Navbar Scroll Effects
-function setupScrollEffects() {
-    const navbar = document.querySelector('.navbar');
-    let lastScrollY = window.scrollY;
 
-    if (navbar) {
-        window.addEventListener('scroll', function() {
-            const currentScrollY = window.scrollY;
-            
-            // Add/remove background based on scroll position
-            if (currentScrollY > 50) {
-                navbar.style.background = 'rgba(250, 248, 243, 0.95)';
-                navbar.style.boxShadow = '0 4px 30px rgba(107, 68, 35, 0.15)';
-            } else {
-                navbar.style.background = 'rgba(250, 248, 243, 0.98)';
-                navbar.style.boxShadow = '0 4px 30px rgba(107, 68, 35, 0.1)';
-            }
-
-            // Hide/show navbar on scroll (optional)
-            // Uncomment the following lines if you want auto-hide functionality
-            /*
-            if (currentScrollY > lastScrollY && currentScrollY > 200) {
-                navbar.style.transform = 'translateY(-100%)';
-            } else {
-                navbar.style.transform = 'translateY(0)';
-            }
-            */
-            
-            lastScrollY = currentScrollY;
-        });
-    }
-}
 
 // Cart and Wishlist Counters
 function setupCounters() {
