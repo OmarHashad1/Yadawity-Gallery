@@ -476,3 +476,102 @@ if (loginBtn) {
         container.classList.remove("active");
     });
 }
+
+//scroll animations
+// Scroll animation functionality
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all elements to animate
+    const animatedElements = document.querySelectorAll('.fade-in-left, .fade-in-right, .fade-in-up, .fade-in-down, .zoom-in, .zoom-out, .scroll-hidden');
+    
+    // Initial check for elements in viewport
+    checkElementsInViewport();
+    
+    // Add scroll event listener
+    window.addEventListener('scroll', checkElementsInViewport);
+    
+    // Function to check if elements are in viewport
+    function checkElementsInViewport() {
+        animatedElements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect();
+            const offset = 50; // Offset to trigger animation earlier
+            
+            // Check if element is in viewport
+            if (elementPosition.top <= window.innerHeight - offset && 
+                elementPosition.bottom >= 0) {
+                element.classList.add('scroll-visible');
+            } else if (element.classList.contains('repeat-animation')) {
+                // Only remove class if element is set to repeat animations when scrolling back out
+                element.classList.remove('scroll-visible');
+            }
+        });
+    }
+    
+    // Add resize event listener to ensure proper checking when window size changes
+    window.addEventListener('resize', checkElementsInViewport);
+});
+
+// Hero Background Slideshow with Fade Effect
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the hero section
+    const heroSection = document.querySelector('.hero');
+    
+    // Array of background images
+    const backgroundImages = [
+        '../image/darker_image.webp',
+        '../image/photo-1554907984-15263bfd63bd.jpeg',
+        '../image/_grj4724.jpg'
+    ];
+    
+    // Initialize variables
+    let currentImageIndex = 0;
+    let nextImageIndex = 0;
+    
+    // Create background elements
+    const backgroundContainer = document.createElement('div');
+    backgroundContainer.className = 'hero-background-container';
+    
+    // Create two background elements for crossfade effect
+    const background1 = document.createElement('div');
+    background1.className = 'hero-background active';
+    
+    const background2 = document.createElement('div');
+    background2.className = 'hero-background';
+    
+    // Append backgrounds to container
+    backgroundContainer.appendChild(background1);
+    backgroundContainer.appendChild(background2);
+    
+    // Insert container as first child of hero section
+    if (heroSection) {
+        heroSection.insertBefore(backgroundContainer, heroSection.firstChild);
+        
+        // Set initial background
+        background1.style.backgroundImage = `url(${backgroundImages[0]})`;
+        
+        // Start slideshow
+        setInterval(changeBackground, 5000); // Change every 5 seconds
+    }
+    
+    function changeBackground() {
+        // Calculate next image index
+        nextImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+        
+        // Get active and inactive backgrounds
+        const activeBackground = backgroundContainer.querySelector('.hero-background.active');
+        const inactiveBackground = backgroundContainer.querySelector('.hero-background:not(.active)');
+        
+        // Set the next image on the inactive background
+        inactiveBackground.style.backgroundImage = `url(${backgroundImages[nextImageIndex]})`;
+        
+        // Add fade-in class to inactive and remove from active
+        inactiveBackground.classList.add('fade-in');
+        inactiveBackground.classList.add('active');
+        activeBackground.classList.remove('active');
+        
+        // After animation completes, reset fade-in and update current index
+        setTimeout(() => {
+            inactiveBackground.classList.remove('fade-in');
+            currentImageIndex = nextImageIndex;
+        }, 2000); // Match this with CSS transition duration
+    }
+});
