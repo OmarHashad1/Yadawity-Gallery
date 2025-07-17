@@ -41,10 +41,10 @@ body {
   --cream-darkest: #f2ede6;
   --gray-medium: #7f8c8d;
   --brown-light: #6b5a47;
-  --review-quote: #e8d5b7;
-  --review-name: #2c2c2c;
-  --review-text: #4a4a4a;
-  --review-star: #d4af37;
+  --testimonials-quote: #e8d5b7;
+  --testimonials-name: #2c2c2c;
+  --testimonials-text: #4a4a4a;
+  --testimonials-star: #d4af37;
 }
 .navbar {
   position: fixed;
@@ -805,31 +805,90 @@ body {
 
 
 /*
-review card scroll
+testimonials card scroll
 */
 
 
-.reviewCarousel {
-  max-width: 1000px;
+.testimonialsCarousel {
+  width: 90vw;
+  max-width: none;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.reviewCarouselContainer {
+.testimonialsCarouselContainer {
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  padding:  10px;
+  padding: 10px 0;
+  width: 100%;
 }
 
-.reviewCarouselTrack {
+/* Blur fade effects on carousel sides */
+.testimonialsCarouselContainer::before,
+.testimonialsCarouselContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 150px;
+  z-index: 10;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+.testimonialsCarouselContainer::before {
+  left: 0;
+  background: linear-gradient(to right, 
+    rgba(255, 255, 255, 0.98) 0%, 
+    rgba(255, 255, 255, 0.95) 8%,
+    rgba(255, 255, 255, 0.9) 12%,
+    rgba(255, 255, 255, 0.85) 18%,
+    rgba(255, 255, 255, 0.78) 25%, 
+    rgba(255, 255, 255, 0.7) 32%,
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(255, 255, 255, 0.48) 50%,
+    rgba(255, 255, 255, 0.35) 60%,
+    rgba(255, 255, 255, 0.25) 70%,
+    rgba(255, 255, 255, 0.15) 78%,
+    rgba(255, 255, 255, 0.08) 85%,
+    rgba(255, 255, 255, 0.03) 92%,
+    rgba(255, 255, 255, 0.01) 96%,
+    transparent 100%);
+  filter: blur(0.3px);
+}
+
+.testimonialsCarouselContainer::after {
+  right: 0;
+  background: linear-gradient(to left, 
+    rgba(255, 255, 255, 0.98) 0%, 
+    rgba(255, 255, 255, 0.95) 8%,
+    rgba(255, 255, 255, 0.9) 12%,
+    rgba(255, 255, 255, 0.85) 18%,
+    rgba(255, 255, 255, 0.78) 25%, 
+    rgba(255, 255, 255, 0.7) 32%,
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(255, 255, 255, 0.48) 50%,
+    rgba(255, 255, 255, 0.35) 60%,
+    rgba(255, 255, 255, 0.25) 70%,
+    rgba(255, 255, 255, 0.15) 78%,
+    rgba(255, 255, 255, 0.08) 85%,
+    rgba(255, 255, 255, 0.03) 92%,
+    rgba(255, 255, 255, 0.01) 96%,
+    transparent 100%);
+  filter: blur(0.3px);
+}
+
+.testimonialsCarouselTrack {
   display: flex;
   animation: infiniteScroll 60s linear infinite;
   will-change: transform;
 }
 
-.reviewCarouselTrack:hover {
+.testimonialsCarouselTrack:hover {
   animation-play-state: paused;
 }
 
@@ -842,7 +901,7 @@ review card scroll
   }
 }
 
-.reviewCardItem {
+.testimonialsCardItem {
   flex: 0 0 auto;
   width: 450px;
   margin: 0 15px;
@@ -861,55 +920,55 @@ review card scroll
   flex-direction: column;
 }
 
-.reviewCardItem:hover {
+.testimonialsCardItem:hover {
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
-.reviewQuoteIcon {
+.testimonialsQuoteIcon {
   position: absolute;
   top: 15px;
   left: 20px;
   font-size: 24px;
-  color: var(--review-quote);
+  color: var(--testimonials-quote);
   font-family: Georgia, serif;
   opacity: 0.8;
 }
 
-.reviewProfileSection {
+.testimonialsProfileSection {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
   margin-top: 15px;
 }
 
-.reviewProfileImage {
+.testimonialsProfileImage {
   width: 50px;
   height: 50px;
   border-radius: 4px;
   margin-right: 12px;
   object-fit: cover;
-  border: 1px solid var(--review-quote);
+  border: 1px solid var(--testimonials-quote);
   flex-shrink: 0;
 }
 
-.reviewProfileInfo {
+.testimonialsProfileInfo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 }
 
-.reviewProfileName {
+.testimonialsProfileName {
   font-weight: bold;
   font-size: 16px;
-  color: var(--review-name);
+  color: var(--testimonials-name);
   margin-bottom: 0;
   letter-spacing: 0.5px;
   line-height: 1.2;
 }
 
-.reviewProfileTitle {
+.testimonialsProfileTitle {
   font-size: 13px;
   color: var(--brown-medium);
   font-weight: 400;
@@ -917,10 +976,10 @@ review card scroll
   line-height: 1.2;
 }
 
-.reviewTextContent {
+.testimonialsTextContent {
   font-style: italic;
   font-size: 14px;
-  color: var(--review-text);
+  color: var(--testimonials-text);
   line-height: 1.6;
   margin-bottom: 15px;
   flex: 1;
@@ -931,7 +990,7 @@ review card scroll
   min-height: 80px;
 }
 
-.reviewStarRating {
+.testimonialsStarRating {
   display: flex;
   gap: 2px;
   margin-top: auto;
@@ -940,94 +999,14 @@ review card scroll
   justify-content: center;
 }
 
-.reviewStar {
-  color: var(--review-star);
+.testimonialsStar {
+  color: var(--testimonials-star);
   font-size: 16px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-bottom: 50px;
-
-}
-
-
-
-/* Responsive Design */
-@media (max-width: 767px) {
-  .reviewCardItem {
-      width: 350px;
-      height: 260px;
-      padding: 20px;
-  }
-  
-  .reviewTextContent {
-      -webkit-line-clamp: 4;
-      min-height: 70px;
-      font-size: 13px;
-  }
-  
-  .reviewProfileImage {
-      width: 45px;
-      height: 45px;
-  }
-  
-  .reviewProfileName {
-      font-size: 15px;
-  }
-  
-  .reviewProfileTitle {
-      font-size: 12px;
-  }
-  
-  @keyframes infiniteScroll {
-      0% {
-          transform: translateX(0);
-      }
-      100% {
-          transform: translateX(-3465px); /* Mobile width calculation */
-      }
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .reviewCardItem {
-      width: 400px;
-      height: 250px;
-      padding: 22px;
-  }
-  
-  .reviewTextContent {
-      -webkit-line-clamp: 4;
-      min-height: 75px;
-      font-size: 13px;
-  }
-  
-  .reviewProfileImage {
-      width: 48px;
-      height: 48px;
-  }
-  
-  @keyframes infiniteScroll {
-      0% {
-          transform: translateX(0);
-      }
-      100% {
-          transform: translateX(-3735px); /* Tablet width calculation */
-      }
-  }
-}
-
-@media (min-width: 1024px) {
-  .reviewCardItem {
-      width: 450px;
-      height: 240px;
-  }
-  
-  .reviewTextContent {
-      -webkit-line-clamp: 4;
-      min-height: 80px;
-  }
 }
 
 /* Touch interactions */
@@ -1047,7 +1026,7 @@ review card scroll
 }
 
 /* Loading animation */
-.reviewCard {
+.testimonialsCard {
   animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1073,31 +1052,336 @@ review card scroll
   display: none;
 }
 
-/* Enhanced focus states *
+/* Enhanced focus states */
 
 /* Smooth scroll animation effects */
-.reviewCardItem {
+.testimonialsCardItem {
   animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes fadeInUp {
-  from {
-      opacity: 0;
-      transform: translateY(30px) scale(0.95);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-  }
-}
-
 /* Smooth momentum scrolling */
-.reviewCarouselContainer {
+.testimonialsCarouselContainer {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.reviewCarouselContainer::-webkit-scrollbar {
+.testimonialsCarouselContainer::-webkit-scrollbar {
   display: none;
+}
+
+/* =========================
+   MEDIA QUERIES
+   ========================= */
+
+/* Large Desktop Screens */
+@media (max-width: 1920px) {
+  .testimonialsCarousel {
+    width: 90vw;
+    padding: 0 40px;
+  }
+}
+
+/* Medium Desktop Screens */
+@media (max-width: 1680px) {
+  .testimonialsCarousel {
+    width: 90vw;
+    padding: 0 30px;
+  }
+}
+
+/* Standard Desktop Screens */
+@media (max-width: 1440px) {
+  .testimonialsCarousel {
+    width: 90vw;
+    padding: 0 20px;
+  }
+}
+@media (max-width: 1500px) {
+  .navMenu {
+      position: fixed;
+      left: -100%;
+      top: 90px;
+      flex-direction: column;
+      background: var(--cream);
+      width: 100%;
+      text-align: left;
+      transition: 0.3s;
+      gap: 0;
+      padding: 40px 30px;
+      height: calc(100vh - 90px);
+      overflow-y: auto;
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(107, 68, 35, 0.15);
+  }
+
+  .navMenu.active {
+      left: 0;
+  }
+
+  .navMenu a,
+  .navActions {
+      padding: 20px 0;
+      display: block;
+      margin: 10px 0;
+      border-radius: 8px;
+      width: 100%;
+      border-bottom: 1px solid rgba(107, 68, 35, 0.1);
+  }
+
+  .navActions {
+      flex-direction: column;
+      align-items: flex-start;
+      border-left: none;
+      margin-left: 0;
+      padding-left: 0;
+      gap: 15px;
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 2px solid rgba(107, 68, 35, 0.2);
+      min-width: auto;
+  }
+
+  .navToggle {
+      display: flex;
+  }
+
+  .navToggle.active .bar:nth-child(2) {
+      opacity: 0;
+  }
+
+  .navToggle.active .bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+  }
+
+  .navToggle.active .bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .searchContainer {
+      width: 100%;
+  }
+
+  .searchInput {
+      width: 100%;
+  }
+
+  .searchInput:focus {
+      width: 100%;
+  }
+
+  .userDropdownMenu {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      background: rgba(107, 68, 35, 0.1);
+      margin-top: 10px;
+      border-radius: 8px;
+  }
+}
+
+
+/* Small Desktop Screens */
+@media (max-width: 1200px) {
+  .navContainer {
+    gap: 20px;
+}
+
+.navMenu {
+    gap: 1rem;
+}
+
+.searchInput {
+    width: 160px;
+}
+
+.searchInput:focus {
+    width: 200px;
+}
+
+.navActions {
+    gap: 12px;
+    margin-left: 15px;
+    padding-left: 15px;
+    min-width: 250px;
+}
+  .testimonialsCarousel {
+    width: 90vw;
+    padding: 0 15px;
+  }
+}
+
+/* Large Tablets and Small Laptops */
+@media (max-width: 1024px) {
+  .testimonialsCarousel {
+    width: 90vw;
+    padding: 0 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonialsCardItem {
+    width: 450px;
+    height: 240px;
+  }
+  
+  .testimonialsTextContent {
+    -webkit-line-clamp: 4;
+    min-height: 80px;
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navContainer {
+    padding: 0 20px;
+    height: 80px;
+}
+
+.logoName {
+    font-size: 1.5rem;
+}
+
+.logoIcon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+}
+
+.logoIcon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.mastersSectionHeader h1 {
+    font-size: 2.5rem;
+}
+
+.artisanFilterNavigation {
+    flex-direction: column;
+    align-items: center;
+}
+
+.artisanCategoryBtn {
+    border: 1px solid #8b7355;
+}
+  .testimonialsCardItem {
+    width: 400px;
+    height: 250px;
+    padding: 22px;
+  }
+  
+  .testimonialsTextContent {
+    -webkit-line-clamp: 4;
+    min-height: 75px;
+    font-size: 13px;
+  }
+  
+  .testimonialsProfileImage {
+    width: 48px;
+    height: 48px;
+  }
+  
+  @keyframes infiniteScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-3735px); /* Tablet width calculation */
+    }
+  }
+}
+
+/* Small Tablets and Large Phones */
+@media (max-width: 768px) {
+  .testimonialsCarousel {
+    width: 95vw;
+    padding: 0 10px;
+  }
+  
+  .testimonialsCardItem {
+    width: 350px;
+    height: 260px;
+    padding: 20px;
+  }
+  
+  .testimonialsTextContent {
+    -webkit-line-clamp: 4;
+    min-height: 70px;
+    font-size: 13px;
+  }
+  
+  .testimonialsProfileImage {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .testimonialsProfileName {
+    font-size: 15px;
+  }
+  
+  .testimonialsProfileTitle {
+    font-size: 12px;
+  }
+  
+  @keyframes infiniteScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-3465px); /* Mobile width calculation */
+    }
+  }
+}
+
+/* Small Mobile Phones */
+@media (max-width: 480px) {
+  .navContainer {
+    padding: 0 15px;
+}
+
+.logoName {
+    font-size: 1.3rem;
+} 
+
+  .testimonialsCarousel {
+    width: 98vw;
+    padding: 0 5px;
+  }
+  
+  .testimonialsCardItem {
+    width: 300px;
+    height: 280px;
+    padding: 15px;
+    margin: 0 10px;
+  }
+  
+  .testimonialsTextContent {
+    font-size: 12px;
+    min-height: 60px;
+  }
+  
+  .testimonialsProfileImage {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .testimonialsProfileName {
+    font-size: 14px;
+  }
+  
+  .testimonialsProfileTitle {
+    font-size: 11px;
+  }
+  
+  @keyframes infiniteScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-2790px); /* Small mobile width calculation */
+    }
+  }
 }

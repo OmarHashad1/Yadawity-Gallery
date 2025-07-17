@@ -318,9 +318,9 @@ function slideLeft() {
   slider.scrollBy({ left: -320, behavior: 'smooth' });
 }
 
-//review card scroll 
-   // Review data
-   const reviews = [
+//testimonials card scroll 
+   // testimonials data
+   const testimonialss = [
     {
         name: "Lord Edmund Blackwood",
         title: "Art Collector",
@@ -377,7 +377,7 @@ function slideLeft() {
     }
 ];
 
-class ReviewCarousel {
+class testimonialsCarousel {
     constructor() {
         this.init();
     }
@@ -393,27 +393,27 @@ class ReviewCarousel {
         // Create multiple sets for seamless infinite scroll
         const sets = 4; // Create 4 sets of cards for smooth looping
         for (let set = 0; set < sets; set++) {
-            reviews.forEach((review, index) => {
+            testimonialss.forEach((testimonials, index) => {
                 const card = document.createElement('div');
-                card.className = 'reviewCardItem';
+                card.className = 'testimonialsCardItem';
                 card.setAttribute('tabindex', '0');
                 card.innerHTML = `
-                    <div class="reviewQuoteIcon">"</div>
-                    <div class="reviewProfileSection">
-                        <img src="${review.image}" alt="${review.name}" class="reviewProfileImage" 
+                    <div class="testimonialsQuoteIcon">"</div>
+                    <div class="testimonialsProfileSection">
+                        <img src="${testimonials.image}" alt="${testimonials.name}" class="testimonialsProfileImage" 
                              onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMzAiIGZpbGw9IiNGOEY2RjMiLz4KPHN2ZyB4PSIxNSIgeT0iMTUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjOTk5Ij4KPHA+dGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPgo8L3N2Zz4KPC9zdmc+'">
-                        <div class="reviewProfileInfo">
-                            <div class="reviewProfileName">${review.name}</div>
-                            <div class="reviewProfileTitle">${review.title}</div>
+                        <div class="testimonialsProfileInfo">
+                            <div class="testimonialsProfileName">${testimonials.name}</div>
+                            <div class="testimonialsProfileTitle">${testimonials.title}</div>
                         </div>
                     </div>
-                    <div class="reviewTextContent">${review.text}</div>
-                    <div class="reviewStarRating">
-                        <span class="reviewStar">★</span>
-                        <span class="reviewStar">★</span>
-                        <span class="reviewStar">★</span>
-                        <span class="reviewStar">★</span>
-                        <span class="reviewStar">★</span>
+                    <div class="testimonialsTextContent">${testimonials.text}</div>
+                    <div class="testimonialsStarRating">
+                        <span class="testimonialsStar">★</span>
+                        <span class="testimonialsStar">★</span>
+                        <span class="testimonialsStar">★</span>
+                        <span class="testimonialsStar">★</span>
+                        <span class="testimonialsStar">★</span>
                     </div>
                 `;
                 track.appendChild(card);
@@ -424,7 +424,7 @@ class ReviewCarousel {
 
 // Initialize carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new ReviewCarousel();
+    new testimonialsCarousel();
 });
 
 //login page
