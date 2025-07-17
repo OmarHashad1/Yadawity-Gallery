@@ -318,6 +318,38 @@ function slideLeft() {
   slider.scrollBy({ left: -320, behavior: 'smooth' });
 }
 
+// Yadawity mansory layout cards
+ // Add interactive functionality
+ document.querySelectorAll('.addToCart').forEach(button => {
+    button.addEventListener('click', function() {
+        const card = this.closest('.artworkCard');
+        const title = card.querySelector('.artworkTitle').textContent;
+        
+        // Simple feedback animation
+        this.textContent = 'Added!';
+        this.style.backgroundColor = '#28a745';
+        
+        setTimeout(() => {
+            this.textContent = 'Add to cart';
+            this.style.backgroundColor = '#4a3c2a';
+        }, 2000);
+        
+        console.log(`Added "${title}" to cart`);
+    });
+});
+
+// Hover effects for cards
+document.querySelectorAll('.artworkCard').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+    });
+});
+
+
 //testimonials card scroll 
    // testimonials data
    const testimonialss = [

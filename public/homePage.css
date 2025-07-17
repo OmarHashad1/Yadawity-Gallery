@@ -516,7 +516,7 @@ body {
 
 .profileCard {
   background: var(--white-pure);
-  border-radius: 12px;
+  border-radius: 3px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 320px;
@@ -534,7 +534,7 @@ body {
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(-30px);
   }
   to {
     opacity: 1;
@@ -737,7 +737,7 @@ body {
   color: white;
   border: none;
   padding: 12px 30px;
-  border-radius: 6px;
+  border-radius: 3px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
@@ -783,7 +783,7 @@ body {
   color: var(--brown-medium);
   border: 2px solid var(--brown-medium);
   padding: 12px 30px;
-  border-radius: 6px;
+  border-radius: 3px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
@@ -800,6 +800,109 @@ body {
 .discoverArtistsBtn:hover {
   transform: translateY(-2px);
   transform:scale(1.05) ;
+  box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
+}
+
+
+/* Mansory layout art cards */
+.galleryContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  columns: 3;
+  column-gap: 30px;
+}
+
+
+
+.artworkCard {
+  background: linear-gradient(180deg, #faf8f5 0%, #f2ede6 100%);
+  border-radius: 3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+  break-inside: avoid;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideUp 0.8s ease-out;
+}
+
+.artworkCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.artworkImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.artworkInfo {
+  padding: 20px;
+}
+
+.artworkTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2c2c2c;
+  margin-bottom: 8px;
+}
+
+.artworkPrice {
+  font-size: 1.1em;
+  color: #8b4513;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.artworkArtist {
+  font-size: 0.9em;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.artworkDescription {
+  font-size: 0.85em;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.addToCart {
+  width: 100%;
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+  border-radius: 3px;
+}
+
+.addToCart::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.addToCart:hover::before {
+  left: 100%;
+}
+
+.addToCart:hover {
+  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
 }
 
@@ -838,7 +941,7 @@ testimonials card scroll
   z-index: 10;
   pointer-events: none;
   backdrop-filter: blur(4px);
-}
+} 
 
 .testimonialsCarouselContainer::before {
   left: 0;
@@ -880,7 +983,7 @@ testimonials card scroll
     rgba(255, 255, 255, 0.01) 96%,
     transparent 100%);
   filter: blur(0.3px);
-}
+} 
 
 .testimonialsCarouselTrack {
   display: flex;
@@ -1180,6 +1283,11 @@ testimonials card scroll
       margin-top: 10px;
       border-radius: 8px;
   }
+  .testimonialsCarouselContainer::before,
+  .testimonialsCarouselContainer::after {
+    display: none;
+    background: none;
+  } 
 }
 
 
@@ -1211,13 +1319,26 @@ testimonials card scroll
     width: 90vw;
     padding: 0 15px;
   }
+
+
 }
 
 /* Large Tablets and Small Laptops */
 @media (max-width: 1024px) {
+
+  .galleryContainer {
+    columns: 2;
+}
+
   .testimonialsCarousel {
     width: 90vw;
     padding: 0 15px;
+  }
+
+  /* Remove carousel blur effect on tablets */
+  .testimonialsCarouselContainer::before,
+  .testimonialsCarouselContainer::after {
+    display: none;
   }
 }
 
@@ -1232,6 +1353,7 @@ testimonials card scroll
     min-height: 80px;
   }
 }
+
 
 /* Tablets */
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -1296,8 +1418,13 @@ testimonials card scroll
 
 /* Small Tablets and Large Phones */
 @media (max-width: 768px) {
+  .galleryContainer {
+    columns: 2;
+    column-gap: 20px;
+}
+
   .testimonialsCarousel {
-    width: 95vw;
+    width: 100%;
     padding: 0 10px;
   }
   
@@ -1326,6 +1453,12 @@ testimonials card scroll
     font-size: 12px;
   }
   
+  /* Remove carousel blur effect on small tablets and large phones */
+  .testimonialsCarouselContainer::before,
+  .testimonialsCarouselContainer::after {
+    display: none;
+  }
+  
   @keyframes infiniteScroll {
     0% {
       transform: translateX(0);
@@ -1338,6 +1471,11 @@ testimonials card scroll
 
 /* Small Mobile Phones */
 @media (max-width: 480px) {
+
+  .galleryContainer {
+    columns: 1;
+}
+
   .navContainer {
     padding: 0 15px;
 }
@@ -1347,8 +1485,9 @@ testimonials card scroll
 } 
 
   .testimonialsCarousel {
-    width: 98vw;
-    padding: 0 5px;
+    width: 100%;
+    padding: 0 ;
+
   }
   
   .testimonialsCardItem {
@@ -1376,12 +1515,6 @@ testimonials card scroll
     font-size: 11px;
   }
   
-  @keyframes infiniteScroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-2790px); /* Small mobile width calculation */
-    }
-  }
+  /* Remove carousel blur effect on small mobile phones */
+
 }
