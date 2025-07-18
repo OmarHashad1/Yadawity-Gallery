@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+border: 1px solid red;
 }
 body {
   font-family: "Playfair Display", serif;
@@ -1678,6 +1679,13 @@ testimonials card scroll
     font-size: 1.3rem;
 } 
 
+  .sectionHeader h2 {
+    font-size: 2rem; /* Much smaller font size for mobile phones */
+    letter-spacing: 0.02em; /* Reduced letter spacing */
+    margin-bottom: 1.5rem; /* Reduced bottom margin */
+    padding: 0 10px; /* Add some padding on the sides */
+  }
+
   .testimonialsCarousel {
     width: 100%;
     padding: 0 ;
@@ -1710,6 +1718,13 @@ testimonials card scroll
   }
   
 
+}
+
+/* Extra Small Mobile Phones */
+@media (max-width: 360px) {
+  .sectionHeader h2 {
+    font-size: 1.8rem; /* Even smaller for very small devices */
+  }
 }
 
 /* On Scroll Animation Styles */
