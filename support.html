@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SupportHub - Help Center</title>
+    <link rel="stylesheet" href="./public/support.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo"><b>Yadawity support</b></div>
+                <ul class="navLinks">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#guides">Guides</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>How can we help you?</h1>
+            <p>Search our knowledge base or get in touch with our support team</p>
+            <div class="searchBox">
+                <input type="text" class="searchInput" id="searchInput" placeholder="Search for answers...">
+                <button class="searchBtn" id="searchBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="sectionTitle">Frequently Asked Questions</h2>
+            <div class="faqContainer">
+                <div class="faqItem">
+                    <button class="faqQuestion">
+                        <span>How do I reset my password?</span>
+                        <span>+</span>
+                    </button>
+                    <div class="faqAnswer">
+                        <p>To reset your password, go to the login page and click "Forgot Password". Enter your email address and we'll send you a reset link.</p>
+                    </div>
+                </div>
+                <div class="faqItem">
+                    <button class="faqQuestion">
+                        <span>How can I upgrade my subscription?</span>
+                        <span>+</span>
+                    </button>
+                    <div class="faqAnswer">
+                        <p>You can upgrade your subscription by going to Account Settings > Billing. Choose your desired plan and follow the checkout process.</p>
+                    </div>
+                </div>
+                <div class="faqItem">
+                    <button class="faqQuestion">
+                        <span>Is my data secure?</span>
+                        <span>+</span>
+                    </button>
+                    <div class="faqAnswer">
+                        <p>Yes, we use industry-standard encryption and security measures to protect your data. All data is encrypted in transit and at rest.</p>
+                    </div>
+                </div>
+                <div class="faqItem">
+                    <button class="faqQuestion">
+                        <span>How do I cancel my subscription?</span>
+                        <span>+</span>
+                    </button>
+                    <div class="faqAnswer">
+                        <p>To cancel your subscription, go to Account Settings > Billing > Manage Subscription. Click "Cancel Subscription" and follow the prompts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contactGrid">
+                <div>
+                    <h2 class="sectionTitle" style="text-align: left; margin-bottom: 1rem;">Get in Touch</h2>
+                    <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem;">Can't find what you're looking for? Our support team is here to help.</p>
+                    
+                    <div class="contactMethods">
+                        <div class="contactMethod">
+                            <div class="methodIcon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4>Email Support</h4>
+                                <p>support@supporthub.com</p>
+                                <span>Response within 24 hours</span>
+                            </div>
+                        </div>
+                        <div class="contactMethod">
+                            <div class="methodIcon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4>Phone Support</h4>
+                                <p>+1 (555) 123-4567</p>
+                                <span>Mon-Fri, 9AM-6PM EST</span>
+                            </div>
+                        </div>
+                        <div class="contactMethod">
+                            <div class="methodIcon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4>Live Chat</h4>
+                                <p>Available 24/7</p>
+                                <span>Instant responses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="formContainer">
+                    <form id="contactForm">
+                        <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Send us a message</h3>
+                        <div class="formGroup">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="formGroup">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="formGroup">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a topic</option>
+                                <option value="technical">Technical Issue</option>
+                                <option value="billing">Billing Question</option>
+                                <option value="feature">Feature Request</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="formGroup">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Widget -->
+    <div class="chatWidget" id="chatWidget">
+        <div class="chatHeader">
+            <h4>Live Support</h4>
+            <button class="chat-Close" id="chatClose">×</button>
+        </div>
+        <div class="chatMessages" id="chatMessages">
+            <div class="message">
+                <div class="messageContent">
+                    <p>Hi! How can I help you today?</p>
+                </div>
+            </div>
+        </div>
+        <div class="chatInputContainer">
+            <input type="text" id="chatInput" placeholder="Type your message...">
+            <button id="chatSend">Send</button>
+        </div>
+    </div>
+
+    <button class="chatToggle" id="chatToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footerContent">
+                <div class="footerSection">
+                    <h4>YADAWITYSupport</h4>
+                    <p>Providing excellent customer support and comprehensive documentation for all your needs.</p>
+                </div>
+                <div class="footerSection">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#guides">Guides</a></li>
+                    </ul>
+                </div>
+                <div class="footerSection">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Status Page</a></li>
+                        <li><a href="#">API Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footerSection">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footerBottom">
+                <p>&copy; 2024 YADAWITYSupport. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

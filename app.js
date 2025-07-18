@@ -575,3 +575,215 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000); // Match this with CSS transition duration
     }
 });
+
+
+
+//support page
+  const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+
+        const searchData = [
+            'How to reset password',
+            'Billing and subscription',
+            'Account settings',
+            'Technical support',
+            'Getting started guide'
+        ];
+
+        searchBtn.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                showNotification('Searching for: ' + query, 'info');
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+
+      // FAQ functionality
+        const faqItems = document.querySelectorAll('.faqItem');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faqQuestion');
+            const icon = question.querySelector('span:last-child');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all FAQ items
+                faqItems.forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                    faqItem.querySelector('.faqQuestion span:last-child').textContent = '+';
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                    icon.textContent = '−';
+                }
+            });
+        });
+
+        // Contact form
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+                this.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Chat widget
+        const chatWidget = document.getElementById('chatWidget');
+        const chatToggle = document.getElementById('chatToggle');
+        const chatClose = document.getElementById('chatClose');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const chatMessages = document.getElementById('chatMessages');
+
+        let chatOpen = false;
+
+        chatToggle.addEventListener('click', () => {
+            chatOpen = !chatOpen;
+            if (chatOpen) {
+                chatWidget.classList.add('show');
+                chatInput.focus();
+            } else {
+                chatWidget.classList.remove('show');
+            }
+        });
+
+        chatClose.addEventListener('click', () => {
+            chatOpen = false;
+            chatWidget.classList.remove('show');
+        });
+
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addChatMessage(message, 'user');
+                chatInput.value = '';
+                
+                setTimeout(() => {
+                    const responses = [
+                        'Thanks for your message! How can I help you today?',
+                        'I understand your concern. Let me connect you with a specialist.',
+                        'That\'s a great question! Here are some resources that might help.',
+                        'I\'m here to help! Can you provide more details about your issue?'
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addChatMessage(randomResponse, 'bot');
+                }, 1000);
+            }
+        }
+
+        chatSend.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+
+        function addChatMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = `<p>${message}</p>`;
+            
+            messageDiv.appendChild(contentDiv);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Navigation
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Category cards
+        const categoryCards = document.querySelectorAll('.card');
+        categoryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const category = card.dataset.category;
+                showNotification(`Showing articles for: ${category}`, 'info');
+            });
+        });
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span>${message}</span>
+                    <button class="notification-close">&times;</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                notification.remove();
+            });
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Support page loaded successfully');
+            
+            setTimeout(() => {
+                if (!chatOpen) {
+                    showNotification('Need help? Click the chat button to get instant support!', 'info');
+                }
+            }, 3000);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            
+            if (e.key === 'Escape') {
+                if (chatOpen) {
+                    chatOpen = false;
+                    chatWidget.classList.remove('show');
+                }
+            }
+        });
