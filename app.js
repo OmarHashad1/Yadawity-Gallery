@@ -705,3 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+//course page
+
+       
