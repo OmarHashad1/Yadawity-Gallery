@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Playfair Display", serif;
+    background: url(../image/fb0e872e-e7a1-4c35-9eff-5bca0ce50d34.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(5px);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login-container {
+    background: linear-gradient(180deg, #faf8f5 0%, #f2ede6 100%);
+    border-radius: 3px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+}
+
+.logo-section {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+
+
+.brand-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    background: #8b6f47;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logo::before {
+    content: '';
+}
+
+.logo svg {
+    width: 32px;
+    height: 32px;
+    color: white;
+}
+
+.brand-name {
+    font-size: 28px;
+    color: #8b6f47;
+    font-weight: 600;
+    margin-bottom: 2px;
+    line-height: 1;
+    font-family: "Playfair Display", serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.brand-tagline {
+    color: #999;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+}
+
+
+
+.welcome-subtitle {
+    color: #888;
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 30px auto;
+}
+
+.form-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    color: #8b6f47;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 3px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    background: #f8f9fa;
+    height: 52px;
+    
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #8b6f47;
+    background: white;
+}
+
+.password-section {
+    position: relative;
+}
+
+.password-section label {
+    float: left;
+}
+
+.forgot-password {
+    color: #cc9966;
+    text-decoration: underline;
+    font-size: 14px;
+    float: right;
+    margin-top: 0;
+    margin-bottom: 6px;
+}
+
+.forgot-password:hover {
+    color: #8b6f47;
+}
+
+.sign-in-btn {
+    width: 50%;
+    background: #8b6f47;
+    color: white;
+    border: none;
+    padding: 17px 15px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-bottom: 18px;
+}
+
+.sign-in-btn:hover {
+    background: #6d5435;
+}
+
+.divider {
+    position: relative;
+    margin: 18px 0;
+    font-size: 14px;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.divider span {
+    background: linear-gradient(180deg, #faf8f5 0%, #f2ede6 100%);
+    padding: 0 15px;
+    position: relative;
+}
+
+.social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 3px;
+    background: white;
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    gap: 12px;
+}
+
+.social-btn:hover {
+    border-color: #8b6f47;
+    background: #f8f9fa;
+}
+
+.social-btn .icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-link {
+    color: #999;
+    font-size: 14px;
+}
+
+.signup-link a {
+    color: #cc9966;
+    text-decoration: underline;
+}
+
+.signup-link a:hover {
+    color: #8b6f47;
+}
+
+.footer-text {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 15px;
+    line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+    
+    .welcome-title {
+        font-size: 28px;
+    }
+}
