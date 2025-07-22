@@ -90,7 +90,7 @@ body {
   gap: 10px;
   background: rgba(255, 255, 255, 0.1);
   padding: 12px 20px;
-  border-radius: 25px;
+  border-radius: 3px;
   font-size: 1rem;
   backdrop-filter: blur(10px);
 }
@@ -137,7 +137,7 @@ body {
   background: var(--cream-white);
   color: var(--text-dark);
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 3px;
   transition: all 0.3s ease;
   border: 2px solid transparent;
   font-weight: 500;
@@ -173,7 +173,7 @@ body {
   margin-bottom: 50px;
   padding: 30px;
   background: #fcfcfc;
-  border-radius: 12px;
+  border-radius: 3px;
   border-left: 4px solid var(--gold-accent);
   scroll-margin-top: 100px;
 }
@@ -254,7 +254,7 @@ body {
   margin-bottom: 20px;
   padding: 20px;
   background: var(--cream-white);
-  border-radius: 8px;
+  border-radius: 3px;
   transition: all 0.3s ease;
 }
 
