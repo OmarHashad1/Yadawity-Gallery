@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lady Catherine Pemberton - Artist Profile | Yadawity Gallery</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
+    <link rel="stylesheet" href="./public/homePage.css" />
+    <link rel="stylesheet" href="./public/artistProfile.css" />
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbarYadawity" id="yadawityNavbar">
+      <div class="navContainer">
+        <div class="navLogo">
+          <a href="index.html" class="navLogoLink">
+            <div class="logoIcon">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z"
+                  fill="currentColor"
+                  opacity="0.8"
+                />
+                <path
+                  d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z"
+                  fill="currentColor"
+                  opacity="0.8"
+                />
+                <line
+                  x1="50"
+                  y1="20"
+                  x2="50"
+                  y2="80"
+                  stroke="currentColor"
+                  stroke-width="3"
+                />
+                <path
+                  d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <div class="logoText">
+              <span class="logoName">Yadawity</span>
+              <span class="logoEst">EST. 2025</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="navMenu" id="navMenu">
+          <a href="index.html" class="navLink" data-page="home">HOME</a>
+          <a href="gallery.html" class="navLink" data-page="gallery">GALLERY</a>
+          <a href="courses.html" class="navLink" data-page="courses">COURSES</a>
+          <a href="artworks.html" class="navLink" data-page="atelier"
+            >ARTWORKS</a
+          >
+          <a href="auction.html" class="navLink" data-page="auction"
+            >AUCTION HOUSE</a
+          >
+          <a href="therapy.html" class="navLink therapyNav" data-page="therapy"
+            >THERAPY</a
+          >
+
+          <div class="navActions">
+            <div class="searchContainer">
+              <input
+                type="text"
+                placeholder="Search artists, artworks..."
+                class="searchInput"
+                id="navbarSearch"
+              />
+              <button class="searchBtn" id="searchButton">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+
+            <a
+              href="wishlist.html"
+              class="navIconLink"
+              title="Wishlist"
+              id="wishlistLink"
+            >
+              <i class="fas fa-heart"></i>
+              <span
+                class="wishlistCount"
+                id="wishlistCount"
+                style="display: none"
+                >0</span
+              >
+            </a>
+
+            <a
+              href="cart.html"
+              class="navIconLink cartLink"
+              title="Cart"
+              id="cartLink"
+            >
+              <i class="fas fa-shopping-bag"></i>
+              <span class="cartCount" id="cartCount">0</span>
+            </a>
+
+            <div class="userDropdown">
+              <a href="#" class="navIconLink" title="Account" id="userAccount">
+                <i class="fas fa-user"></i>
+              </a>
+              <div class="userDropdownMenu" id="userMenu">
+                <a href="settings.html" class="dropdownItem">
+                  <i class="fas fa-cog"></i>
+                  <span>Settings</span>
+                </a>
+                <div class="dropdownDivider"></div>
+                <a
+                  href="./login.html"
+                  class="dropdownItem"
+                  id="loginLogout"
+                  rel="noopener"
+                >
+                  <i class="fas fa-sign-in-alt"></i>
+                  <span>Login</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="navToggle" id="navToggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Burger Menu Component -->
+    <div class="burgerMenuOverlay" id="burgerMenuOverlay">
+      <div class="burgerMenuContainer">
+        <div class="burgerMenuHeader">
+          <a href="index.html" class="burgerMenuLogo">Yadawity</a>
+          <button class="burgerMenuClose" id="burgerMenuClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="burgerNavLinks">
+          <a href="index.html" class="burgerNavLink" data-page="home">
+            <span>Home</span>
+          </a>
+          <a href="gallery.html" class="burgerNavLink" data-page="gallery">
+            <span>Gallery</span>
+          </a>
+          <a href="artworks.html" class="burgerNavLink" data-page="artworks">
+            <span>Artworks</span>
+          </a>
+          <a
+            href="courses.html"
+            class="burgerNavLink therapyNav"
+            data-page="courses"
+          >
+            <span>Art Therapy</span>
+          </a>
+          <a href="about.html" class="burgerNavLink" data-page="about">
+            <span>About</span>
+          </a>
+          <a href="contact.html" class="burgerNavLink" data-page="contact">
+            <span>Contact</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Artist Hero Section -->
+    <section class="artist-hero">
+      <div class="artist-hero-content">
+        <div class="artist-profile-image">
+          <img
+            src="./image/artist-sitting-on-the-floor.jpg"
+            alt="Lady Catherine Pemberton"
+            class="artist-main-image"
+          />
+        </div>
+
+        <div class="artist-info">
+          <h1 class="artist-name">Lady Catherine Pemberton</h1>
+          <p class="artist-specialty">Classical Portraiture Master</p>
+
+          <div class="artist-badges">
+            <div class="badge badge-yadawity">
+              <i class="fas fa-crown"></i>
+              Yadawity Partner
+            </div>
+            <div class="badge badge-verified">
+              <i class="fas fa-check-circle"></i>
+              Verified Artist
+            </div>
+            <div class="badge badge-exclusive">
+              <i class="fas fa-star"></i>
+              Exclusive Collection
+            </div>
+            <div class="badge badge-featured">
+              <i class="fas fa-fire"></i>
+              Featured Master
+            </div>
+          </div>
+
+          <div class="artist-stats">
+            <div class="stat-item">
+              <span class="stat-number">127</span>
+              <span class="stat-label">Masterpieces</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">15</span>
+              <span class="stat-label">Years Experience</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">89</span>
+              <span class="stat-label">Happy Clients</span>
+            </div>
+          </div>
+
+          <div class="artist-actions">
+            <a href="#products" class="btn-primary">
+              <i class="fas fa-palette"></i>
+              View Artworks
+            </a>
+            <a href="#about" class="btn-secondary">
+              <i class="fas fa-info-circle"></i>
+              About Artist
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+      <div class="about-content">
+        <div class="about-sidebar">
+          <h3 style="color: var(--primary-brown); margin-bottom: 20px">
+            Quick Info
+          </h3>
+
+          <div style="margin-bottom: 20px">
+            <strong style="display: block; margin-bottom: 5px"
+              >Location:</strong
+            >
+            <span style="color: var(--text-light)">London, United Kingdom</span>
+          </div>
+
+          <div style="margin-bottom: 20px">
+            <strong style="display: block; margin-bottom: 5px"
+              >Education:</strong
+            >
+            <span style="color: var(--text-light)">Royal Academy of Arts</span>
+          </div>
+
+          <div style="margin-bottom: 20px">
+            <strong style="display: block; margin-bottom: 5px">Style:</strong>
+            <span style="color: var(--text-light)">Classical Realism</span>
+          </div>
+        </div>
+
+        <div class="about-main">
+          <h2>About Lady Catherine</h2>
+
+          <p class="about-text">
+            Lady Catherine Pemberton stands as one of the most distinguished
+            classical portrait artists of our time. With over fifteen years of
+            dedicated practice, she has mastered the intricate techniques passed
+            down through generations of Royal Academy masters.
+          </p>
+
+          <p class="about-text">
+            Her work is characterized by an extraordinary attention to detail,
+            capturing not just the physical likeness but the very essence and
+            character of her subjects. Each portrait tells a story, revealing
+            layers of personality through masterful use of light, shadow, and
+            color.
+          </p>
+
+          <p class="about-text">
+            Catherine's journey began at the prestigious Royal Academy of Arts,
+            where she studied under renowned masters and developed her
+            distinctive style that bridges classical techniques with
+            contemporary sensibilities. Her portraits have graced the walls of
+            private collections, galleries, and institutions across Europe.
+          </p>
+
+          <div class="achievements">
+            <h3>Achievements & Recognition</h3>
+
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <div>
+                <strong>Royal Academy Summer Exhibition</strong><br />
+                <span style="color: var(--text-light)"
+                  >Featured Artist (2019-2024)</span
+                >
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-medal"></i>
+              </div>
+              <div>
+                <strong>Portrait Society of America</strong><br />
+                <span style="color: var(--text-light)"
+                  >Gold Medal Winner (2022)</span
+                >
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div>
+                <strong>International Artist Magazine</strong><br />
+                <span style="color: var(--text-light)"
+                  >Artist of the Year (2023)</span
+                >
+              </div>
+            </div>
+
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div>
+                <strong>Master Class Instructor</strong><br />
+                <span style="color: var(--text-light)"
+                  >Yadawity Gallery & Royal Academy</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Artist Products/Artworks Section -->
+    <section class="products-section" id="products">
+      <div class="products-header">
+        <h2>Featured Artworks</h2>
+        <p style="color: var(--text-light); font-size: 1.2rem">
+          Discover Catherine's most celebrated masterpieces
+        </p>
+      </div>
+
+      <div class="mansoryLayoutProductCard">
+        <div class="galleryContainer">
+          <div class="artworkCard fade-in-left delay-100">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=280&fit=crop"
+              alt="Portrait of Elegance"
+              style="height: 280px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">Portrait of Elegance</h3>
+              <p class="artworkPrice">£15,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                A captivating oil painting that showcases the subject's grace and
+                nobility through masterful classical techniques and refined brushwork.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-200">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=320&fit=crop"
+              alt="The Scholar's Gaze"
+              style="height: 320px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">The Scholar's Gaze</h3>
+              <p class="artworkPrice">£22,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                An intimate portrayal capturing the intellectual depth and
+                contemplative nature of a distinguished academic through luminous technique.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-300">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=400&fit=crop"
+              alt="Aristocratic Heritage"
+              style="height: 400px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">Aristocratic Heritage</h3>
+              <p class="artworkPrice">£35,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                A grand commissioned portrait reflecting centuries of tradition
+                and refinement captured in every masterful brushstroke.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-200">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=200&fit=crop"
+              alt="Young Virtuoso"
+              style="height: 200px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">Young Virtuoso</h3>
+              <p class="artworkPrice">£18,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                A delicate portrait capturing the promise and passion of youth
+                through luminous classical painting techniques and soft lighting.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-300">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=240&fit=crop"
+              alt="The Philanthropist"
+              style="height: 240px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">The Philanthropist</h3>
+              <p class="artworkPrice">£28,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                A commanding portrait that reveals the subject's benevolent spirit
+                and distinguished character through expert composition.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-400">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=360&fit=crop"
+              alt="Evening Reflection"
+              style="height: 360px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">Evening Reflection</h3>
+              <p class="artworkPrice">£32,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                A masterful study in light and mood, capturing a moment of quiet
+                contemplation with extraordinary depth and atmospheric beauty.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-300">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=300&fit=crop"
+              alt="Royal Commission"
+              style="height: 300px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">Royal Commission</h3>
+              <p class="artworkPrice">£45,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                An official portrait commissioned for the Royal Collection,
+                demonstrating the pinnacle of classical portraiture excellence.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="artworkCard fade-in-left delay-400">
+            <img
+              class="artworkImage"
+              src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=220&fit=crop"
+              alt="Master's Study"
+              style="height: 220px; object-fit: cover"
+            />
+            <div class="artworkInfo">
+              <h3 class="artworkTitle">Master's Study</h3>
+              <p class="artworkPrice">£38,000</p>
+              <p class="artworkArtist">by Lady Catherine Pemberton</p>
+              <p class="artworkDescription">
+                A preparatory study showcasing Catherine's technical mastery
+                and her deep understanding of classical portraiture traditions.
+              </p>
+              <button class="addToCart">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews & Feedback Section -->
+    <section class="reviews-section" id="reviews">
+      <div class="reviews-container">
+        <div class="reviews-header">
+          <h2>Client Reviews & Feedback</h2>
+        </div>
+
+        <div class="reviews-stats">
+          <div class="rating-overview">
+            <span class="rating-score">4.9</span>
+            <div class="rating-stars">
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+              <span class="star">★</span>
+            </div>
+            <span class="rating-count">(127 reviews)</span>
+          </div>
+        </div>
+
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-header">
+              <img
+                src="https://randomuser.me/api/portraits/men/1.jpg"
+                alt="Client Photo"
+                class="review-avatar"
+              />
+              <div class="review-info">
+                <span class="review-name">John Doe</span>
+                <span class="review-date">March 15, 2024</span>
+                <div class="review-rating">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="review-text">
+              "I am absolutely thrilled with my portrait by Lady Catherine! She
+              captured my likeness and personality perfectly. The attention to
+              detail is astonishing, and the painting has received countless
+              compliments. Highly recommend!"
+            </p>
+
+            <p class="review-artwork">
+              Artwork: <strong>A Regal Presence</strong>
+            </p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <img
+                src="https://randomuser.me/api/portraits/women/2.jpg"
+                alt="Client Photo"
+                class="review-avatar"
+              />
+              <div class="review-info">
+                <span class="review-name">Jane Smith</span>
+                <span class="review-date">March 10, 2024</span>
+                <div class="review-rating">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="review-text">
+              "Lady Catherine is a true master of her craft. The portrait she
+              created for me is beyond what I could have imagined. Every time I
+              look at it, I am transported back to the moment it was painted. An
+              incredible experience!"
+            </p>
+
+            <p class="review-artwork">
+              Artwork: <strong>Timeless Beauty</strong>
+            </p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-header">
+              <img
+                src="https://randomuser.me/api/portraits/men/3.jpg"
+                alt="Client Photo"
+                class="review-avatar"
+              />
+              <div class="review-info">
+                <span class="review-name">Michael Johnson</span>
+                <span class="review-date">February 25, 2024</span>
+                <div class="review-rating">
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                  <span class="star">★</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="review-text">
+              "The experience of having my portrait painted by Lady Catherine
+              was nothing short of extraordinary. She is not only a talented
+              artist but also a wonderful person who makes you feel at ease. I
+              can't recommend her highly enough!"
+            </p>
+
+            <p class="review-artwork">
+              Artwork: <strong>Majestic Encounter</strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- Simple Review Input -->
+        <div class="simple-review-form">
+          <h3>Leave a Quick Review</h3>
+          <p class="form-subtitle">
+            We value your feedback! Please share your experience.
+          </p>
+
+          <div class="review-form-container">
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-paint-brush"></i>
+                Artwork Details
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="purchasedArtwork"
+                    >Artwork Purchased
+                    <span class="required-asterisk">*</span></label
+                  >
+                  <select id="purchasedArtwork" class="artwork-select">
+                    <option value="">
+                      Select the artwork you purchased...
+                    </option>
+                    <option value="Portrait of Elegance">
+                      Portrait of Elegance - £15,000
+                    </option>
+                    <option value="The Scholar's Gaze">
+                      The Scholar's Gaze - £22,000
+                    </option>
+                    <option value="Aristocratic Heritage">
+                      Aristocratic Heritage - £35,000
+                    </option>
+                    <option value="Young Virtuoso">
+                      Young Virtuoso - £18,000
+                    </option>
+                    <option value="The Philanthropist">
+                      The Philanthropist - £28,000
+                    </option>
+                    <option value="Evening Reflection">
+                      Evening Reflection - £32,000
+                    </option>
+                    <option value="Custom Commission">Custom Commission</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-star"></i>
+                Your Rating
+              </div>
+
+              <div class="rating-section">
+                <h4>Overall Experience</h4>
+                <div class="star-rating-container">
+                  <div class="star-rating" data-type="overall">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                  </div>
+                </div>
+                <p class="rating-description">
+                  Click the stars to rate your overall experience with Lady
+                  Catherine's artwork and service.
+                </p>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-comment-dots"></i>
+                Your Review
+              </div>
+
+              <div class="review-text-section">
+                <textarea
+                  id="quickReview"
+                  class="quick-review-input"
+                  maxlength="500"
+                  placeholder="Share your experience with Lady Catherine's artwork, the quality, your satisfaction, and any other thoughts..."
+                ></textarea>
+                <div class="character-counter" id="characterCounter">0/500</div>
+              </div>
+            </div>
+
+            <div class="submit-section">
+              <button class="submit-quick-review" id="submitQuickReview">
+                <i class="fas fa-paper-plane"></i>
+                Submit Review
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2>Yadawity</h2>
+          <p>
+            Discover exceptional talent from our curated fellowship of artists
+            and distinguished craftspeople. Every piece tells a unique story.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                />
+              </svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="#">Featured Artists</a></li>
+            <li><a href="#">Art Categories</a></li>
+            <li><a href="#">Handcrafts</a></li>
+            <li><a href="#">Custom Commissions</a></li>
+            <li><a href="#">Art Courses</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns & Exchanges</a></li>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Care Instructions</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                  />
+                </svg>
+              </span>
+              <span>+20 1099359953</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+              </span>
+              <span>yadawity@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Made with 🤎 by Yadawity Team © All rights reserved.</p>
+        <div class="footer-links">
+          <a href="./about.html">About Us</a>
+          <a href="./privacyPolicy.html">Privacy Policy</a>
+          <a href="./termsOfService.html">Terms of Service</a>
+          <a href="./cookiePolicy.html">Cookie Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

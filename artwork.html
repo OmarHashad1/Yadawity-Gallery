@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artwork Collection | Yadawity Gallery</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
+    <link rel="stylesheet" href="./public/homePage.css" />
+    
+    <style>
+      /* Artwork Page Specific Styles */
+      .artwork-hero {
+        background: linear-gradient(135deg, var(--beige-light) 0%, var(--beige-medium) 100%);
+        padding: 120px 0 60px;
+        text-align: center;
+      }
+
+      .artwork-hero h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 4rem;
+        color: var(--brown-medium);
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .artwork-hero p {
+        font-size: 1.3rem;
+        color: var(--brown-medium);
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+      }
+
+      /* Filter Section */
+      .search-section {
+        background: var(--white-pure);
+        padding: 40px 0;
+        border-bottom: 1px solid var(--beige-light);
+        position: sticky;
+        top: 80px;
+        z-index: 100;
+      }
+
+      .search-hero {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .search-hero h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        color: var(--brown-medium);
+        margin: 0;
+      }
+
+      .search-hero p {
+        font-size: 1.1rem;
+        color: var(--gray-dark);
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .main-search {
+        max-width: 800px;
+        margin: 0 auto 40px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .search-wrapper {
+        flex: 1;
+        position: relative;
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-medium);
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 12px 40px 12px 50px;
+        border: 2px solid var(--beige-medium);
+        border-radius: 6px;
+        background: white;
+        color: var(--brown-medium);
+        font-family: inherit;
+        transition: border-color 0.3s ease;
+      }
+
+      .search-input:focus {
+        border-color: var(--brown-medium);
+        outline: none;
+      }
+
+      .search-btn {
+        background: var(--brown-medium);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .search-btn:hover {
+        background: var(--brown-dark);
+      }
+
+      /* Enhanced Filters Container */
+      .filters-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .filters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .filter-label {
+        font-weight: 500;
+        color: var(--brown-medium);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .filter-select {
+        padding: 10px 15px;
+        border: 2px solid var(--beige-medium);
+        border-radius: 6px;
+        background: white;
+        color: var(--brown-medium);
+        font-family: inherit;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+      }
+
+      .filter-select:focus {
+        border-color: var(--brown-medium);
+        outline: none;
+      }
+
+      .price-range-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .price-input-wrapper {
+        position: relative;
+        flex: 1;
+      }
+
+      .filter-input {
+        width: 100%;
+        padding: 10px 15px;
+        border: 2px solid var(--beige-medium);
+        border-radius: 6px;
+        background: white;
+        color: var(--brown-medium);
+        font-family: inherit;
+        text-align: right;
+      }
+
+      .price-arrows {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .arrow-up,
+      .arrow-down {
+        font-size: 0.8rem;
+        color: var(--brown-medium);
+        cursor: pointer;
+      }
+
+      .arrow-up:hover,
+      .arrow-down:hover {
+        color: var(--brown-dark);
+      }
+
+      /* Active Filters Display */
+      .active-filters {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .active-filter {
+        background: var(--beige-light);
+        color: var(--brown-medium);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .remove-filter {
+        cursor: pointer;
+        color: var(--brown-medium);
+        font-weight: 600;
+      }
+
+      /* Search Results */
+      .search-results {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      /* Enhanced Artwork Cards - Match Homepage Design */
+      .artwork-gallery {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      .gallery-stats {
+        text-align: center;
+        margin-bottom: 40px;
+        color: var(--brown-medium);
+        font-size: 1.1rem;
+      }
+
+      .artworks-grid {
+        columns: 2;
+        column-gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      /* Enhanced Artwork Cards - Sophisticated Design from Homepage */
+      .enhanced-artwork-card {
+        background: var(--white-pure);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+        break-inside: avoid;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        position: relative;
+        width: 100%;
+      }
+
+      .enhanced-artwork-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      }
+
+      .artwork-image-container {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .enhanced-artwork-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .enhanced-artwork-card:hover .enhanced-artwork-image {
+        transform: scale(1.08);
+      }
+
+      /* Artwork Badges */
+      .artwork-badges {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .artwork-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: fadeInDown 0.6s ease-out;
+      }
+
+      .badge-featured {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: #2c1810;
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+      }
+
+      .badge-new {
+        background: linear-gradient(135deg, #FF6B6B 0%, #FF4757 100%);
+        color: white;
+        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+      }
+
+      .badge-limited {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+      }
+
+      /* Artwork Overlay */
+      .artwork-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 115, 85, 0.85) 0%,
+          rgba(75, 60, 42, 0.9) 100%
+        );
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(2px);
+      }
+
+      .enhanced-artwork-card:hover .artwork-overlay {
+        opacity: 1;
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: 15px;
+        transform: translateY(20px);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+      }
+
+      .enhanced-artwork-card:hover .quick-actions {
+        transform: translateY(0);
+      }
+
+      .quick-action-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.95);
+        border: none;
+        color: var(--brown-medium);
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .quick-action-btn:hover {
+        transform: translateY(-3px) scale(1.1);
+        background: white;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Enhanced Artwork Info */
+      .enhanced-artwork-info {
+        padding: 25px;
+      }
+
+      .artwork-category {
+        color: var(--brown-light);
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        opacity: 0.8;
+      }
+
+      .enhanced-artwork-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--brown-medium);
+        margin-bottom: 8px;
+        line-height: 1.3;
+        font-family: "Playfair Display", serif;
+      }
+
+      .enhanced-artwork-artist {
+        font-size: 14px;
+        color: var(--gray-medium);
+        font-style: italic;
+        margin-bottom: 12px;
+      }
+
+      .enhanced-artwork-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent-gold);
+        margin-bottom: 8px;
+        font-family: "Playfair Display", serif;
+      }
+
+      .artwork-dimensions {
+        font-size: 12px;
+        color: var(--gray-light);
+        margin-bottom: 15px;
+        font-weight: 500;
+      }
+
+      .enhanced-artwork-description {
+        font-size: 14px;
+        color: var(--gray-medium);
+        line-height: 1.6;
+        margin-bottom: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Artwork Actions */
+      .artwork-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .enhanced-add-to-cart {
+        flex: 1;
+        background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .enhanced-add-to-cart::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .enhanced-add-to-cart:hover::before {
+        left: 100%;
+      }
+
+      .enhanced-add-to-cart:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 115, 85, 0.4);
+      }
+
+      .wishlist-btn {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid var(--brown-medium);
+        color: var(--brown-medium);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      .wishlist-btn:hover,
+      .wishlist-btn.active {
+        background: var(--brown-medium);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      /* Load More Button */
+      .load-more-section {
+        text-align: center;
+        padding: 50px 0;
+      }
+
+      .load-more-btn {
+        background: white;
+        color: var(--brown-medium);
+        border: 2px solid var(--brown-medium);
+        padding: 15px 40px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .load-more-btn:hover {
+        background: var(--brown-medium);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(139, 115, 85, 0.3);
+      }
+
+      /* Clear Filters Button */
+      .clear-filters-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .clear-filters-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .clear-filters-btn:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+      }
+
+      .price-separator {
+        color: var(--gray-medium);
+        font-weight: 500;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .artwork-hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .artworks-grid {
+          columns: 1;
+          column-gap: 0;
+        }
+
+        .enhanced-artwork-card {
+          margin-bottom: 30px;
+          min-width: auto;
+          max-width: 100%;
+        }
+
+        .artwork-image-container {
+          min-height: 250px;
+        }
+
+        .enhanced-artwork-info {
+          padding: 20px;
+        }
+
+        .enhanced-artwork-title {
+          font-size: 18px;
+        }
+
+        .enhanced-artwork-price {
+          font-size: 16px;
+        }
+
+        .artwork-overlay {
+          padding: 20px;
+        }
+
+        .quick-action-btn {
+          width: 45px;
+          height: 45px;
+          font-size: 16px;
+        }
+
+        .wishlist-btn {
+          width: 45px;
+          height: 45px;
+          font-size: 14px;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .artworks-grid {
+          columns: 2;
+          column-gap: 35px;
+        }
+      }
+
+      @media (min-width: 1025px) and (max-width: 1400px) {
+        .artworks-grid {
+          columns: 2;
+          column-gap: 40px;
+        }
+      }
+
+      @media (min-width: 1401px) {
+        .artworks-grid {
+          columns: 3;
+          column-gap: 45px;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbarYadawity" id="yadawityNavbar">
+      <div class="navContainer">
+        <div class="navLogo">
+          <a href="index.html" class="navLogoLink">
+            <div class="logoIcon">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z"
+                  fill="currentColor"
+                  opacity="0.8"
+                />
+                <path
+                  d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z"
+                  fill="currentColor"
+                  opacity="0.8"
+                />
+                <line
+                  x1="50"
+                  y1="20"
+                  x2="50"
+                  y2="80"
+                  stroke="currentColor"
+                  stroke-width="3"
+                />
+                <path
+                  d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <div class="logoText">
+              <span class="logoName">Yadawity</span>
+              <span class="logoEst">EST. 2025</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="navMenu" id="navMenu">
+          <a href="index.html" class="navLink" data-page="home">HOME</a>
+          <a href="gallery.html" class="navLink" data-page="gallery">GALLERY</a>
+          <a href="courses.html" class="navLink" data-page="courses">COURSES</a>
+          <a href="artwork.html" class="navLink active" data-page="artwork">ARTWORKS</a>
+          <a href="auction.html" class="navLink" data-page="auction">AUCTION HOUSE</a>
+          <a href="therapy.html" class="navLink therapyNav" data-page="therapy">THERAPY</a>
+
+          <div class="navActions">
+            <div class="searchContainer">
+              <input
+                type="text"
+                placeholder="Search artworks, artists..."
+                class="searchInput"
+                id="navbarSearch"
+              />
+              <button class="searchBtn" id="searchButton">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+
+            <a href="wishlist.html" class="navIconLink" title="Wishlist" id="wishlistLink">
+              <i class="fas fa-heart"></i>
+              <span class="wishlistCount" id="wishlistCount" style="display: none">0</span>
+            </a>
+
+            <a href="cart.html" class="navIconLink cartLink" title="Cart" id="cartLink">
+              <i class="fas fa-shopping-bag"></i>
+              <span class="cartCount" id="cartCount">0</span>
+            </a>
+
+            <div class="userDropdown">
+              <a href="#" class="navIconLink" title="Account" id="userAccount">
+                <i class="fas fa-user"></i>
+              </a>
+              <div class="userDropdownMenu" id="userMenu">
+                <a href="settings.html" class="dropdownItem">
+                  <i class="fas fa-cog"></i>
+                  <span>Settings</span>
+                </a>
+                <div class="dropdownDivider"></div>
+                <a href="./login.html" class="dropdownItem" id="loginLogout" rel="noopener">
+                  <i class="fas fa-sign-in-alt"></i>
+                  <span>Login</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="navToggle" id="navToggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Burger Menu Component -->
+    <div class="burgerMenuOverlay" id="burgerMenuOverlay">
+      <div class="burgerMenuContainer">
+        <div class="burgerMenuHeader">
+          <a href="index.html" class="burgerMenuLogo">Yadawity</a>
+          <button class="burgerMenuClose" id="burgerMenuClose">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="burgerNavLinks">
+          <a href="index.html" class="burgerNavLink" data-page="home">
+            <span>Home</span>
+          </a>
+          <a href="gallery.html" class="burgerNavLink" data-page="gallery">
+            <span>Gallery</span>
+          </a>
+          <a href="artwork.html" class="burgerNavLink active" data-page="artworks">
+            <span>Artworks</span>
+          </a>
+          <a href="courses.html" class="burgerNavLink therapyNav" data-page="courses">
+            <span>Art Therapy</span>
+          </a>
+          <a href="about.html" class="burgerNavLink" data-page="about">
+            <span>About</span>
+          </a>
+          <a href="contact.html" class="burgerNavLink" data-page="contact">
+            <span>Contact</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="artwork-hero">
+      <h1>Artwork Collection</h1>
+      <p>
+        Discover masterful creations from our distinguished artists. Each piece
+        tells a unique story of tradition, passion, and artistic excellence.
+      </p>
+    </section>
+
+    <!-- Artwork Gallery -->
+    <section class="artwork-gallery">
+      <div class="gallery-stats">
+        <p>Showing <span id="artworkCount">24</span> of <span id="totalArtworks">156</span> artworks</p>
+      </div>
+
+      <div class="artworks-grid" id="artworksGrid">
+        <!-- Enhanced Artwork Cards will be generated here -->
+      </div>
+
+      <div class="load-more-section">
+        <button class="load-more-btn" id="loadMoreBtn">Load More Artworks</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h2>Yadawity</h2>
+          <p>
+            Discover exceptional talent from our curated fellowship of artists
+            and distinguished craftspeople. Every piece tells a unique story.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                />
+              </svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="#">Featured Artists</a></li>
+            <li><a href="#">Art Categories</a></li>
+            <li><a href="#">Handcrafts</a></li>
+            <li><a href="#">Custom Commissions</a></li>
+            <li><a href="#">Art Courses</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns & Exchanges</a></li>
+            <li><a href="#">Size Guide</a></li>
+            <li><a href="#">Care Instructions</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                  />
+                </svg>
+              </span>
+              <span>+20 1099359953</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+              </span>
+              <span>yadawity@gmail.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Made with 🤎 by Yadawity Team © All rights reserved.</p>
+        <div class="footer-links">
+          <a href="./about.html">About Us</a>
+          <a href="./privacyPolicy.html">Privacy Policy</a>
+          <a href="./termsOfService.html">Terms of Service</a>
+          <a href="./cookiePolicy.html">Cookie Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./app.js"></script>
+    
+    <script>
+      // Artwork Gallery Data and Functionality
+      const artworks = [
+        {
+          id: 1,
+          title: "The Noble Portrait",
+          artist: "Lady Catherine Pemberton",
+          category: "portraits",
+          price: 45000,
+          image: "https://picsum.photos/600/500?random=1",
+          dimensions: "24\" × 36\"",
+          description: "A masterful oil painting capturing the essence of aristocratic grace and dignity through classical techniques.",
+          badges: ["featured", "new"],
+          height: 500
+        },
+        {
+          id: 2,
+          title: "Urban Reflection",
+          artist: "Hassan Mohamed",
+          category: "abstract",
+          price: 28000,
+          image: "https://picsum.photos/600/320?random=2",
+          dimensions: "18\" × 24\"",
+          description: "Contemporary abstract piece exploring urban life through bold colors and dynamic compositions.",
+          badges: ["limited"],
+          height: 320
+        },
+        {
+          id: 3,
+          title: "Serene Landscape",
+          artist: "Amira Hassan",
+          category: "landscapes",
+          price: 32000,
+          image: "https://picsum.photos/600/400?random=3",
+          dimensions: "30\" × 40\"",
+          description: "A breathtaking landscape that captures the tranquil beauty of nature with exceptional detail.",
+          badges: ["featured"],
+          height: 400
+        },
+        {
+          id: 4,
+          title: "Motion Study",
+          artist: "Ahmed Mostafa",
+          category: "abstract",
+          price: 15000,
+          image: "https://picsum.photos/600/280?random=4",
+          dimensions: "16\" × 20\"",
+          description: "Dynamic abstract composition exploring movement and energy through gestural brushwork.",
+          badges: ["new"],
+          height: 280
+        },
+        {
+          id: 5,
+          title: "The Scholar",
+          artist: "Omar Farouk",
+          category: "portraits",
+          price: 38000,
+          image: "https://picsum.photos/600/450?random=5",
+          dimensions: "20\" × 30\"",
+          description: "Intimate portrait showcasing intellectual depth and contemplative nature through masterful technique.",
+          badges: ["featured"],
+          height: 450
+        },
+        {
+          id: 6,
+          title: "Bronze Elegance",
+          artist: "Mariam Salah",
+          category: "sculptures",
+          price: 55000,
+          image: "https://picsum.photos/600/600?random=6",
+          dimensions: "12\" × 8\" × 20\"",
+          description: "Exquisite bronze sculpture demonstrating classical form and contemporary sensibility.",
+          badges: ["limited", "featured"],
+          height: 600
+        },
+        {
+          id: 7,
+          title: "Digital Dreams",
+          artist: "Yasmin Ali",
+          category: "mixed-media",
+          price: 22000,
+          image: "https://picsum.photos/600/350?random=7",
+          dimensions: "24\" × 32\"",
+          description: "Innovative mixed-media work combining traditional painting with digital elements.",
+          badges: ["new"],
+          height: 350
+        },
+        {
+          id: 8,
+          title: "Captured Moment",
+          artist: "Karim Hassan",
+          category: "photography",
+          price: 8000,
+          image: "https://picsum.photos/600/300?random=8",
+          dimensions: "16\" × 24\"",
+          description: "Fine art photography capturing a fleeting moment of human emotion and natural beauty.",
+          badges: [],
+          height: 300
+        },
+        {
+          id: 9,
+          title: "Mountain Majesty",
+          artist: "Nadia Mahmoud",
+          category: "landscapes",
+          price: 42000,
+          image: "https://picsum.photos/600/380?random=9",
+          dimensions: "36\" × 48\"",
+          description: "Spectacular landscape painting showcasing the raw power and beauty of mountain wilderness.",
+          badges: ["featured"],
+          height: 380
+        },
+        {
+          id: 10,
+          title: "Abstract Symphony",
+          artist: "Mahmoud Saeed",
+          category: "abstract",
+          price: 35000,
+          image: "https://picsum.photos/600/420?random=10",
+          dimensions: "28\" × 36\"",
+          description: "Vibrant abstract composition that explores color relationships and musical rhythms in visual form.",
+          badges: ["limited"],
+          height: 420
+        },
+        {
+          id: 11,
+          title: "The Artisan",
+          artist: "Fatima Ahmed",
+          category: "portraits",
+          price: 29000,
+          image: "https://picsum.photos/600/480?random=11",
+          dimensions: "18\" × 28\"",
+          description: "Portrait celebrating the dignity of craft and the wisdom found in skilled hands.",
+          badges: ["new"],
+          height: 480
+        },
+        {
+          id: 12,
+          title: "Mixed Emotions",
+          artist: "Ali Rashad",
+          category: "mixed-media",
+          price: 33000,
+          image: "https://picsum.photos/600/360?random=12",
+          dimensions: "22\" × 30\"",
+          description: "Complex mixed-media work exploring human psychology through layered materials and techniques.",
+          badges: ["featured"],
+          height: 360
+        }
+      ];
+
+      let currentArtworks = [...artworks];
+      let displayedCount = 8;
+      let activeCategory = 'all';
+      let activeSortBy = 'featured';
+
+      // Initialize the gallery
+      function initGallery() {
+        renderArtworks();
+        setupFilters();
+        setupSorting();
+        setupPriceFilter();
+        setupLoadMore();
+        setupInteractions();
+        updateStats();
+      }
+
+      // Render artworks in the gallery
+      function renderArtworks() {
+        const grid = document.getElementById('artworksGrid');
+        grid.innerHTML = '';
+        
+        const artworksToShow = currentArtworks.slice(0, displayedCount);
+        
+        artworksToShow.forEach((artwork, index) => {
+          const card = createArtworkCard(artwork, index);
+          grid.appendChild(card);
+        });
+
+        // Setup card interactions
+        setupCardInteractions();
+      }
+
+      // Create enhanced artwork card
+      function createArtworkCard(artwork, index) {
+        const card = document.createElement('div');
+        card.className = 'enhanced-artwork-card';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.dataset.category = artwork.category;
+        card.dataset.price = artwork.price;
+
+        const badgesHtml = artwork.badges.map(badge => 
+          `<span class="artwork-badge badge-${badge}">${badge}</span>`
+        ).join('');
+
+        card.innerHTML = `
+          <div class="artwork-image-container">
+            <img class="enhanced-artwork-image" 
+                 src="${artwork.image}" 
+                 alt="${artwork.title}" 
+                 style="height: ${artwork.height}px; object-fit: cover;">
+            
+            <div class="artwork-badges">
+              ${badgesHtml}
+            </div>
+
+            <div class="artwork-overlay">
+              <div class="quick-actions">
+                <button class="quick-action-btn" title="Quick View" data-action="view" data-id="${artwork.id}">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="quick-action-btn" title="Add to Wishlist" data-action="wishlist" data-id="${artwork.id}">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button class="quick-action-btn" title="Share" data-action="share" data-id="${artwork.id}">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="enhanced-artwork-info">
+            <div class="artwork-category">${artwork.category.replace('-', ' ')}</div>
+            <h3 class="enhanced-artwork-title">${artwork.title}</h3>
+            <p class="enhanced-artwork-artist">by ${artwork.artist}</p>
+            <p class="enhanced-artwork-price">$${artwork.price.toLocaleString()}</p>
+            <p class="artwork-dimensions">${artwork.dimensions}</p>
+            <p class="enhanced-artwork-description">${artwork.description}</p>
+            
+            <div class="artwork-actions">
+              <button class="enhanced-add-to-cart" data-id="${artwork.id}">
+                Add to Cart
+              </button>
+              <button class="wishlist-btn" data-id="${artwork.id}" title="Add to Wishlist">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        return card;
+      }
+
+      // Setup filter functionality
+      function setupFilters() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (btn.dataset.category) {
+              // Remove active class from all buttons
+              filterButtons.forEach(b => b.classList.remove('active'));
+              // Add active class to clicked button
+              btn.classList.add('active');
+              
+              activeCategory = btn.dataset.category;
+              applyFilters();
+            }
+          });
+        });
+      }
+
+      // Setup sorting functionality
+      function setupSorting() {
+        const sortSelect = document.getElementById('sortBy');
+        
+        sortSelect.addEventListener('change', () => {
+          activeSortBy = sortSelect.value;
+          applySorting();
+        });
+      }
+
+      // Setup price filtering
+      function setupPriceFilter() {
+        const applyBtn = document.getElementById('applyPriceFilter');
+        
+        applyBtn.addEventListener('click', () => {
+          applyFilters();
+        });
+      }
+
+      // Apply filters and sorting
+      function applyFilters() {
+        let filtered = [...artworks];
+        
+        // Apply category filter
+        if (activeCategory !== 'all') {
+          filtered = filtered.filter(artwork => artwork.category === activeCategory);
+        }
+        
+        // Apply price filter
+        const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+        const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+        
+        filtered = filtered.filter(artwork => 
+          artwork.price >= minPrice && artwork.price <= maxPrice
+        );
+        
+        currentArtworks = filtered;
+        applySorting();
+      }
+
+      // Apply sorting
+      function applySorting() {
+        switch(activeSortBy) {
+          case 'price-low':
+            currentArtworks.sort((a, b) => a.price - b.price);
+            break;
+          case 'price-high':
+            currentArtworks.sort((a, b) => b.price - a.price);
+            break;
+          case 'newest':
+            currentArtworks.sort((a, b) => b.id - a.id);
+            break;
+          case 'artist':
+            currentArtworks.sort((a, b) => a.artist.localeCompare(b.artist));
+            break;
+          case 'featured':
+          default:
+            currentArtworks.sort((a, b) => {
+              const aFeatured = a.badges.includes('featured') ? 1 : 0;
+              const bFeatured = b.badges.includes('featured') ? 1 : 0;
+              return bFeatured - aFeatured;
+            });
+            break;
+        }
+        
+        displayedCount = Math.min(8, currentArtworks.length);
+        renderArtworks();
+        updateStats();
+        updateLoadMoreButton();
+      }
+
+      // Setup load more functionality
+      function setupLoadMore() {
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        
+        loadMoreBtn.addEventListener('click', () => {
+          displayedCount = Math.min(displayedCount + 8, currentArtworks.length);
+          renderArtworks();
+          updateLoadMoreButton();
+          updateStats();
+        });
+      }
+
+      // Update load more button visibility
+      function updateLoadMoreButton() {
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        
+        if (displayedCount >= currentArtworks.length) {
+          loadMoreBtn.style.display = 'none';
+        } else {
+          loadMoreBtn.style.display = 'block';
+        }
+      }
+
+      // Update gallery statistics
+      function updateStats() {
+        document.getElementById('artworkCount').textContent = Math.min(displayedCount, currentArtworks.length);
+        document.getElementById('totalArtworks').textContent = currentArtworks.length;
+      }
+
+      // Setup card interactions
+      function setupCardInteractions() {
+        // Add to cart buttons
+        document.querySelectorAll('.enhanced-add-to-cart').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const artworkId = this.dataset.id;
+            const artwork = artworks.find(a => a.id == artworkId);
+            
+            // Simple feedback animation
+            this.textContent = 'Added!';
+            this.style.background = '#28a745';
+            
+            setTimeout(() => {
+              this.textContent = 'Add to Cart';
+              this.style.background = '';
+            }, 2000);
+            
+            console.log(`Added "${artwork.title}" to cart`);
+          });
+        });
+
+        // Wishlist buttons
+        document.querySelectorAll('.wishlist-btn, .quick-action-btn[data-action="wishlist"]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const artworkId = this.dataset.id;
+            const artwork = artworks.find(a => a.id == artworkId);
+            
+            this.style.color = '#e74c3c';
+            console.log(`Added "${artwork.title}" to wishlist`);
+          });
+        });
+
+        // Quick action buttons
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const action = this.dataset.action;
+            const artworkId = this.dataset.id;
+            const artwork = artworks.find(a => a.id == artworkId);
+            
+            switch(action) {
+              case 'view':
+                console.log(`Quick view for "${artwork.title}"`);
+                break;
+              case 'share':
+                console.log(`Share "${artwork.title}"`);
+                break;
+            }
+          });
+        });
+      }
+
+      // Setup general interactions
+      function setupInteractions() {
+        // Search functionality
+        const searchInput = document.getElementById('navbarSearch');
+        if (searchInput) {
+          searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm) {
+              currentArtworks = artworks.filter(artwork =>
+                artwork.title.toLowerCase().includes(searchTerm) ||
+                artwork.artist.toLowerCase().includes(searchTerm) ||
+                artwork.category.toLowerCase().includes(searchTerm)
+              );
+            } else {
+              currentArtworks = [...artworks];
+            }
+            displayedCount = Math.min(8, currentArtworks.length);
+            renderArtworks();
+            updateStats();
+            updateLoadMoreButton();
+          });
+        }
+      }
+
+      // Initialize everything when DOM is loaded
+      document.addEventListener('DOMContentLoaded', initGallery);
+    </script>
+  </body>
+</html>

@@ -1088,3 +1088,409 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Smooth Scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+// Star Rating Script
+document.querySelectorAll('.star-rating').forEach(ratingContainer => {
+    const stars = ratingContainer.querySelectorAll('.star');
+    
+    stars.forEach((star, index) => {
+      star.addEventListener('click', function() {
+        const value = this.getAttribute('data-value');
+        
+        // Remove active class from all stars in this rating group
+        stars.forEach(s => s.classList.remove('active'));
+        
+        // Add active class to clicked star and all previous stars
+        for (let i = 0; i < value; i++) {
+          stars[i].classList.add('active');
+        }
+      });
+
+      // Hover effects
+      star.addEventListener('mouseenter', function() {
+        const value = this.getAttribute('data-value');
+        for (let i = 0; i < value; i++) {
+          stars[i].style.color = 'var(--gold-star)';
+        }
+      });
+
+      star.addEventListener('mouseleave', function() {
+        stars.forEach(s => {
+          if (!s.classList.contains('active')) {
+            s.style.color = 'var(--cream)';
+          }
+        });
+      });
+    });
+  });
+
+// Character Counter for Review Textarea
+const reviewTextarea = document.getElementById('quickReview');
+const characterCounter = document.getElementById('characterCounter');
+
+reviewTextarea.addEventListener('input', function() {
+    const currentLength = this.value.length;
+    const maxLength = this.getAttribute('maxlength');
+    characterCounter.textContent = `${currentLength}/${maxLength}`;
+    
+    // Change color when approaching limit
+    if (currentLength > maxLength * 0.8) {
+      characterCounter.style.color = 'var(--red-accent)';
+    } else {
+      characterCounter.style.color = 'var(--text-light)';
+    }
+  });
+
+// Submit Review Script
+document.getElementById('submitReview').addEventListener('click', function () {
+    const name = document.getElementById('clientName').value;
+    const email = document.getElementById('clientEmail').value;
+    const review = document.getElementById('reviewText').value;
+    const artwork = document.getElementById('artworkTitle').value;
+    const rating = document.getElementById('starRating').value;
+
+    if (name && email && review && artwork) {
+      // Here you can add the code to submit the review to the server
+      console.log('Review Submitted:', { name, email, review, artwork, rating });
+
+      // Reset the form
+      document.querySelector('.feedback-form').reset();
+      document.querySelectorAll('.star-rating .star').forEach(s => s.classList.remove('active'));
+    } else {
+      alert('Please fill in all fields and select a rating.');
+    }
+  });
+
+// Submit Quick Review Script
+document.getElementById('submitQuickReview').addEventListener('click', function () {
+    const artworkPurchased = document.getElementById('purchasedArtwork').value;
+    const reviewText = document.getElementById('quickReview').value;
+    
+    // Get overall rating
+    const overallStars = document.querySelectorAll('div[data-type="overall"] .star.active');
+    const overallRating = overallStars.length;
+    
+    if (overallRating > 0 && reviewText.trim() && artworkPurchased) {
+      const reviewData = {
+        artworkPurchased: artworkPurchased,
+        overallRating: overallRating,
+        reviewText: reviewText,
+        timestamp: new Date().toISOString()
+      };
+
+      console.log('Review Submitted:', reviewData);
+      alert('Thank you for your review! Your feedback has been submitted.');
+
+      // Reset the form
+      document.getElementById('quickReview').value = '';
+      document.getElementById('purchasedArtwork').selectedIndex = 0;
+      document.querySelectorAll('.star-rating .star').forEach(s => {
+        s.classList.remove('active');
+        s.style.color = '#e0e0e0';
+      });
+      
+      // Reset character counter
+      characterCounter.textContent = '0/500';
+      characterCounter.style.color = 'var(--text-light)';
+    } else {
+      alert('Please select an artwork, choose a rating, and write your review.');
+    }
+  });
+
+// Enhanced Artwork Cards Functionality
+document.querySelectorAll('.enhanced-add-to-cart').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const card = this.closest('.enhanced-artwork-card');
+        const artworkId = this.getAttribute('data-id');
+        const title = card.querySelector('.enhanced-artwork-title').textContent;
+        const price = card.querySelector('.enhanced-artwork-price').textContent;
+        
+        // Add to cart animation
+        this.textContent = 'Added!';
+        this.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+        this.style.transform = 'scale(0.95)';
+        
+        // Reset button after animation
+        setTimeout(() => {
+            this.textContent = 'Add to Cart';
+            this.style.background = 'linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%)';
+            this.style.transform = 'scale(1)';
+        }, 2000);
+        
+        // Update cart count
+        updateCartCount();
+        
+        console.log(`Added "${title}" (${price}) to cart`);
+    });
+});
+
+// Enhanced Wishlist Functionality
+document.querySelectorAll('.wishlist-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const artworkId = this.getAttribute('data-id');
+        const card = this.closest('.enhanced-artwork-card');
+        const title = card.querySelector('.enhanced-artwork-title').textContent;
+        
+        // Toggle wishlist state
+        this.classList.toggle('active');
+        
+        if (this.classList.contains('active')) {
+            this.innerHTML = '<i class="fas fa-heart"></i>';
+            this.style.animation = 'heartBeat 0.6s ease-in-out';
+            console.log(`Added "${title}" to wishlist`);
+        } else {
+            this.innerHTML = '<i class="far fa-heart"></i>';
+            console.log(`Removed "${title}" from wishlist`);
+        }
+        
+        // Reset animation
+        setTimeout(() => {
+            this.style.animation = '';
+        }, 600);
+        
+        updateWishlistCount();
+    });
+});
+
+// Quick Action Buttons Functionality
+document.querySelectorAll('.quick-action-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const action = this.getAttribute('data-action');
+        const artworkId = this.getAttribute('data-id');
+        const card = this.closest('.enhanced-artwork-card');
+        const title = card.querySelector('.enhanced-artwork-title').textContent;
+        
+        // Add click animation
+        this.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            this.style.transform = '';
+        }, 150);
+        
+        switch(action) {
+            case 'view':
+                openQuickView(artworkId, card);
+                break;
+            case 'wishlist':
+                toggleWishlistFromQuickAction(artworkId, card);
+                break;
+            case 'share':
+                shareArtwork(artworkId, title);
+                break;
+        }
+    });
+});
+
+// Enhanced Card Hover Effects
+document.querySelectorAll('.enhanced-artwork-card').forEach(card => {
+    let hoverTimeout;
+    
+    card.addEventListener('mouseenter', function() {
+        clearTimeout(hoverTimeout);
+        
+        // Smooth scale and lift animation
+        this.style.transform = 'translateY(-8px)';
+        this.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.15)';
+        
+        // Animate image
+        const image = this.querySelector('.enhanced-artwork-image');
+        if (image) {
+            image.style.transform = 'scale(1.08)';
+        }
+        
+        // Show overlay with delay
+        const overlay = this.querySelector('.artwork-overlay');
+        if (overlay) {
+            hoverTimeout = setTimeout(() => {
+                overlay.style.opacity = '1';
+            }, 100);
+        }
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        clearTimeout(hoverTimeout);
+        
+        // Reset transforms
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+        
+        // Reset image
+        const image = this.querySelector('.enhanced-artwork-image');
+        if (image) {
+            image.style.transform = 'scale(1)';
+        }
+        
+        // Hide overlay
+        const overlay = this.querySelector('.artwork-overlay');
+        if (overlay) {
+            overlay.style.opacity = '0';
+        }
+    });
+});
+
+// Utility Functions for Enhanced Cards
+function openQuickView(artworkId, card) {
+    const title = card.querySelector('.enhanced-artwork-title').textContent;
+    const artist = card.querySelector('.enhanced-artwork-artist').textContent;
+    const price = card.querySelector('.enhanced-artwork-price').textContent;
+    const image = card.querySelector('.enhanced-artwork-image').src;
+    const description = card.querySelector('.enhanced-artwork-description').textContent;
+    
+    // Create quick view modal (you can implement a proper modal here)
+    console.log('Opening quick view for:', { artworkId, title, artist, price, image, description });
+    
+    // For now, just scroll to the artwork details or open in new tab
+    // You can implement a proper modal overlay here
+    alert(`Quick View: ${title} by ${artist}\nPrice: ${price}\n\n${description}`);
+}
+
+function toggleWishlistFromQuickAction(artworkId, card) {
+    const wishlistBtn = card.querySelector('.wishlist-btn');
+    if (wishlistBtn) {
+        wishlistBtn.click(); // Trigger the existing wishlist functionality
+    }
+}
+
+function shareArtwork(artworkId, title) {
+    if (navigator.share) {
+        navigator.share({
+            title: `${title} - Yadawity Gallery`,
+            text: `Check out this amazing artwork: ${title}`,
+            url: window.location.href
+        }).catch(console.error);
+    } else {
+        // Fallback: copy to clipboard
+        const url = window.location.href + `#artwork-${artworkId}`;
+        navigator.clipboard.writeText(url).then(() => {
+            // Show temporary notification
+            showNotification('Link copied to clipboard!');
+        }).catch(() => {
+            // Fallback for older browsers
+            prompt('Copy this link:', url);
+        });
+    }
+}
+
+function updateCartCount() {
+    const cartCount = document.getElementById('cartCount');
+    const burgerCartCount = document.getElementById('burgerCartCount');
+    
+    if (cartCount) {
+        let currentCount = parseInt(cartCount.textContent) || 0;
+        cartCount.textContent = currentCount + 1;
+        
+        // Add bounce animation
+        cartCount.style.animation = 'bounce 0.6s ease-in-out';
+        setTimeout(() => {
+            cartCount.style.animation = '';
+        }, 600);
+    }
+    
+    if (burgerCartCount) {
+        let currentCount = parseInt(burgerCartCount.textContent) || 0;
+        burgerCartCount.textContent = currentCount + 1;
+    }
+}
+
+function updateWishlistCount() {
+    const wishlistCount = document.getElementById('wishlistCount');
+    const burgerWishlistCount = document.getElementById('burgerWishlistCount');
+    
+    if (wishlistCount) {
+        let currentCount = parseInt(wishlistCount.textContent) || 0;
+        const activeWishlists = document.querySelectorAll('.wishlist-btn.active').length;
+        
+        wishlistCount.textContent = activeWishlists;
+        wishlistCount.style.display = activeWishlists > 0 ? 'flex' : 'none';
+        
+        if (activeWishlists > currentCount) {
+            wishlistCount.style.animation = 'heartBeat 0.6s ease-in-out';
+            setTimeout(() => {
+                wishlistCount.style.animation = '';
+            }, 600);
+        }
+    }
+    
+    if (burgerWishlistCount) {
+        const activeWishlists = document.querySelectorAll('.wishlist-btn.active').length;
+        burgerWishlistCount.textContent = activeWishlists;
+    }
+}
+
+function showNotification(message, duration = 3000) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--brown-medium);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after duration
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, duration);
+}
+
+// Add CSS animations for enhanced cards
+const enhancedCardStyles = document.createElement('style');
+enhancedCardStyles.textContent = `
+    @keyframes heartBeat {
+        0% { transform: scale(1); }
+        25% { transform: scale(1.2); }
+        50% { transform: scale(1); }
+        75% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 60%, 100% { transform: scale(1); }
+        40% { transform: scale(1.2); }
+        80% { transform: scale(1.1); }
+    }
+`;
+document.head.appendChild(enhancedCardStyles);
