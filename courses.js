@@ -1,4 +1,4 @@
- // Course data
+// Course data
         const courses = [
             {
                 id: 1,
@@ -187,18 +187,34 @@
 
         // Create course card HTML - Matching Gallery Style
         function createCourseCard(course) {
+            // Generate stars based on rating
+            const fullStars = Math.floor(course.rating);
+            const hasHalfStar = course.rating % 1 >= 0.5;
+            let starsHTML = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<span class="star">★</span>';
+            }
+            
+            if (hasHalfStar) {
+                starsHTML += '<span class="star">☆</span>';
+            }
+            
+            // Format the difficulty text with proper capitalization
+            const difficultyText = course.difficulty.charAt(0).toUpperCase() + course.difficulty.slice(1);
+            
             return `
-                <div class="course-card" onclick="enrollCourse(${course.id})">
+                <div class="course-card" data-course-id="${course.id}" onclick="enrollCourse(${course.id})">
                     <div class="course-image">
                         <img src="${course.image}" alt="${course.title}" loading="lazy">
                         
                         <div class="course-rating">
-                            <span class="star">★</span>
-                            ${course.rating}
+                            <div class="stars-container">${starsHTML}</div>
+                            <span class="rating-text">${course.rating.toFixed(1)}</span>
                         </div>
                         
                         <div class="difficulty-badge difficulty-${course.difficulty}">
-                            ${course.difficulty}
+                            ${difficultyText}
                         </div>
                         
                         <div class="course-partner">
@@ -364,19 +380,19 @@
 
         // Update search results display
         function updateSearchResults() {
-            const searchResults = document.getElementById('searchResults');
+            const courseCount = document.getElementById('courseCount');
             const count = filteredCourses.length;
             const total = courses.length;
             
             if (Object.keys(activeFilters).length > 0) {
                 const plural = count !== 1 ? 's' : '';
-                searchResults.textContent = `Showing ${count} of ${total} course${plural}`;
+                courseCount.textContent = `Showing ${count} of ${total} course${plural}`;
             } else {
-                searchResults.textContent = `Showing all ${total} courses`;
+                courseCount.textContent = `Showing all ${total} courses`;
             }
         }
 
-        // Render courses
+        // Render courses with improved performance using Intersection Observer
         function renderCourses(coursesToRender = filteredCourses) {
             const coursesGrid = document.getElementById('coursesGrid');
             const noResults = document.getElementById('noResults');
@@ -387,16 +403,43 @@
             } else {
                 coursesGrid.innerHTML = coursesToRender.map(course => createCourseCard(course)).join('');
                 noResults.classList.remove('show');
+                
+                // Use Intersection Observer to animate cards progressively
+                initIntersectionObserver();
             }
         }
 
-        // Enroll in course
-        function enrollCourse(courseId) {
-            const course = courses.find(c => c.id === courseId);
-            if (course) {
-                alert(`🎨 Enrolling in "${course.title}" by ${course.instructor}\n\n💰 Price: $${course.price}\n⏰ Duration: ${course.duration}\n👥 ${course.students.toLocaleString()} students already enrolled\n\n✨ Redirecting to secure payment...`);
-            }
+        // Initialize Intersection Observer for progressive loading
+        function initIntersectionObserver() {
+            // Get all course cards that need to be animated
+            const courseCards = document.querySelectorAll('.course-card:not(.visible)');
+            
+            // Options for the observer
+            const options = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.15 // 15% of the item visible
+            };
+            
+            // Create new observer
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add the visible class to trigger animation
+                        entry.target.classList.add('visible');
+                        // Stop observing this element
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+            
+            // Start observing each card
+            courseCards.forEach((card, index) => {
+                observer.observe(card);
+            });
         }
+
+
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
@@ -413,6 +456,44 @@
             document.getElementById('minPrice').addEventListener('input', applyFilters);
             document.getElementById('maxPrice').addEventListener('input', applyFilters);
             document.getElementById('durationFilter').addEventListener('change', applyFilters);
+            
+            // Min price arrows functionality
+            const minArrowUp = document.querySelector('.min-arrow-up');
+            const minArrowDown = document.querySelector('.min-arrow-down');
+            const minPriceInput = document.getElementById('minPrice');
+            
+            minArrowUp.addEventListener('click', function() {
+                const currentValue = parseInt(minPriceInput.value) || 0;
+                minPriceInput.value = currentValue + 10;
+                applyFilters();
+            });
+            
+            minArrowDown.addEventListener('click', function() {
+                const currentValue = parseInt(minPriceInput.value) || 0;
+                if (currentValue >= 10) {
+                    minPriceInput.value = currentValue - 10;
+                    applyFilters();
+                }
+            });
+            
+            // Max price arrows functionality
+            const maxArrowUp = document.querySelector('.max-arrow-up');
+            const maxArrowDown = document.querySelector('.max-arrow-down');
+            const maxPriceInput = document.getElementById('maxPrice');
+            
+            maxArrowUp.addEventListener('click', function() {
+                const currentValue = parseInt(maxPriceInput.value) || 0;
+                maxPriceInput.value = currentValue + 10;
+                applyFilters();
+            });
+            
+            maxArrowDown.addEventListener('click', function() {
+                const currentValue = parseInt(maxPriceInput.value) || 0;
+                if (currentValue >= 10) {
+                    maxPriceInput.value = currentValue - 10;
+                    applyFilters();
+                }
+            });
             
             // Clear search on escape key
             document.getElementById('searchInput').addEventListener('keydown', function(e) {

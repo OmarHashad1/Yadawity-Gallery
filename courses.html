@@ -290,15 +290,28 @@
      <div class="container">
         <!-- Header -->
         <header class="page-header">
-            <br><br><br><h1 class="page-title" style="color: rgb(241, 159, 34);">YADAWITY - Courses</h1>
-          
+            <div class="course-header-container">
+                <!-- Decorative corner accents -->
+                <div class="header-accent accent-top-left"></div>
+                <div class="header-accent accent-top-right"></div>
+                <div class="header-accent accent-bottom-left"></div>
+                <div class="header-accent accent-bottom-right"></div>
+                
+                <h1 class="page-title">YADAWITY COURSES</h1>
+            </div>
+            
+            <div class="header-divider">
+                <div class="header-ornament">✦</div>
+            </div>
+            
+            <p class="header-subtitle">Elevate your creative journey with expert-led courses crafted by distinguished artists</p>
         </header>
 
         <!-- Search Section -->
         <div class="search-section">
             <!-- Hero Section -->
             <div class="search-hero">
-                <h2 >Find Your Perfect Course</h2>
+                <h2>Find Your Perfect Course</h2>
                 <p>Your artistic journey is our priority. Discover courses that match your passion and skill level.</p>
             </div>
 
@@ -319,10 +332,10 @@
             </div>
 
             <!-- Enhanced Filters Container -->
-            <div class="filters-container" style="text-align: center;">
+            <div class="filters-container">
                 <div class="filters-grid">
                     <div class="filter-group">
-                        <label class="filter-label">Category/Type</label>
+                        <label class="filter-label">CATEGORY/TYPE</label>
                         <select class="filter-select" id="categoryFilter">
                             <option value="">All Categories</option>
                             <option value="Digital Art">Digital Art</option>
@@ -340,7 +353,7 @@
                     </div>
 
                     <div class="filter-group">
-                        <label class="filter-label">Difficulty</label>
+                        <label class="filter-label">DIFFICULTY</label>
                         <select class="filter-select" id="difficultyFilter">
                             <option value="">All Levels</option>
                             <option value="beginner">Beginner</option>
@@ -350,41 +363,53 @@
                     </div>
 
                     <div class="filter-group">
-                        <label class="filter-label">Price Range</label>
+                        <label class="filter-label">PRICE RANGE</label>
                         <div class="price-range-container">
-                            <input 
-                                type="number" 
-                                class="filter-input" 
-                                id="minPrice" 
-                                placeholder="Min $"
-                                min="0"
-                            >
+                            <div class="price-input-wrapper">
+                                <input 
+                                    type="text" 
+                                    class="filter-input" 
+                                    id="minPrice" 
+                                    placeholder="Min $"
+                                    min="0"
+                                >
+                                <div class="price-arrows">
+                                    <div class="arrow-up min-arrow-up">▲</div>
+                                    <div class="arrow-down min-arrow-down">▼</div>
+                                </div>
+                            </div>
                             <span class="price-separator">to</span>
-                            <input 
-                                type="number" 
-                                class="filter-input" 
-                                id="maxPrice" 
-                                placeholder="Max $"
-                                min="0"
-                            >
+                            <div class="price-input-wrapper">
+                                <input 
+                                    type="text" 
+                                    class="filter-input" 
+                                    id="maxPrice" 
+                                    placeholder="Max $"
+                                    min="0"
+                                >
+                                <div class="price-arrows">
+                                    <div class="arrow-up max-arrow-up">▲</div>
+                                    <div class="arrow-down max-arrow-down">▼</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="filter-group">
-                        <label class="filter-label">Duration</label>
+                        <label class="filter-label">DURATION</label>
                         <select class="filter-select" id="durationFilter">
                             <option value="">Any Duration</option>
-                            <option value="short">Short (1-8 weeks)</option>
+                            <option value="rt">Short (1-8 weeks)</option>
                             <option value="medium">Medium (9-15 weeks)</option>
                             <option value="long">Long (16+ weeks)</option>
                         </select>
                     </div>
-
-                    <div class="clear-filters-container">
-                        <button class="clear-filters-btn" onclick="clearAllFilters()">
-                            <i class="fas fa-times"></i> Clear Filters
-                        </button>
-                    </div>
+                </div>
+                
+                <div class="clear-filters-container">
+                    <button class="clear-filters-btn" onclick="clearAllFilters()">
+                        <i class="fas fa-times"></i> CLEAR FILTERS
+                    </button>
                 </div>
             </div>
 
@@ -398,6 +423,11 @@
         <!-- Courses Grid -->
         <div class="courses-grid" id="coursesGrid">
             <!-- Course cards will be dynamically generated here -->
+        </div>
+
+        <!-- Course Count - Moved to bottom -->
+        <div class="course-count" id="courseCount">
+            Showing all 12 courses
         </div>
 
         <!-- No Results -->
