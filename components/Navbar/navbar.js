@@ -26,32 +26,23 @@ function initializeNavbar() {
     setActivePage();
 }
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle - Connected to Burger Menu
 function setupMobileMenu() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const bars = document.querySelectorAll('.bar');
+    const navToggle = document.querySelector('.navToggle');
+    const burgerMenuOverlay = document.getElementById('burgerMenuOverlay');
 
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on links
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
+    if (navToggle && burgerMenuOverlay) {
+        navToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Use global burger menu functions if available
+            if (typeof window.toggleBurgerMenu === 'function') {
+                window.toggleBurgerMenu();
+            } else {
+                // Fallback: manually toggle burger menu
+                burgerMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = burgerMenuOverlay.classList.contains('active') ? 'hidden' : '';
             }
         });
     }
@@ -59,12 +50,8 @@ function setupMobileMenu() {
 
 // Search Functionality
 function setupSearch() {
-    const searchInput = document.querySelector('.search-input');
-    const mobileSearchInput = document.querySelector('.mobile-search-input');
-    const searchBtn = document.querySelector('.search-btn');
-    const mobileSearchOverlay = document.querySelector('.mobile-search-overlay');
-    const mobileSearchClose = document.querySelector('.mobile-search-close');
-    const mobileSearchIcon = document.querySelector('.nav-icon-link.mobile-search');
+    const searchInput = document.querySelector('.searchInput');
+    const searchBtn = document.querySelector('.searchBtn');
 
     // Desktop search
     if (searchBtn && searchInput) {
@@ -84,38 +71,6 @@ function setupSearch() {
         searchInput.addEventListener('input', function() {
             // You can implement search suggestions here
             console.log('Searching for:', this.value);
-        });
-    }
-
-    // Mobile search overlay
-    if (mobileSearchIcon && mobileSearchOverlay) {
-        mobileSearchIcon.addEventListener('click', function(e) {
-            e.preventDefault();
-            openMobileSearch();
-        });
-    }
-
-    if (mobileSearchClose) {
-        mobileSearchClose.addEventListener('click', function() {
-            closeMobileSearch();
-        });
-    }
-
-    if (mobileSearchOverlay) {
-        mobileSearchOverlay.addEventListener('click', function(e) {
-            if (e.target === mobileSearchOverlay) {
-                closeMobileSearch();
-            }
-        });
-    }
-
-    if (mobileSearchInput) {
-        mobileSearchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                performSearch(this.value);
-                closeMobileSearch();
-            }
         });
     }
 }
