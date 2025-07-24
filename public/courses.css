@@ -223,7 +223,7 @@ body::before {
   background: rgba(39, 37, 37, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 2rem 1.5rem;
   margin-bottom: 3rem;
   position: relative;
@@ -287,7 +287,7 @@ body::before {
 .filter-input {
   padding: 0.875rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  border-radius: 3px;
   background: rgba(255, 255, 255, 0.95);
   color: var(--text-primary);
   font-size: 0.875rem;
@@ -363,7 +363,7 @@ body::before {
   color: var(--dark-brown);
   border: none;
   padding: 0.75rem 2rem;
-  border-radius: 4px;
+  border-radius: 3px;
   font-weight: 700;
   font-size: 0.875rem;
   cursor: pointer;
@@ -458,19 +458,18 @@ body::before {
 
 /* Course Card Styles */
 .course-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
+  background: linear-gradient(180deg, #faf8f5 0%, #f2ede6 100%);
+  border-radius: 3px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .course-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
 }
 
 .course-image {
@@ -489,27 +488,42 @@ body::before {
   top: 1rem;
   left: 1rem;
   padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  border-radius: 3px;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: white;
   z-index: 3;
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.difficulty-beginner {
-  background: linear-gradient(45deg, #4eb08b, #3a8a6b);
+.difficulty-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
 }
 
-.difficulty-intermediate {
-  background: linear-gradient(45deg, #efa83c, #d4932a);
+.difficulty-beginner::before {
+  background: rgb(16, 185, 129);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
 }
 
-.difficulty-advanced {
-  background: linear-gradient(45deg, #e05050, #c43a3a);
+.difficulty-intermediate::before {
+  background: rgb(245, 158, 11);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+.difficulty-advanced::before {
+  background: rgb(239, 68, 68);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
 }
 
 .course-rating {
@@ -518,7 +532,7 @@ body::before {
   right: 1rem;
   background: linear-gradient(135deg, rgba(212, 196, 176, 0.95) 0%, rgba(184, 166, 144, 0.9) 100%);
   padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -533,7 +547,7 @@ body::before {
 .stars-container {
   display: flex;
   align-items: center;
-  gap: 1px;
+  gap: px;
 }
 
 .star {
@@ -619,7 +633,7 @@ body::before {
   color: white;
   border: none;
   padding: 0.875rem 1.5rem;
-  border-radius: 6px;
+  border-radius:3px;
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -660,7 +674,7 @@ body::before {
   margin-bottom: 2rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border-radius: 3px;
   backdrop-filter: blur(10px);
 }
 
@@ -670,7 +684,7 @@ body::before {
   padding: 4rem 2rem;
   color: rgba(255, 255, 255, 0.8);
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border-radius: 3px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -699,7 +713,7 @@ body::before {
   color: var(--dark-brown);
   border: none;
   padding: 0.875rem 2rem;
-  border-radius: 6px;
+  border-radius:3px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
