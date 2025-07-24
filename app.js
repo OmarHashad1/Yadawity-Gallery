@@ -1272,33 +1272,15 @@ document.querySelectorAll('.wishlist-btn').forEach(button => {
     });
 });
 
-// Quick Action Buttons Functionality
-document.querySelectorAll('.quick-action-btn').forEach(button => {
-    button.addEventListener('click', function(e) {
-        e.preventDefault();
+// Enhanced Card Quick Actions
+document.querySelectorAll('.quick-action-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
         e.stopPropagation();
+        const action = this.dataset.action;
+        const artworkId = this.dataset.id;
         
-        const action = this.getAttribute('data-action');
-        const artworkId = this.getAttribute('data-id');
-        const card = this.closest('.enhanced-artwork-card');
-        const title = card.querySelector('.enhanced-artwork-title').textContent;
-        
-        // Add click animation
-        this.style.transform = 'scale(0.9)';
-        setTimeout(() => {
-            this.style.transform = '';
-        }, 150);
-        
-        switch(action) {
-            case 'view':
-                openQuickView(artworkId, card);
-                break;
-            case 'wishlist':
-                toggleWishlistFromQuickAction(artworkId, card);
-                break;
-            case 'share':
-                shareArtwork(artworkId, title);
-                break;
+        if(action === 'view') {
+            openQuickView(artworkId, this.closest('.enhanced-artwork-card'));
         }
     });
 });
@@ -1365,132 +1347,3 @@ function openQuickView(artworkId, card) {
     // You can implement a proper modal overlay here
     alert(`Quick View: ${title} by ${artist}\nPrice: ${price}\n\n${description}`);
 }
-
-function toggleWishlistFromQuickAction(artworkId, card) {
-    const wishlistBtn = card.querySelector('.wishlist-btn');
-    if (wishlistBtn) {
-        wishlistBtn.click(); // Trigger the existing wishlist functionality
-    }
-}
-
-function shareArtwork(artworkId, title) {
-    if (navigator.share) {
-        navigator.share({
-            title: `${title} - Yadawity Gallery`,
-            text: `Check out this amazing artwork: ${title}`,
-            url: window.location.href
-        }).catch(console.error);
-    } else {
-        // Fallback: copy to clipboard
-        const url = window.location.href + `#artwork-${artworkId}`;
-        navigator.clipboard.writeText(url).then(() => {
-            // Show temporary notification
-            showNotification('Link copied to clipboard!');
-        }).catch(() => {
-            // Fallback for older browsers
-            prompt('Copy this link:', url);
-        });
-    }
-}
-
-function updateCartCount() {
-    const cartCount = document.getElementById('cartCount');
-    const burgerCartCount = document.getElementById('burgerCartCount');
-    
-    if (cartCount) {
-        let currentCount = parseInt(cartCount.textContent) || 0;
-        cartCount.textContent = currentCount + 1;
-        
-        // Add bounce animation
-        cartCount.style.animation = 'bounce 0.6s ease-in-out';
-        setTimeout(() => {
-            cartCount.style.animation = '';
-        }, 600);
-    }
-    
-    if (burgerCartCount) {
-        let currentCount = parseInt(burgerCartCount.textContent) || 0;
-        burgerCartCount.textContent = currentCount + 1;
-    }
-}
-
-function updateWishlistCount() {
-    const wishlistCount = document.getElementById('wishlistCount');
-    const burgerWishlistCount = document.getElementById('burgerWishlistCount');
-    
-    if (wishlistCount) {
-        let currentCount = parseInt(wishlistCount.textContent) || 0;
-        const activeWishlists = document.querySelectorAll('.wishlist-btn.active').length;
-        
-        wishlistCount.textContent = activeWishlists;
-        wishlistCount.style.display = activeWishlists > 0 ? 'flex' : 'none';
-        
-        if (activeWishlists > currentCount) {
-            wishlistCount.style.animation = 'heartBeat 0.6s ease-in-out';
-            setTimeout(() => {
-                wishlistCount.style.animation = '';
-            }, 600);
-        }
-    }
-    
-    if (burgerWishlistCount) {
-        const activeWishlists = document.querySelectorAll('.wishlist-btn.active').length;
-        burgerWishlistCount.textContent = activeWishlists;
-    }
-}
-
-function showNotification(message, duration = 3000) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--brown-medium);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Remove after duration
-    setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, duration);
-}
-
-// Add CSS animations for enhanced cards
-const enhancedCardStyles = document.createElement('style');
-enhancedCardStyles.textContent = `
-    @keyframes heartBeat {
-        0% { transform: scale(1); }
-        25% { transform: scale(1.2); }
-        50% { transform: scale(1); }
-        75% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-    }
-    
-    @keyframes bounce {
-        0%, 20%, 60%, 100% { transform: scale(1); }
-        40% { transform: scale(1.2); }
-        80% { transform: scale(1.1); }
-    }
-`;
-document.head.appendChild(enhancedCardStyles);

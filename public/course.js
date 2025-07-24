@@ -426,7 +426,10 @@ function renderCourses(coursesToRender) {
       : `$${course.price}`
 
     courseCard.innerHTML = `
-      <div class="difficulty-badge difficulty-${course.difficulty}">${course.difficulty}</div>
+      <div class="difficulty-badge difficulty-${course.difficulty}">
+        <span class="difficulty-dot"></span>
+        <span class="difficulty-text">${course.difficulty}</span>
+      </div>
       <div class="course-rating">
         <div class="stars-container">${starsHTML}</div>
         <span class="rating-text">${course.rating}</span>
