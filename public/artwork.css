@@ -17,11 +17,8 @@
   --text-muted: #6b4423;
   --background-primary: #fefefe;
   --background-secondary: #faf8f5;
-<<<<<<< Updated upstream
-=======
   --cream-darker: #faf8f5;
   --cream-darkest: #f2ede6;
->>>>>>> Stashed changes
 }
 
 body {
@@ -407,15 +404,9 @@ label i{
   margin-bottom: 40px;
 }
 
-<<<<<<< Updated upstream
 /* Enhanced Artwork Cards */
 .enhanced-artwork-card {
   background: var(--white-pure);
-=======
-/* Artwork Cards */
-.artwork-card {
-  background: linear-gradient(180deg, var(--cream-darker) 0%, var(--cream-darkest) 100%);
->>>>>>> Stashed changes
   border-radius: 3px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
@@ -616,8 +607,7 @@ label i{
 .wishlist-btn:hover,
 .wishlist-btn.active {
   background: var(--brown-medium);
-<<<<<<< Updated upstream
-=======
+
   color: white; /* Changes to white on hover */
   transform: scale(1.1);
 }
@@ -639,7 +629,6 @@ label i{
 }
 
 .quick-action-btn:hover {
->>>>>>> Stashed changes
   color: white;
   transform: scale(1.1);
 }
