@@ -309,8 +309,8 @@ label i{
   margin-bottom: 40px;
 }
 
-/* Enhanced Artwork Cards */
-.enhanced-artwork-card {
+/* Artwork Cards */
+.artwork-card {
   background: linear-gradient(var(--cream-light) 0%, var(--beige-light) 100%);
   border-radius: 3px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -324,7 +324,7 @@ label i{
   text-align: center;
 }
 
-.enhanced-artwork-card:hover {
+.artwork-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
@@ -334,65 +334,19 @@ label i{
   overflow: hidden;
 }
 
-.enhanced-artwork-image {
+.artwork-image {
   width: 100%;
   height: auto;
   display: block;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.enhanced-artwork-card:hover .enhanced-artwork-image {
+.artwork-card:hover .artwork-image {
   transform: scale(1.08);
 }
 
-/* Artwork Overlay */
-.artwork-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-}
-
-.enhanced-artwork-card:hover .artwork-overlay {
-  opacity: 1;
-}
-
-.quick-actions {
-  display: flex;
-  transform: translateY(20px);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
-}
-
-.enhanced-artwork-card:hover .quick-actions {
-  transform: translateY(0);
-}
-
-.quick-action-btn {
-  border: none;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  background: transparent;
-}
-
-.quick-action-btn:hover {
-  transform: translateY(-3px) scale(1.1);
-}
-
-/* Enhanced Artwork Info */
-.enhanced-artwork-info {
+/* Artwork Info */
+.artwork-info {
   padding: 25px;
 }
 
@@ -406,7 +360,7 @@ label i{
   opacity: 0.8;
 }
 
-.enhanced-artwork-title {
+.artwork-title {
   font-size: 22px;
   font-weight: 700;
   color: var(--brown-medium);
@@ -415,14 +369,14 @@ label i{
   font-family: "Playfair Display", serif;
 }
 
-.enhanced-artwork-artist {
+.artwork-artist {
   font-size: 14px;
   color: var(--gray-medium);
   font-style: italic;
   margin-bottom: 12px;
 }
 
-.enhanced-artwork-price {
+.artwork-price {
   font-size: 20px;
   font-weight: 700;
   color: var(--brown-medium);
@@ -432,12 +386,12 @@ label i{
 
 .artwork-dimensions {
   font-size: 12px;
-  color: var(--text-muted);  color: var(--gray-medium);
+  color: var(--text-muted);
   margin-bottom: 15px;
   font-weight: 500;
 }
 
-.enhanced-artwork-description {
+.artwork-description {
   font-size: 14px;
   color: var(--gray-medium);
   line-height: 1.6;
@@ -456,7 +410,7 @@ label i{
   align-items: center;
 }
 
-.enhanced-add-to-cart {
+.add-to-cart {
   flex: 1;
   background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   color: white;
@@ -473,7 +427,7 @@ label i{
   overflow: hidden;
 }
 
-.enhanced-add-to-cart::before {
+.add-to-cart::before {
   content: '';
   position: absolute;
   top: 0;
@@ -484,20 +438,21 @@ label i{
   transition: left 0.5s ease;
 }
 
-.enhanced-add-to-cart:hover::before {
+.add-to-cart:hover::before {
   left: 100%;
 }
 
-.enhanced-add-to-cart:hover {
+.add-to-cart:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(139, 115, 85, 0.4);
 }
 
+/* Wishlist Button */
 .wishlist-btn {
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid var(--brown-medium);
-  color: var(--brown-medium);
-  width: 50px;
+  color: var(--light-brown); /* Default brown color */
+  width: 45px;
   height: 45px;
   border-radius: 3px;
   cursor: pointer;
@@ -512,8 +467,85 @@ label i{
 .wishlist-btn:hover,
 .wishlist-btn.active {
   background: var(--brown-medium);
+  color: white; /* Changes to white on hover */
+  transform: scale(1.1);
+}
+
+/* Quick Actions Button (Eye Icon) */
+.quick-action-btn {
+  width: 50px;
+  height: 50px;
+  border: 0;
+  border-radius: 3px;
+  color:white;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  background: transparent;
+}
+
+.quick-action-btn:hover {
   color: white;
   transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Artwork Overlay for Quick Actions */
+.artwork-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+
+.artwork-card:hover .artwork-overlay {
+  opacity: 1;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 15px;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.artwork-card:hover .quick-actions {
+  transform: translateY(0);
+}
+
+/* Heart Animation */
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.wishlist-btn.active {
+  animation: heartBeat 0.8s ease-in-out;
 }
 
 /* Clear Filters Button */
@@ -651,7 +683,7 @@ label i{
     column-gap: 0;
   }
 
-  .enhanced-artwork-card {
+  .artwork-card {
     margin-bottom: 30px;
     min-width: auto;
     max-width: 100%;
@@ -661,15 +693,15 @@ label i{
     min-height: 250px;
   }
 
-  .enhanced-artwork-info {
+  .artwork-info {
     padding: 20px;
   }
 
-  .enhanced-artwork-title {
+  .artwork-title {
     font-size: 18px;
   }
 
-  .enhanced-artwork-price {
+  .artwork-price {
     font-size: 16px;
   }
 
