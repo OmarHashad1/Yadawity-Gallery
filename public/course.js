@@ -11,7 +11,7 @@ const courses = [
     rating: 4.8,
     price: 149,
     originalPrice: 199,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/slide1.jpg",
     description: "Master digital painting techniques from concept to completion",
   },
   {
@@ -25,7 +25,7 @@ const courses = [
     rating: 4.6,
     price: 89,
     originalPrice: null,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
     description: "Learn the fundamentals of watercolor painting",
   },
   {
@@ -39,7 +39,7 @@ const courses = [
     rating: 4.9,
     price: 299,
     originalPrice: 399,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
     description: "Create compelling characters for video games and animation",
   },
   {
@@ -53,7 +53,7 @@ const courses = [
     rating: 4.7,
     price: 119,
     originalPrice: null,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
     description: "Master the art of realistic portrait drawing",
   },
   {
@@ -67,7 +67,7 @@ const courses = [
     rating: 4.5,
     price: 199,
     originalPrice: 249,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/darker_image.webp",
     description: "Learn professional 3D modeling techniques",
   },
   {
@@ -81,7 +81,7 @@ const courses = [
     rating: 4.9,
     price: 349,
     originalPrice: null,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
     description: "Classical oil painting techniques and methods",
   },
   {
@@ -95,7 +95,7 @@ const courses = [
     rating: 4.4,
     price: 159,
     originalPrice: 189,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/Artist-PainterLookingAtCamera.webp",
     description: "Hands-on pottery and ceramic techniques",
   },
   {
@@ -109,7 +109,7 @@ const courses = [
     rating: 4.6,
     price: 129,
     originalPrice: null,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/artist-sitting-on-the-floor.jpg",
     description: "Urban art techniques and mural creation",
   },
   {
@@ -123,7 +123,7 @@ const courses = [
     rating: 4.7,
     price: 179,
     originalPrice: 219,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/photo.jpeg",
     description: "Create stunning fashion illustrations and designs",
   },
   {
@@ -137,7 +137,7 @@ const courses = [
     rating: 4.5,
     price: 99,
     originalPrice: null,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/Team image.jpeg",
     description: "Master the art of beautiful lettering and typography",
   },
   {
@@ -151,7 +151,7 @@ const courses = [
     rating: 4.8,
     price: 139,
     originalPrice: 169,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/unnamed.jpg",
     description: "Learn professional photography composition techniques",
   },
   {
@@ -165,7 +165,7 @@ const courses = [
     rating: 4.6,
     price: 189,
     originalPrice: null,
-    image: "/placeholder.svg?height=220&width=320",
+    image: "./image/_grj4724.jpg",
     description: "Explore abstract art techniques and creative expression",
   },
 ]
@@ -435,6 +435,11 @@ function renderCourses(coursesToRender) {
         <span class="rating-text">${course.rating}</span>
       </div>
       <img src="${course.image}" alt="${course.title}" class="course-image">
+      <div class="course-overlay">
+        <div class="quick-actions">
+          <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
       <div class="course-content">
         <h3 class="course-title">${course.title}</h3>
         <div class="course-instructor">by ${course.instructor}</div>
@@ -462,6 +467,69 @@ function renderCourses(coursesToRender) {
 
     coursesGrid.appendChild(courseCard)
   })
+
+  // Add quick view event listeners
+  document.querySelectorAll('.quick-action-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const courseCard = e.target.closest('.course-card');
+      const courseId = parseInt(courseCard.querySelector('.enroll-btn').getAttribute('onclick').match(/\d+/)[0]);
+      openQuickView(courseId);
+    });
+  });
+}
+
+// Open quick view modal
+function openQuickView(courseId) {
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return;
+  
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'quick-view-overlay';
+  overlay.innerHTML = `
+    <div class="quick-view-modal">
+      <div class="quick-view-content">
+        <img src="${course.image}" alt="${course.title}" class="quick-view-image">
+        <div class="quick-view-details">
+          <h2>${course.title}</h2>
+          <p class="instructor">by ${course.instructor}</p>
+          <p class="description">${course.description}</p>
+          <div class="meta-info">
+            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+            <span><i class="fas fa-users"></i> ${course.students.toLocaleString()} students</span>
+            <span><i class="fas fa-star"></i> ${course.rating}</span>
+          </div>
+          <div class="price-info">
+            <span class="price">$${course.price}</span>
+            ${course.originalPrice ? `<span class="original-price">$${course.originalPrice}</span>` : ''}
+          </div>
+          <button class="enroll-btn" onclick="enrollCourse(${course.id})">
+            <i class="fas fa-graduation-cap"></i> Enroll Now
+          </button>
+        </div>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+  `;
+
+  // Add close functionality
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay || e.target.closest('.close-modal')) {
+      document.body.removeChild(overlay);
+    }
+  });
+
+  // Add escape key to close
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      document.body.removeChild(overlay);
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
+  document.addEventListener('keydown', handleEscape);
+
+  document.body.appendChild(overlay);
 }
 
 // Update search results text
@@ -488,32 +556,6 @@ function updateCourseCount(count) {
 // Enroll course function
 function enrollCourse(courseId) {
   const course = courses.find((c) => c.id === courseId)
-  if (course) {
-    alert(
-      `🎨 Enrollment confirmed for "${course.title}"!\n\n` +
-        `Instructor: ${course.instructor}\n` +
-        `Category: ${course.category}\n` +
-        `Duration: ${course.duration}\n` +
-        `Difficulty: ${course.difficulty.charAt(0).toUpperCase() + course.difficulty.slice(1)}\n` +
-        `Price: $${course.price}\n\n` +
-        `Welcome to Yadawity Art Academy!\n` +
-        `You'll receive course materials and access details via email.`,
-    )
-
-    // Here you would typically integrate with a enrollment system
-    // For now, we'll just show a success message
-    const enrollBtn = event.target
-    const originalText = enrollBtn.innerHTML
-    enrollBtn.innerHTML = '<i class="fas fa-check"></i> Enrolled!'
-    enrollBtn.style.background = "linear-gradient(45deg, #22c55e, #16a34a)"
-    enrollBtn.disabled = true
-
-    setTimeout(() => {
-      enrollBtn.innerHTML = originalText
-      enrollBtn.style.background = ""
-      enrollBtn.disabled = false
-    }, 3000)
-  }
 }
 
 // Debounce function for search input
