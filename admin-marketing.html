@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing & Promotion - Yadawity Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css">
+    <link rel="stylesheet" href="./public/admin-marketing.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbarYadawity" id="yadawityNavbar">
+        <div class="navContainer">
+            <div class="navLogo">
+                <a href="index.html" class="navLogoLink">
+                    <div class="logoIcon">
+                        <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z" fill="currentColor" opacity="0.8"/>
+                            <path d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z" fill="currentColor" opacity="0.8"/>
+                            <line x1="50" y1="20" x2="50" y2="80" stroke="currentColor" stroke-width="3"/>
+                            <path d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="logoText">
+                        <span class="logoName">Yadawity</span>
+                        <span class="logoEst">ADMIN PANEL</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="navMenu" id="navMenu">
+                <div class="adminBadge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>ADMIN</span>
+                </div>
+                <a href="index.html" class="navLink">
+                    <i class="fas fa-home"></i>
+                    <span>BACK TO SITE</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Sidebar -->
+    <aside class="adminSidebar" id="adminSidebar">
+        <div class="sidebarHeader">
+            <h3>Admin Panel</h3>
+            <button class="sidebarToggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebarNav">
+            <div class="navSection">
+                <h4>Communication</h4>
+                <a href="admin-communication.html" class="sidebarLink">
+                    <i class="fas fa-comments"></i>
+                    <span>Support Tickets</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Management</h4>
+                <a href="admin-system.html" class="sidebarLink">
+                    <i class="fas fa-cogs"></i>
+                    <span>System Admin</span>
+                </a>
+                <a href="admin-gallery.html" class="sidebarLink">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Management</span>
+                </a>
+                <a href="admin-marketing.html" class="sidebarLink active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="admin-inventory.html" class="sidebarLink">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <a href="admin-legal.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Legal & Compliance</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="adminMain">
+        <div class="pageHeader">
+            <div class="headerContent">
+                <h1>Marketing & Promotion</h1>
+                <p>Manage campaigns, social media, and promotional activities</p>
+            </div>
+            <div class="headerActions">
+                <button class="btn btn-primary" id="newCampaignBtn">
+                    <i class="fas fa-plus"></i>
+                    New Campaign
+                </button>
+                <button class="btn btn-secondary" id="analyticsBtn">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </button>
+            </div>
+        </div>
+        <!-- Stats Cards -->
+        <div class="statsGrid">
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="statContent">
+                    <h3>8</h3>
+                    <p>Active Campaigns</p>
+                    <span class="statChange positive">+12%</span>
+                </div>
+            </div>
+            
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="statContent">
+                    <h3>45.2K</h3>
+                    <p>Total Impressions</p>
+                    <span class="statChange positive">+28%</span>
+                </div>
+            </div>
+            
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-mouse-pointer"></i>
+                </div>
+                <div class="statContent">
+                    <h3>3.4%</h3>
+                    <p>Avg. CTR</p>
+                    <span class="statChange negative">-2%</span>
+                </div>
+            </div>
+            
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="statContent">
+                    <h3>EGP 15.8K</h3>
+                    <p>This Month</p>
+                    <span class="statChange positive">+15%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="contentCard">
+            <div class="cardHeader">
+                <div class="tabNav">
+                    <button class="tabBtn active" data-tab="campaigns">
+                        <i class="fas fa-bullhorn"></i>
+                        Campaigns
+                    </button>
+                    <button class="tabBtn" data-tab="social">
+                        <i class="fas fa-share-alt"></i>
+                        Social Media
+                    </button>
+                    <button class="tabBtn" data-tab="email">
+                        <i class="fas fa-envelope"></i>
+                        Email Marketing
+                    </button>
+                    <button class="tabBtn" data-tab="promotions">
+                        <i class="fas fa-tags"></i>
+                        Promotions
+                    </button>
+                    <button class="tabBtn" data-tab="analytics">
+                        <i class="fas fa-chart-bar"></i>
+                        Analytics
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaigns Tab -->
+            <div class="tabPane active" id="campaigns">
+                <div class="controlsPanel">
+                    <div class="filterGroup">
+                        <label>Status:</label>
+                        <select class="filterSelect" id="campaignStatusFilter">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="paused">Paused</option>
+                            <option value="completed">Completed</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+                    <div class="filterGroup">
+                        <label>Type:</label>
+                        <select class="filterSelect" id="campaignTypeFilter">
+                            <option value="">All Types</option>
+                            <option value="exhibition">Exhibition</option>
+                            <option value="artist">Artist Promotion</option>
+                            <option value="general">General</option>
+                            <option value="seasonal">Seasonal</option>
+                        </select>
+                    </div>
+                    <div class="searchGroup">
+                        <input type="text" placeholder="Search campaigns..." class="searchInput" id="campaignSearch">
+                        <button class="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="campaignsGrid" id="campaignsGrid">
+                    <!-- Campaigns will be loaded here -->
+                </div>
+            </div>
+
+                    <!-- Social Media Tab -->
+                    <div class="tabPane" id="social">
+                        <div class="tabHeader">
+                            <div class="tabTitle">
+                                <h2>Social Media Management</h2>
+                                <p>Manage your social media presence and scheduled posts</p>
+                            </div>
+                            <div class="tabActions">
+                                <button class="btn btn-primary" onclick="showSocialPostModal()">
+                                    <i class="fas fa-plus"></i>
+                                    Schedule Post
+                                </button>
+                                <button class="btn btn-outline" onclick="refreshSocialStats()">
+                                    <i class="fas fa-sync"></i>
+                                    Refresh Stats
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="socialMediaContainer">
+                            <div class="socialPlatforms">
+                                <div class="platformCard">
+                                    <div class="platformHeader">
+                                        <div class="platformInfo">
+                                            <i class="fab fa-facebook" style="color: #1877f2;"></i>
+                                            <div>
+                                                <h3>Facebook</h3>
+                                                <p>@artgallery_egypt</p>
+                                            </div>
+                                        </div>
+                                        <span class="connectionStatus connected">Connected</span>
+                                    </div>
+                                    <div class="platformStats">
+                                        <div class="platformStat">
+                                            <span class="statValue">12.5K</span>
+                                            <span class="statLabel">Followers</span>
+                                        </div>
+                                        <div class="platformStat">
+                                            <span class="statValue">8.2%</span>
+                                            <span class="statLabel">Engagement</span>
+                                        </div>
+                                        <div class="platformStat">
+                                            <span class="statValue">24</span>
+                                            <span class="statLabel">Posts This Month</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="platformCard">
+                                    <div class="platformHeader">
+                                        <div class="platformInfo">
+                                            <i class="fab fa-instagram" style="color: #E4405F;"></i>
+                                            <div>
+                                                <h3>Instagram</h3>
+                                                <p>@artgallery.egypt</p>
+                                            </div>
+                                        </div>
+                                        <span class="connectionStatus connected">Connected</span>
+                                    </div>
+                                    <div class="platformStats">
+                                        <div class="platformStat">
+                                            <span class="statValue">8.9K</span>
+                                            <span class="statLabel">Followers</span>
+                                        </div>
+                                        <div class="platformStat">
+                                            <span class="statValue">12.4%</span>
+                                            <span class="statLabel">Engagement</span>
+                                        </div>
+                                        <div class="platformStat">
+                                            <span class="statValue">18</span>
+                                            <span class="statLabel">Posts This Month</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="platformCard">
+                                    <div class="platformHeader">
+                                        <div class="platformInfo">
+                                            <i class="fab fa-twitter" style="color: #1DA1F2;"></i>
+                                            <div>
+                                                <h3>Twitter</h3>
+                                                <p>@artgallery_eg</p>
+                                            </div>
+                                        </div>
+                                        <span class="connectionStatus disconnected">Not Connected</span>
+                                    </div>
+                                    <div class="platformStats">
+                                        <div class="connectPlatform">
+                                            <button class="btn btn-outline">
+                                                <i class="fab fa-twitter"></i>
+                                                Connect Twitter
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="scheduledPosts">
+                                <h3>Scheduled Posts</h3>
+                                <div class="postsList" id="scheduledPostsList">
+                                    <!-- Scheduled posts will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email Marketing Tab -->
+                    <div class="tabPane" id="email">
+                        <div class="tabHeader">
+                            <div class="tabTitle">
+                                <h2>Email Marketing</h2>
+                                <p>Create and send email campaigns to your subscribers</p>
+                            </div>
+                            <div class="tabActions">
+                                <button class="btn btn-primary" onclick="showEmailCampaignModal()">
+                                    <i class="fas fa-plus"></i>
+                                    New Email Campaign
+                                </button>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-users"></i>
+                                    Manage Subscribers
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="emailMarketingContainer">
+                            <div class="emailStats">
+                                <div class="emailStatCard">
+                                    <div class="emailStatIcon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="emailStatInfo">
+                                        <h3>2,847</h3>
+                                        <p>Total Subscribers</p>
+                                    </div>
+                                </div>
+                                <div class="emailStatCard">
+                                    <div class="emailStatIcon">
+                                        <i class="fas fa-envelope-open"></i>
+                                    </div>
+                                    <div class="emailStatInfo">
+                                        <h3>24.3%</h3>
+                                        <p>Open Rate</p>
+                                    </div>
+                                </div>
+                                <div class="emailStatCard">
+                                    <div class="emailStatIcon">
+                                        <i class="fas fa-mouse-pointer"></i>
+                                    </div>
+                                    <div class="emailStatInfo">
+                                        <h3>3.8%</h3>
+                                        <p>Click Rate</p>
+                                    </div>
+                                </div>
+                                <div class="emailStatCard">
+                                    <div class="emailStatIcon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="emailStatInfo">
+                                        <h3>18.2%</h3>
+                                        <p>Growth Rate</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="emailCampaigns">
+                                <h3>Recent Email Campaigns</h3>
+                                <div class="emailCampaignsList" id="emailCampaignsList">
+                                    <!-- Email campaigns will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promotions Tab -->
+                    <div class="tabPane" id="promotions">
+                        <div class="tabHeader">
+                            <div class="tabTitle">
+                                <h2>Promotions & Discounts</h2>
+                                <p>Create and manage promotional offers and discount codes</p>
+                            </div>
+                            <div class="tabActions">
+                                <button class="btn btn-primary" onclick="showPromotionModal()">
+                                    <i class="fas fa-plus"></i>
+                                    New Promotion
+                                </button>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-download"></i>
+                                    Export Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="promotionsContainer">
+                            <div class="promotionFilters">
+                                <select id="promotionStatusFilter" class="filter">
+                                    <option value="">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="scheduled">Scheduled</option>
+                                    <option value="expired">Expired</option>
+                                    <option value="paused">Paused</option>
+                                </select>
+                                <select id="promotionTypeFilter" class="filter">
+                                    <option value="">All Types</option>
+                                    <option value="percentage">Percentage Discount</option>
+                                    <option value="fixed">Fixed Amount</option>
+                                    <option value="bogo">Buy One Get One</option>
+                                    <option value="shipping">Free Shipping</option>
+                                </select>
+                                <input type="text" id="promotionSearch" class="searchInput" placeholder="Search promotions...">
+                            </div>
+
+                            <div class="promotionsList" id="promotionsList">
+                                <!-- Promotions will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Tab -->
+                    <div class="tabPane" id="analytics">
+                        <div class="tabHeader">
+                            <div class="tabTitle">
+                                <h2>Marketing Analytics</h2>
+                                <p>Track and analyze your marketing performance</p>
+                            </div>
+                            <div class="tabActions">
+                                <select id="analyticsTimeframe" class="filter">
+                                    <option value="7">Last 7 Days</option>
+                                    <option value="30" selected>Last 30 Days</option>
+                                    <option value="90">Last 3 Months</option>
+                                    <option value="365">Last Year</option>
+                                </select>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-download"></i>
+                                    Export Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="analyticsContainer">
+                            <div class="analyticsCharts">
+                                <div class="chartCard">
+                                    <div class="chartHeader">
+                                        <h3>Campaign Performance</h3>
+                                        <p>Impressions vs Clicks over time</p>
+                                    </div>
+                                    <div class="chartPlaceholder">
+                                        <i class="fas fa-chart-line"></i>
+                                        <p>Chart will be displayed here</p>
+                                    </div>
+                                </div>
+
+                                <div class="chartCard">
+                                    <div class="chartHeader">
+                                        <h3>Channel Performance</h3>
+                                        <p>Performance breakdown by marketing channel</p>
+                                    </div>
+                                    <div class="chartPlaceholder">
+                                        <i class="fas fa-chart-pie"></i>
+                                        <p>Chart will be displayed here</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="performanceMetrics">
+                                <h3>Key Performance Metrics</h3>
+                                <div class="metricsGrid">
+                                    <div class="metricCard">
+                                        <h4>Return on Ad Spend (ROAS)</h4>
+                                        <div class="metricValue">4.2x</div>
+                                        <div class="metricChange positive">+0.3x from last month</div>
+                                    </div>
+                                    <div class="metricCard">
+                                        <h4>Cost Per Acquisition (CPA)</h4>
+                                        <div class="metricValue">EGP 45</div>
+                                        <div class="metricChange negative">+EGP 5 from last month</div>
+                                    </div>
+                                    <div class="metricCard">
+                                        <h4>Conversion Rate</h4>
+                                        <div class="metricValue">2.8%</div>
+                                        <div class="metricChange positive">+0.4% from last month</div>
+                                    </div>
+                                    <div class="metricCard">
+                                        <h4>Customer Lifetime Value</h4>
+                                        <div class="metricValue">EGP 850</div>
+                                        <div class="metricChange positive">+EGP 50 from last month</div>
+                                    </div>
+                                </div>
+                            </div>
+        </div>
+    </main>
+
+    <!-- Campaign Modal -->
+    <div class="modal" id="campaignModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>Create New Campaign</h2>
+                <button class="modalClose" id="closeCampaignModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody">
+                <form id="campaignForm">
+                    <div class="formGroup">
+                        <label>Campaign Name:</label>
+                        <input type="text" id="campaignName" name="campaignName" required>
+                    </div>
+                    <div class="formGroup">
+                        <label>Campaign Type:</label>
+                        <select id="campaignType" name="campaignType" required>
+                            <option value="">Select Type</option>
+                            <option value="exhibition">Exhibition Promotion</option>
+                            <option value="artist">Artist Promotion</option>
+                            <option value="general">General Marketing</option>
+                            <option value="seasonal">Seasonal Campaign</option>
+                        </select>
+                    </div>
+                    <div class="formGroup">
+                        <label>Start Date:</label>
+                        <input type="date" id="campaignStartDate" name="campaignStartDate" required>
+                    </div>
+                    <div class="formGroup">
+                        <label>End Date:</label>
+                        <input type="date" id="campaignEndDate" name="campaignEndDate" required>
+                    </div>
+                    <div class="formGroup">
+                        <label>Budget (EGP):</label>
+                        <input type="number" id="campaignBudget" name="campaignBudget" min="0" step="100" required>
+                    </div>
+                    <div class="formGroup">
+                        <label>Description:</label>
+                        <textarea id="campaignDescription" name="campaignDescription" rows="3" placeholder="Describe your campaign objectives..."></textarea>
+                    </div>
+                    <div class="formActions">
+                        <button type="submit" class="btn btn-primary">Create Campaign</button>
+                        <button type="button" class="btn btn-secondary" id="cancelCampaign">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./public/admin-marketing.js"></script>
+</body>
+</html>

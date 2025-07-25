@@ -61,18 +61,9 @@ function updateActiveFilters() {
   const activeFiltersContainer = document.getElementById('activeFilters');
   activeFiltersContainer.innerHTML = '';
 
-  if (activeFilters.search) {
-    addFilterTag('Search', activeFilters.search, () => {
-      activeFilters.search = '';
-      document.getElementById('searchInput').value = '';
-      updateActiveFilters();
-      applyFilters();
-    });
-  }
-
+  // Category filter tag
   if (activeFilters.category !== 'all') {
-    const categoryText = activeFilters.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    addFilterTag('Category', categoryText, () => {
+    addFilterTag('Category', activeFilters.category, () => {
       activeFilters.category = 'all';
       document.getElementById('categoryFilter').value = 'all';
       updateActiveFilters();
@@ -80,6 +71,20 @@ function updateActiveFilters() {
     });
   }
 
+  // Price range filter tag
+  if (activeFilters.minPrice || activeFilters.maxPrice) {
+    const priceText = `$${activeFilters.minPrice || '0'} - $${activeFilters.maxPrice || '∞'}`;
+    addFilterTag('Price', priceText, () => {
+      activeFilters.minPrice = '';
+      activeFilters.maxPrice = '';
+      document.getElementById('minPrice').value = '';
+      document.getElementById('maxPrice').value = '';
+      updateActiveFilters();
+      applyFilters();
+    });
+  }
+
+  // Sort filter tag
   if (activeFilters.sort !== 'featured') {
     const sortText = activeFilters.sort.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     addFilterTag('Sort', sortText, () => {
@@ -128,7 +133,7 @@ function clearAllFilters() {
 
 // Apply filters to artwork grid
 function applyFilters() {
-  const artworks = document.querySelectorAll('.artwork-card');
+  const artworks = document.querySelectorAll('.enhanced-artwork-card');
   let visibleCount = 0;
 
   artworks.forEach(artwork => {
@@ -136,10 +141,10 @@ function applyFilters() {
 
     // Search filter
     if (activeFilters.search) {
-      const title = artwork.querySelector('.artwork-title').textContent.toLowerCase();
-      const artist = artwork.querySelector('.artwork-artist').textContent.toLowerCase();
+      const title = artwork.querySelector('.enhanced-artwork-title').textContent.toLowerCase();
+      const artist = artwork.querySelector('.enhanced-artwork-artist').textContent.toLowerCase();
       const category = artwork.dataset.category.toLowerCase();
-      const description = artwork.querySelector('.artwork-description').textContent.toLowerCase();
+      const description = artwork.querySelector('.enhanced-artwork-description').textContent.toLowerCase();
       
       visible = title.includes(activeFilters.search) || 
                 artist.includes(activeFilters.search) || 
@@ -187,8 +192,8 @@ function sortArtworks() {
         // You would need to add data-date attributes to implement this
         return 0;
       case 'artist':
-        const artistA = a.querySelector('.artwork-artist').textContent;
-        const artistB = b.querySelector('.artwork-artist').textContent;
+        const artistA = a.querySelector('.enhanced-artwork-artist').textContent;
+        const artistB = b.querySelector('.enhanced-artwork-artist').textContent;
         return artistA.localeCompare(artistB);
       default:
         return 0;

@@ -1,0 +1,1533 @@
+/* Marketing & Promotion Admin Page Styles */
+@import url('./admin-communication.css');
+
+/* Marketing-specific extensions */
+.campaignsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.campaignCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.campaignCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.campaignHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.campaignInfo h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.campaignMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.campaignMeta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.campaignActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.campaignDescription {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.campaignMetrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.campaignMetric {
+    text-align: center;
+}
+
+.campaignMetric .metricValue {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: block;
+}
+
+.campaignMetric .metricLabel {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* Tab Navigation Styles */
+.tabNav {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 1.5rem;
+}
+
+.tabBtn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tabBtn:hover {
+    color: var(--primary-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.tabBtn.active {
+    color: var(--primary-gold);
+    border-bottom-color: var(--primary-gold);
+}
+
+.tabPane {
+    display: none;
+}
+
+.tabPane.active {
+    display: block;
+}
+
+/* Social Media Styles */
+.socialMediaContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.socialPlatforms {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.platformCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.platformHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.platformInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.platformInfo i {
+    font-size: 2rem;
+}
+
+.platformInfo h3 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.platformInfo p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.connectionStatus {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.connectionStatus.connected {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-green);
+}
+
+.connectionStatus.disconnected {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-red);
+}
+
+.platformStats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.platformStat {
+    text-align: center;
+}
+
+.platformStat .statValue {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: block;
+}
+
+.platformStat .statLabel {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.connectPlatform {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.scheduledPosts {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    height: fit-content;
+}
+
+.scheduledPosts h3 {
+    margin: 0 0 1rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.postsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.scheduledPost {
+    padding: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+}
+
+.postHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.postPlatforms {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.postPlatforms i {
+    font-size: 1rem;
+}
+
+.postTime {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.postContent {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+
+/* Email Marketing Styles */
+.emailMarketingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.emailStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.emailStatCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.emailStatIcon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.emailStatInfo h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.emailStatInfo p {
+    color: var(--text-muted);
+    margin: 0.25rem 0 0 0;
+    font-size: 0.9rem;
+}
+
+.emailCampaigns {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.emailCampaigns h3 {
+    margin: 0 0 1rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.emailCampaignsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.emailCampaignItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+}
+
+.emailCampaignInfo h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text-dark);
+}
+
+.emailCampaignInfo p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.emailCampaignStats {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.85rem;
+}
+
+.emailCampaignStats span {
+    color: var(--text-muted);
+}
+
+.emailCampaignStats strong {
+    color: var(--text-dark);
+}
+
+/* Promotions Styles */
+.promotionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.promotionFilters {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.promotionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.promotionItem {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.promotionInfo {
+    flex: 1;
+}
+
+.promotionInfo h4 {
+    margin: 0 0 0.5rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.promotionCode {
+    background: var(--primary-gold);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.promotionDetails {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.promotionDetails span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.promotionStats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.promotionUsage {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.promotionActions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+/* Analytics Styles */
+.analyticsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.analyticsCharts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.chartCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.chartHeader {
+    margin-bottom: 1rem;
+}
+
+.chartHeader h3 {
+    margin: 0 0 0.25rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.chartHeader p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.chartPlaceholder {
+    height: 250px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border: 2px dashed var(--border-light);
+}
+
+.chartPlaceholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.performanceMetrics {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.performanceMetrics h3 {
+    margin: 0 0 1.5rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.metricCard {
+    padding: 1.5rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+    text-align: center;
+}
+
+.metricCard h4 {
+    margin: 0 0 1rem 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.metricValue {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 0.5rem;
+}
+
+.metricChange {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.metricChange.positive {
+    color: var(--success-green);
+}
+
+.metricChange.negative {
+    color: var(--danger-red);
+}
+
+/* Modal Specific Styles */
+.checkboxGroup {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.checkboxLabel:hover {
+    border-color: var(--primary-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.checkboxLabel input[type="checkbox"] {
+    margin: 0;
+}
+
+.checkboxLabel input[type="checkbox"]:checked + i {
+    color: var(--primary-gold);
+}
+
+.characterCount {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+.emptyState i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.emptyState h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-dark);
+}
+
+.emptyState p {
+    margin: 0 0 1.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .socialMediaContainer {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .platformStats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .campaignsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .analyticsCharts {
+        grid-template-columns: 1fr;
+    }
+    
+    .metricsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .campaignHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .campaignActions {
+        align-self: flex-end;
+    }
+    
+    .campaignMetrics {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .platformHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .platformStats {
+        grid-template-columns: 1fr;
+    }
+    
+    .promotionItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .promotionStats {
+        align-items: flex-start;
+    }
+    
+    .promotionActions {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .tabNav {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .tabBtn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .checkboxGroup {
+        flex-direction: column;
+    }
+    
+    .checkboxLabel {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .campaignsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .emailStats {
+        grid-template-columns: 1fr;
+    }
+    
+    .emailStatCard {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .metricsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Campaigns Grid */
+.campaignsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.campaignCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.campaignCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.campaignHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.campaignInfo h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 0.5rem 0;
+}
+
+.campaignMeta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.campaignMeta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.campaignStatus {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.campaignActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.campaignDescription {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.campaignMetrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.campaignMetric {
+    text-align: center;
+}
+
+.campaignMetric .metricValue {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: block;
+}
+
+.campaignMetric .metricLabel {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+/* Social Media Styles */
+.socialMediaContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.socialPlatforms {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.platformCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.platformHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.platformInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.platformInfo i {
+    font-size: 2rem;
+}
+
+.platformInfo h3 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.platformInfo p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.connectionStatus {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.connectionStatus.connected {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-green);
+}
+
+.connectionStatus.disconnected {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-red);
+}
+
+.platformStats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.platformStat {
+    text-align: center;
+}
+
+.platformStat .statValue {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: block;
+}
+
+.platformStat .statLabel {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.connectPlatform {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.scheduledPosts {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    height: fit-content;
+}
+
+.scheduledPosts h3 {
+    margin: 0 0 1rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.postsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.scheduledPost {
+    padding: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+}
+
+.postHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.postPlatforms {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.postPlatforms i {
+    font-size: 1rem;
+}
+
+.postTime {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.postContent {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+
+/* Email Marketing Styles */
+.emailMarketingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.emailStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.emailStatCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.emailStatIcon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-gold), var(--accent-gold));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.emailStatInfo h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.emailStatInfo p {
+    color: var(--text-muted);
+    margin: 0.25rem 0 0 0;
+    font-size: 0.9rem;
+}
+
+.emailCampaigns {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.emailCampaigns h3 {
+    margin: 0 0 1rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.emailCampaignsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.emailCampaignItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+}
+
+.emailCampaignInfo h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text-dark);
+}
+
+.emailCampaignInfo p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.emailCampaignStats {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.85rem;
+}
+
+.emailCampaignStats span {
+    color: var(--text-muted);
+}
+
+.emailCampaignStats strong {
+    color: var(--text-dark);
+}
+
+/* Promotions Styles */
+.promotionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.promotionFilters {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.promotionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.promotionItem {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.promotionInfo {
+    flex: 1;
+}
+
+.promotionInfo h4 {
+    margin: 0 0 0.5rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.promotionCode {
+    background: var(--primary-gold);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.promotionDetails {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.promotionDetails span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.promotionStats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.promotionUsage {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.promotionActions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+/* Analytics Styles */
+.analyticsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.analyticsCharts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.chartCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.chartHeader {
+    margin-bottom: 1rem;
+}
+
+.chartHeader h3 {
+    margin: 0 0 0.25rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.chartHeader p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.chartPlaceholder {
+    height: 250px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border: 2px dashed var(--border-light);
+}
+
+.chartPlaceholder i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.performanceMetrics {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+}
+
+.performanceMetrics h3 {
+    margin: 0 0 1.5rem 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--text-dark);
+}
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.metricCard {
+    padding: 1.5rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+    text-align: center;
+}
+
+.metricCard h4 {
+    margin: 0 0 1rem 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.metricValue {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 0.5rem;
+}
+
+.metricChange {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.metricChange.positive {
+    color: var(--success-green);
+}
+
+.metricChange.negative {
+    color: var(--danger-red);
+}
+
+/* Modal Specific Styles */
+.checkboxGroup {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.checkboxLabel:hover {
+    border-color: var(--primary-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.checkboxLabel input[type="checkbox"] {
+    margin: 0;
+}
+
+.checkboxLabel input[type="checkbox"]:checked + i {
+    color: var(--primary-gold);
+}
+
+.characterCount {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* Filter Styles */
+.filterGroup {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.filter {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    background: white;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+.filter:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.searchInput {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    background: white;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    min-width: 200px;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.searchInput::placeholder {
+    color: var(--text-muted);
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+.emptyState i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.emptyState h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-dark);
+}
+
+.emptyState p {
+    margin: 0 0 1.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .socialMediaContainer {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .platformStats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .campaignsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .analyticsCharts {
+        grid-template-columns: 1fr;
+    }
+    
+    .metricsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .statsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .statCard {
+        padding: 1rem;
+    }
+    
+    .statCard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .statChange {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .campaignHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .campaignActions {
+        align-self: flex-end;
+    }
+    
+    .campaignMetrics {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .platformHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .platformStats {
+        grid-template-columns: 1fr;
+    }
+    
+    .promotionItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .promotionStats {
+        align-items: flex-start;
+    }
+    
+    .promotionActions {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .filterGroup {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter,
+    .searchInput {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .checkboxGroup {
+        flex-direction: column;
+    }
+    
+    .checkboxLabel {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .campaignsGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .emailStats {
+        grid-template-columns: 1fr;
+    }
+    
+    .emailStatCard {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .metricsGrid {
+        grid-template-columns: 1fr;
+    }
+}

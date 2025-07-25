@@ -1,0 +1,658 @@
+/* ==========================================
+   ADMIN SYSTEM STYLES
+   ========================================== */
+
+/* Import base admin styles */
+@import url('./admin-communication.css');
+
+/* Additional System Admin Specific Styles */
+
+/* ==========================================
+   SYSTEM STATUS ENHANCEMENTS
+   ========================================== */
+.system-status .statIcon {
+    background: linear-gradient(135deg, var(--success-green), var(--sage-green));
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+    }
+}
+
+.statChange.neutral {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+/* ==========================================
+   QUICK ACTIONS GRID
+   ========================================== */
+.quickActions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.actionCard {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    background: white;
+    border: 2px solid rgba(107, 68, 35, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.actionCard:hover {
+    border-color: var(--primary-brown);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(107, 68, 35, 0.15);
+}
+
+.actionIcon {
+    width: 60px;
+    height: 60px;
+    background: var(--light-gold);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary-brown);
+    flex-shrink: 0;
+}
+
+.actionContent h4 {
+    font-size: 1.1rem;
+    color: var(--primary-brown);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.actionContent p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* ==========================================
+   CONFIGURATION TABS
+   ========================================== */
+.configTabs {
+    background: white;
+}
+
+.tabNav {
+    display: flex;
+    border-bottom: 2px solid var(--light-gold);
+    background: var(--cream);
+    padding: 0 30px;
+}
+
+.tabBtn {
+    padding: 15px 25px;
+    border: none;
+    background: none;
+    color: var(--text-light);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabBtn:hover {
+    color: var(--primary-brown);
+    background: rgba(212, 165, 116, 0.1);
+}
+
+.tabBtn.active {
+    color: var(--primary-brown);
+    border-bottom-color: var(--primary-brown);
+    background: white;
+}
+
+.tabContent {
+    position: relative;
+}
+
+.tabPane {
+    display: none;
+    padding: 40px 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+.tabPane.active {
+    display: block;
+}
+
+.configGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.configGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.configGroup label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+}
+
+.configGroup input,
+.configGroup textarea,
+.configGroup select {
+    padding: 12px 15px;
+    border: 2px solid rgba(107, 68, 35, 0.2);
+    border-radius: 8px;
+    font-family: inherit;
+    background: white;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.configGroup input:focus,
+.configGroup textarea:focus,
+.configGroup select:focus {
+    outline: none;
+    border-color: var(--primary-brown);
+    box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.1);
+}
+
+/* ==========================================
+   TOGGLE SWITCH
+   ========================================== */
+.toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggleSwitch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-brown);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider:hover {
+    box-shadow: 0 0 0 8px rgba(107, 68, 35, 0.1);
+}
+
+/* ==========================================
+   ROLES GRID
+   ========================================== */
+.rolesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    padding: 30px;
+}
+
+.roleCard {
+    background: white;
+    border: 2px solid rgba(107, 68, 35, 0.1);
+    border-radius: 12px;
+    padding: 25px;
+    transition: all 0.3s ease;
+}
+
+.roleCard:hover {
+    border-color: var(--primary-brown);
+    box-shadow: 0 8px 25px rgba(107, 68, 35, 0.1);
+}
+
+.roleHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.roleInfo h4 {
+    color: var(--primary-brown);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.roleInfo p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.roleActions {
+    display: flex;
+    gap: 8px;
+}
+
+.roleActions .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+.rolePermissions {
+    margin-top: 20px;
+}
+
+.rolePermissions h5 {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.permissionTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.permissionTag {
+    padding: 4px 10px;
+    background: var(--light-gold);
+    color: var(--primary-brown);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.roleStats {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(107, 68, 35, 0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* ==========================================
+   PERMISSIONS GRID (MODAL)
+   ========================================== */
+.permissionsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    border: 2px solid rgba(107, 68, 35, 0.1);
+    border-radius: 8px;
+    background: var(--cream);
+}
+
+.permissionItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.permissionItem:hover {
+    background: var(--light-gold);
+}
+
+.permissionItem input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-brown);
+}
+
+.permissionItem label {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    flex: 1;
+}
+
+/* ==========================================
+   LOGS CONTAINER
+   ========================================== */
+.logsContainer {
+    max-height: 500px;
+    overflow-y: auto;
+    background: var(--dark-gray);
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    padding: 20px;
+    margin: 0;
+}
+
+.logEntry {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logTime {
+    color: #888;
+    font-size: 0.8rem;
+    min-width: 120px;
+    flex-shrink: 0;
+}
+
+.logLevel {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.logLevel.error {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b;
+}
+
+.logLevel.warning {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffd93d;
+}
+
+.logLevel.info {
+    background: rgba(74, 144, 226, 0.2);
+    color: #74c0fc;
+}
+
+.logLevel.security {
+    background: rgba(156, 39, 176, 0.2);
+    color: #da77f2;
+}
+
+.logMessage {
+    flex: 1;
+    color: #e9ecef;
+    line-height: 1.4;
+}
+
+/* ==========================================
+   PROGRESS INDICATORS
+   ========================================== */
+.progressBar {
+    width: 100%;
+    height: 8px;
+    background: rgba(107, 68, 35, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-brown), var(--gold-accent));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: 200px 0;
+    }
+}
+
+/* ==========================================
+   STATUS INDICATORS
+   ========================================== */
+.statusIndicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.statusIndicator.online {
+    background: rgba(40, 167, 69, 0.1);
+    color: var(--success-green);
+}
+
+.statusIndicator.offline {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--danger-red);
+}
+
+.statusIndicator.maintenance {
+    background: rgba(255, 193, 7, 0.1);
+    color: var(--warning-orange);
+}
+
+.statusIndicator::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0.3;
+    }
+}
+
+/* ==========================================
+   LOADING STATES
+   ========================================== */
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--primary-brown);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE ENHANCEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+    .quickActions {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .actionCard {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .configGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .tabNav {
+        overflow-x: auto;
+        padding: 0 20px;
+    }
+
+    .tabBtn {
+        white-space: nowrap;
+        padding: 12px 20px;
+        font-size: 0.8rem;
+    }
+
+    .rolesGrid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .roleHeader {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .roleActions {
+        align-self: stretch;
+    }
+
+    .permissionsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .logsContainer {
+        font-size: 0.8rem;
+        padding: 15px;
+    }
+
+    .logEntry {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .logTime {
+        min-width: auto;
+    }
+}
+
+/* ==========================================
+   DARK MODE SUPPORT (FOR LOGS)
+   ========================================== */
+.darkMode .logsContainer {
+    background: #1a1a1a;
+    border: 1px solid #333;
+}
+
+.darkMode .logEntry {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ========================================== */
+.configGroup input:focus,
+.configGroup textarea:focus,
+.configGroup select:focus {
+    box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.2);
+}
+
+.toggleSwitch input:focus + .slider {
+    box-shadow: 0 0 0 4px rgba(107, 68, 35, 0.2);
+}
+
+.actionCard:focus {
+    outline: 3px solid rgba(107, 68, 35, 0.3);
+    outline-offset: 2px;
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+.actionCard,
+.roleCard,
+.tabPane {
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.actionCard:nth-child(1) { animation-delay: 0.1s; }
+.actionCard:nth-child(2) { animation-delay: 0.2s; }
+.actionCard:nth-child(3) { animation-delay: 0.3s; }
+.actionCard:nth-child(4) { animation-delay: 0.4s; }

@@ -1,0 +1,730 @@
+/* ==========================================
+   ADMIN GALLERY MANAGEMENT STYLES
+   ========================================== */
+
+/* Import base admin styles */
+@import url('./admin-communication.css');
+
+/* Gallery Management Specific Styles */
+
+/* ==========================================
+   GALLERY TABS
+   ========================================== */
+.galleryTabs {
+    background: white;
+}
+
+.tabNav {
+    display: flex;
+    border-bottom: 2px solid var(--light-gold);
+    background: var(--cream);
+    padding: 0 30px;
+    overflow-x: auto;
+}
+
+.tabBtn {
+    padding: 15px 25px;
+    border: none;
+    background: none;
+    color: var(--text-light);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabBtn:hover {
+    color: var(--primary-brown);
+    background: rgba(212, 165, 116, 0.1);
+}
+
+.tabBtn.active {
+    color: var(--primary-brown);
+    border-bottom-color: var(--primary-brown);
+    background: white;
+}
+
+.tabContent {
+    position: relative;
+}
+
+.tabPane {
+    display: none;
+    padding: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+.tabPane.active {
+    display: block;
+}
+
+/* ==========================================
+   GALLERY CONTROLS
+   ========================================== */
+.galleryControls,
+.exhibitionsControls,
+.partnershipsControls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--cream);
+    border-radius: 12px;
+    flex-wrap: wrap;
+}
+
+.featuredControls {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--light-gold);
+    border-radius: 12px;
+}
+
+.featuredDescription {
+    color: var(--text-dark);
+    font-style: italic;
+    margin: 0;
+}
+
+/* ==========================================
+   GALLERIES GRID
+   ========================================== */
+.galleriesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.galleryCard {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(107, 68, 35, 0.1);
+    border: 1px solid rgba(107, 68, 35, 0.1);
+    transition: all 0.3s ease;
+}
+
+.galleryCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(107, 68, 35, 0.15);
+}
+
+.galleryImage {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.galleryImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.galleryCard:hover .galleryImage img {
+    transform: scale(1.05);
+}
+
+.galleryStatus {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-active {
+    background: rgba(40, 167, 69, 0.9);
+    color: white;
+}
+
+.status-draft {
+    background: rgba(255, 193, 7, 0.9);
+    color: var(--dark-brown);
+}
+
+.status-archived {
+    background: rgba(108, 117, 125, 0.9);
+    color: white;
+}
+
+.galleryInfo {
+    padding: 25px;
+}
+
+.galleryHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.galleryTitle {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-brown);
+    margin-bottom: 5px;
+}
+
+.galleryType {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.galleryActions {
+    display: flex;
+    gap: 8px;
+}
+
+.galleryActions .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+.galleryDescription {
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.galleryStats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    border-top: 1px solid rgba(107, 68, 35, 0.1);
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.galleryStat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ==========================================
+   EXHIBITIONS LIST
+   ========================================== */
+.exhibitionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.exhibitionCard {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(107, 68, 35, 0.1);
+    border: 1px solid rgba(107, 68, 35, 0.1);
+    transition: all 0.3s ease;
+}
+
+.exhibitionCard:hover {
+    box-shadow: 0 8px 30px rgba(107, 68, 35, 0.15);
+}
+
+.exhibitionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.exhibitionInfo h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-brown);
+    margin-bottom: 8px;
+}
+
+.exhibitionMeta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.exhibitionMeta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.exhibitionStatus {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-upcoming {
+    background: rgba(74, 144, 226, 0.1);
+    color: var(--blue-accent);
+}
+
+.status-ended {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.exhibitionActions {
+    display: flex;
+    gap: 8px;
+}
+
+.exhibitionDescription {
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.exhibitionFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid rgba(107, 68, 35, 0.1);
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ==========================================
+   PARTNERS GRID
+   ========================================== */
+.partnersGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.partnerCard {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(107, 68, 35, 0.1);
+    border: 1px solid rgba(107, 68, 35, 0.1);
+    transition: all 0.3s ease;
+}
+
+.partnerCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(107, 68, 35, 0.15);
+}
+
+.partnerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.partnerInfo h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-brown);
+    margin-bottom: 5px;
+}
+
+.partnerType {
+    padding: 4px 10px;
+    background: var(--light-gold);
+    color: var(--primary-brown);
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.partnerContact {
+    margin-bottom: 15px;
+}
+
+.partnerContact p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.partnerContact i {
+    width: 15px;
+    color: var(--text-light);
+}
+
+.partnerStats {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    border-top: 1px solid rgba(107, 68, 35, 0.1);
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* ==========================================
+   FEATURED SECTIONS
+   ========================================== */
+.featuredSections {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.featuredSection h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-brown);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--light-gold);
+}
+
+.featuredContent {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.featuredItem {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid rgba(107, 68, 35, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.featuredItem:hover {
+    border-color: var(--primary-brown);
+    transform: translateY(-3px);
+}
+
+.featuredItem.selected {
+    border-color: var(--primary-brown);
+    box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.2);
+}
+
+.featuredItemImage {
+    height: 150px;
+    overflow: hidden;
+}
+
+.featuredItemImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.featuredItemInfo {
+    padding: 15px;
+}
+
+.featuredItemTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-brown);
+    margin-bottom: 5px;
+}
+
+.featuredItemMeta {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.featuredControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.featuredControlBtn {
+    padding: 8px 16px;
+    border: 2px solid var(--primary-brown);
+    background: transparent;
+    color: var(--primary-brown);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.featuredControlBtn:hover,
+.featuredControlBtn.active {
+    background: var(--primary-brown);
+    color: white;
+}
+
+/* ==========================================
+   FORM GRID
+   ========================================== */
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.formGroup.full-width {
+    grid-column: 1 / -1;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid rgba(107, 68, 35, 0.2);
+    border-radius: 8px;
+    font-family: inherit;
+    background: white;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+    outline: none;
+    border-color: var(--primary-brown);
+    box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.1);
+}
+
+.formGroup input[type="file"] {
+    padding: 8px;
+    border-style: dashed;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 1024px) {
+    .galleriesGrid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .partnersGrid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .featuredContent {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tabPane {
+        padding: 20px;
+    }
+
+    .galleryControls,
+    .exhibitionsControls,
+    .partnershipsControls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .galleriesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .partnersGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .featuredContent {
+        grid-template-columns: 1fr;
+    }
+
+    .galleryHeader,
+    .exhibitionHeader,
+    .partnerHeader {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .galleryActions,
+    .exhibitionActions {
+        justify-content: flex-start;
+    }
+
+    .exhibitionFooter {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabNav {
+        padding: 0 20px;
+    }
+
+    .tabBtn {
+        padding: 12px 20px;
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================
+   LOADING STATES
+   ========================================== */
+.galleryCard.loading,
+.exhibitionCard.loading,
+.partnerCard.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loadingSpinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(107, 68, 35, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-brown);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+.galleryCard,
+.exhibitionCard,
+.partnerCard,
+.featuredItem {
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.galleryCard:nth-child(1) { animation-delay: 0.1s; }
+.galleryCard:nth-child(2) { animation-delay: 0.2s; }
+.galleryCard:nth-child(3) { animation-delay: 0.3s; }
+.galleryCard:nth-child(4) { animation-delay: 0.4s; }
+
+/* ==========================================
+   ACCESSIBILITY
+   ========================================== */
+.galleryCard:focus,
+.exhibitionCard:focus,
+.partnerCard:focus,
+.featuredItem:focus {
+    outline: 3px solid rgba(107, 68, 35, 0.3);
+    outline-offset: 2px;
+}
+
+.btn:focus {
+    box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.3);
+}
+
+/* ==========================================
+   EMPTY STATES
+   ========================================== */
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+}
+
+.emptyState i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: var(--gold-accent);
+}
+
+.emptyState h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+.emptyState p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* ==========================================
+   DRAG AND DROP STYLES
+   ========================================== */
+.dragOver {
+    border-color: var(--primary-brown) !important;
+    background: rgba(212, 165, 116, 0.1) !important;
+}
+
+.dragDropArea {
+    border: 2px dashed rgba(107, 68, 35, 0.3);
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dragDropArea:hover {
+    border-color: var(--primary-brown);
+    background: rgba(212, 165, 116, 0.05);
+}
+
+.dragDropArea i {
+    font-size: 2rem;
+    color: var(--gold-accent);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.dragDropArea p {
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.dragDropArea small {
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
