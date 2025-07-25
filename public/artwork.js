@@ -59,7 +59,7 @@ function setupEventListeners() {
     updateActiveFilters();
     applyFilters();
   });
-});
+};
 
 // Update active filters display
 function updateActiveFilters() {
@@ -178,7 +178,7 @@ function clearAllFilters() {
   applyFilters();
 }
 
-<<<<<<< Updated upstream
+
 // Apply filters to artwork grid
 function applyFilters() {
   const artworks = document.querySelectorAll('.enhanced-artwork-card');
@@ -224,11 +224,12 @@ function applyFilters() {
   // Sort artworks
   sortArtworks();
 }
-=======
 // Export functions for global access
 window.applyFilters = applyFilters;
 window.clearAllFilters = clearAllFilters;
->>>>>>> Stashed changes
+// Export functions for global access
+window.applyFilters = applyFilters;
+window.clearAllFilters = clearAllFilters;
 
 // Sort artworks based on current sort selection
 function sortArtworks() {

@@ -407,6 +407,10 @@ label i{
 /* Enhanced Artwork Cards */
 .enhanced-artwork-card {
   background: var(--white-pure);
+}
+/* Artwork Cards */
+.artwork-card {
+  background: linear-gradient(180deg, var(--cream-darker) 0%, var(--cream-darkest) 100%);
   border-radius: 3px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
