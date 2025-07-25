@@ -163,97 +163,93 @@
     </div>
 
     <!-- Search Section -->
-    <section class="search-section">
-      <!-- Page Header -->
-      <header class="page-header">
-          <div class="course-header-container">
-              <h1 class="page-title">ARTWORKS</h1>
-          </div>
-      </header>
-
-      <!-- Hero Section -->
+    <div class="search-section">
       <div class="search-hero">
-        <h2>Find Your Perfect Piece</h2>
+        <h2>Discover Unique Artworks</h2>
+        <p class="search-subtitle">Browse through our curated collection of artworks</p>
       </div>
 
       <!-- Main Search Bar -->
       <div class="main-search">
         <div class="search-wrapper">
-          <i class="fas fa-search search-icon"></i>
           <input 
             type="text"
-            class="hero-search-input"
+            class="search-input"
             id="searchInput"
-            placeholder="Search by artwork title, artist, or style..."
+            placeholder="Search artworks by name, artist, or style..."
+            autocomplete="off"
           >
-          <button class="hero-search-btn" onclick="applyFilters()">
+          <button class="search-btn" onclick="applyFilters()">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-
-      <!-- Search Results -->
-      <div class="search-results" id="searchResults"></div>
+    </div>
 
     <!-- Filter Section -->
     <div class="filters-container">
-      <div class="filters-grid">
-        <div class="filter-group">
-          <label class="filter-label">
-            <i class="fas fa-th-large"></i>
-            Category
-          </label>
-          <select class="filter-select" id="categoryFilter">
-            <option value="all">All Categories</option>
-            <option value="portraits">Portraits</option>
-            <option value="landscapes">Landscapes</option>
-            <option value="abstract">Abstract</option>
-            <option value="photography">Photography</option>
-            <option value="mixed-media">Mixed Media</option>
-          </select>
+        <div class="filters-header">
+            <h3>Filter Artworks</h3>
+            <button class="clear-filters-btn" onclick="clearAllFilters()">
+                <i class="fas fa-times"></i> Clear All
+            </button>
         </div>
 
-        <div class="filter-group">
-          <label class="filter-label">
-            <i class="fas fa-sort"></i>
-            Sort By
-          </label>
-          <select class="filter-select" id="sortBy">
-            <option value="featured">Featured</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="newest">Newest</option>
-            <option value="artist">Artist Name</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label class="filter-label">
-            <i class="fas fa-dollar-sign"></i>
-            Price Range
-          </label>
-          <div class="price-range-container">
-            <div class="price-input-wrapper">
-              <input type="number" id="minPrice" class="filter-input" placeholder="Min" min="0">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-th-large"></i>
+                    Category
+                </label>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="portraits">Portraits</option>
+                    <option value="landscapes">Landscapes</option>
+                    <option value="abstract">Abstract</option>
+                    <option value="photography">Photography</option>
+                    <option value="mixed-media">Mixed Media</option>
+                </select>
             </div>
-            <span class="price-separator">-</span>
-            <div class="price-input-wrapper">
-              <input type="number" id="maxPrice" class="filter-input" placeholder="Max" min="0">
+
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-sort"></i>
+                    Sort By
+                </label>
+                <select class="filter-select" id="sortBy">
+                    <option value="featured">Featured</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="newest">Newest</option>
+                    <option value="artist">Artist Name</option>
+                </select>
             </div>
-          </div>
+
+            <div class="filter-group">
+                <label class="filter-label">
+                    <i class="fas fa-dollar-sign"></i>
+                    Price Range
+                </label>
+                <div class="price-range-container">
+                    <div class="price-input-wrapper">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="minPrice" class="filter-input price-input" placeholder="Min" min="0">
+                    </div>
+                    <span class="price-separator">-</span>
+                    <div class="price-input-wrapper">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="maxPrice" class="filter-input price-input" placeholder="Max" min="0">
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- Active Filters -->
-      <div class="active-filters" id="activeFilters"></div>
-
-      <!-- Clear Filters -->
-      <div class="clear-filters-container">
-        <button class="clear-filters-btn" onclick="clearAllFilters()">
-          <i class="fas fa-times"></i> 
-          Clear All Filters
-        </button>
-      </div>
+        <div class="filters-actions">
+            <button class="apply-filters-btn" onclick="applyFilters()">
+                <i class="fas fa-filter"></i>
+                Apply Filters
+            </button>
+        </div>
     </div>
     
     <!-- Artwork Gallery Section -->
@@ -482,7 +478,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>Made with 🤎 by Yadawity Team © All rights reserved.</p>
+        <p>Made by Yadawity Team © All rights reserved.</p>
         <div class="footer-links">
           <a href="./about.html">About Us</a>
           <a href="./privacyPolicy.html">Privacy Policy</a>

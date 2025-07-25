@@ -8,7 +8,6 @@ function initializeAuctionPage() {
     initializeTimers();
     initializeFilters();
     initializeWatchlist();
-    initializeLoadMore();
     updateCartCount();
     updateWishlistCount();
 }
@@ -246,37 +245,6 @@ function toggleWatchlist(event) {
     }
 }
 
-// Load more functionality
-function initializeLoadMore() {
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
-    
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', loadMoreAuctions);
-    }
-}
-
-function loadMoreAuctions() {
-    const btn = document.getElementById('loadMoreBtn');
-    const originalText = btn.innerHTML;
-    
-    // Show loading state
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
-    btn.disabled = true;
-    
-    // Simulate loading delay
-    setTimeout(() => {
-        // In a real application, this would fetch more auctions from an API
-        showNotification('All auctions loaded', 'info');
-        
-        // Reset button
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        
-        // Hide load more button if no more items
-        btn.style.display = 'none';
-    }, 1500);
-}
-
 // Open auction preview page
 function openAuctionPreview(auctionId) {
     // In a real application, this would navigate to the auction preview page
@@ -358,71 +326,4 @@ function showNotification(message, type = 'info') {
             document.body.removeChild(notification);
         }, 300);
     }, 3000);
-}
-
-// Navbar functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Search functionality
-    const searchBtn = document.getElementById('searchButton');
-    const searchInput = document.getElementById('navbarSearch');
-    
-    if (searchBtn && searchInput) {
-        searchBtn.addEventListener('click', performSearch);
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-    }
-    
-    // User dropdown
-    const userAccount = document.getElementById('userAccount');
-    const userMenu = document.getElementById('userMenu');
-    
-    if (userAccount && userMenu) {
-        userAccount.addEventListener('click', function(e) {
-            e.preventDefault();
-            userMenu.classList.toggle('show');
-        });
-        
-        document.addEventListener('click', function(e) {
-            if (!userAccount.contains(e.target) && !userMenu.contains(e.target)) {
-                userMenu.classList.remove('show');
-            }
-        });
-    }
-});
-
-function performSearch() {
-    const searchInput = document.getElementById('navbarSearch');
-    const query = searchInput.value.trim();
-    
-    if (query) {
-        // In a real application, this would perform the search
-        showNotification(`Searching for: ${query}`, 'info');
-        
-        // Filter auctions based on search query
-        filterAuctionsBySearch(query);
-    }
-}
-
-function filterAuctionsBySearch(query) {
-    const cards = document.querySelectorAll('.auctionCard');
-    const searchTerm = query.toLowerCase();
-    
-    cards.forEach(card => {
-        const title = card.querySelector('.auctionTitle').textContent.toLowerCase();
-        const artist = card.querySelector('.auctionArtist').textContent.toLowerCase();
-        const description = card.querySelector('.auctionDescription').textContent.toLowerCase();
-        
-        const isMatch = title.includes(searchTerm) || 
-                       artist.includes(searchTerm) || 
-                       description.includes(searchTerm);
-        
-        if (isMatch) {
-            card.classList.remove('hidden');
-        } else {
-            card.classList.add('hidden');
-        }
-    });
 }

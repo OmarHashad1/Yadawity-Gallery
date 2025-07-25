@@ -1,3 +1,8 @@
+// DOM Elements
+const searchInput = document.getElementById('searchInput');
+const artworksGrid = document.getElementById('artworksGrid');
+const artworkCount = document.getElementById('artworkCount');
+
 // Filter state
 let activeFilters = {
   search: '',
@@ -9,24 +14,24 @@ let activeFilters = {
 
 // Initialize filters
 document.addEventListener('DOMContentLoaded', () => {
-  // Search functionality
-  const searchInput = document.getElementById('searchInput');
-  const searchBtn = document.querySelector('.search-btn');
+  setupEventListeners();
+  updateArtworkCount();
+});
 
-  searchInput.addEventListener('input', (e) => {
-    activeFilters.search = e.target.value.toLowerCase();
-    applyFilters();
-  });
-
-  searchBtn.addEventListener('click', () => {
-    applyFilters();
-  });
-
-  searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
+// Setup event listeners when DOM is loaded
+function setupEventListeners() {
+  // Search input event listener
+  if (searchInput) {
+    searchInput.addEventListener('input', debounce(() => {
       applyFilters();
-    }
-  });
+    }, 300));
+
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        applyFilters();
+      }
+    });
+  }
 
   // Category filter
   document.getElementById('categoryFilter').addEventListener('change', (e) => {
@@ -54,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateActiveFilters();
     applyFilters();
   });
-});
+};
 
 // Update active filters display
 function updateActiveFilters() {
@@ -111,25 +116,68 @@ function addFilterTag(type, value, removeCallback) {
   activeFiltersContainer.appendChild(filterTag);
 }
 
+// Apply filters function
+function applyFilters() {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const artworkCards = document.querySelectorAll('.artwork-card');
+  let visibleCount = 0;
+
+  artworkCards.forEach(card => {
+    const title = card.querySelector('.artwork-title').textContent.toLowerCase();
+    const artist = card.querySelector('.artwork-artist').textContent.toLowerCase();
+    const category = card.querySelector('.artwork-category').textContent.toLowerCase();
+    const description = card.querySelector('.artwork-description').textContent.toLowerCase();
+
+    const matchesSearch = !searchTerm || 
+        title.includes(searchTerm) ||
+        artist.includes(searchTerm) ||
+        category.includes(searchTerm) ||
+        description.includes(searchTerm);
+
+    if (matchesSearch) {
+      card.style.display = '';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  updateArtworkCount(visibleCount);
+}
+
+// Update artwork count display
+function updateArtworkCount(count) {
+  const totalCount = document.querySelectorAll('.artwork-card').length;
+  if (artworkCount) {
+    if (!count || count === totalCount) {
+      artworkCount.textContent = totalCount;
+    } else {
+      artworkCount.textContent = `${count} of ${totalCount}`;
+    }
+  }
+}
+
+// Debounce function to limit how often a function is called
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 // Clear all filters
 function clearAllFilters() {
-  activeFilters = {
-    search: '',
-    category: 'all',
-    sort: 'featured',
-    minPrice: '',
-    maxPrice: ''
-  };
-
-  // Reset form elements
-  document.getElementById('categoryFilter').value = 'all';
-  document.getElementById('sortBy').value = 'featured';
-  document.getElementById('minPrice').value = '';
-  document.getElementById('maxPrice').value = '';
-
-  updateActiveFilters();
+  if (searchInput) {
+    searchInput.value = '';
+  }
   applyFilters();
 }
+
 
 // Apply filters to artwork grid
 function applyFilters() {
@@ -176,6 +224,12 @@ function applyFilters() {
   // Sort artworks
   sortArtworks();
 }
+// Export functions for global access
+window.applyFilters = applyFilters;
+window.clearAllFilters = clearAllFilters;
+// Export functions for global access
+window.applyFilters = applyFilters;
+window.clearAllFilters = clearAllFilters;
 
 // Sort artworks based on current sort selection
 function sortArtworks() {
