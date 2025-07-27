@@ -819,6 +819,39 @@
       </div>
     </div>
 
+    <!-- Pagination Section -->
+    <section class="pagination-section">
+        <div class="pagination-container">
+            <div class="pagination-controls">
+                <button class="pagination-btn prev-btn" id="prevBtn" onclick="previousPage()" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Previous</span>
+                </button>
+                
+                <div class="pagination-numbers" id="paginationNumbers">
+                    <button class="pagination-number active" onclick="goToPage(1)">1</button>
+                    <button class="pagination-number" onclick="goToPage(2)">2</button>
+                    <button class="pagination-number" onclick="goToPage(3)">3</button>
+                    <span class="pagination-dots">...</span>
+                    <button class="pagination-number" onclick="goToPage(4)">4</button>
+                </div>
+                
+                <button class="pagination-btn next-btn" id="nextBtn" onclick="nextPage()">
+                    <span>Next</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- No Results -->
+    <div class="no-results" id="noResults" style="display: none;">
+        <div class="no-results-icon">🎨</div>
+        <h3>No auctions found</h3>
+        <p>Try adjusting your search terms or filters</p>
+        <button class="clear-search-btn" onclick="clearAllFilters()">Clear All Filters</button>
+    </div>
+
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-section">

@@ -173,6 +173,9 @@ const courses = [
 // Global variables
 let filteredCourses = [...courses]
 let activeFilters = {}
+let currentPage = 1
+let coursesPerPage = 6 // Show 6 courses per page instead of all 12
+let totalPages = 1
 
 // DOM elements
 const searchInput = document.getElementById("searchInput")
@@ -189,8 +192,10 @@ const noResults = document.getElementById("noResults")
 
 // Initialize the page
 document.addEventListener("DOMContentLoaded", () => {
+  filteredCourses = [...courses]
+  totalPages = Math.ceil(courses.length / coursesPerPage)
   renderCourses(courses)
-  updateCourseCount(courses.length)
+  updatePaginationControls()
   setupEventListeners()
   setupNavigation()
 })
@@ -324,16 +329,24 @@ function applyFilters() {
     return matches
   })
 
+  // Reset to first page when filters change
+  currentPage = 1
+
   // Update UI
   renderActiveFilters()
   renderCourses(filteredCourses)
   updateSearchResults()
-  updateCourseCount(filteredCourses.length)
+  updatePaginationControls()
 
   // Show/hide no results
   if (filteredCourses.length === 0) {
     coursesGrid.style.display = "none"
     noResults.style.display = "block"
+    // Hide pagination when no results
+    const paginationSection = document.querySelector(".pagination-section")
+    if (paginationSection) {
+      paginationSection.style.display = "none"
+    }
   } else {
     coursesGrid.style.display = "grid"
     noResults.style.display = "none"
@@ -398,11 +411,12 @@ function clearAllFilters() {
 
   activeFilters = {}
   filteredCourses = [...courses]
+  currentPage = 1
 
   renderActiveFilters()
   renderCourses(courses)
   updateSearchResults()
-  updateCourseCount(courses.length)
+  updatePaginationControls()
 
   coursesGrid.style.display = "grid"
   noResults.style.display = "none"
@@ -412,7 +426,12 @@ function clearAllFilters() {
 function renderCourses(coursesToRender) {
   coursesGrid.innerHTML = ""
 
-  coursesToRender.forEach((course) => {
+  // Pagination logic
+  const startIndex = (currentPage - 1) * coursesPerPage
+  const endIndex = startIndex + coursesPerPage
+  const paginatedCourses = coursesToRender.slice(startIndex, endIndex)
+
+  paginatedCourses.forEach((course) => {
     const courseCard = document.createElement("div")
     courseCard.className = "course-card"
 
@@ -477,6 +496,10 @@ function renderCourses(coursesToRender) {
       openQuickView(courseId);
     });
   });
+
+  // Update pagination info
+  totalPages = Math.ceil(coursesToRender.length / coursesPerPage)
+  updatePaginationInfo()
 }
 
 // Open quick view modal
@@ -551,6 +574,153 @@ function updateCourseCount(count) {
   } else {
     courseCount.textContent = `Showing ${count} of ${courses.length} courses`
   }
+}
+
+// Update pagination info
+function updatePaginationInfo() {
+  const paginationInfo = document.getElementById("paginationInfo")
+  if (paginationInfo) {
+    const startCourse = (currentPage - 1) * coursesPerPage + 1
+    const endCourse = Math.min(currentPage * coursesPerPage, filteredCourses.length)
+    paginationInfo.textContent = `Showing ${startCourse} - ${endCourse} of ${filteredCourses.length} courses`
+  }
+}
+
+// Pagination functions
+function previousPage() {
+  if (currentPage > 1) {
+    currentPage--
+    renderCourses(filteredCourses)
+    updatePaginationControls()
+    scrollToTop()
+  }
+}
+
+function nextPage() {
+  if (currentPage < totalPages) {
+    currentPage++
+    renderCourses(filteredCourses)
+    updatePaginationControls()
+    scrollToTop()
+  }
+}
+
+function goToPage(page) {
+  if (page >= 1 && page <= totalPages) {
+    currentPage = page
+    renderCourses(filteredCourses)
+    updatePaginationControls()
+    scrollToTop()
+  }
+}
+
+function updatePaginationControls() {
+  const prevBtn = document.getElementById("prevBtn")
+  const nextBtn = document.getElementById("nextBtn")
+  const paginationNumbers = document.getElementById("paginationNumbers")
+
+  // Update previous button
+  if (prevBtn) {
+    prevBtn.disabled = currentPage === 1
+  }
+
+  // Update next button
+  if (nextBtn) {
+    nextBtn.disabled = currentPage === totalPages
+  }
+
+  // Update pagination numbers
+  if (paginationNumbers) {
+    paginationNumbers.innerHTML = ""
+
+    if (totalPages <= 1) {
+      // Hide pagination if only one page
+      const paginationSection = document.querySelector(".pagination-section")
+      if (paginationSection) {
+        paginationSection.style.display = "none"
+      }
+      return
+    } else {
+      // Show pagination if more than one page
+      const paginationSection = document.querySelector(".pagination-section")
+      if (paginationSection) {
+        paginationSection.style.display = "block"
+      }
+    }
+
+    const maxVisiblePages = 5
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+
+    // Adjust start page if we're near the end
+    if (endPage - startPage < maxVisiblePages - 1) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1)
+    }
+
+    // Add first page and dots if needed
+    if (startPage > 1) {
+      const firstPageBtn = document.createElement("button")
+      firstPageBtn.className = "pagination-number"
+      firstPageBtn.textContent = "1"
+      firstPageBtn.onclick = () => goToPage(1)
+      paginationNumbers.appendChild(firstPageBtn)
+
+      if (startPage > 2) {
+        const dots = document.createElement("span")
+        dots.className = "pagination-dots"
+        dots.textContent = "..."
+        paginationNumbers.appendChild(dots)
+      }
+    }
+
+    // Add visible page numbers
+    for (let i = startPage; i <= endPage; i++) {
+      const pageBtn = document.createElement("button")
+      pageBtn.className = `pagination-number ${i === currentPage ? "active" : ""}`
+      pageBtn.textContent = i
+      pageBtn.onclick = () => goToPage(i)
+      paginationNumbers.appendChild(pageBtn)
+    }
+
+    // Add last page and dots if needed
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        const dots = document.createElement("span")
+        dots.className = "pagination-dots"
+        dots.textContent = "..."
+        paginationNumbers.appendChild(dots)
+      }
+
+      const lastPageBtn = document.createElement("button")
+      lastPageBtn.className = "pagination-number"
+      lastPageBtn.textContent = totalPages
+      lastPageBtn.onclick = () => goToPage(totalPages)
+      paginationNumbers.appendChild(lastPageBtn)
+    }
+  }
+
+  // Update course count with pagination info
+  updateCourseCountWithPagination()
+}
+
+function updateCourseCountWithPagination() {
+  const startCourse = (currentPage - 1) * coursesPerPage + 1
+  const endCourse = Math.min(currentPage * coursesPerPage, filteredCourses.length)
+  
+  if (filteredCourses.length === 0) {
+    courseCount.textContent = "No courses found"
+  } else if (filteredCourses.length <= coursesPerPage) {
+    courseCount.textContent = `Showing ${filteredCourses.length} course${filteredCourses.length === 1 ? '' : 's'}`
+  } else {
+    courseCount.textContent = `Showing ${startCourse}-${endCourse} of ${filteredCourses.length} courses`
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 // Enroll course function
@@ -628,3 +798,6 @@ window.applyFilters = applyFilters
 window.clearAllFilters = clearAllFilters
 window.removeFilter = removeFilter
 window.enrollCourse = enrollCourse
+window.previousPage = previousPage
+window.nextPage = nextPage
+window.goToPage = goToPage
