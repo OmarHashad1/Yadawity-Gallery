@@ -6,7 +6,7 @@
     <title>Yadawity Gallery</title>
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
     <link
@@ -16,130 +16,140 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />
     <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
     <link rel="stylesheet" href="./public/homePage.css" />
 
   </head>
   <body>
-    <nav class="navbar navbarYadawity" id="yadawityNavbar">
-      <div class="navContainer">
-        <div class="navLogo">
-          <a href="index.html" class="navLogoLink">
-            <div class="logoIcon">
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z"
-                  fill="currentColor"
-                  opacity="0.8"
-                />
-                <path
-                  d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z"
-                  fill="currentColor"
-                  opacity="0.8"
-                />
-                <line
-                  x1="50"
-                  y1="20"
-                  x2="50"
-                  y2="80"
-                  stroke="currentColor"
-                  stroke-width="3"
-                />
-                <path
-                  d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  fill="none"
-                />
-              </svg>
-            </div>
-            <div class="logoText">
-              <span class="logoName">Yadawity</span>
-              <span class="logoEst">EST. 2025</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="navMenu" id="navMenu">
-          <a href="index.html" class="navLink" data-page="home">HOME</a>
-          <a href="gallery.html" class="navLink" data-page="gallery">GALLERY</a>
-          <a href="courses.html" class="navLink" data-page="courses">COURSES</a>
-          <a href="artwork.html" class="navLink" data-page="artwork">ARTWORKS</a>
-          <a href="auction.html" class="navLink" data-page="auction">AUCTION HOUSE</a>
-          <a href="art therapy.html" class="navLink therapyNav" data-page="therapy">THERAPY</a>
-
-          <div class="navActions">
-            <div class="searchContainer">
-              <input
-                type="text"
-                placeholder="Search artists, artworks..."
-                class="searchInput"
-                id="navbarSearch"
-              />
-              <button class="searchBtn" id="searchButton">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-
-            <a
-              href="wishlist.html"
-              class="navIconLink"
-              title="Wishlist"
-              id="wishlistLink"
-            >
-              <i class="fas fa-heart"></i>
-              <span
-                class="wishlistCount"
-                id="wishlistCount"
-                style="display: none"
-                >0</span
-              >
-            </a>
-
-            <a
-              href="cart.html"
-              class="navIconLink cartLink"
-              title="Cart"
-              id="cartLink"
-            >
-              <i class="fas fa-shopping-bag"></i>
-              <span class="cartCount" id="cartCount">0</span>
-            </a>
-
-            <div class="userDropdown">
-              <a href="profile.html" class="navIconLink" title="Account" id="userAccount">
-                <i class="fas fa-user"></i>
-              </a>
-              <div class="userDropdownMenu" id="userMenu">
-                <a href="profile.html" class="dropdownItem">
-                  <i class="fas fa-user"></i>
-                  <span>Profile</span>
+    <nav class="navbar navbar-yadawity" id="yadawity-navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="nav-logo-link">
+                    <div class="logo-container">
+                        <img src="./image/Logo.png" alt="Yadawity Gallery" class="logo-image">
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">Yadawity</span>
+                        <span class="logo-est">EST. 2025</span>
+                    </div>
                 </a>
-                <a href="support.html" class="dropdownItem">
-                  <i class="fas fa-headset"></i>
-                  <span>Support</span>
-                </a>
-                <div class="dropdownDivider"></div>
-                <a href="login.html" class="dropdownItem" id="loginLogout" rel="noopener">
-                  <i class="fas fa-sign-in-alt"></i>
-                  <span>Login</span>
-                </a>
-              </div>
             </div>
-          </div>
-        </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link" data-page="home">
+                    <i class="fas fa-home nav-link-icon"></i>
+                    <span>HOME</span>
+                </a>
+                <a href="gallery.html" class="nav-link" data-page="gallery">
+                    <i class="fas fa-images nav-link-icon"></i>
+                    <span>GALLERY</span>
+                </a>
+                <a href="artwork.html" class="nav-link" data-page="artwork">
+                    <i class="fas fa-palette nav-link-icon"></i>
+                    <span>ARTWORKS</span>
+                </a>
+                <a href="courses.html" class="nav-link" data-page="courses">
+                    <i class="fas fa-graduation-cap nav-link-icon"></i>
+                    <span>COURSES</span>
+                </a>
+                <a href="auction.html" class="nav-link" data-page="auction">
+                    <i class="fas fa-gavel nav-link-icon"></i>
+                    <span>AUCTION</span>
+                </a>
+                <a href="art therapy.html" class="nav-link therapy-nav" data-page="therapy">
+                    <i class="fas fa-heart nav-link-icon"></i>
+                    <span>THERAPY</span>
+                </a>
+            </div>
 
-        <div class="navToggle" id="navToggle">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+            <div class="nav-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search artists, artworks..." class="search-input" id="navbar-search">
+                    <button class="search-btn" id="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+
+                <a href="wishlist.html" class="nav-icon-link" title="Wishlist" id="wishlist-link">
+                    <i class="fas fa-heart"></i>
+                    <span class="wishlist-count" id="wishlist-count" style="display: none;">0</span>
+                </a>
+
+                <a href="cart.html" class="nav-icon-link cart-link" title="Cart" id="cart-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+
+                <div class="user-dropdown">
+                    <a href="#" class="nav-icon-link user-account-btn" title="Account" id="user-account">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="user-dropdown-menu" id="user-menu">
+                        <div class="dropdown-header">
+                            <div class="user-avatar">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name" id="user-name">Guest User</span>
+                                <span class="user-role" id="user-role">Visitor</span>
+                            </div>
+                        </div>
+                        
+                        <div class="dropdown-section">
+                            <a href="profile.html" class="dropdown-item">
+                                <i class="fas fa-user-circle"></i>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="orders.html" class="dropdown-item">
+                                <i class="fas fa-box"></i>
+                                <span>My Orders</span>
+                            </a>
+                            <a href="support.html" class="dropdown-item">
+                                <i class="fas fa-headset"></i>
+                                <span>Support</span>
+                            </a>
+                        </div>
+                        
+                        <!-- Artist Portal Section - Only visible for artists -->
+                        <div class="dropdown-section artist-section" id="artist-section" style="display: none;">
+                            <div class="dropdown-section-title">
+                                <i class="fas fa-palette"></i>
+                                <span>Artist Portal</span>
+                            </div>
+                            <a href="artist-portal.html" class="dropdown-item artist-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Artist Dashboard</span>
+                            </a>
+                            <a href="artistProfile.html" class="dropdown-item artist-item">
+                                <i class="fas fa-images"></i>
+                                <span>My Portfolio</span>
+                            </a>
+                            <a href="artist-sales.html" class="dropdown-item artist-item">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Sales Analytics</span>
+                            </a>
+                            <a href="artist-commissions.html" class="dropdown-item artist-item">
+                                <i class="fas fa-handshake"></i>
+                                <span>Commissions</span>
+                            </a>
+                        </div>
+                        
+                        <div class="dropdown-divider"></div>
+                        <a href="login.html" class="dropdown-item logout-item" id="login-logout">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </div>
-      </div>
     </nav>
 
     <!-- Burger Menu Component -->
@@ -824,7 +834,53 @@
       </div>
     </footer>
 
+    <script src="./components/Navbar/navbar.js"></script>
     <script src="./components/BurgerMenu/burger-menu.js"></script>
     <script src="./app.js"></script>
+    
+    <!-- Demo Script for Artist/Buyer Role Testing -->
+    <script>
+        // Add demo buttons to test role functionality (remove in production)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create demo panel
+            const demoPanel = document.createElement('div');
+            demoPanel.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: var(--white);
+                padding: 1rem;
+                border-radius: 12px;
+                box-shadow: 0 8px 25px var(--shadow-medium);
+                z-index: 10000;
+                display: flex;
+                gap: 0.5rem;
+                flex-direction: column;
+                min-width: 200px;
+            `;
+            
+            demoPanel.innerHTML = `
+                <h4 style="margin: 0; color: var(--primary-brown); font-size: 0.9rem;">Demo Panel</h4>
+                <button id="demo-buyer" style="padding: 0.5rem; border: none; background: var(--primary-brown); color: white; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Login as Buyer</button>
+                <button id="demo-artist" style="padding: 0.5rem; border: none; background: var(--artist-accent); color: white; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Login as Artist</button>
+                <button id="demo-logout" style="padding: 0.5rem; border: none; background: var(--red-accent); color: white; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Logout</button>
+            `;
+            
+            document.body.appendChild(demoPanel);
+            
+            // Add event listeners
+            document.getElementById('demo-buyer').addEventListener('click', () => {
+                window.NavbarController.simulateLogin('buyer');
+            });
+            
+            document.getElementById('demo-artist').addEventListener('click', () => {
+                window.NavbarController.simulateLogin('artist');
+            });
+            
+            document.getElementById('demo-logout').addEventListener('click', () => {
+                window.NavbarController.logout();
+            });
+        });
+    </script>
   </body>
 </html>
