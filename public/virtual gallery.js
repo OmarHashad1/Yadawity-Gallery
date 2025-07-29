@@ -1,569 +1,376 @@
-// Sample virtual gallery data
+// Sample virtual galleries data
 const virtualGalleries = [
   {
     id: 1,
-    title: "Cubist Revolution VR",
-    artist: "picasso",
+    title: "Contemporary Art VR Experience",
+    artist: "mohamed",
     price: 25,
-    originalPrice: 35,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Step into Picasso's revolutionary cubist world through immersive VR technology",
-    duration: "45 min",
-    rating: 4.9,
-    features: ["VR Compatible", "Interactive", "Audio Guide", "HD Quality"],
+    duration: 45,
+    rating: 4.8,
+    image: "./image/slide1.jpg",
+    description: "Experience cutting-edge contemporary art in virtual reality",
+    features: ["VR Compatible", "Interactive", "360° View"],
     type: "premium",
+    available: true
   },
   {
     id: 2,
-    title: "Islamic Art Heritage",
-    artist: "mohammed",
-    price: 15,
-    originalPrice: null,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Explore the intricate beauty of Islamic geometric patterns and calligraphy",
-    duration: "30 min",
-    rating: 4.7,
-    features: ["360° View", "Zoom Details", "Historical Context"],
+    title: "Watercolor Dreams Virtual Gallery",
+    artist: "ahmed",
+    price: 18,
+    duration: 35,
+    rating: 4.6,
+    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
+    description: "Traditional watercolor masterpieces in immersive virtual environment",
+    features: ["HD Quality", "Guided Tour", "Art History"],
     type: "standard",
+    available: true
   },
   {
     id: 3,
-    title: "Contemporary Expressions",
-    artist: "nermeen",
-    price: 35,
-    originalPrice: 45,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Modern artistic expressions through digital mediums and interactive installations",
-    duration: "60 min",
-    rating: 4.8,
-    features: ["VR Compatible", "Interactive", "Artist Commentary", "4K Resolution"],
+    title: "Digital Art Interactive Showcase",
+    artist: "essraa",
+    price: 32,
+    duration: 60,
+    rating: 4.9,
+    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
+    description: "Innovative digital artworks and interactive installations",
+    features: ["Interactive", "AR Elements", "Behind-the-scenes"],
     type: "premium",
+    available: true
   },
   {
     id: 4,
-    title: "Renaissance Masterpieces",
-    artist: "leonardo",
-    price: 40,
-    originalPrice: 50,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Walk through the halls of Renaissance art with Leonardo's greatest works",
-    duration: "75 min",
-    rating: 5.0,
-    features: ["VR Compatible", "Ultra HD", "Expert Commentary", "Interactive Elements"],
-    type: "premium",
+    title: "Portrait Gallery Virtual Tour",
+    artist: "noor",
+    price: 22,
+    duration: 40,
+    rating: 4.7,
+    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
+    description: "Stunning portrait collection from emerging artists",
+    features: ["VR Compatible", "Artist Commentary", "Close-up Details"],
+    type: "standard",
+    available: true
   },
   {
     id: 5,
-    title: "Impressionist Gardens",
-    artist: "monet",
-    price: 20,
-    originalPrice: null,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Experience Monet's garden and water lilies in a peaceful virtual environment",
-    duration: "40 min",
-    rating: 4.6,
-    features: ["360° View", "Seasonal Changes", "Nature Sounds"],
-    type: "standard",
+    title: "3D Sculpture Garden Experience",
+    artist: "samaa",
+    price: 28,
+    duration: 50,
+    rating: 4.5,
+    image: "./image/darker_image.webp",
+    description: "Beautiful 3D sculpture exhibition in virtual space",
+    features: ["3D Modeling", "Spatial Audio", "Interactive"],
+    type: "premium",
+    available: true
   },
   {
     id: 6,
-    title: "Abstract Dimensions",
-    artist: "picasso",
-    price: 30,
-    originalPrice: null,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Dive into abstract art forms in a three-dimensional virtual space",
-    duration: "50 min",
-    rating: 4.5,
-    features: ["VR Compatible", "3D Navigation", "Color Theory Guide"],
+    title: "Photography Studio Virtual Visit",
+    artist: "mariem",
+    price: 35,
+    duration: 55,
+    rating: 4.9,
+    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
+    description: "Contemporary photography exhibition and workspace tour",
+    features: ["Ultra HD", "Professional Insights", "Equipment Demo"],
     type: "premium",
+    available: true
   },
   {
     id: 7,
-    title: "Calligraphy Masterclass",
-    artist: "mohammed",
-    price: 18,
-    originalPrice: 25,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Learn the art of Arabic calligraphy through interactive virtual lessons",
-    duration: "35 min",
+    title: "Mixed Media Workshop VR",
+    artist: "soha",
+    price: 42,
+    duration: 75,
     rating: 4.4,
-    features: ["Interactive", "Step-by-step", "Practice Mode"],
-    type: "standard",
+    image: "./image/Artist-PainterLookingAtCamera.webp",
+    description: "Hands-on mixed media art experience in virtual reality",
+    features: ["Interactive Workshop", "Material Demo", "Technique Guide"],
+    type: "premium",
+    available: true
   },
   {
     id: 8,
-    title: "Digital Art Fusion",
-    artist: "nermeen",
-    price: 28,
-    originalPrice: null,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Where traditional art meets cutting-edge digital technology",
-    duration: "45 min",
-    rating: 4.7,
-    features: ["Interactive", "AR Elements", "Behind-the-scenes"],
+    title: "Emerging Artists Collective",
+    artist: "essam",
+    price: 15,
+    duration: 30,
+    rating: 4.3,
+    image: "./image/artist-sitting-on-the-floor.jpg",
+    description: "Discover new talent in this virtual emerging artists showcase",
+    features: ["Emerging Artists", "Fresh Perspectives", "Affordable"],
     type: "standard",
+    available: true
   },
   {
     id: 9,
-    title: "The Last Supper Experience",
-    artist: "leonardo",
-    price: 50,
-    originalPrice: 65,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "An unprecedented close-up experience of Leonardo's masterpiece",
-    duration: "90 min",
-    rating: 4.9,
-    features: ["VR Compatible", "Ultra HD", "Historical Recreation", "Expert Analysis"],
+    title: "Master Painter's Studio",
+    artist: "mazen",
+    price: 65,
+    duration: 90,
+    rating: 4.8,
+    image: "./image/d4s5689-2-300dpi-1500x998.jpg",
+    description: "Exclusive access to master painter's private studio",
+    features: ["Master Class", "Exclusive Access", "Technique Analysis"],
     type: "premium",
+    available: true
   },
   {
     id: 10,
-    title: "Water Lilies Sanctuary",
-    artist: "monet",
-    price: 22,
-    originalPrice: 30,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Find tranquility in Monet's water lily pond through virtual meditation",
-    duration: "55 min",
-    rating: 4.8,
-    features: ["360° View", "Meditation Mode", "Seasonal Variations", "Nature Audio"],
+    title: "Abstract Art Journey",
+    artist: "noraa",
+    price: 38,
+    duration: 65,
+    rating: 4.6,
+    image: "./image/photoo.webp",
+    description: "Journey through abstract art movements and styles",
+    features: ["Art History", "Movement Analysis", "Interactive Timeline"],
     type: "standard",
+    available: true
   },
   {
     id: 11,
-    title: "Guernica Unveiled",
-    artist: "picasso",
-    price: 32,
-    originalPrice: null,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Uncover the layers of meaning in Picasso's powerful anti-war masterpiece",
-    duration: "65 min",
+    title: "Cultural Heritage VR Experience",
+    artist: "nermen",
+    price: 78,
+    duration: 120,
     rating: 4.9,
-    features: ["VR Compatible", "Historical Context", "Interactive Analysis", "Documentary"],
+    image: "./image/https___s3.us-east-1.amazonaws.com_uploads.thevendry.co_23050_1701148429274_240517998_10159366377565970_3232763438623679454_n.webp",
+    description: "Immersive cultural heritage experience with historical context",
+    features: ["Cultural Heritage", "Historical Context", "Educational", "Premium Experience"],
     type: "premium",
-  },
-  {
-    id: 12,
-    title: "Geometric Harmony",
-    artist: "mohammed",
-    price: 24,
-    originalPrice: null,
-    image: "/placeholder.svg?height=220&width=350",
-    description: "Discover the mathematical beauty behind Islamic geometric art patterns",
-    duration: "42 min",
-    rating: 4.6,
-    features: ["Interactive", "Mathematical Insights", "Pattern Builder"],
-    type: "standard",
-  },
+    available: true
+  }
 ]
 
 // Global variables
 let filteredGalleries = [...virtualGalleries]
-let activeFilters = {}
+let currentPage = 1
+const galleriesPerPage = 6
 
-// DOM elements
-const searchInput = document.getElementById("searchInput")
-const artistFilter = document.getElementById("artistFilter")
-const minPriceInput = document.getElementById("minPrice")
-const maxPriceInput = document.getElementById("maxPrice")
-const quickFilterBtns = document.querySelectorAll(".quick-filter-btn")
-const activeFiltersContainer = document.getElementById("activeFilters")
-const searchResults = document.getElementById("searchResults")
-const galleriesGrid = document.getElementById("galleriesGrid")
-const galleryCount = document.getElementById("galleryCount")
-const noResults = document.getElementById("noResults")
-
-// Initialize the page
-document.addEventListener("DOMContentLoaded", () => {
-  renderGalleries(virtualGalleries)
-  updateGalleryCount(virtualGalleries.length)
-  setupEventListeners()
-  setupNavigation()
-})
-
-// Setup event listeners
-function setupEventListeners() {
-  // Search input
-  searchInput.addEventListener("input", debounce(applyFilters, 300))
-
-  // Filter dropdowns and inputs
-  artistFilter.addEventListener("change", applyFilters)
-  minPriceInput.addEventListener("input", debounce(applyFilters, 300))
-  maxPriceInput.addEventListener("input", debounce(applyFilters, 300))
-
-  // Quick filter buttons
-  quickFilterBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      // Remove active class from all buttons
-      quickFilterBtns.forEach((b) => b.classList.remove("active"))
-
-      // Add active class to clicked button
-      e.target.classList.add("active")
-
-      // Apply price range
-      const priceRange = e.target.dataset.price
-      if (priceRange) {
-        const [min, max] = priceRange.split("-")
-        minPriceInput.value = min
-        maxPriceInput.value = max
-        applyFilters()
-      }
-    })
-  })
-}
-
-// Setup navigation functionality
-function setupNavigation() {
-  const navToggle = document.getElementById("navToggle")
-  const navMenu = document.getElementById("navMenu")
-  const userAccount = document.getElementById("userAccount")
-  const userMenu = document.getElementById("userMenu")
-
-  // Mobile menu toggle
-  if (navToggle && navMenu) {
-    navToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("active")
-    })
-  }
-
-  // User dropdown
-  if (userAccount && userMenu) {
-    userAccount.addEventListener("click", (e) => {
-      e.preventDefault()
-      userMenu.classList.toggle("active")
-    })
-
-    // Close dropdown when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!userAccount.contains(e.target) && !userMenu.contains(e.target)) {
-        userMenu.classList.remove("active")
-      }
-    })
-  }
-
-  // Navbar search
-  const navbarSearch = document.getElementById("navbarSearch")
-  const searchButton = document.getElementById("searchButton")
-
-  if (searchButton) {
-    searchButton.addEventListener("click", () => {
-      const query = navbarSearch.value.trim()
-      if (query) {
-        searchInput.value = query
-        applyFilters()
-      }
-    })
-  }
-
-  if (navbarSearch) {
-    navbarSearch.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        const query = navbarSearch.value.trim()
-        if (query) {
-          searchInput.value = query
-          applyFilters()
-        }
-      }
-    })
-  }
-}
-
-// Apply filters function
+// Function to apply filters
 function applyFilters() {
-  const searchTerm = searchInput.value.toLowerCase().trim()
-  const selectedArtist = artistFilter.value
-  const minPrice = Number.parseFloat(minPriceInput.value) || 0
-  const maxPrice = Number.parseFloat(maxPriceInput.value) || Number.POSITIVE_INFINITY
+    filteredGalleries = virtualGalleries.filter(gallery => {
+        // Artist filter
+        const artistSelect = document.getElementById('artistSelect')
+        if (artistSelect && artistSelect.value && artistSelect.value !== 'all') {
+            if (gallery.artist.toLowerCase() !== artistSelect.value.toLowerCase()) {
+                return false
+            }
+        }
 
-  // Reset active filters
-  activeFilters = {}
+        // Price filter
+        const priceSelect = document.getElementById('priceSelect')
+        if (priceSelect && priceSelect.value && priceSelect.value !== 'all') {
+            const priceRange = priceSelect.value
+            if (priceRange === '100+') {
+                if (gallery.price <= 100) return false
+            } else {
+                const [min, max] = priceRange.split('-').map(Number)
+                if (gallery.price < min || gallery.price > max) {
+                    return false
+                }
+            }
+        }
 
-  // Filter galleries
-  filteredGalleries = virtualGalleries.filter((gallery) => {
-    let matches = true
+        // Duration filter
+        const durationSelect = document.getElementById('durationSelect')
+        if (durationSelect && durationSelect.value && durationSelect.value !== 'all') {
+            const durationRange = durationSelect.value
+            if (durationRange === '120+') {
+                if (gallery.duration <= 120) return false
+            } else {
+                const [min, max] = durationRange.split('-').map(Number)
+                if (gallery.duration < min || gallery.duration > max) {
+                    return false
+                }
+            }
+        }
 
-    // Search term filter
-    if (searchTerm) {
-      const searchableText =
-        `${gallery.title} ${gallery.artist} ${gallery.description} ${gallery.features.join(" ")}`.toLowerCase()
-      matches = matches && searchableText.includes(searchTerm)
-      if (searchTerm) activeFilters.search = searchTerm
-    }
+        return true
+    })
 
-    // Artist filter
-    if (selectedArtist) {
-      matches = matches && gallery.artist === selectedArtist
-      activeFilters.artist = selectedArtist
-    }
-
-    // Price filter
-    if (minPrice > 0 || maxPrice < Number.POSITIVE_INFINITY) {
-      matches = matches && gallery.price >= minPrice && gallery.price <= maxPrice
-      if (minPrice > 0 || maxPrice < Number.POSITIVE_INFINITY) {
-        activeFilters.price = `$${minPrice} - $${maxPrice === Number.POSITIVE_INFINITY ? "∞" : maxPrice}`
-      }
-    }
-
-    return matches
-  })
-
-  // Update UI
-  renderActiveFilters()
-  renderGalleries(filteredGalleries)
-  updateSearchResults()
-  updateGalleryCount(filteredGalleries.length)
-
-  // Show/hide no results
-  if (filteredGalleries.length === 0) {
-    galleriesGrid.style.display = "none"
-    noResults.style.display = "block"
-  } else {
-    galleriesGrid.style.display = "grid"
-    noResults.style.display = "none"
-  }
+    currentPage = 1
+    renderGalleries(filteredGalleries)
+    updateResultsCount()
 }
 
-// Render active filters
-function renderActiveFilters() {
-  activeFiltersContainer.innerHTML = ""
-
-  Object.entries(activeFilters).forEach(([key, value]) => {
-    const filterTag = document.createElement("div")
-    filterTag.className = "filter-tag"
-
-    let displayValue = value
-    if (key === "search") {
-      displayValue = `Search: ${value}`
-    } else if (key === "artist") {
-      displayValue = `Artist: ${value.charAt(0).toUpperCase() + value.slice(1)}`
-    } else {
-      displayValue = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
-    }
-
-    filterTag.innerHTML = `
-      <span>${displayValue}</span>
-      <span class="remove-filter" onclick="removeFilter('${key}')">×</span>
-    `
-
-    activeFiltersContainer.appendChild(filterTag)
-  })
-}
-
-// Remove individual filter
-function removeFilter(filterKey) {
-  switch (filterKey) {
-    case "search":
-      searchInput.value = ""
-      break
-    case "artist":
-      artistFilter.value = ""
-      break
-    case "price":
-      minPriceInput.value = ""
-      maxPriceInput.value = ""
-      // Remove active class from quick filter buttons
-      quickFilterBtns.forEach((btn) => btn.classList.remove("active"))
-      break
-  }
-  applyFilters()
-}
-
-// Clear all filters
-function clearAllFilters() {
-  searchInput.value = ""
-  artistFilter.value = ""
-  minPriceInput.value = ""
-  maxPriceInput.value = ""
-
-  // Remove active class from quick filter buttons
-  quickFilterBtns.forEach((btn) => btn.classList.remove("active"))
-
-  activeFilters = {}
-  filteredGalleries = [...virtualGalleries]
-
-  renderActiveFilters()
-  renderGalleries(virtualGalleries)
-  updateSearchResults()
-  updateGalleryCount(virtualGalleries.length)
-
-  galleriesGrid.style.display = "grid"
-  noResults.style.display = "none"
-}
-
-// Render galleries
+// Function to render galleries
 function renderGalleries(galleriesToRender) {
-  galleriesGrid.innerHTML = ""
+    const galleriesContainer = document.getElementById('galleriesContainer')
+    const startIndex = (currentPage - 1) * galleriesPerPage
+    const endIndex = startIndex + galleriesPerPage
+    const currentGalleries = galleriesToRender.slice(startIndex, endIndex)
 
-  galleriesToRender.forEach((gallery) => {
-    const galleryCard = document.createElement("div")
-    galleryCard.className = "virtual-gallery-card"
+    if (currentGalleries.length === 0) {
+        galleriesContainer.innerHTML = '<div class="no-results">No virtual galleries found matching your criteria.</div>'
+        return
+    }
 
-    const featuresHTML = gallery.features.map((feature) => `<span class="feature-tag">${feature}</span>`).join("")
-
-    const priceHTML = gallery.originalPrice
-      ? `${gallery.price}<span class="original-price">$${gallery.originalPrice}</span>`
-      : gallery.price
-
-    galleryCard.innerHTML = `
-      <div class="virtual-badge-card">${gallery.type.toUpperCase()}</div>
-      <img src="${gallery.image}" alt="${gallery.title}" class="gallery-image">
-      <div class="gallery-content">
-        <h3 class="gallery-title">${gallery.title}</h3>
-        <div class="gallery-artist">
-          <i class="fas fa-user-circle"></i>
-          ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}
+    const galleriesHTML = currentGalleries.map(gallery => `
+        <div class="virtual-gallery-card">
+            <div class="virtual-badge-card">${gallery.type.toUpperCase()}</div>
+            <div class="card-header">
+                <img src="${gallery.image}" alt="${gallery.title}" class="gallery-image">
+                <div class="availability-badge ${gallery.available ? 'available' : 'unavailable'}">
+                    ${gallery.available ? 'Available' : 'Unavailable'}
+                </div>
+            </div>
+            <div class="gallery-content">
+                <h3 class="gallery-title">${gallery.title}</h3>
+                <div class="gallery-artist">
+                    <i class="fas fa-user-circle"></i>
+                    ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}
+                </div>
+                <p class="gallery-description">${gallery.description}</p>
+                <div class="gallery-features">
+                    ${gallery.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                </div>
+                <div class="gallery-details">
+                    <div class="gallery-duration">
+                        <i class="fas fa-clock"></i>
+                        ${gallery.duration} min
+                    </div>
+                    <div class="gallery-rating">
+                        <i class="fas fa-star"></i>
+                        ${gallery.rating}
+                    </div>
+                </div>
+                <div class="gallery-price">$${gallery.price}</div>
+                <button class="enter-btn" onclick="enterVirtualGallery(${gallery.id})" ${!gallery.available ? 'disabled' : ''}>
+                    <i class="fas fa-vr-cardboard"></i> ${gallery.available ? 'Enter Virtual Gallery' : 'Unavailable'}
+                </button>
+            </div>
         </div>
-        <p class="gallery-description">${gallery.description}</p>
-        <div class="gallery-features">
-          ${featuresHTML}
-        </div>
-        <div class="gallery-details">
-          <div class="gallery-duration">
-            <i class="fas fa-clock"></i>
-            ${gallery.duration}
-          </div>
-          <div class="gallery-rating">
-            <i class="fas fa-star"></i>
-            ${gallery.rating}
-          </div>
-        </div>
-        <div class="gallery-price">$${priceHTML}</div>
-        <button class="enter-btn" onclick="enterVirtualGallery(${gallery.id})">
-          <i class="fas fa-vr-cardboard"></i> Enter Virtual Gallery
-        </button>
-      </div>
-    `
+    `).join('')
 
-    galleriesGrid.appendChild(galleryCard)
-  })
+    galleriesContainer.innerHTML = galleriesHTML
+    updatePagination(galleriesToRender.length)
 }
 
-// Update search results text
-function updateSearchResults() {
-  if (Object.keys(activeFilters).length > 0) {
-    const filterCount = Object.keys(activeFilters).length
-    const resultCount = filteredGalleries.length
-    searchResults.innerHTML = `Found ${resultCount} virtual galleries with ${filterCount} active filter${filterCount > 1 ? "s" : ""}`
-    searchResults.style.display = "block"
-  } else {
-    searchResults.style.display = "none"
-  }
+// Pagination functions
+function changePage(direction) {
+    currentPage += direction
+    renderGalleries(filteredGalleries)
 }
 
-// Update gallery count
-function updateGalleryCount(count) {
-  if (count === virtualGalleries.length) {
-    galleryCount.textContent = `Showing all ${count} virtual galleries`
-  } else {
-    galleryCount.textContent = `Showing ${count} of ${virtualGalleries.length} virtual galleries`
-  }
+function previousPage() {
+    if (currentPage > 1) {
+        changePage(-1)
+    }
 }
 
-// Enter virtual gallery function
+function nextPage() {
+    const totalPages = Math.ceil(filteredGalleries.length / galleriesPerPage)
+    if (currentPage < totalPages) {
+        changePage(1)
+    }
+}
+
+function goToPage(page) {
+    currentPage = page
+    renderGalleries(filteredGalleries)
+}
+
+// Function to update pagination
+function updatePagination(totalGalleries) {
+    const totalPages = Math.ceil(totalGalleries / galleriesPerPage)
+    const prevBtn = document.getElementById('prevBtn')
+    const nextBtn = document.getElementById('nextBtn')
+    const pageInfo = document.getElementById('pageInfo')
+    const paginationNumbers = document.getElementById('paginationNumbers')
+
+    if (prevBtn) prevBtn.disabled = currentPage === 1
+    if (nextBtn) nextBtn.disabled = currentPage === totalPages || totalPages === 0
+    if (pageInfo) pageInfo.textContent = totalPages > 0 ? `Page ${currentPage} of ${totalPages}` : 'No results'
+    
+    // Update pagination numbers
+    if (paginationNumbers && totalPages > 0) {
+        let paginationHTML = ''
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const activeClass = i === currentPage ? 'active' : ''
+            paginationHTML += `<button class="pagination-number ${activeClass}" onclick="goToPage(${i})">${i}</button>`
+        }
+        
+        paginationNumbers.innerHTML = paginationHTML
+    }
+}
+
+// Function to update results count
+function updateResultsCount() {
+    const resultsCount = document.getElementById('resultsCount')
+    if (resultsCount) {
+        resultsCount.textContent = `Showing ${filteredGalleries.length} virtual galleries`
+    }
+}
+
+// Function to enter virtual gallery
 function enterVirtualGallery(galleryId) {
-  const gallery = virtualGalleries.find((g) => g.id === galleryId)
-  if (gallery) {
-    // Show loading state
-    const enterBtn = event.target
-    const originalText = enterBtn.innerHTML
-    enterBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading Virtual Experience...'
-    enterBtn.disabled = true
+    const gallery = virtualGalleries.find(g => g.id === galleryId)
+    if (gallery && gallery.available) {
+        // Show loading state
+        const enterBtn = event.target
+        const originalText = enterBtn.innerHTML
+        enterBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading Virtual Experience...'
+        enterBtn.disabled = true
 
-    // Simulate loading time
-    setTimeout(() => {
-      alert(
-        `🎨 Welcome to "${gallery.title}"!\n\n` +
-          `Artist: ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}\n` +
-          `Duration: ${gallery.duration}\n` +
-          `Rating: ${gallery.rating}/5.0\n` +
-          `Price: $${gallery.price}\n\n` +
-          `Features: ${gallery.features.join(", ")}\n\n` +
-          `${gallery.description}\n\n` +
-          `🚀 Launching virtual experience...\n` +
-          `Thank you for choosing Yadawity Virtual Galleries!`,
-      )
+        // Simulate loading time
+        setTimeout(() => {
+            alert(
+                `🎨 Welcome to "${gallery.title}"!\n\n` +
+                `Artist: ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}\n` +
+                `Duration: ${gallery.duration} minutes\n` +
+                `Rating: ${gallery.rating}/5.0\n` +
+                `Price: $${gallery.price}\n\n` +
+                `Features: ${gallery.features.join(", ")}\n\n` +
+                `${gallery.description}\n\n` +
+                `🚀 Launching virtual experience...\n` +
+                `Thank you for choosing Yadawity Virtual Galleries!`
+            )
 
-      // Success state
-      enterBtn.innerHTML = '<i class="fas fa-check"></i> Experience Launched!'
-      enterBtn.style.background = "linear-gradient(45deg, #22c55e, #16a34a)"
+            // Success state
+            enterBtn.innerHTML = '<i class="fas fa-check"></i> Experience Launched!'
+            enterBtn.style.background = "linear-gradient(45deg, #22c55e, #16a34a)"
 
-      setTimeout(() => {
-        enterBtn.innerHTML = originalText
-        enterBtn.style.background = ""
-        enterBtn.disabled = false
-      }, 3000)
-    }, 2000)
-  }
-}
-
-// Debounce function for search input
-function debounce(func, wait) {
-  let timeout
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout)
-      func(...args)
+            setTimeout(() => {
+                enterBtn.innerHTML = originalText
+                enterBtn.style.background = ""
+                enterBtn.disabled = false
+            }, 3000)
+        }, 2000)
     }
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-  }
 }
 
-// Add keyboard navigation support
-document.addEventListener("keydown", (e) => {
-  // Escape key to clear search
-  if (e.key === "Escape") {
-    if (searchInput.value || Object.keys(activeFilters).length > 0) {
-      clearAllFilters()
-    }
-  }
-
-  // Enter key on search input
-  if (e.key === "Enter" && e.target === searchInput) {
-    applyFilters()
-  }
-})
-
-// Initialize cart and wishlist counters
-function updateCartCount() {
-  const cartCount = document.getElementById("cartCount")
-  const count = 0 // This would typically get the count from localStorage or a backend
-
-  if (cartCount) cartCount.textContent = count
+// Clear all filters function
+function clearAllFilters() {
+    const artistSelect = document.getElementById('artistSelect')
+    const priceSelect = document.getElementById('priceSelect')
+    const durationSelect = document.getElementById('durationSelect')
+    
+    if (artistSelect) artistSelect.value = 'all'
+    if (priceSelect) priceSelect.value = 'all'
+    if (durationSelect) durationSelect.value = 'all'
+    
+    filteredGalleries = [...virtualGalleries]
+    currentPage = 1
+    renderGalleries(virtualGalleries)
+    updateResultsCount()
 }
 
-function updateWishlistCount() {
-  const wishlistCount = document.getElementById("wishlistCount")
-  const count = 0 // This would typically get the count from localStorage or a backend
-
-  if (wishlistCount) {
-    wishlistCount.textContent = count
-    wishlistCount.style.display = count > 0 ? "block" : "none"
-  }
-}
-
-// Handle window resize for responsive behavior
-window.addEventListener(
-  "resize",
-  debounce(() => {
-    // Recalculate grid layout if needed
-    const grid = document.getElementById("galleriesGrid")
-    if (grid) {
-      grid.style.display = "none"
-      setTimeout(() => {
-        grid.style.display = "grid"
-      }, 10)
-    }
-  }, 250),
-)
-
-// Initialize counters
-updateCartCount()
-updateWishlistCount()
-
-// Export functions for global access
-window.applyFilters = applyFilters
-window.clearAllFilters = clearAllFilters
-window.removeFilter = removeFilter
-window.enterVirtualGallery = enterVirtualGallery
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    renderGalleries(virtualGalleries)
+    updateResultsCount()
+    
+    // Set up filter event listeners
+    const artistSelect = document.getElementById('artistSelect')
+    const priceSelect = document.getElementById('priceSelect')
+    const durationSelect = document.getElementById('durationSelect')
+    
+    if (artistSelect) artistSelect.addEventListener('change', applyFilters)
+    if (priceSelect) priceSelect.addEventListener('change', applyFilters)
+    if (durationSelect) durationSelect.addEventListener('change', applyFilters)
+});

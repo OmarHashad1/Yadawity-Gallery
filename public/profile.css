@@ -163,7 +163,7 @@
   border-radius: 16px;
   padding: 2.5rem;
   box-shadow: 0 4px 20px rgba(139, 69, 19, 0.1);
-  min-height: 600px;
+  max-height: 400px;
 }
 
 /* Tab Content */

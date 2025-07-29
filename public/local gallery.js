@@ -1,149 +1,174 @@
-// Sample gallery data
+// Sample galleries data
 const galleries = [
   {
     id: 1,
-    title: "Modern Art Showcase",
-    artist: "picasso",
-    location: "cairo street",
-    date: "this week",
-    time: "10:00 AM",
-    price: "$25",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Experience contemporary masterpieces in an intimate setting",
+    title: "Contemporary Art Gallery Cairo",
+    artist: "Mohamed",
+    location: "Cairo",
+    date: "today",
+    timeRange: "morning",
+    rating: 4.8,
+    image: "./image/slide1.jpg",
+    description: "Experience cutting-edge contemporary art in the heart of Cairo",
+    openHours: "9:00 AM - 12:00 PM",
+    capacity: 50,
+    available: true
   },
   {
     id: 2,
-    title: "Classical Portraits",
-    artist: "mohammed",
-    location: "masr elgdeda",
-    date: "this week",
-    time: "2:00 PM",
-    price: "$30",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Timeless portraits from renowned artists",
+    title: "Watercolor Dreams Gallery",
+    artist: "Ahmed",
+    location: "Alexandria",
+    date: "tomorrow",
+    timeRange: "afternoon",
+    rating: 4.6,
+    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
+    description: "Traditional watercolor masterpieces by local artists",
+    openHours: "12:00 PM - 5:00 PM",
+    capacity: 30,
+    available: true
   },
   {
     id: 3,
-    title: "Abstract Expressions",
-    artist: "nermeen",
-    location: "kornesh el nail",
-    date: "this month",
-    time: "6:00 PM",
-    price: "$35",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Dive into the world of abstract art and creativity",
+    title: "Digital Art Showcase",
+    artist: "Essraa",
+    location: "Giza",
+    date: "this-week",
+    timeRange: "evening",
+    rating: 4.9,
+    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
+    description: "Innovative digital artworks and interactive installations",
+    openHours: "5:00 PM - 8:00 PM",
+    capacity: 40,
+    available: true
   },
   {
     id: 4,
-    title: "Sculpture Garden",
-    artist: "picasso",
-    location: "maadii",
-    date: "this week",
-    time: "11:00 AM",
-    price: "$40",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Three-dimensional art in a beautiful garden setting",
+    title: "Portrait Gallery",
+    artist: "Noor",
+    location: "Luxor",
+    date: "next-week",
+    timeRange: "morning",
+    rating: 4.7,
+    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
+    description: "Stunning portrait collection from emerging artists",
+    openHours: "9:00 AM - 12:00 PM",
+    capacity: 25,
+    available: true
   },
   {
     id: 5,
-    title: "Photography Exhibition",
-    artist: "mohammed",
-    location: "cairo street",
-    date: "this month",
-    time: "4:00 PM",
-    price: "$20",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Capturing moments through the lens of master photographers",
+    title: "Sculpture Garden",
+    artist: "Samaa",
+    location: "Aswan",
+    date: "this-weekend",
+    timeRange: "business-hours",
+    rating: 4.5,
+    image: "./image/darker_image.webp",
+    description: "Beautiful outdoor sculpture exhibition",
+    openHours: "9:00 AM - 5:00 PM",
+    capacity: 60,
+    available: true
   },
   {
     id: 6,
-    title: "Digital Art Revolution",
-    artist: "nermeen",
-    location: "masr elgdeda",
-    date: "this week",
-    time: "7:00 PM",
-    price: "$45",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Explore the future of art through digital mediums",
+    title: "Photography Studio",
+    artist: "Mariem",
+    location: "Sharm El Sheikh",
+    date: "next-weekend",
+    timeRange: "extended-hours",
+    rating: 4.9,
+    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
+    description: "Contemporary photography exhibition and workspace",
+    openHours: "9:00 AM - 9:00 PM",
+    capacity: 35,
+    available: true
   },
   {
     id: 7,
-    title: "Watercolor Dreams",
-    artist: "picasso",
-    location: "kornesh el nail",
-    date: "this month",
-    time: "1:00 PM",
-    price: "$28",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Delicate watercolor paintings that capture emotion",
+    title: "Mixed Media Workshop",
+    artist: "Soha",
+    location: "Hurghada",
+    date: "this-month",
+    timeRange: "afternoon",
+    rating: 4.4,
+    image: "./image/Artist-PainterLookingAtCamera.webp",
+    description: "Hands-on mixed media art experience",
+    openHours: "12:00 PM - 5:00 PM",
+    capacity: 20,
+    available: true
   },
   {
     id: 8,
-    title: "Mixed Media Madness",
-    artist: "mohammed",
-    location: "maadii",
-    date: "this week",
-    time: "3:00 PM",
-    price: "$32",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Art that breaks boundaries with mixed materials",
+    title: "Street Art Gallery",
+    artist: "Essam",
+    location: "Port Said",
+    date: "next-month",
+    timeRange: "evening",
+    rating: 4.6,
+    image: "./image/artist-sitting-on-the-floor.jpg",
+    description: "Urban art and street culture exhibition",
+    openHours: "5:00 PM - 8:00 PM",
+    capacity: 45,
+    available: true
   },
   {
     id: 9,
-    title: "Minimalist Zen",
-    artist: "nermeen",
-    location: "cairo street",
-    date: "this month",
-    time: "5:00 PM",
-    price: "$22",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Find peace in the simplicity of minimalist art",
+    title: "Art Nouveau Collection",
+    artist: "Mazen",
+    location: "Suez",
+    date: "today",
+    timeRange: "night",
+    rating: 4.7,
+    image: "./image/photo.jpeg",
+    description: "Classic Art Nouveau pieces and modern interpretations",
+    openHours: "8:00 PM - 11:00 PM",
+    capacity: 30,
+    available: true
   },
   {
     id: 10,
-    title: "Street Art Culture",
-    artist: "picasso",
-    location: "masr elgdeda",
-    date: "this week",
-    time: "8:00 PM",
-    price: "$18",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Urban art that tells the story of the streets",
+    title: "Local Artists Collective",
+    artist: "Noraa",
+    location: "Mansoura",
+    date: "tomorrow",
+    timeRange: "early-morning",
+    rating: 4.5,
+    image: "./image/Team image.jpeg",
+    description: "Showcasing the best of local artistic talent",
+    openHours: "6:00 AM - 9:00 AM",
+    capacity: 55,
+    available: true
   },
   {
     id: 11,
-    title: "Renaissance Revival",
-    artist: "mohammed",
-    location: "kornesh el nail",
-    date: "this month",
-    time: "12:00 PM",
-    price: "$50",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Step back in time with Renaissance masterpieces",
-  },
-  {
-    id: 12,
-    title: "Contemporary Fusion",
-    artist: "nermeen",
-    location: "maadii",
-    date: "this week",
-    time: "9:00 AM",
-    price: "$38",
-    image: "/placeholder.svg?height=200&width=320",
-    description: "Where traditional meets modern in perfect harmony",
-  },
+    title: "International Art Space",
+    artist: "Nermmen",
+    location: "Tanta",
+    date: "this-week",
+    timeRange: "late-night",
+    rating: 4.8,
+    image: "./image/images.jpeg",
+    description: "Global artists showcase with diverse cultural perspectives",
+    openHours: "11:00 PM - 2:00 AM",
+    capacity: 40,
+    available: true
+  }
 ]
 
 // Global variables
 let filteredGalleries = [...galleries]
 let activeFilters = {}
+let currentPage = 1
+let galleriesPerPage = 6 // Show 6 galleries per page instead of all 12
+let totalPages = 1
 
 // DOM elements
 const searchInput = document.getElementById("searchInput")
-const artistFilter = document.getElementById("artistFilter")
-const locationFilter = document.getElementById("locationFilter")
-const dateFilter = document.getElementById("dateFilter")
-const timeRange = document.getElementById("timeRange")
+const categoryFilter = document.getElementById("categoryFilter")
+const difficultyFilter = document.getElementById("difficultyFilter")
+const timeRangeFilter = document.getElementById("timeRangeFilter")
+const durationFilter = document.getElementById("durationFilter")
 const activeFiltersContainer = document.getElementById("activeFilters")
 const searchResults = document.getElementById("searchResults")
 const coursesGrid = document.getElementById("coursesGrid")
@@ -152,8 +177,10 @@ const noResults = document.getElementById("noResults")
 
 // Initialize the page
 document.addEventListener("DOMContentLoaded", () => {
+  filteredGalleries = [...galleries]
+  totalPages = Math.ceil(galleries.length / galleriesPerPage)
   renderGalleries(galleries)
-  updateCourseCount(galleries.length)
+  updatePaginationControls()
   setupEventListeners()
   setupNavigation()
 })
@@ -163,39 +190,11 @@ function setupEventListeners() {
   // Search input
   searchInput.addEventListener("input", debounce(applyFilters, 300))
 
-  // Filter dropdowns
-  artistFilter.addEventListener("change", applyFilters)
-  locationFilter.addEventListener("change", applyFilters)
-  dateFilter.addEventListener("change", applyFilters)
-  timeRange.addEventListener("input", debounce(applyFilters, 300))
-
-  // Arrow buttons for time range
-  const arrowUp = document.querySelector(".min-arrow-up")
-  const arrowDown = document.querySelector(".min-arrow-down")
-
-  if (arrowUp) {
-    arrowUp.addEventListener("click", () => {
-      const currentValue = timeRange.value
-      if (currentValue === "pm") {
-        timeRange.value = "am"
-      } else {
-        timeRange.value = "pm"
-      }
-      applyFilters()
-    })
-  }
-
-  if (arrowDown) {
-    arrowDown.addEventListener("click", () => {
-      const currentValue = timeRange.value
-      if (currentValue === "am") {
-        timeRange.value = "pm"
-      } else {
-        timeRange.value = "am"
-      }
-      applyFilters()
-    })
-  }
+  // Filter dropdowns and inputs
+  categoryFilter.addEventListener("change", applyFilters)
+  difficultyFilter.addEventListener("change", applyFilters)
+  durationFilter.addEventListener("change", applyFilters)
+  if (timeRangeFilter) timeRangeFilter.addEventListener("change", applyFilters)
 }
 
 // Setup navigation functionality
@@ -257,10 +256,10 @@ function setupNavigation() {
 // Apply filters function
 function applyFilters() {
   const searchTerm = searchInput.value.toLowerCase().trim()
-  const selectedArtist = artistFilter.value
-  const selectedLocation = locationFilter.value
-  const selectedDate = dateFilter.value
-  const selectedTime = timeRange.value.toLowerCase()
+  const selectedArtist = categoryFilter.value
+  const selectedLocation = difficultyFilter.value
+  const selectedDate = durationFilter.value
+  const selectedTimeRange = timeRangeFilter ? timeRangeFilter.value : ''
 
   // Reset active filters
   activeFilters = {}
@@ -272,7 +271,7 @@ function applyFilters() {
     // Search term filter
     if (searchTerm) {
       const searchableText =
-        `${gallery.title} ${gallery.artist} ${gallery.location} ${gallery.date} ${gallery.time}`.toLowerCase()
+        `${gallery.title} ${gallery.artist} ${gallery.location} ${gallery.description}`.toLowerCase()
       matches = matches && searchableText.includes(searchTerm)
       if (searchTerm) activeFilters.search = searchTerm
     }
@@ -295,30 +294,33 @@ function applyFilters() {
       activeFilters.date = selectedDate
     }
 
-    // Time filter
-    if (selectedTime) {
-      const galleryTime = gallery.time.toLowerCase()
-      if (selectedTime === "am") {
-        matches = matches && galleryTime.includes("am")
-      } else if (selectedTime === "pm") {
-        matches = matches && galleryTime.includes("pm")
-      }
-      activeFilters.time = selectedTime
+    // Time Range filter
+    if (selectedTimeRange) {
+      matches = matches && gallery.timeRange === selectedTimeRange
+      activeFilters.timeRange = selectedTimeRange
     }
 
     return matches
   })
 
+  // Reset to first page when filters change
+  currentPage = 1
+
   // Update UI
   renderActiveFilters()
   renderGalleries(filteredGalleries)
   updateSearchResults()
-  updateCourseCount(filteredGalleries.length)
+  updatePaginationControls()
 
   // Show/hide no results
   if (filteredGalleries.length === 0) {
     coursesGrid.style.display = "none"
     noResults.style.display = "block"
+    // Hide pagination when no results
+    const paginationSection = document.querySelector(".pagination-section")
+    if (paginationSection) {
+      paginationSection.style.display = "none"
+    }
   } else {
     coursesGrid.style.display = "grid"
     noResults.style.display = "none"
@@ -341,9 +343,9 @@ function renderActiveFilters() {
     }
 
     filterTag.innerHTML = `
-            <span>${displayValue}</span>
-            <span class="remove-filter" onclick="removeFilter('${key}')">×</span>
-        `
+      <span>${displayValue}</span>
+      <span class="remove-filter" onclick="removeFilter('${key}')">×</span>
+    `
 
     activeFiltersContainer.appendChild(filterTag)
   })
@@ -355,17 +357,18 @@ function removeFilter(filterKey) {
     case "search":
       searchInput.value = ""
       break
-    case "artist":
-      artistFilter.value = ""
+    case "category":
+      categoryFilter.value = ""
       break
-    case "location":
-      locationFilter.value = ""
+    case "difficulty":
+      difficultyFilter.value = ""
       break
-    case "date":
-      dateFilter.value = ""
+    case "duration":
+      durationFilter.value = ""
       break
-    case "time":
-      timeRange.value = ""
+    case "price":
+      minPriceInput.value = ""
+      maxPriceInput.value = ""
       break
   }
   applyFilters()
@@ -374,59 +377,185 @@ function removeFilter(filterKey) {
 // Clear all filters
 function clearAllFilters() {
   searchInput.value = ""
-  artistFilter.value = ""
-  locationFilter.value = ""
-  dateFilter.value = ""
-  timeRange.value = ""
+  categoryFilter.value = ""
+  difficultyFilter.value = ""
+  durationFilter.value = ""
+  minPriceInput.value = ""
+  maxPriceInput.value = ""
 
   activeFilters = {}
   filteredGalleries = [...galleries]
+  currentPage = 1
 
   renderActiveFilters()
   renderGalleries(galleries)
   updateSearchResults()
-  updateCourseCount(galleries.length)
+  updatePaginationControls()
 
   coursesGrid.style.display = "grid"
   noResults.style.display = "none"
 }
 
-// Render galleries
+// Render courses
 function renderGalleries(galleriesToRender) {
   coursesGrid.innerHTML = ""
 
-  galleriesToRender.forEach((gallery) => {
+  // Pagination logic
+  const startIndex = (currentPage - 1) * galleriesPerPage
+  const endIndex = startIndex + galleriesPerPage
+  const paginatedGalleries = galleriesToRender.slice(startIndex, endIndex)
+
+  paginatedGalleries.forEach((gallery) => {
     const galleryCard = document.createElement("div")
-    galleryCard.className = "gallery-card"
+    galleryCard.className = "course-card"
+
+    const starsHTML = Array(5)
+      .fill()
+      .map((_, i) => `<span class="star">${i < Math.floor(gallery.rating) ? "★" : "☆"}</span>`)
+      .join("")
+
+    const availabilityBadge = gallery.available 
+      ? `<div class="availability-badge available"><span class="availability-dot"></span><span>Available</span></div>`
+      : `<div class="availability-badge unavailable"><span class="availability-dot"></span><span>Booked</span></div>`
 
     galleryCard.innerHTML = `
-            <img src="${gallery.image}" alt="${gallery.title}" class="gallery-image">
-            <div class="gallery-content">
-                <h3 class="gallery-title">${gallery.title}</h3>
-                <div class="gallery-artist">by ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}</div>
-                <div class="gallery-location">
-                    <i class="fas fa-map-marker-alt"></i>
-                    ${gallery.location.charAt(0).toUpperCase() + gallery.location.slice(1)}
-                </div>
-                <div class="gallery-details">
-                    <div class="gallery-date">
-                        <i class="fas fa-calendar"></i>
-                        ${gallery.date.charAt(0).toUpperCase() + gallery.date.slice(1)}
-                    </div>
-                    <div class="gallery-time">
-                        <i class="fas fa-clock"></i>
-                        ${gallery.time}
-                    </div>
-                </div>
-                <div class="gallery-price">${gallery.price}</div>
-                <button class="book-btn" onclick="bookGallery(${gallery.id})">
-                    <i class="fas fa-ticket-alt"></i> Book Now
-                </button>
-            </div>
-        `
+      ${availabilityBadge}
+      <div class="course-rating">
+        <div class="stars-container">${starsHTML}</div>
+        <span class="rating-text">${gallery.rating}</span>
+      </div>
+      <img src="${gallery.image}" alt="${gallery.title}" class="course-image">
+      <div class="course-overlay">
+        <div class="quick-actions">
+          <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="course-content">
+        <h3 class="course-title">${gallery.title}</h3>
+        <div class="course-instructor">Artist: ${gallery.artist}</div>
+        <div class="course-category">${gallery.location}</div>
+        <div class="course-meta">
+          <div class="course-duration">
+            <i class="fas fa-clock"></i>
+            ${gallery.openHours}
+          </div>
+          <div class="course-students">
+            <i class="fas fa-users"></i>
+            ${gallery.capacity} capacity
+          </div>
+        </div>
+        <div class="course-price-info">
+          <div class="gallery-time">
+            <i class="fas fa-calendar"></i>
+            ${formatDateDisplay(gallery.date)} • ${formatTimeDisplay(gallery.timeRange)}
+          </div>
+        </div>
+        <button class="enroll-btn" onclick="bookGallery(${gallery.id})">
+          <i class="fas fa-calendar-check"></i> Book Visit
+        </button>
+      </div>
+    `
 
     coursesGrid.appendChild(galleryCard)
   })
+
+  // Add quick view event listeners
+  document.querySelectorAll('.quick-action-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const galleryCard = e.target.closest('.course-card');
+      const galleryId = parseInt(galleryCard.querySelector('.enroll-btn').getAttribute('onclick').match(/\d+/)[0]);
+      openQuickView(galleryId);
+    });
+  });
+
+  // Update pagination info
+  totalPages = Math.ceil(galleriesToRender.length / galleriesPerPage)
+  updatePaginationInfo()
+}
+
+// Helper functions for display formatting
+function formatDateDisplay(date) {
+  const dateMap = {
+    'today': 'Today',
+    'tomorrow': 'Tomorrow',
+    'this-week': 'This Week',
+    'next-week': 'Next Week',
+    'this-weekend': 'This Weekend',
+    'next-weekend': 'Next Weekend',
+    'this-month': 'This Month',
+    'next-month': 'Next Month'
+  }
+  return dateMap[date] || date
+}
+
+function formatTimeDisplay(timeRange) {
+  const timeMap = {
+    'morning': 'Morning',
+    'afternoon': 'Afternoon',
+    'evening': 'Evening',
+    'night': 'Night',
+    'early-morning': 'Early Morning',
+    'late-night': 'Late Night',
+    'business-hours': 'Business Hours',
+    'extended-hours': 'Extended Hours'
+  }
+  return timeMap[timeRange] || timeRange
+}
+
+// Open quick view modal
+function openQuickView(galleryId) {
+  const gallery = galleries.find(g => g.id === galleryId);
+  if (!gallery) return;
+  
+  // Create modal overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'quick-view-overlay';
+  overlay.innerHTML = `
+    <div class="quick-view-modal">
+      <div class="quick-view-content">
+        <img src="${gallery.image}" alt="${gallery.title}" class="quick-view-image">
+        <div class="quick-view-details">
+          <h2>${gallery.title}</h2>
+          <p class="instructor">Artist: ${gallery.artist}</p>
+          <p class="description">${gallery.description}</p>
+          <div class="meta-info">
+            <span><i class="fas fa-map-marker-alt"></i> ${gallery.location}</span>
+            <span><i class="fas fa-clock"></i> ${gallery.openHours}</span>
+            <span><i class="fas fa-calendar"></i> ${formatDateDisplay(gallery.date)}</span>
+            <span><i class="fas fa-users"></i> ${gallery.capacity} capacity</span>
+            <span><i class="fas fa-star"></i> ${gallery.rating}</span>
+          </div>
+          <div class="price-info">
+            <span class="price">$${course.price}</span>
+            ${course.originalPrice ? `<span class="original-price">$${course.originalPrice}</span>` : ''}
+          </div>
+          <button class="enroll-btn" onclick="enrollCourse(${course.id})">
+            <i class="fas fa-graduation-cap"></i> Enroll Now
+          </button>
+        </div>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+  `;
+
+  // Add close functionality
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay || e.target.closest('.close-modal')) {
+      document.body.removeChild(overlay);
+    }
+  });
+
+  // Add escape key to close
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      document.body.removeChild(overlay);
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
+  document.addEventListener('keydown', handleEscape);
+
+  document.body.appendChild(overlay);
 }
 
 // Update search results text
@@ -441,8 +570,8 @@ function updateSearchResults() {
   }
 }
 
-// Update course count
-function updateCourseCount(count) {
+// Update gallery count
+function updateGalleryCount(count) {
   if (count === galleries.length) {
     courseCount.textContent = `Showing all ${count} galleries`
   } else {
@@ -450,27 +579,158 @@ function updateCourseCount(count) {
   }
 }
 
+// Update pagination info
+function updatePaginationInfo() {
+  const paginationInfo = document.getElementById("paginationInfo")
+  if (paginationInfo) {
+    const startGallery = (currentPage - 1) * galleriesPerPage + 1
+    const endGallery = Math.min(currentPage * galleriesPerPage, filteredGalleries.length)
+    paginationInfo.textContent = `Showing ${startGallery} - ${endGallery} of ${filteredGalleries.length} galleries`
+  }
+}
+
+// Pagination functions
+function previousPage() {
+  if (currentPage > 1) {
+    currentPage--
+    renderGalleries(filteredGalleries)
+    updatePaginationControls()
+    scrollToTop()
+  }
+}
+
+function nextPage() {
+  if (currentPage < totalPages) {
+    currentPage++
+    renderGalleries(filteredGalleries)
+    updatePaginationControls()
+    scrollToTop()
+  }
+}
+
+function goToPage(page) {
+  if (page >= 1 && page <= totalPages) {
+    currentPage = page
+    renderGalleries(filteredGalleries)
+    updatePaginationControls()
+    scrollToTop()
+  }
+}
+
+function updatePaginationControls() {
+  const prevBtn = document.getElementById("prevBtn")
+  const nextBtn = document.getElementById("nextBtn")
+  const paginationNumbers = document.getElementById("paginationNumbers")
+
+  // Update previous button
+  if (prevBtn) {
+    prevBtn.disabled = currentPage === 1
+  }
+
+  // Update next button
+  if (nextBtn) {
+    nextBtn.disabled = currentPage === totalPages
+  }
+
+  // Update pagination numbers
+  if (paginationNumbers) {
+    paginationNumbers.innerHTML = ""
+
+    if (totalPages <= 1) {
+      // Hide pagination if only one page
+      const paginationSection = document.querySelector(".pagination-section")
+      if (paginationSection) {
+        paginationSection.style.display = "none"
+      }
+      return
+    } else {
+      // Show pagination if more than one page
+      const paginationSection = document.querySelector(".pagination-section")
+      if (paginationSection) {
+        paginationSection.style.display = "block"
+      }
+    }
+
+    const maxVisiblePages = 5
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+
+    // Adjust start page if we're near the end
+    if (endPage - startPage < maxVisiblePages - 1) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1)
+    }
+
+    // Add first page and dots if needed
+    if (startPage > 1) {
+      const firstPageBtn = document.createElement("button")
+      firstPageBtn.className = "pagination-number"
+      firstPageBtn.textContent = "1"
+      firstPageBtn.onclick = () => goToPage(1)
+      paginationNumbers.appendChild(firstPageBtn)
+
+      if (startPage > 2) {
+        const dots = document.createElement("span")
+        dots.className = "pagination-dots"
+        dots.textContent = "..."
+        paginationNumbers.appendChild(dots)
+      }
+    }
+
+    // Add visible page numbers
+    for (let i = startPage; i <= endPage; i++) {
+      const pageBtn = document.createElement("button")
+      pageBtn.className = `pagination-number ${i === currentPage ? "active" : ""}`
+      pageBtn.textContent = i
+      pageBtn.onclick = () => goToPage(i)
+      paginationNumbers.appendChild(pageBtn)
+    }
+
+    // Add last page and dots if needed
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        const dots = document.createElement("span")
+        dots.className = "pagination-dots"
+        dots.textContent = "..."
+        paginationNumbers.appendChild(dots)
+      }
+
+      const lastPageBtn = document.createElement("button")
+      lastPageBtn.className = "pagination-number"
+      lastPageBtn.textContent = totalPages
+      lastPageBtn.onclick = () => goToPage(totalPages)
+      paginationNumbers.appendChild(lastPageBtn)
+    }
+  }
+
+  // Update gallery count with pagination info
+  updateGalleryCountWithPagination()
+}
+
+function updateGalleryCountWithPagination() {
+  const startGallery = (currentPage - 1) * galleriesPerPage + 1
+  const endGallery = Math.min(currentPage * galleriesPerPage, filteredGalleries.length)
+  
+  if (filteredGalleries.length === 0) {
+    courseCount.textContent = "No galleries found"
+  } else if (filteredGalleries.length <= galleriesPerPage) {
+    courseCount.textContent = `Showing ${filteredGalleries.length} galler${filteredGalleries.length === 1 ? 'y' : 'ies'}`
+  } else {
+    courseCount.textContent = `Showing ${startGallery}-${endGallery} of ${filteredGalleries.length} galleries`
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
 // Book gallery function
 function bookGallery(galleryId) {
   const gallery = galleries.find((g) => g.id === galleryId)
   if (gallery) {
-    alert(
-      `Booking confirmed for "${gallery.title}" by ${gallery.artist}!\n\nLocation: ${gallery.location}\nDate: ${gallery.date}\nTime: ${gallery.time}\nPrice: ${gallery.price}\n\nThank you for choosing Yadawity Gallery Hub!`,
-    )
-
-    // Here you would typically integrate with a booking system
-    // For now, we'll just show a success message
-    const bookBtn = event.target
-    const originalText = bookBtn.innerHTML
-    bookBtn.innerHTML = '<i class="fas fa-check"></i> Booked!'
-    bookBtn.style.background = "linear-gradient(45deg, #22c55e, #16a34a)"
-    bookBtn.disabled = true
-
-    setTimeout(() => {
-      bookBtn.innerHTML = originalText
-      bookBtn.style.background = ""
-      bookBtn.disabled = false
-    }, 3000)
+    alert(`Booking request sent for ${gallery.title}!\nArtist: ${gallery.artist}\nLocation: ${gallery.location}\nTime: ${gallery.openHours}`)
   }
 }
 
@@ -486,108 +746,6 @@ function debounce(func, wait) {
     timeout = setTimeout(later, wait)
   }
 }
-
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault()
-    const target = document.querySelector(this.getAttribute("href"))
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-    }
-  })
-})
-
-// Add loading animation for gallery cards
-function addLoadingAnimation() {
-  coursesGrid.innerHTML = ""
-  for (let i = 0; i < 6; i++) {
-    const loadingCard = document.createElement("div")
-    loadingCard.className = "gallery-card loading"
-    loadingCard.innerHTML = `
-            <div class="loading-image"></div>
-            <div class="gallery-content">
-                <div class="loading-text"></div>
-                <div class="loading-text short"></div>
-                <div class="loading-text medium"></div>
-            </div>
-        `
-    coursesGrid.appendChild(loadingCard)
-  }
-}
-
-// Add CSS for loading animation
-const loadingStyles = `
-.gallery-card.loading {
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-.loading-image {
-    width: 100%;
-    height: 200px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-}
-
-.loading-text {
-    height: 16px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    margin-bottom: 8px;
-    border-radius: 4px;
-}
-
-.loading-text.short {
-    width: 60%;
-}
-
-.loading-text.medium {
-    width: 80%;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.7;
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-`
-
-// Add loading styles to document
-const styleSheet = document.createElement("style")
-styleSheet.textContent = loadingStyles
-document.head.appendChild(styleSheet)
-
-// Handle window resize for responsive behavior
-window.addEventListener(
-  "resize",
-  debounce(() => {
-    // Recalculate grid layout if needed
-    const grid = document.getElementById("coursesGrid")
-    if (grid) {
-      grid.style.display = "none"
-      setTimeout(() => {
-        grid.style.display = "grid"
-      }, 10)
-    }
-  }, 250),
-)
 
 // Add keyboard navigation support
 document.addEventListener("keydown", (e) => {
@@ -607,28 +765,35 @@ document.addEventListener("keydown", (e) => {
 // Initialize cart and wishlist counters
 function updateCartCount() {
   const cartCount = document.getElementById("cartCount")
-  const burgerCartCount = document.getElementById("burgerCartCount")
-  // This would typically get the count from localStorage or a backend
-  const count = 0
+  const count = 0 // This would typically get the count from localStorage or a backend
 
   if (cartCount) cartCount.textContent = count
-  if (burgerCartCount) burgerCartCount.textContent = count
 }
 
 function updateWishlistCount() {
   const wishlistCount = document.getElementById("wishlistCount")
-  const burgerWishlistCount = document.getElementById("burgerWishlistCount")
-  // This would typically get the count from localStorage or a backend
-  const count = 0
+  const count = 0 // This would typically get the count from localStorage or a backend
 
   if (wishlistCount) {
     wishlistCount.textContent = count
     wishlistCount.style.display = count > 0 ? "block" : "none"
   }
-  if (burgerWishlistCount) {
-    burgerWishlistCount.textContent = count
-  }
 }
+
+// Handle window resize for responsive behavior
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    // Recalculate grid layout if needed
+    const grid = document.getElementById("coursesGrid")
+    if (grid) {
+      grid.style.display = "none"
+      setTimeout(() => {
+        grid.style.display = "grid"
+      }, 10)
+    }
+  }, 250),
+)
 
 // Initialize counters
 updateCartCount()
@@ -639,3 +804,6 @@ window.applyFilters = applyFilters
 window.clearAllFilters = clearAllFilters
 window.removeFilter = removeFilter
 window.bookGallery = bookGallery
+window.previousPage = previousPage
+window.nextPage = nextPage
+window.goToPage = goToPage
