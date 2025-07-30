@@ -55,207 +55,7 @@ body::before {
   z-index: 1;
 }
 
-/* Navigation Styles */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
 
-.navContainer {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navLogo .navLogoLink {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  color: white;
-}
-
-.logoIcon {
-  color: var(--gold);
-}
-
-.logoText {
-  display: flex;
-  flex-direction: column;
-}
-
-.logoName {
-  font-family: "Playfair Display", serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-}
-
-.logoEst {
-  font-size: 0.7rem;
-  color: var(--gold);
-  letter-spacing: 1px;
-}
-
-.navMenu {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.navLink {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
-  transition: color 0.3s ease;
-}
-
-.navLink:hover {
-  color: var(--gold);
-}
-
-.navActions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.searchContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.searchInput {
-  padding: 0.5rem 2.5rem 0.5rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 0.9rem;
-  outline: none;
-  width: 200px;
-  transition: all 0.3s ease;
-}
-
-.searchInput::placeholder {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.searchInput:focus {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: var(--gold);
-}
-
-.searchBtn {
-  position: absolute;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  padding: 0.25rem;
-}
-
-.navIconLink {
-  color: white;
-  text-decoration: none;
-  font-size: 1.1rem;
-  position: relative;
-  padding: 0.5rem;
-  transition: color 0.3s ease;
-}
-
-.navIconLink:hover {
-  color: var(--gold);
-}
-
-.cartCount,
-.wishlistCount {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: var(--accent-red);
-  color: white;
-  font-size: 0.7rem;
-  padding: 0.2rem 0.4rem;
-  border-radius: 50%;
-  min-width: 18px;
-  text-align: center;
-}
-
-.userDropdown {
-  position: relative;
-}
-
-.userDropdownMenu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  padding: 0.5rem 0;
-  min-width: 150px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
-
-.userDropdown:hover .userDropdownMenu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdownItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background 0.3s ease;
-}
-
-.dropdownItem:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.dropdownDivider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 0.5rem 0;
-}
-
-.navToggle {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 4px;
-}
-
-.bar {
-  width: 25px;
-  height: 3px;
-  background: white;
-  transition: 0.3s;
-}
 
 /* Main Container */
 .container {
@@ -337,13 +137,17 @@ body::before {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.search-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+}
+
 /* Main Search Bar */
 .main-search {
   position: relative;
-  margin-bottom: 3rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 800px;
+  margin: 0 auto 3rem;
 }
 
 .search-wrapper {
@@ -352,67 +156,66 @@ body::before {
   align-items: center;
 }
 
-.search-icon {
-  position: absolute;
-  left: 1.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--medium-brown);
-  font-size: 1.25rem;
-  z-index: 3;
-}
-
 .search-input {
   width: 100%;
-  padding: 1.25rem 4rem 1.25rem 3.5rem;
+  padding: 1.25rem 4rem 1.25rem 1.5rem;
   font-size: 1rem;
   border: none;
-  border-radius: 3px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  outline: none;
   color: var(--text-primary);
   font-weight: 500;
 }
 
-.search-input:focus {
-  background: white;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3), 0 12px 40px rgba(0, 0, 0, 0.4);
-  transform: translateY(-2px);
-}
-
 .search-input::placeholder {
   color: var(--text-muted);
-  opacity: 0.8;
+  opacity: 0.7;
+}
+
+.search-input:focus {
+  background: white;
+  outline: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
 .search-btn {
   position: absolute;
-  right: 0.5rem;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(45deg, var(--medium-brown), var(--dark-brown));
-  color: white;
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: var(--primary-light);
   border: none;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 20%;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
   z-index: 3;
 }
 
 .search-btn:hover {
-  background: linear-gradient(45deg, var(--dark-brown), var(--medium-brown));
-  transform: translateY(-50%) scale(1.05);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  transform: translateY(-50%) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
-/* Enhanced Filters Container */
+.search-btn i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.search-btn:hover i {
+  transform: scale(1.1);
+}
 /* Filters Container */
 .filters-container {
   backdrop-filter: blur(10px);

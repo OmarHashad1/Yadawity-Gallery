@@ -1,3 +1,67 @@
+/* Unified Search Bar Styles (matches courses page) */
+.main-search {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-input {
+  width: 100%;
+  padding: 1.25rem 4rem 1.25rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+.search-input:focus {
+  background: white;
+  outline: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+.search-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: var(--primary-light);
+  border: none;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+.search-btn:hover {
+  background: linear-gradient(135deg, #4a2c17 0%, #3a2312 100%);
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.search-btn i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+.search-btn:hover i {
+  transform: scale(1.1);
+}
 :root {
   --primary-light: #fefefe;
   --secondary-light: #faf8f5;
@@ -180,6 +244,12 @@ body::before {
     text-align: center;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
 }
 
 .optionCard:hover {
@@ -259,20 +329,24 @@ body::before {
 
 
 .optionCard .optionBtn {
-    background: linear-gradient(135deg, var(--medium-brown) 0%, var(--light-brown) 100%);
-    box-shadow: 0 8px 25px rgba(107, 68, 35, 0.3);
+    background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
     color: white;
-    text-decoration: none;
-    padding: 1rem 2.5rem;
+    border: none;
+    padding: 12px 30px;
     border-radius: 3px;
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    width: 57%;
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
 }
 
 .optionCard .optionBtn::before {
@@ -288,11 +362,13 @@ body::before {
         rgba(255, 255, 255, 0.2),
         transparent
     );
-    transition: left 0.7s ease;
+    transition: left 0.5s ease;
 }
 
 .optionCard .optionBtn:hover {
-    transform: translateY(-3px) scale(1.02);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 115, 85, 0.4);
+    transform: translateY(0);
 }
 
 .optionCard .optionBtn:hover::before {

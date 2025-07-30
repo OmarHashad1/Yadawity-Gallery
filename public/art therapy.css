@@ -4,7 +4,7 @@
             --accent-red: #8b1538;
             --dark-red: #7f1d1d;
             --burgundy: #991b1b;
-            --dark-brown: #4a2c17;
+            --dark-brown: #8b7355 ;
             --medium-brown: #6b4423;
             --light-brown: #8b7355;
             --beige: #d4c4b0;
@@ -201,7 +201,7 @@
             right: 0.5rem;
             top: 50%;
             transform: translateY(-50%);
-            background: linear-gradient(45deg, var(--medium-brown), var(--dark-brown));
+            background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
             color: white;
             border: none;
             width: 3rem;
@@ -216,7 +216,7 @@
         }
 
         .hero-search-btn:hover {
-            background: linear-gradient(45deg, var(--dark-brown), var(--medium-brown));
+            background: linear-gradient(135deg, var(--brown-light) 0%, var(--brown-medium) 100%);
             transform: translateY(-50%) scale(1.05);
         }
 
@@ -313,7 +313,7 @@
         }
 
         .upload-btn {
-            background: linear-gradient(45deg, var(--medium-brown), var(--dark-brown));
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
             color: white;
             border: none;
             padding: 0.875rem 1.5rem;
@@ -326,7 +326,7 @@
         }
 
         .upload-btn:hover {
-            background: linear-gradient(45deg, var(--dark-brown), var(--medium-brown));
+            background: linear-gradient(135deg,  #6b4423 0%, #8b7355 100%);
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
@@ -351,7 +351,7 @@
         }
 
         .remove-btn {
-            background: var(--accent-red);
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -362,13 +362,13 @@
         }
 
         .remove-btn:hover {
-            background: var(--dark-red);
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
             transform: translateY(-2px);
         }
 
         .analyze-btn {
-            background: linear-gradient(45deg, var(--gold), var(--gold-light));
-            color: var(--dark-brown);
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
+            color: #f5f5dc;
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 4px;
@@ -378,6 +378,8 @@
         }
 
         .analyze-btn:hover {
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
+            color: #f5f5dc;
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
@@ -455,8 +457,8 @@
 
         .submit-assessment-btn {
             width: 100%;
-            background: linear-gradient(45deg, var(--gold), var(--gold-light));
-            color: var(--dark-brown);
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
+            color: #f5f5dc;
             border: none;
             padding: 1rem 2rem;
             border-radius: 6px;
@@ -470,6 +472,8 @@
         }
 
         .submit-assessment-btn:hover {
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
+            color: #f5f5dc;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
@@ -817,7 +821,7 @@
         }
 
         .service-btn {
-            background: linear-gradient(45deg, var(--medium-brown), var(--dark-brown));
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
             color: white;
             border: none;
             padding: 0.875rem 1.5rem;
@@ -848,7 +852,7 @@
         }
 
         .service-btn:hover {
-            background: linear-gradient(45deg, var(--dark-brown), var(--medium-brown));
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }

@@ -47,6 +47,13 @@ body::before {
   z-index: 1;
 }
 
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 4rem 2rem 2rem;
+  position: relative;
+  z-index: 2;
+}
 /* Page Header */
 .pageHeader {
   background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
@@ -731,8 +738,9 @@ body::before {
   padding: 2rem;
   margin-bottom: 3rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  width: 1500px;
-  margin: 0 auto;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .filters-header {
