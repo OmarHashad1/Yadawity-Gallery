@@ -460,8 +460,8 @@ html {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
     border-radius: 16px;
     padding: 0;
-    opacity: 0;
-    visibility: hidden;
+    opacity: 0 !important;
+    visibility: hidden !important;
     transform: translateY(-15px) scale(0.95);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid var(--shadow-light);
@@ -471,8 +471,8 @@ html {
 }
 
 .user-dropdown:hover .user-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
+    opacity: 1 !important;
+    visibility: visible !important;
     transform: translateY(0) scale(1);
 }
 
@@ -704,6 +704,7 @@ html {
     }
 }
 
+/* Commented out to avoid conflicts with 1438px query - moved to bottom
 @media (max-width: 768px) {
     .nav-container {
         padding: 0 1rem;
@@ -755,7 +756,9 @@ html {
         right: -20px;
     }
 }
+*/
 
+/* Commented out to avoid conflicts - moved to bottom
 @media (max-width: 480px) {
     .nav-container {
         padding: 0 0.75rem;
@@ -801,6 +804,7 @@ html {
         font-size: 1.3rem;
     }
 }
+*/
 
 /* Animation Keyframes */
 @keyframes fadeInUp {
@@ -964,34 +968,7 @@ html {
     transform: scale(1.1);
 }
 
-/* User Dropdown */
-.user-dropdown {
-    position: relative;
-}
-
-.user-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: white;
-    min-width: 200px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    border-radius: 12px;
-    padding: 8px 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    margin-top: 10px;
-    border: 1px solid rgba(107, 68, 35, 0.1);
-    z-index: 1001;
-}
-
-.user-dropdown:hover .user-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+/* User Dropdown styles moved to main section above */
 
 .dropdown-item {
     display: flex;
@@ -1128,49 +1105,15 @@ html {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1438px) {
+    /* Hide desktop nav-menu and show nav-toggle for burger menu */
     .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 90px;
-        flex-direction: column;
-        background: var(--cream);
-        width: 100%;
-        text-align: left;
-        transition: 0.3s;
-        gap: 0;
-        padding: 40px 30px;
-        height: calc(100vh - 90px);
-        overflow-y: auto;
-        backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(107, 68, 35, 0.15);
+        display: none;
     }
 
-    .nav-menu.active {
-        left: 0;
-    }
-
-    .nav-menu a,
+    /* Hide nav-actions in desktop position */
     .nav-actions {
-        padding: 20px 0;
-        display: block;
-        margin: 10px 0;
-        border-radius: 8px;
-        width: 100%;
-        border-bottom: 1px solid rgba(107, 68, 35, 0.1);
-    }
-
-    .nav-actions {
-        flex-direction: column;
-        align-items: flex-start;
-        border-left: none;
-        margin-left: 0;
-        padding-left: 0;
-        gap: 15px;
-        margin-top: 30px;
-        padding-top: 30px;
-        border-top: 2px solid rgba(107, 68, 35, 0.2);
-        min-width: auto;
+        display: none;
     }
 
     .nav-toggle {
@@ -1189,27 +1132,9 @@ html {
         transform: translateY(-7px) rotate(-45deg);
     }
 
-    .search-container {
-        width: 100%;
-    }
-
-    .search-input {
-        width: 100%;
-    }
-
-    .search-input:focus {
-        width: 100%;
-    }
-
+    /* User dropdown still hidden in mobile */
     .user-dropdown-menu {
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        box-shadow: none;
-        background: rgba(107, 68, 35, 0.1);
-        margin-top: 10px;
-        border-radius: 8px;
+        display: none;
     }
 }
 

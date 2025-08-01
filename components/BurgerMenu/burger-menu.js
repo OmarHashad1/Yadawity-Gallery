@@ -1,6 +1,7 @@
 /**
- * Burger Menu Component JavaScript
+ * Burger Menu Component JavaScript - HTML5 Semantic Version
  * Handles burger menu functionality, interactions, and animations
+ * Exact same functionality as navbar with HTML5 compliance
  */
 
 class BurgerMenu {
@@ -21,15 +22,40 @@ class BurgerMenu {
         this.bindEvents();
         this.updateActiveNavLink();
         this.updateCounters();
+        this.updateUserInterface();
+        
+        // Set up periodic sync with main navbar
+        this.setupUserSync();
+    }
+
+    setupUserSync() {
+        // Check for user changes every 2 seconds
+        setInterval(() => {
+            const navbarUser = this.getUserFromNavbar();
+            const currentUser = this.getUserFromStorage();
+            
+            // If navbar has different user info, update burger menu
+            if (navbarUser && (
+                navbarUser.name !== currentUser.name || 
+                navbarUser.role !== currentUser.role ||
+                navbarUser.isLoggedIn !== currentUser.isLoggedIn
+            )) {
+                // Update localStorage with navbar data
+                localStorage.setItem('currentUser', JSON.stringify(navbarUser));
+                // Refresh burger menu interface
+                this.updateUserInterface();
+            }
+        }, 2000);
     }
 
     bindElements() {
-        this.overlay = document.getElementById('burgerMenuOverlay');
-        this.container = document.querySelector('.burgerMenuContainer');
-        this.closeBtn = document.getElementById('burgerMenuClose');
-        this.userDropdown = document.querySelector('.burgerUserDropdown');
-        this.userMenu = document.getElementById('burgerUserMenu');
-        this.searchInput = document.getElementById('burgerSearchInput');
+        // Updated selectors for HTML5 semantic structure
+        this.overlay = document.getElementById('burger-menu-overlay');
+        this.container = document.querySelector('.burger-menu-container');
+        this.closeBtn = document.getElementById('burger-menu-close');
+        this.userDropdown = document.querySelector('.burger-user-dropdown');
+        this.userMenu = document.getElementById('burger-user-dropdown-menu');
+        this.searchInput = document.getElementById('burger-search-input');
     }
 
     bindEvents() {
@@ -47,9 +73,9 @@ class BurgerMenu {
             });
         }
 
-        // User dropdown toggle
+        // User dropdown toggle - Updated selector
         if (this.userDropdown) {
-            const userAccount = document.getElementById('burgerUserAccount');
+            const userAccount = document.getElementById('burger-user-account-btn');
             if (userAccount) {
                 userAccount.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -73,7 +99,7 @@ class BurgerMenu {
     }
 
     bindSearchEvents() {
-        const searchBtn = document.getElementById('burgerSearchButton');
+        const searchBtn = document.getElementById('burger-search-btn');
         
         if (searchBtn) {
             searchBtn.addEventListener('click', () => this.performSearch());
@@ -93,7 +119,7 @@ class BurgerMenu {
     }
 
     bindNavigationEvents() {
-        const navLinks = document.querySelectorAll('.burgerNavLink');
+        const navLinks = document.querySelectorAll('.burger-nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 // Add loading state
@@ -190,7 +216,7 @@ class BurgerMenu {
             z-index: 10;
         `;
         
-        const searchContainer = document.querySelector('.burgerSearchContainer');
+        const searchContainer = document.querySelector('.burger-search-container');
         if (searchContainer) {
             searchContainer.style.position = 'relative';
             searchContainer.appendChild(feedback);
@@ -214,9 +240,128 @@ class BurgerMenu {
         }, 1000);
     }
 
+    updateUserInterface() {
+        // Sync with main navbar user state - Updated selectors
+        const userNameElement = document.getElementById('burger-user-name');
+        const userRoleElement = document.getElementById('burger-user-role');
+        const artistSection = document.getElementById('burger-artist-section');
+        const loginLogout = document.getElementById('burger-login-logout');
+        
+        // Try to get user data from main navbar first, then localStorage
+        let currentUser = this.getUserFromNavbar() || this.getUserFromStorage();
+        
+        // Update user info in dropdown header
+        if (userNameElement) {
+            userNameElement.textContent = currentUser.name;
+        }
+        
+        if (userRoleElement) {
+            userRoleElement.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+        }
+        
+        // Show/hide artist section based on role
+        if (artistSection) {
+            if (currentUser.role === 'artist' && currentUser.isLoggedIn) {
+                artistSection.style.display = 'block';
+            } else {
+                artistSection.style.display = 'none';
+            }
+        }
+        
+        // Update login/logout button
+        if (loginLogout) {
+            if (currentUser.isLoggedIn) {
+                loginLogout.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+                loginLogout.href = '#';
+                loginLogout.onclick = (e) => {
+                    e.preventDefault();
+                    this.logout();
+                };
+            } else {
+                loginLogout.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Login</span>';
+                loginLogout.href = 'login.html';
+                loginLogout.onclick = null;
+            }
+        }
+    }
+
+    getUserFromNavbar() {
+        // Try to get user info from main navbar
+        const navbarUserName = document.getElementById('user-name');
+        const navbarUserRole = document.getElementById('user-role');
+        
+        if (navbarUserName && navbarUserRole) {
+            const name = navbarUserName.textContent.trim();
+            const role = navbarUserRole.textContent.trim().toLowerCase();
+            
+            if (name && name !== 'Guest User') {
+                return {
+                    name: name,
+                    role: role,
+                    isLoggedIn: true
+                };
+            }
+        }
+        
+        return null;
+    }
+
+    getUserFromStorage() {
+        // Load user data from localStorage or use default
+        let currentUser = {
+            name: 'Guest User',
+            role: 'visitor',
+            isLoggedIn: false
+        };
+        
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            try {
+                currentUser = JSON.parse(savedUser);
+            } catch (e) {
+                console.warn('Invalid user data in localStorage');
+            }
+        }
+        
+        return currentUser;
+    }
+
+    // Method to refresh user interface (call this when user changes)
+    refreshUserInterface() {
+        this.updateUserInterface();
+        this.updateCounters();
+    }
+
+    logout() {
+        // Update localStorage
+        const currentUser = {
+            name: 'Guest User',
+            role: 'visitor',
+            isLoggedIn: false
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Update interface
+        this.updateUserInterface();
+        
+        // Close burger menu
+        this.close();
+        
+        // Show notification (if available)
+        if (typeof showNotification === 'function') {
+            showNotification('Logged out successfully', 'info');
+        }
+        
+        // Redirect to home page
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+
     updateActiveNavLink() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const navLinks = document.querySelectorAll('.burgerNavLink');
+        const navLinks = document.querySelectorAll('.burger-nav-link');
         
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
@@ -233,20 +378,32 @@ class BurgerMenu {
     }
 
     updateCounters() {
-        // Update cart counter
+        // Update cart counter - Updated selectors
         const cartCount = this.getCartCount();
-        const cartCountElement = document.getElementById('burgerCartCount');
+        const cartCountElement = document.getElementById('burger-cart-count');
         if (cartCountElement) {
             cartCountElement.textContent = cartCount;
-            cartCountElement.style.display = cartCount > 0 ? 'flex' : 'none';
+            // Always show cart count even if 0, but style differently
+            cartCountElement.style.display = 'flex';
+            if (cartCount === 0) {
+                cartCountElement.style.opacity = '0.5';
+            } else {
+                cartCountElement.style.opacity = '1';
+            }
         }
 
-        // Update wishlist counter
+        // Update wishlist counter - Updated selectors
         const wishlistCount = this.getWishlistCount();
-        const wishlistCountElement = document.getElementById('burgerWishlistCount');
+        const wishlistCountElement = document.getElementById('burger-wishlist-count');
         if (wishlistCountElement) {
             wishlistCountElement.textContent = wishlistCount;
-            wishlistCountElement.style.display = wishlistCount > 0 ? 'flex' : 'none';
+            // Always show wishlist count even if 0, but style differently
+            wishlistCountElement.style.display = 'flex';
+            if (wishlistCount === 0) {
+                wishlistCountElement.style.opacity = '0.5';
+            } else {
+                wishlistCountElement.style.opacity = '1';
+            }
         }
     }
 
@@ -263,7 +420,7 @@ class BurgerMenu {
     }
 
     updateLoginStatus() {
-        const loginLogout = document.getElementById('burgerLoginLogout');
+        const loginLogout = document.getElementById('burger-login-logout');
         const isLoggedIn = this.checkLoginStatus();
         
         if (loginLogout) {
@@ -312,6 +469,18 @@ window.toggleBurgerMenu = () => {
     const instance = BurgerMenu.getInstance();
     instance.toggle();
 };
+
+// Add method to refresh burger menu when user data changes
+window.refreshBurgerMenu = () => {
+    const instance = BurgerMenu.getInstance();
+    instance.refreshUserInterface();
+};
+
+// Listen for user changes in the main application
+window.addEventListener('userUpdated', () => {
+    const instance = BurgerMenu.getInstance();
+    instance.refreshUserInterface();
+});
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {

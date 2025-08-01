@@ -2,11 +2,13 @@
 
 // Initialize navbar functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing navbar...');
     // Initialize all navbar functions
     initializeNavbar();
 });
 
 function initializeNavbar() {
+    console.log('Initializing navbar...');
     // Mobile menu toggle
     setupMobileMenu();
     
@@ -25,37 +27,31 @@ function initializeNavbar() {
     setActivePage();
 }
 
-// Mobile Menu Toggle
+// Mobile Menu Toggle - Use existing BurgerMenu component
 function setupMobileMenu() {
-    const navToggle = document.querySelector('.navToggle');
-    const navMenu = document.querySelector('.navMenu');
+    console.log('Setting up mobile menu...');
+    
+    const navToggle = document.querySelector('.nav-toggle');
+    
+    console.log('Nav toggle element:', navToggle);
 
     if (navToggle) {
-        navToggle.addEventListener('click', function() {
-            // Open the burger menu overlay instead of toggling navbar
-            if (window.toggleBurgerMenu) {
-                window.toggleBurgerMenu();
+        console.log('Nav toggle found, adding click listener to open burger menu');
+        
+        navToggle.addEventListener('click', function(e) {
+            console.log('Burger menu clicked!');
+            e.preventDefault();
+            
+            // Use the global burger menu function
+            if (typeof window.openBurgerMenu === 'function') {
+                console.log('Opening burger menu using global function');
+                window.openBurgerMenu();
+            } else {
+                console.error('openBurgerMenu function not available');
             }
         });
-
-        // Close mobile menu when clicking on links (legacy support)
-        const navLinks = document.querySelectorAll('.navLink');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (navMenu) {
-                    navMenu.classList.remove('active');
-                }
-                navToggle.classList.remove('active');
-            });
-        });
-
-        // Close mobile menu when clicking outside (legacy support)
-        document.addEventListener('click', function(e) {
-            if (!navToggle.contains(e.target) && navMenu && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            }
-        });
+    } else {
+        console.log('Nav toggle not found');
     }
 }
 
@@ -159,8 +155,8 @@ function closeMobileSearch() {
 
 // User Dropdown
 function setupUserDropdown() {
-    const userDropdown = document.querySelector('.userDropdown');
-    const dropdownMenu = document.querySelector('.userDropdownMenu');
+    const userDropdown = document.querySelector('.user-dropdown');
+    const dropdownMenu = document.querySelector('.user-dropdown-menu');
 
     if (userDropdown && dropdownMenu) {
         // Handle dropdown for touch devices
@@ -284,11 +280,18 @@ window.YadawityNavbar = {
 // Handle resize events
 window.addEventListener('resize', debounce(function() {
     // Close mobile menu on resize to larger screen
-    if (window.innerWidth > 1500) {
-        const navMenu = document.querySelector('.navMenu');
-        const navToggle = document.querySelector('.navToggle');
+    if (window.innerWidth > 1438) {
+        const navMenu = document.querySelector('.nav-menu');
+        const navToggle = document.querySelector('.nav-toggle');
         
-        if (navMenu) navMenu.classList.remove('active');
+        if (navMenu) {
+            navMenu.classList.remove('active');
+            // Remove mobile actions when resizing to desktop
+            const mobileActions = navMenu.querySelector('.mobile-nav-actions');
+            if (mobileActions) {
+                mobileActions.remove();
+            }
+        }
         if (navToggle) navToggle.classList.remove('active');
     }
 }, 250));
@@ -967,6 +970,9 @@ function clearAllFilters() {
 // Update search results display
 function updateSearchResults() {
     const courseCount = document.getElementById('courseCount');
+    
+    if (!courseCount) return; // Exit if element doesn't exist
+    
     const count = filteredCourses.length;
     const total = courses.length;
     
@@ -983,12 +989,14 @@ function renderCourses(coursesToRender = filteredCourses) {
     const coursesGrid = document.getElementById('coursesGrid');
     const noResults = document.getElementById('noResults');
     
+    if (!coursesGrid) return; // Exit if element doesn't exist
+    
     if (coursesToRender.length === 0) {
         coursesGrid.innerHTML = '';
-        noResults.classList.add('show');
+        if (noResults) noResults.classList.add('show');
     } else {
         coursesGrid.innerHTML = coursesToRender.map(course => createCourseCard(course)).join('');
-        noResults.classList.remove('show');
+        if (noResults) noResults.classList.remove('show');
         
         // Use Intersection Observer to animate cards progressively
         initIntersectionObserver();
@@ -1029,19 +1037,30 @@ function initIntersectionObserver() {
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Initial render
-    renderCourses();
-    updateSearchResults();
+    // Initial render - only if on courses page
+    if (document.getElementById('coursesGrid')) {
+        renderCourses();
+        updateSearchResults();
+        
+        // Search input event listener
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilters);
+        }
+    }
     
-    // Search input event listener
-    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    // Filter event listeners - only add if elements exist
+    const categoryFilter = document.getElementById('categoryFilter');
+    const difficultyFilter = document.getElementById('difficultyFilter');
+    const minPrice = document.getElementById('minPrice');
+    const maxPrice = document.getElementById('maxPrice');
+    const durationFilter = document.getElementById('durationFilter');
     
-    // Filter event listeners
-    document.getElementById('categoryFilter').addEventListener('change', applyFilters);
-    document.getElementById('difficultyFilter').addEventListener('change', applyFilters);
-    document.getElementById('minPrice').addEventListener('input', applyFilters);
-    document.getElementById('maxPrice').addEventListener('input', applyFilters);
-    document.getElementById('durationFilter').addEventListener('change', applyFilters);
+    if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+    if (difficultyFilter) difficultyFilter.addEventListener('change', applyFilters);
+    if (minPrice) minPrice.addEventListener('input', applyFilters);
+    if (maxPrice) maxPrice.addEventListener('input', applyFilters);
+    if (durationFilter) durationFilter.addEventListener('change', applyFilters);
     
     // Min price arrows functionality
     const minArrowUp = document.querySelector('.min-arrow-up');
@@ -1142,26 +1161,30 @@ document.querySelectorAll('.star-rating').forEach(ratingContainer => {
 const reviewTextarea = document.getElementById('quickReview');
 const characterCounter = document.getElementById('characterCounter');
 
-reviewTextarea.addEventListener('input', function() {
-    const currentLength = this.value.length;
-    const maxLength = this.getAttribute('maxlength');
-    characterCounter.textContent = `${currentLength}/${maxLength}`;
+if (reviewTextarea && characterCounter) {
+    reviewTextarea.addEventListener('input', function() {
+        const currentLength = this.value.length;
+        const maxLength = this.getAttribute('maxlength');
+        characterCounter.textContent = `${currentLength}/${maxLength}`;
     
-    // Change color when approaching limit
-    if (currentLength > maxLength * 0.8) {
-      characterCounter.style.color = 'var(--red-accent)';
-    } else {
-      characterCounter.style.color = 'var(--text-light)';
-    }
-  });
+        // Change color when approaching limit
+        if (currentLength > maxLength * 0.8) {
+            characterCounter.style.color = 'var(--red-accent)';
+        } else {
+            characterCounter.style.color = 'var(--text-light)';
+        }
+    });
+}
 
 // Submit Review Script
-document.getElementById('submitReview').addEventListener('click', function () {
-    const name = document.getElementById('clientName').value;
-    const email = document.getElementById('clientEmail').value;
-    const review = document.getElementById('reviewText').value;
-    const artwork = document.getElementById('artworkTitle').value;
-    const rating = document.getElementById('starRating').value;
+const submitReviewBtn = document.getElementById('submitReview');
+if (submitReviewBtn) {
+    submitReviewBtn.addEventListener('click', function () {
+        const name = document.getElementById('clientName').value;
+        const email = document.getElementById('clientEmail').value;
+        const review = document.getElementById('reviewText').value;
+        const artwork = document.getElementById('artworkTitle').value;
+        const rating = document.getElementById('starRating').value;
 
     if (name && email && review && artwork) {
       // Here you can add the code to submit the review to the server
@@ -1174,11 +1197,14 @@ document.getElementById('submitReview').addEventListener('click', function () {
       alert('Please fill in all fields and select a rating.');
     }
   });
+}
 
 // Submit Quick Review Script
-document.getElementById('submitQuickReview').addEventListener('click', function () {
-    const artworkPurchased = document.getElementById('purchasedArtwork').value;
-    const reviewText = document.getElementById('quickReview').value;
+const submitQuickReviewBtn = document.getElementById('submitQuickReview');
+if (submitQuickReviewBtn) {
+    submitQuickReviewBtn.addEventListener('click', function () {
+        const artworkPurchased = document.getElementById('purchasedArtwork').value;
+        const reviewText = document.getElementById('quickReview').value;
     
     // Get overall rating
     const overallStars = document.querySelectorAll('div[data-type="overall"] .star.active');
@@ -1204,12 +1230,16 @@ document.getElementById('submitQuickReview').addEventListener('click', function 
       });
       
       // Reset character counter
-      characterCounter.textContent = '0/500';
-      characterCounter.style.color = 'var(--text-light)';
+      const characterCounter = document.getElementById('characterCounter');
+      if (characterCounter) {
+          characterCounter.textContent = '0/500';
+          characterCounter.style.color = 'var(--text-light)';
+      }
     } else {
       alert('Please select an artwork, choose a rating, and write your review.');
     }
   });
+}
 
 // Enhanced Artwork Cards Functionality
 document.querySelectorAll('.enhanced-add-to-cart').forEach(button => {

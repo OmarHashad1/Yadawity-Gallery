@@ -599,8 +599,6 @@ window.YadawityNavbar = {
     updateCartCount,
     updateWishlistCount,
     setActivePage,
-    openMobileSearch,
-    closeMobileSearch,
     performSearch
 };
 
