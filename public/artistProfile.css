@@ -78,7 +78,7 @@
   }
 
   .badge-yadawity {
-    background: linear-gradient(135deg, var(--primary-brown), var(--secondary-brown));
+    background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     color: white;
   }
 
@@ -111,7 +111,7 @@
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--primary-brown);
+    color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   }
 
   .stat-label {
@@ -128,7 +128,7 @@
   }
 
   .btn-primary {
-    background: var(--primary-brown);
+    background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     color: white;
     padding: 15px 30px;
     border: none;
@@ -143,16 +143,17 @@
   }
 
   .btn-primary:hover {
-    background: var(--secondary-brown);
+    background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(107, 68, 35, 0.3);
   }
 
   .btn-secondary {
-    background: transparent;
-    color: var(--primary-brown);
+   
+    background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
+    color:white;
     padding: 15px 30px;
-    border: 2px solid var(--primary-brown);
+    border: none;
     border-radius: 3px;
     font-weight: 600;
     cursor: pointer;
@@ -164,9 +165,9 @@
   }
 
   .btn-secondary:hover {
-    background: var(--primary-brown);
-    color: white;
+    background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 68, 35, 0.3);
   }
 
   /* About Section */
@@ -189,13 +190,13 @@
     background: var(--cream);
     padding: 40px;
     border-radius: 3px;
-    border-left: 4px solid var(--gold-accent);
+    border-left: 4px solid  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   }
 
   .about-main h2 {
     font-family: "Playfair Display", serif;
     font-size: 2.5rem;
-    color: var(--primary-brown);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-bottom: 30px;
   }
 
@@ -212,7 +213,7 @@
 
   .achievements h3 {
     font-size: 1.5rem;
-    color: var(--primary-brown);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-bottom: 20px;
   }
 
@@ -230,7 +231,7 @@
   .achievement-icon {
     width: 40px;
     height: 40px;
-    background: var(--gold-accent);
+    background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -240,8 +241,8 @@
 
   /* Artist Products Section */
   .products-section {
-    background: #F6EBDC;
-    padding: 80px 0;
+    background: #faf1e4;
+    padding: 200px 0;
   }
 
   .products-header {
@@ -252,7 +253,7 @@
   .products-header h2 {
     font-family: "Playfair Display", serif;
     font-size: 3rem;
-    color: var(--primary-brown);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-bottom: 20px;
   }
 
@@ -298,7 +299,7 @@
   .product-price {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--secondary-brown);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-bottom: 10px;
   }
 
@@ -350,7 +351,7 @@
     gap: 40px;
     margin: 40px 0;
     padding: 30px;
-    background: #F6EBDC;
+    background: #faf1e4;
     border-radius:3px;
   }
 
@@ -361,7 +362,7 @@
   .rating-score {
     font-size: 3rem;
     font-weight: 700;
-    color: var(--primary-brown);
+    color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     display: block;
   }
 
@@ -373,7 +374,7 @@
   }
 
   .rating-stars .star {
-    color: var(--gold-star);
+    color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     font-size: 1.5rem;
   }
 
@@ -494,8 +495,7 @@
   .form-section-title {
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--primary-brown);
-    margin-bottom: 20px;
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -528,12 +528,11 @@
     color: var(--red-accent);
     margin-left: 3px;
   }
-
   .artwork-input,
   .client-name-input,
   .artwork-select {
     padding: 15px 18px;
-    border: 2px solid var(--cream);
+    border: 2px solid linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     border-radius: 3px;
     background: white;
     color: var(--text-dark);
@@ -546,7 +545,7 @@
   .client-name-input:focus,
   .artwork-select:focus {
     outline: none;
-    border-color: var(--primary-brown);
+    border-color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.1);
     transform: translateY(-1px);
   }
@@ -566,7 +565,7 @@
   }
 
   .rating-section {
-    background: #F6EBDC;
+    background: #fff8ee;
     padding: 25px;
     border-radius: 3px;
     text-align: center;
@@ -575,7 +574,7 @@
 
   .rating-section h4 {
     font-size: 1.2rem;
-    color: var(--primary-brown);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-bottom: 15px;
     font-weight: 600;
   }
@@ -617,13 +616,13 @@
     right: 0;
     bottom: 0;
     border-radius: 50%;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 15px  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     z-index: -1;
   }
 
   .rating-description {
     font-size: 0.9rem;
-    color: var(--text-light);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-top: 10px;
   }
 
@@ -633,7 +632,7 @@
 
   .review-text-section h4 {
     font-size: 1.2rem;
-    color: var(--primary-brown);
+    color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     margin-bottom: 15px;
     font-weight: 600;
     display: flex;
@@ -677,7 +676,7 @@
   }
 
   .submit-quick-review {
-    background: linear-gradient(135deg, var(--primary-brown), var(--secondary-brown));
+    background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
     color: white;
     padding: 18px 50px;
     border: none;

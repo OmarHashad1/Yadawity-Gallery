@@ -7,6 +7,8 @@
   --text-light: #666;
   --red-accent: #8b3a3a;
   --green-accent: #5a7c65;
+  --brown-light: #6b5a47;
+   --brown-medium: #8b7355;
   --shadow-light: rgba(107, 68, 35, 0.1);
   --shadow-medium: rgba(107, 68, 35, 0.2);
   --gradient-primary: linear-gradient(135deg, var(--primary-brown), var(--gold-accent));
@@ -40,7 +42,7 @@ body {
 
 /* Hero Section */
 .privacyHero {
-  background: var(--gradient-primary);
+  background:linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   color: white;
   padding: 120px 0 80px;
   text-align: center;
@@ -144,7 +146,7 @@ body {
 }
 
 .tocLink:hover {
-  background: var(--gold-accent);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px var(--shadow-light);
@@ -152,7 +154,7 @@ body {
 
 .tocLink.active {
   border-color: var(--primary-brown);
-  background: var(--primary-brown);
+  background:linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   color: white;
 }
 
@@ -385,7 +387,7 @@ body {
   width: 32px;
   height: 32px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;

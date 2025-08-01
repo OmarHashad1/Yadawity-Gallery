@@ -9,6 +9,8 @@
   --medium-brown: #6b4423;
   --light-brown: #8b7355;
   --beige: #d4c4b0;
+  --brown-light: #6b5a47;
+   --brown-medium: #8b7355;
   --beige-light: #e8dcc6;
   --gold: #d4af37;
   --gold-light: #f4d03f;
@@ -22,7 +24,8 @@
 
 /* Page Header */
 .pageHeader {
-  background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  padding: 6rem 2rem 4rem;
   padding: 6rem 2rem 4rem;
   text-align: center;
   color: #f5f0eb;
@@ -95,7 +98,7 @@
 /* Cart Items Section */
 .cartItems {
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
+  border-radius: 3px;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
@@ -121,7 +124,7 @@
   color: var(--accent-red);
   border: 1px solid rgba(139, 21, 56, 0.2);
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -151,7 +154,7 @@
 .itemImage {
   width: 120px;
   height: 120px;
-  border-radius: 8px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
@@ -237,7 +240,7 @@
   display: flex;
   align-items: center;
   border: 1px solid rgba(107, 68, 35, 0.2);
-  border-radius: 6px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
@@ -286,7 +289,7 @@
 .promoCard,
 .paymentMethods {
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
+  border-radius: 3px;
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
@@ -326,11 +329,11 @@
 
 .checkoutBtn {
   width: 100%;
-  padding: 1rem;
-  background: var(--accent-red);
   color: white;
+  padding: 1rem;
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 3px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
@@ -343,7 +346,7 @@
 }
 
 .checkoutBtn:hover {
-  background: var(--dark-red);
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   transform: translateY(-2px);
 }
 
@@ -366,16 +369,16 @@
   flex: 1;
   padding: 0.75rem;
   border: 1px solid rgba(107, 68, 35, 0.2);
-  border-radius: 6px;
+  border-radius: 3px;
   background: white;
 }
 
 .promoInput button {
   padding: 0.75rem 1rem;
-  background: var(--medium-brown);
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
   font-weight: 500;
   transition: background 0.3s ease;
@@ -407,7 +410,7 @@
   text-align: center;
   padding: 4rem 2rem;
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
+  border-radius: 3px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -441,7 +444,7 @@
   background: var(--accent-red);
   color: white;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 3px;
   font-weight: 600;
   transition: all 0.3s ease;
 }
@@ -465,7 +468,7 @@
   background: rgba(107, 68, 35, 0.1);
   color: var(--medium-brown);
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 3px;
   font-weight: 500;
   transition: all 0.3s ease;
   border: 1px solid rgba(107, 68, 35, 0.2);

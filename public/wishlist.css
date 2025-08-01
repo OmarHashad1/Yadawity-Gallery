@@ -8,10 +8,12 @@
   --dark-brown: #4a2c17;
   --medium-brown: #6b4423;
   --light-brown: #8b7355;
-  --beige: #d4c4b0;
+  --beige:#b8a690;
   --beige-light: #e8dcc6;
   --gold: #d4af37;
   --gold-light: #f4d03f;
+   --brown-light: #6b5a47;
+   --brown-medium: #8b7355;
   --cream: #f5f5dc;
   --text-primary: #2c1810;
   --text-secondary: #4a2c17;
@@ -22,7 +24,7 @@
 
 /* Page Header */
 .pageHeader {
-  background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 100%);
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   padding: 6rem 2rem 4rem;
   text-align: center;
   color: #f5f0eb;
@@ -95,7 +97,7 @@
 
 .statsCard {
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
+  border-radius: 3px;
   padding: 2rem;
   display: flex;
   align-items: center;
@@ -113,7 +115,7 @@
   width: 60px;
   height: 60px;
   background: linear-gradient(135deg, var(--accent-red), var(--burgundy));
-  border-radius: 50%;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -157,7 +159,7 @@
 .actionBtn {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 3px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -194,7 +196,7 @@
 .filterSelect {
   padding: 0.75rem 1rem;
   border: 1px solid rgba(107, 68, 35, 0.2);
-  border-radius: 8px;
+  border-radius: 3px;
   background: white;
   color: var(--text-primary);
   font-weight: 500;
@@ -210,7 +212,7 @@
 
 .wishlistItem {
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
+  border-radius: 3px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -245,7 +247,7 @@
   top: 1rem;
   left: 1rem;
   padding: 0.5rem 1rem;
-  border-radius: 25px;
+  border-radius: 3px;
   font-size: 0.8rem;
   font-weight: 600;
   display: flex;
@@ -272,7 +274,7 @@
   background: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
-  border-radius: 50%;
+  border-radius: 3px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -332,7 +334,7 @@
 .wishlistStatus {
   font-size: 0.8rem;
   padding: 0.3rem 0.8rem;
-  border-radius: 15px;
+  border-radius: 3px;
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
   font-weight: 600;
@@ -354,7 +356,7 @@
   flex: 1;
   padding: 0.75rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 3px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -433,7 +435,7 @@
   background: var(--accent-red);
   color: white;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 3px;
   font-weight: 600;
   transition: all 0.3s ease;
 }
@@ -495,4 +497,28 @@
   .statsNumber {
     font-size: 1.5rem;
   }
+}
+/* Gallery-style button colors for wishlist page */
+.addToCartBtn,
+.viewDetailsBtn,
+.exploreBtn,
+.actionBtn.primary {
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-weight: 600;
+  padding: 0.75rem 0.75rem;
+  letter-spacing: 0.5px;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+  box-shadow: 0 2px 8px rgba(185, 147, 90, 0.08);
+}
+
+.addToCartBtn:hover,
+.viewDetailsBtn:hover,
+.exploreBtn:hover,
+.actionBtn.primary:hover {
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  transform: translateY(-2px) scale(1.03);
 }

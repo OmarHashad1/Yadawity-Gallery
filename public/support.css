@@ -51,7 +51,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(44, 24, 16, 0.7);
+  background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   z-index: 2;
 }
 
@@ -81,10 +81,11 @@
 
 .heroSearchBox {
   display: flex;
-  max-width: 500px;
+  max-width: 600px;
+  max-height: 160px;
   margin: 0 auto;
   background: white;
-  border-radius: 50px;
+  border-radius: 3px;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
@@ -107,16 +108,18 @@
 }
 
 .heroSearchBtn {
-  background: var(--gradient-primary);
-  border: none;
-  padding: 18px 25px;
+  background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
+  border: 2px;
+  border-color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
+  border-radius: 3px;
+  padding: 2px 19px;
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .heroSearchBtn:hover {
-  background: linear-gradient(135deg, var(--gold-accent), var(--primary-brown));
+  background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
 }
 
 /* Quick Help Section */
@@ -134,7 +137,7 @@
 .helpCard {
   background: white;
   padding: 40px 30px;
-  border-radius: 15px;
+  border-radius: 3px;
   text-align: center;
   box-shadow: 0 5px 25px var(--shadow-light);
   transition: all 0.3s ease;
@@ -150,7 +153,7 @@
 .helpCardIcon {
   width: 80px;
   height: 80px;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -185,7 +188,7 @@
 }
 
 .helpCardLink:hover {
-  color: var(--gold-accent);
+  color:linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   gap: 12px;
 }
 
@@ -224,14 +227,14 @@
 
 .faqItem {
   border: 2px solid #f0f0f0;
-  border-radius: 12px;
+  border-radius: 3px;
   margin-bottom: 20px;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .faqItem:hover {
-  border-color: var(--gold-accent);
+  border-color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
 }
 
 .faqQuestion {
@@ -310,7 +313,7 @@
   gap: 20px;
   padding: 25px;
   background: white;
-  border-radius: 12px;
+  border-radius: 3px;
   box-shadow: 0 5px 20px var(--shadow-light);
   transition: all 0.3s ease;
 }
@@ -323,7 +326,7 @@
 .contactMethodIcon {
   width: 50px;
   height: 50px;
-  background: var(--gradient-primary);
+  background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -341,7 +344,7 @@
 }
 
 .contactMethodContent p {
-  color: var(--primary-brown);
+  color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   font-weight: 600;
   margin-bottom: 5px;
 }
@@ -355,7 +358,7 @@
 .contactForm {
   background: white;
   padding: 40px;
-  border-radius: 15px;
+  border-radius: 3px;
   box-shadow: 0 10px 30px var(--shadow-light);
 }
 
@@ -404,7 +407,7 @@
 .formGroup textarea {
   padding: 15px;
   border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 3px;
   font-size: 1rem;
   transition: all 0.3s ease;
   font-family: inherit;
@@ -414,7 +417,7 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: var(--gold-accent);
+  border-color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
 }
 
@@ -424,11 +427,11 @@
 }
 
 .submitBtn {
-  background: var(--gradient-primary);
+  background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   color: white;
   border: none;
   padding: 18px 30px;
-  border-radius: 8px;
+  border-radius: 3px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
@@ -441,7 +444,7 @@
 }
 
 .submitBtn:hover {
-  background: linear-gradient(135deg, var(--gold-accent), var(--primary-brown));
+  background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px var(--shadow-medium);
 }
@@ -461,7 +464,7 @@
 .resourceCard {
   background: var(--cream-white);
   padding: 35px 25px;
-  border-radius: 12px;
+  border-radius: 3px;
   text-align: center;
   transition: all 0.3s ease;
   border: 2px solid transparent;
@@ -469,14 +472,14 @@
 
 .resourceCard:hover {
   transform: translateY(-5px);
-  border-color: var(--gold-accent);
+  border-color:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   box-shadow: 0 10px 30px var(--shadow-light);
 }
 
 .resourceIcon {
   width: 60px;
   height: 60px;
-  background: var(--gradient-primary);
+  background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -690,11 +693,11 @@
   
   .heroSearchBox {
     flex-direction: column;
-    border-radius: 12px;
+    border-radius: 3px;
   }
   
   .heroSearchBtn {
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 3px 3px;
   }
   
   .quickHelpGrid {

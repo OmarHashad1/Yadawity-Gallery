@@ -171,6 +171,7 @@ body::before {
     align-items: center;
     justify-content: center;
     min-height: 400px;
+    max-width: 500px;
     text-align: center;
 }
 
@@ -264,7 +265,7 @@ body::before {
     letter-spacing: 0.5px;
     position: relative;
     overflow: hidden;
-    width: 67%;
+    width: 40%;
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;

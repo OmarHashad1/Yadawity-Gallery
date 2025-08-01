@@ -1019,7 +1019,7 @@ body {
 .testimonialsCarouselContainer {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 3px;
   padding: 10px 0;
   width: 100%;
 }
@@ -1096,7 +1096,7 @@ body {
   border-radius: 8px;
   padding: 25px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid var(--brown-medium);
+  border: 3px solid var(--brown-medium);
   position: relative;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;

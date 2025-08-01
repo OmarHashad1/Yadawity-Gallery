@@ -6,7 +6,7 @@
 
 body {
     font-family: "Playfair Display", serif;
-    background: url(../image/fb0e872e-e7a1-4c35-9eff-5bca0ce50d34.png);
+    background: url(../image/d4s5689-2-300dpi-1500x998.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -148,7 +148,7 @@ body {
 
 .sign-in-btn {
     width: 50%;
-    background: #8b6f47;
+    background: linear-gradient(135deg, #6b5a47 0%, #8b7355 100%);
     color: white;
     border: none;
     padding: 17px 15px;
@@ -161,7 +161,7 @@ body {
 }
 
 .sign-in-btn:hover {
-    background: #6d5435;
+    background: #56452d;
 }
 
 .divider {
