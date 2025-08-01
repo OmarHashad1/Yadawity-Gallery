@@ -29,7 +29,19 @@ class BurgerMenu {
     }
 
     setupUserSync() {
-        // Check for user changes every 2 seconds
+        // Listen for user change events from navbar/demo panel
+        window.addEventListener('userUpdated', () => {
+            this.refreshUserInterface();
+        });
+        
+        // Also listen for storage changes from other tabs/windows
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'currentUser') {
+                this.updateUserInterface();
+            }
+        });
+        
+        // Fallback: Check for user changes every 2 seconds (reduced frequency)
         setInterval(() => {
             const navbarUser = this.getUserFromNavbar();
             const currentUser = this.getUserFromStorage();
@@ -45,7 +57,7 @@ class BurgerMenu {
                 // Refresh burger menu interface
                 this.updateUserInterface();
             }
-        }, 2000);
+        }, 5000); // Increased to 5 seconds since we have event listeners now
     }
 
     bindElements() {
@@ -241,14 +253,28 @@ class BurgerMenu {
     }
 
     updateUserInterface() {
-        // Sync with main navbar user state - Updated selectors
+        // Get the most current user data by prioritizing navbar over localStorage
+        const navbarUser = this.getUserFromNavbar();
+        const storageUser = this.getUserFromStorage();
+        
+        // Use navbar data if available, otherwise use storage data
+        let currentUser = navbarUser || storageUser;
+        
+        // If navbar and storage differ, sync them
+        if (navbarUser && storageUser && (
+            navbarUser.name !== storageUser.name || 
+            navbarUser.role !== storageUser.role ||
+            navbarUser.isLoggedIn !== storageUser.isLoggedIn
+        )) {
+            localStorage.setItem('currentUser', JSON.stringify(navbarUser));
+            currentUser = navbarUser;
+        }
+        
+        // Update UI elements
         const userNameElement = document.getElementById('burger-user-name');
         const userRoleElement = document.getElementById('burger-user-role');
         const artistSection = document.getElementById('burger-artist-section');
         const loginLogout = document.getElementById('burger-login-logout');
-        
-        // Try to get user data from main navbar first, then localStorage
-        let currentUser = this.getUserFromNavbar() || this.getUserFromStorage();
         
         // Update user info in dropdown header
         if (userNameElement) {
@@ -286,7 +312,7 @@ class BurgerMenu {
     }
 
     getUserFromNavbar() {
-        // Try to get user info from main navbar
+        // Try to get user info from main navbar elements
         const navbarUserName = document.getElementById('user-name');
         const navbarUserRole = document.getElementById('user-role');
         
@@ -294,11 +320,18 @@ class BurgerMenu {
             const name = navbarUserName.textContent.trim();
             const role = navbarUserRole.textContent.trim().toLowerCase();
             
-            if (name && name !== 'Guest User') {
+            // Check if user is actually logged in (not showing default "Guest User")
+            if (name && name !== 'Guest User' && name !== '') {
                 return {
                     name: name,
                     role: role,
                     isLoggedIn: true
+                };
+            } else if (name === 'Guest User') {
+                return {
+                    name: 'Guest User',
+                    role: 'visitor',
+                    isLoggedIn: false
                 };
             }
         }

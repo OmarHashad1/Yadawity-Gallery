@@ -873,7 +873,8 @@ html {
     }
 }
 
-/* Dark mode support */
+/* Dark mode support - DISABLED */
+/*
 @media (prefers-color-scheme: dark) {
     :root {
         --glass-bg: rgba(44, 24, 16, 0.95);
@@ -908,6 +909,7 @@ html {
         background: linear-gradient(135deg, #2c1810 0%, #4a2c17 100%);
     }
 }
+*/
 
 .wishlist-count {
     background: var(--secondary-brown);

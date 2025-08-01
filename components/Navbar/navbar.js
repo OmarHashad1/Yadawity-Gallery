@@ -83,6 +83,15 @@ function simulateLogin(userType = 'buyer') {
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
     updateUserInterface();
     
+    // Dispatch custom event to notify burger menu and other components
+    window.dispatchEvent(new CustomEvent('userUpdated', {
+        detail: { 
+            user: currentUser,
+            action: 'login',
+            userType: userType
+        }
+    }));
+    
     // Show success animation
     showNotification(`Welcome back, ${currentUser.name}!`, 'success');
 }
@@ -97,6 +106,15 @@ function logout() {
     
     localStorage.removeItem('currentUser');
     updateUserInterface();
+    
+    // Dispatch custom event to notify burger menu and other components
+    window.dispatchEvent(new CustomEvent('userUpdated', {
+        detail: { 
+            user: currentUser,
+            action: 'logout'
+        }
+    }));
+    
     showNotification('Logged out successfully', 'info');
 }
 

@@ -603,8 +603,9 @@ input:checked + .slider:before {
 }
 
 /* ==========================================
-   DARK MODE SUPPORT (FOR LOGS)
+   DARK MODE SUPPORT (FOR LOGS) - DISABLED
    ========================================== */
+/*
 .darkMode .logsContainer {
     background: #1a1a1a;
     border: 1px solid #333;
@@ -613,6 +614,7 @@ input:checked + .slider:before {
 .darkMode .logEntry {
     border-bottom-color: rgba(255, 255, 255, 0.05);
 }
+*/
 
 /* ==========================================
    ACCESSIBILITY ENHANCEMENTS
