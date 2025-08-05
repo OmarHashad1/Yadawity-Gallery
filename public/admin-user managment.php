@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard &Analytics - Yadawity Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css">
+    <link rel="stylesheet" href="./public/admin-user managment.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <?php include './components/includes/navbar.php'; ?>
+
+    <!-- Admin Sidebar -->
+    <aside class="adminSidebar" id="adminSidebar">
+        <div class="sidebarHeader">
+            <h3>Admin Panel</h3>
+            <button class="sidebarToggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebarNav">
+            <div class="navSection">
+                <h4>OVERVIEW</h4>
+                <a href="admin-dashboard.html" class="sidebarLink">
+                   <i class="fas fa-chart-line"></i>
+                    <span>Dashboard & Analytics</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Communication</h4>
+                <a href="admin-communication.html" class="sidebarLink">
+                    <i class="fas fa-comments"></i>
+                    <span>Support Tickets</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Management</h4>
+                <a href="admin-user managment.html" class="sidebarLink">
+                    <i class="fas fa-user"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="admin-content managment.html" class="sidebarLink">
+                    <i class="fas fa-grip"></i>
+                    <span>Content managment</span>
+                </a>
+                <a href="admin- auction managment.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Auction managment</span>
+                </a>
+                <a href="admin-course managment.html" class="sidebarLink">
+                    <i class="fas fa-book-open-reader"></i>
+                    <span>Course managment</span>
+                </a>
+                <a href="admin-order transactions.html" class="sidebarLink">
+                    <i class="fas fa-truck"></i>
+                    <span>Order & transactions</span>
+                </a>
+
+                <a href="admin-system.html" class="sidebarLink">
+                    <i class="fas fa-cogs"></i>
+                    <span>System Admin</span>
+                </a>
+                <a href="admin-gallery.html" class="sidebarLink">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Management</span>
+                </a>
+                <a href="admin-marketing.html" class="sidebarLink active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="admin-inventory.html" class="sidebarLink">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <a href="admin-legal.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Legal & Compliance</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+     <main class="adminMain">
+        <!-- Page Header -->
+        <div class="pageHeader">
+            <div class="headerContent">
+                <h1>User Management</h1>
+                <p>Manage customer accounts, permissions, and user data</p>
+            </div>
+            <div class="headerActions">
+                <button class="btn btn-secondary" id="exportBtn">
+                    <i class="fas fa-download"></i>
+                    Export Users
+                </button>
+                <button class="btn btn-primary" id="addUserBtn">
+                    <i class="fas fa-plus"></i>
+                    Add New User
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="statsGrid">
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="statContent">
+                    <h3 id="totalUsers">248</h3>
+                    <p>Total Users</p>
+                    <span class="statChange positive">+12 this month</span>
+                </div>
+            </div>
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="statContent">
+                    <h3 id="activeUsers">198</h3>
+                    <p>Active Users</p>
+                    <span class="statChange positive">+8 this week</span>
+                </div>
+            </div>
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="statContent">
+                    <h3 id="newUsers">15</h3>
+                    <p>New This Month</p>
+                    <span class="statChange positive">+23%</span>
+                </div>
+            </div>
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <div class="statContent">
+                    <h3 id="inactiveUsers">50</h3>
+                    <p>Inactive Users</p>
+                    <span class="statChange negative">-5 this week</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Panel -->
+        <div class="controlsPanel">
+            <div class="searchGroup">
+                <input type="text" class="searchInput" id="searchInput" placeholder="Search users...">
+                <button class="searchBtn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="filterGroup">
+                <label for="statusFilter">Status</label>
+                <select class="filterSelect" id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="pending">Pending</option>
+                </select>
+            </div>
+            <div class="filterGroup">
+                <label for="roleFilter">Role</label>
+                <select class="filterSelect" id="roleFilter">
+                    <option value="">All Roles</option>
+                    <option value="customer">Customer</option>
+                    <option value="vip">VIP</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="filterGroup">
+                <label for="sortBy">Sort By</label>
+                <select class="filterSelect" id="sortBy">
+                    <option value="name">Name</option>
+                    <option value="email">Email</option>
+                    <option value="created">Date Created</option>
+                    <option value="lastLogin">Last Login</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="contentCard">
+            <div class="cardHeader">
+                <h2>All Users</h2>
+                <div class="cardActions">
+                    <button class="btn btn-sm btn-outline" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            <div class="tableContainer">
+                <table class="dataTable" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Last Login</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Users will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="controlsPanel">
+            <div class="filterGroup">
+                <label for="recordsPerPage">Records per page</label>
+                <select class="filterSelect" id="recordsPerPage">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            <div style="flex: 1; text-align: center;">
+                <span id="paginationInfo">Showing 1-10 of 248 users</span>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-sm btn-outline" id="prevPage">
+                    <i class="fas fa-chevron-left"></i>
+                    Previous
+                </button>
+                <button class="btn btn-sm btn-outline" id="nextPage">
+                    Next
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal" id="userModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2 id="modalTitle">Add New User</h2>
+                <button class="modalClose" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody">
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    <div class="formGroup">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                    </div>
+                    <div class="formGroup">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    <div class="formGroup">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="formGroup">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="formGroup">
+                        <label for="role">Role *</label>
+                        <select id="role" required>
+                            <option value="">Select Role</option>
+                            <option value="customer">Customer</option>
+                            <option value="vip">VIP Customer</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <div class="formGroup">
+                        <label for="status">Status *</label>
+                        <select id="status" required>
+                            <option value="">Select Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                    <div class="formGroup">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" rows="3" placeholder="Additional notes about this user..."></textarea>
+                    </div>
+                    <div class="formActions">
+                        <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="saveBtn">Save User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>Confirm Delete</h2>
+                <button class="modalClose" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody">
+                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+                <div class="formActions">
+                    <button type="button" class="btn btn-outline" id="cancelDelete">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmDelete" style="background: var(--danger-red);">Delete User</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./public/admin-user managment.js"></script>
+</body>
+</html>

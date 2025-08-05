@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Portal - Yadawity Gallery</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <!-- Component Styles -->
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css">
+    <link rel="stylesheet" href="./public/artist-portal.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <?php include './components/includes/navbar.php'; ?>
+
+    <!-- Artist Sidebar -->
+    <aside class="artistSidebar" id="artistSidebar">
+        <div class="sidebarHeader">
+            <h3>Artist Portal</h3>
+            <button class="sidebarToggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebarNav">
+            <div class="navSection">
+                <h4>OVERVIEW</h4>
+                <a href="#dashboard-section" class="sidebarLink active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>SALES</h4>
+                <a href="#orders-section" class="sidebarLink" data-section="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Incoming Orders</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>MANAGEMENT</h4>
+                <a href="#profile-section" class="sidebarLink" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Manage Profile</span>
+                </a>
+                <a href="#artwork-section" class="sidebarLink" data-section="artwork">
+                    <i class="fas fa-palette"></i>
+                    <span>Add Artwork</span>
+                </a>
+                <a href="#gallery-section" class="sidebarLink" data-section="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Events</span>
+                </a>
+                <a href="#auction-section" class="sidebarLink" data-section="auction">
+                    <i class="fas fa-gavel"></i>
+                    <span>Auction Management</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="artistMain">
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="content-section active">
+            <div class="pageHeader">
+                <div class="headerContent">
+                    <h1>Artist Dashboard</h1>
+                    <p>Welcome back! Here's your artistic journey overview.</p>
+                </div>
+                <div class="headerActions">
+                    <button class="btn btn-secondary btn-sm" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="statsGrid">
+                <div class="statCard">
+                    <div class="statIcon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="statContent">
+                        <h3 id="totalBalance">EGP 45,280</h3>
+                        <p>Current Balance</p>
+                        <span class="statChange positive">+18.5%</span>
+                    </div>
+                </div>
+                <div class="statCard">
+                    <div class="statIcon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="statContent">
+                        <h3 id="totalSales">127</h3>
+                        <p>Total Sales</p>
+                        <span class="statChange positive">+24 this month</span>
+                    </div>
+                </div>
+                <div class="statCard">
+                    <div class="statIcon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="statContent">
+                        <h3 id="avgRating">4.8</h3>
+                        <p>Average Rating</p>
+                        <span class="statChange positive">+0.2</span>
+                    </div>
+                </div>
+                <div class="statCard">
+                    <div class="statIcon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="statContent">
+                        <h3 id="totalViews">8,451</h3>
+                        <p>Total Views</p>
+                        <span class="statChange positive">+315 today</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Content -->
+            <div class="dashboardGrid">
+                <div class="contentCard chartCard">
+                    <div class="cardHeader">
+                        <h2>Sales Overview</h2>
+                        <div class="cardActions">
+                            <select class="filterSelect">
+                                <option value="7">Last 7 days</option>
+                                <option value="30">Last 30 days</option>
+                                <option value="90">Last 3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chartContainer">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="contentCard">
+                    <div class="cardHeader">
+                        <h2>Recent Reviews</h2>
+                    </div>
+                    <div class="reviewsList">
+                        <div class="reviewItem">
+                            <div class="reviewHeader">
+                                <div class="reviewAvatar">S</div>
+                                <div class="reviewInfo">
+                                    <span class="reviewerName">Sarah Ahmed</span>
+                                    <div class="reviewRating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <span class="reviewTime">2 hours ago</span>
+                            </div>
+                            <p class="reviewText">Amazing artwork! The colors are vibrant and the technique is masterful.</p>
+                        </div>
+                        <div class="reviewItem">
+                            <div class="reviewHeader">
+                                <div class="reviewAvatar">M</div>
+                                <div class="reviewInfo">
+                                    <span class="reviewerName">Mohamed Hassan</span>
+                                    <div class="reviewRating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <span class="reviewTime">1 day ago</span>
+                            </div>
+                            <p class="reviewText">Beautiful piece, exactly as described. Fast delivery too!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contentCard">
+                    <div class="cardHeader">
+                        <h2>My Artworks Performance</h2>
+                    </div>
+                    <div class="artworkPerformance">
+                        <div class="performanceItem">
+                            <img src="./image/slide1.jpg" alt="Abstract Composition" class="performanceImage">
+                            <div class="performanceInfo">
+                                <h4>Abstract Composition</h4>
+                                <div class="performanceStats">
+                                    <span class="statItem"><i class="fas fa-eye"></i> 1,247 views</span>
+                                    <span class="statItem"><i class="fas fa-heart"></i> 89 likes</span>
+                                    <span class="statItem"><i class="fas fa-shopping-cart"></i> 3 sales</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="performanceItem">
+                            <img src="./image/photo-1554907984-15263bfd63bd.jpeg" alt="Modern Landscape" class="performanceImage">
+                            <div class="performanceInfo">
+                                <h4>Modern Landscape</h4>
+                                <div class="performanceStats">
+                                    <span class="statItem"><i class="fas fa-eye"></i> 892 views</span>
+                                    <span class="statItem"><i class="fas fa-heart"></i> 56 likes</span>
+                                    <span class="statItem"><i class="fas fa-shopping-cart"></i> 2 sales</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contentCard">
+                    <div class="cardHeader">
+                        <h2>Achievements</h2>
+                    </div>
+                    <div class="achievementsList">
+                        <div class="achievementItem earned">
+                            <div class="achievementIcon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <div class="achievementInfo">
+                                <h4>First Sale</h4>
+                                <p>Made your first artwork sale</p>
+                            </div>
+                        </div>
+                        <div class="achievementItem earned">
+                            <div class="achievementIcon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="achievementInfo">
+                                <h4>5-Star Artist</h4>
+                                <p>Achieved 5-star average rating</p>
+                            </div>
+                        </div>
+                        <div class="achievementItem">
+                            <div class="achievementIcon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="achievementInfo">
+                                <h4>Top Seller</h4>
+                                <p>Reach 100 sales milestone</p>
+                                <div class="progress">
+                                    <div class="progressBar" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="orders-section" class="content-section">
+            <div class="pageHeader">
+                <div class="headerContent">
+                    <h1>Incoming Orders</h1>
+                    <p>Track and manage your artwork orders.</p>
+                </div>
+                <div class="headerActions">
+                    <button class="btn btn-primary btn-sm" id="exportOrdersBtn">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="controlsPanel">
+                <div class="filterGroup">
+                    <label>Status</label>
+                    <select class="filterSelect" id="orderStatusFilter">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                </div>
+                <div class="searchGroup">
+                    <label>Search Orders</label>
+                    <input type="text" class="searchInput" placeholder="Search by order ID or customer..." id="orderSearch">
+                </div>
+            </div>
+
+            <div class="contentCard">
+                <div class="tableContainer">
+                    <table class="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Artwork</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-001</td>
+                                <td>Sarah Ahmed</td>
+                                <td>Abstract Composition</td>
+                                <td>EGP 15,500</td>
+                                <td><span class="statusBadge status-processing">Processing</span></td>
+                                <td>Jan 15, 2025</td>
+                                <td>
+                                    <button class="actionBtn btn-view" onclick="viewOrder('ORD-001')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="actionBtn btn-track" onclick="trackOrder('ORD-001')">
+                                        <i class="fas fa-truck"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-002</td>
+                                <td>Mohamed Hassan</td>
+                                <td>Modern Landscape</td>
+                                <td>EGP 12,000</td>
+                                <td><span class="statusBadge status-shipped">Shipped</span></td>
+                                <td>Jan 14, 2025</td>
+                                <td>
+                                    <button class="actionBtn btn-view" onclick="viewOrder('ORD-002')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="actionBtn btn-track" onclick="trackOrder('ORD-002')">
+                                        <i class="fas fa-truck"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-003</td>
+                                <td>Layla Mansour</td>
+                                <td>Color Symphony</td>
+                                <td>EGP 16,800</td>
+                                <td><span class="statusBadge status-pending">Pending</span></td>
+                                <td>Jan 13, 2025</td>
+                                <td>
+                                    <button class="actionBtn btn-view" onclick="viewOrder('ORD-003')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="actionBtn btn-track" onclick="trackOrder('ORD-003')">
+                                        <i class="fas fa-truck"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profile-section" class="content-section">
+            <div class="pageHeader">
+                <div class="headerContent">
+                    <h1>Manage Profile</h1>
+                    <p>Update your artist information and settings.</p>
+                </div>
+            </div>
+
+            <div class="profileGrid">
+                <div class="contentCard">
+                    <div class="cardHeader">
+                        <h2><i class="fas fa-user-edit"></i> Artist Information</h2>
+                        <div class="cardBadge">
+                            <i class="fas fa-shield-check"></i>
+                            Verified Artist
+                        </div>
+                    </div>
+                    <form class="modernForm" id="artistInfoForm">
+                        <!-- Profile Picture Section -->
+                        <div class="profilePictureSection">
+                            <div class="currentProfilePicture">
+                                <img src="./image/Artist-PainterLookingAtCamera.webp" alt="Profile Picture" id="profilePreview">
+                                <div class="profileOverlay">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Change Photo</span>
+                                </div>
+                            </div>
+                            <div class="profilePictureInfo">
+                                <h4>Elena Rosetti</h4>
+                                <p>Contemporary Artist</p>
+                                <div class="profileStats">
+                                    <span class="statBadge"><i class="fas fa-star"></i> 4.8 Rating</span>
+                                    <span class="statBadge"><i class="fas fa-palette"></i> 127 Artworks</span>
+                                </div>
+                            </div>
+                            <div class="profilePictureUpload">
+                                <input type="file" id="profilePicture" accept="image/*" hidden>
+                                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('profilePicture').click()">
+                                    <i class="fas fa-upload"></i>
+                                    Upload New Photo
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="formRow">
+                            <div class="inputGroup">
+                                <label for="artistName"><i class="fas fa-user"></i> Artist Name</label>
+                                <input type="text" id="artistName" value="Elena Rosetti" disabled>
+                                <div class="inputHelp">
+                                    <i class="fas fa-info-circle"></i>
+                                    Name cannot be changed. Contact support if needed.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formRow">
+                            <div class="inputGroup">
+                                <label for="artistBio"><i class="fas fa-quote-left"></i> About Me</label>
+                                <textarea id="artistBio" rows="4" placeholder="Tell the world about your artistic journey..." maxlength="500">Contemporary artist specializing in abstract expressionism with over 10 years of experience in oil painting and mixed media. My work explores the intersection of emotion and color, creating pieces that evoke deep contemplation.</textarea>
+                                <div class="charCounter">
+                                    <span id="bioCharCount">156</span>/500 characters
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formRow">
+                            <div class="inputGroup half">
+                                <label for="artistPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                                <input type="tel" id="artistPhone" value="+20 1099359953" placeholder="+20 XXX XXX XXXX">
+                                <div class="validationIcon"></div>
+                            </div>
+                            <div class="inputGroup half">
+                                <label for="artistEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" id="artistEmail" value="elena.rosetti@email.com" placeholder="your@email.com">
+                                <div class="validationIcon"></div>
+                            </div>
+                        </div>
+
+                        <div class="formRow">
+                            <div class="inputGroup half">
+                                <label for="artistSpecialty"><i class="fas fa-palette"></i> Art Specialty</label>
+                                <select id="artistSpecialty">
+                                    <option value="abstract">Abstract Art</option>
+                                    <option value="realism">Realism</option>
+                                    <option value="impressionism">Impressionism</option>
+                                    <option value="expressionism">Expressionism</option>
+                                    <option value="contemporary">Contemporary</option>
+                                    <option value="traditional">Traditional</option>
+                                    <option value="mixed">Mixed Media</option>
+                                </select>
+                            </div>
+                            <div class="inputGroup half">
+                                <label for="artistExperience"><i class="fas fa-clock"></i> Years of Experience</label>
+                                <select id="artistExperience">
+                                    <option value="1-2">1-2 years</option>
+                                    <option value="3-5">3-5 years</option>
+                                    <option value="6-10">6-10 years</option>
+                                    <option value="10+" selected>10+ years</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="formRow">
+                            <div class="inputGroup">
+                                <label for="artistAchievements"><i class="fas fa-trophy"></i> Achievements & Awards</label>
+                                <div class="achievementsList" id="achievementsList">
+                                    <div class="achievementItem">
+                                        <span>Featured in Cairo Contemporary Art Exhibition 2024</span>
+                                        <button type="button" class="removeAchievement"><i class="fas fa-times"></i></button>
+                                    </div>
+                                    <div class="achievementItem">
+                                        <span>Winner of Best Abstract Painting Award 2023</span>
+                                        <button type="button" class="removeAchievement"><i class="fas fa-times"></i></button>
+                                    </div>
+                                    <div class="achievementItem">
+                                        <span>Solo exhibition at Alexandria Art Gallery 2022</span>
+                                        <button type="button" class="removeAchievement"><i class="fas fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="addAchievement">
+                                    <input type="text" id="newAchievement" placeholder="Add new achievement...">
+                                    <button type="button" class="btn btn-outline btn-sm" id="addAchievementBtn">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formActions">
+                            <button type="button" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i>
+                                Reset Changes
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Save Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="contentCard">
+                    <div class="cardHeader">
+                        <h2><i class="fas fa-shield-alt"></i> Security & Privacy</h2>
+                        <div class="securityLevel">
+                            <span class="securityBadge high">
+                                <i class="fas fa-lock"></i>
+                                High Security
+                            </span>
+                        </div>
+                    </div>
+                    <form class="modernForm" id="securityForm">
+                        <div class="securityOverview">
+                            <div class="securityItem">
+                                <div class="securityIcon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <div class="securityInfo">
+                                    <h4>Password</h4>
+                                    <p>Last changed 3 months ago</p>
+                                </div>
+                                <div class="securityStatus">
+                                    <span class="statusGood">Strong</span>
+                                </div>
+                            </div>
+                            <div class="securityItem">
+                                <div class="securityIcon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="securityInfo">
+                                    <h4>Two-Factor Authentication</h4>
+                                    <p>SMS to +20 ••• ••• •953</p>
+                                </div>
+                                <div class="securityStatus">
+                                    <span class="statusGood">Active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection">
+                            <h3><i class="fas fa-key"></i> Change Password</h3>
+                            <div class="formRow">
+                                <div class="inputGroup">
+                                    <label for="currentPassword">Current Password</label>
+                                    <div class="passwordInput">
+                                        <input type="password" id="currentPassword" placeholder="Enter current password">
+                                        <button type="button" class="passwordToggle" onclick="togglePassword('currentPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formRow">
+                                <div class="inputGroup half">
+                                    <label for="newPassword">New Password</label>
+                                    <div class="passwordInput">
+                                        <input type="password" id="newPassword" placeholder="Enter new password">
+                                        <button type="button" class="passwordToggle" onclick="togglePassword('newPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="passwordStrength" id="passwordStrength">
+                                        <div class="strengthBar">
+                                            <div class="strengthFill"></div>
+                                        </div>
+                                        <span class="strengthText">Password strength</span>
+                                    </div>
+                                </div>
+                                <div class="inputGroup half">
+                                    <label for="confirmPassword">Confirm New Password</label>
+                                    <div class="passwordInput">
+                                        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                                        <button type="button" class="passwordToggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="matchIndicator" id="matchIndicator"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formSection">
+                            <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+                            <div class="toggleGroups">
+                                <div class="toggleGroup">
+                                    <div class="toggleInfo">
+                                        <h4>Two-Factor Authentication</h4>
+                                        <p>Add an extra layer of security to your account</p>
+                                    </div>
+                                    <div class="toggleSwitch">
+                                        <input type="checkbox" id="twoFactor" checked>
+                                        <label for="twoFactor"></label>
+                                    </div>
+                                </div>
+                                <div class="toggleGroup">
+                                    <div class="toggleInfo">
+                                        <h4>Email Notifications</h4>
+                                        <p>Receive updates about orders, sales, and account activity</p>
+                                    </div>
+                                    <div class="toggleSwitch">
+                                        <input type="checkbox" id="emailNotifications" checked>
+                                        <label for="emailNotifications"></label>
+                                    </div>
+                                </div>
+                                <div class="toggleGroup">
+                                    <div class="toggleInfo">
+                                        <h4>Marketing Communications</h4>
+                                        <p>Receive tips, features, and promotional content</p>
+                                    </div>
+                                    <div class="toggleSwitch">
+                                        <input type="checkbox" id="marketingEmails">
+                                        <label for="marketingEmails"></label>
+                                    </div>
+                                </div>
+                                <div class="toggleGroup">
+                                    <div class="toggleInfo">
+                                        <h4>SMS Notifications</h4>
+                                        <p>Receive urgent notifications via text message</p>
+                                    </div>
+                                    <div class="toggleSwitch">
+                                        <input type="checkbox" id="smsNotifications" checked>
+                                        <label for="smsNotifications"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="formActions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-shield-check"></i>
+                                Update Security Settings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Artwork Section -->
+        <div id="artwork-section" class="content-section">
+            <div class="pageHeader">
+                <div class="headerContent">
+                    <h1>Add New Artwork</h1>
+                    <p>Share your latest creation with the world and start selling.</p>
+                </div>
+                <div class="headerActions">
+                    <button class="btn btn-outline btn-sm" id="saveAsDraftBtn">
+                        <i class="fas fa-save"></i>
+                        Load Draft
+                    </button>
+                </div>
+            </div>
+
+            <div class="artworkFormContainer">
+                <div class="formProgress">
+                    <div class="progressStep active" data-step="1">
+                        <div class="stepNumber">1</div>
+                        <span>Basic Info</span>
+                    </div>
+                    <div class="progressStep" data-step="2">
+                        <div class="stepNumber">2</div>
+                        <span>Details</span>
+                    </div>
+                    <div class="progressStep" data-step="3">
+                        <div class="stepNumber">3</div>
+                        <span>Images</span>
+                    </div>
+                    <div class="progressStep" data-step="4">
+                        <div class="stepNumber">4</div>
+                        <span>Preview</span>
+                    </div>
+                </div>
+
+                <div class="contentCard">
+                    <form class="modernForm artworkForm" id="addArtworkForm">
+                        <!-- Step 1: Basic Information -->
+                        <div class="formStep active" data-step="1">
+                            <div class="stepHeader">
+                                <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+                                <p>Tell us about your artwork's fundamental details</p>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup">
+                                    <label for="artworkName"><i class="fas fa-signature"></i> Artwork Title *</label>
+                                    <input type="text" id="artworkName" placeholder="Give your artwork a captivating title..." required>
+                                    <div class="inputHelp">This will be the main title displayed to buyers</div>
+                                </div>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup half">
+                                    <label for="artworkPrice"><i class="fas fa-tag"></i> Price (EGP) *</label>
+                                    <div class="priceInput">
+                                        <span class="currency">EGP</span>
+                                        <input type="number" id="artworkPrice" placeholder="0.00" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="priceHelp">
+                                        <span class="priceNote">Platform fee: 5%</span>
+                                        <span class="netPrice">You'll receive: EGP <span id="netPrice">0.00</span></span>
+                                    </div>
+                                </div>
+                                <div class="inputGroup half">
+                                    <label for="artworkCategory"><i class="fas fa-layer-group"></i> Category *</label>
+                                    <select id="artworkCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="painting">Painting</option>
+                                        <option value="sculpture">Sculpture</option>
+                                        <option value="photography">Photography</option>
+                                        <option value="digital">Digital Art</option>
+                                        <option value="mixed">Mixed Media</option>
+                                        <option value="textile">Textile Art</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup half">
+                                    <label for="artworkStyle"><i class="fas fa-palette"></i> Art Style *</label>
+                                    <select id="artworkStyle" required>
+                                        <option value="">Select Style</option>
+                                        <option value="abstract">Abstract</option>
+                                        <option value="impressionism">Impressionism</option>
+                                        <option value="realism">Realism</option>
+                                        <option value="expressionism">Expressionism</option>
+                                        <option value="contemporary">Contemporary</option>
+                                        <option value="traditional">Traditional</option>
+                                        <option value="minimalism">Minimalism</option>
+                                        <option value="surrealism">Surrealism</option>
+                                    </select>
+                                </div>
+                                <div class="inputGroup half">
+                                    <label for="artworkMedium"><i class="fas fa-brush"></i> Medium</label>
+                                    <select id="artworkMedium">
+                                        <option value="">Select Medium</option>
+                                        <option value="oil">Oil Paint</option>
+                                        <option value="acrylic">Acrylic Paint</option>
+                                        <option value="watercolor">Watercolor</option>
+                                        <option value="charcoal">Charcoal</option>
+                                        <option value="pastel">Pastel</option>
+                                        <option value="ink">Ink</option>
+                                        <option value="pencil">Pencil</option>
+                                        <option value="mixed">Mixed Media</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Detailed Information -->
+                        <div class="formStep" data-step="2">
+                            <div class="stepHeader">
+                                <h2><i class="fas fa-list-ul"></i> Artwork Details</h2>
+                                <p>Provide detailed information about your artwork</p>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup half">
+                                    <label for="artworkWidth"><i class="fas fa-ruler-horizontal"></i> Width (cm) *</label>
+                                    <input type="number" id="artworkWidth" placeholder="0" min="0" step="0.1" required>
+                                </div>
+                                <div class="inputGroup half">
+                                    <label for="artworkHeight"><i class="fas fa-ruler-vertical"></i> Height (cm) *</label>
+                                    <input type="number" id="artworkHeight" placeholder="0" min="0" step="0.1" required>
+                                </div>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup half">
+                                    <label for="artworkDepth"><i class="fas fa-cube"></i> Depth (cm)</label>
+                                    <input type="number" id="artworkDepth" placeholder="0" min="0" step="0.1">
+                                    <div class="inputHelp">Leave empty for flat artworks</div>
+                                </div>
+                                <div class="inputGroup half">
+                                    <label for="artworkYear"><i class="fas fa-calendar"></i> Year Created</label>
+                                    <input type="number" id="artworkYear" placeholder="2025" min="1900" max="2025" value="2025">
+                                </div>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup">
+                                    <label for="artworkDescription"><i class="fas fa-align-left"></i> Description *</label>
+                                    <textarea id="artworkDescription" rows="5" placeholder="Describe your artwork, inspiration, technique, and story behind it..." required maxlength="1000"></textarea>
+                                    <div class="charCounter">
+                                        <span id="descCharCount">0</span>/1000 characters
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="inputGroup">
+                                    <label for="artworkTags"><i class="fas fa-tags"></i> Tags</label>
+                                    <div class="tagsInput">
+                                        <div class="tagsList" id="tagsList"></div>
+                                        <input type="text" id="artworkTags" placeholder="Add tags (press Enter after each tag)">
+                                    </div>
+                                    <div class="inputHelp">Add relevant tags to help buyers find your artwork</div>
+                                </div>
+                            </div>
+
+                            <div class="formRow">
+                                <div class="availabilityOptions">
+                                    <h4><i class="fas fa-store"></i> Availability Options</h4>
+                                    <div class="checkboxGrid">
+                                        <div class="checkboxOption">
+                                            <input type="checkbox" id="availableForSale" checked>
+                                            <label for="availableForSale">
+                                                <i class="fas fa-shopping-cart"></i>
+                                                <span>Available for Purchase</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkboxOption">
+                                            <input type="checkbox" id="availableForRent">
+                                            <label for="availableForRent">
+                                                <i class="fas fa-clock"></i>
+                                                <span>Available for Rent</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkboxOption">
+                                            <input type="checkbox" id="acceptCommissions">
+                                            <label for="acceptCommissions">
+                                                <i class="fas fa-handshake"></i>
+                                                <span>Accept Similar Commissions</span>
+                                            </label>
+                                        </div>
+                                        <div class="checkboxOption">
+                                            <input type="checkbox" id="allowPrints">
+                                            <label for="allowPrints">
+                                                <i class="fas fa-print"></i>
+                                                <span>Allow Print Sales</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Image Upload -->
+                        <div class="formStep" data-step="3">
+                            <div class="stepHeader">
+                                <h2><i class="fas fa-images"></i> Artwork Images</h2>
+                                <p>Upload high-quality images of your artwork</p>
+                            </div>
+
+                            <div class="imageUploadArea">
+                                <div class="uploadZone" id="uploadZone">
+                                    <div class="uploadContent">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <h3>Drag & Drop Images Here</h3>
+                                        <p>or <span class="uploadLink">browse files</span></p>
+                                        <div class="uploadReqs">
+                                            <span>• JPG, PNG, WEBP up to 10MB each</span>
+                                            <span>• Minimum 1200x1200 pixels</span>
+                                            <span>• Maximum 10 images</span>
+                                        </div>
+                                    </div>
+                                    <input type="file" id="artworkImages" multiple accept="image/*" hidden>
+                                </div>
+
+                                <div class="uploadedImages" id="uploadedImages">
+                                    <!-- Uploaded images will appear here -->
+                                </div>
+
+                                <div class="imageGuidelines">
+                                    <h4><i class="fas fa-lightbulb"></i> Photography Tips</h4>
+                                    <div class="guidelinesList">
+                                        <div class="guideline">
+                                            <i class="fas fa-check"></i>
+                                            <span>Use natural light or professional lighting</span>
+                                        </div>
+                                        <div class="guideline">
+                                            <i class="fas fa-check"></i>
+                                            <span>Include front view, detail shots, and signature</span>
+                                        </div>
+                                        <div class="guideline">
+                                            <i class="fas fa-check"></i>
+                                            <span>Show the artwork in context (room setting)</span>
+                                        </div>
+                                        <div class="guideline">
+                                            <i class="fas fa-check"></i>
+                                            <span>Ensure colors are accurate and vibrant</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Preview -->
+                        <div class="formStep" data-step="4">
+                            <div class="stepHeader">
+                                <h2><i class="fas fa-eye"></i> Preview & Publish</h2>
+                                <p>Review your artwork listing before publishing</p>
+                            </div>
+
+                            <div class="artworkPreview" id="artworkPreview">
+                                <!-- Preview will be generated here -->
+                            </div>
+                        </div>
+
+                        <div class="formNavigation">
+                            <button type="button" class="btn btn-secondary" id="prevStep" style="display: none;">
+                                <i class="fas fa-arrow-left"></i>
+                                Previous
+                            </button>
+                            <div class="stepInfo">
+                                Step <span id="currentStepNum">1</span> of 4
+                            </div>
+                            <button type="button" class="btn btn-primary" id="nextStep">
+                                Next
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button type="submit" class="btn btn-success" id="publishBtn" style="display: none;">
+                                <i class="fas fa-rocket"></i>
+                                Publish Artwork
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auction Section -->
+        <div id="auction-section" class="content-section">
+            <div class="pageHeader">
+                <div class="headerContent">
+                    <h1>Auction Management</h1>
+                    <p>Create auctions and track your bidding artworks.</p>
+                </div>
+            </div>
+
+            <div class="contentCard">
+                <form class="auctionForm" id="addAuctionForm">
+                    <div class="formGrid">
+                        <div class="formGroup">
+                            <label for="auctionArtworkName">Artwork Name *</label>
+                            <input type="text" id="auctionArtworkName" placeholder="Enter artwork title" required>
+                        </div>
+                        <div class="formGroup">
+                            <label for="initialBid">Initial Bid (EGP) *</label>
+                            <input type="number" id="initialBid" placeholder="0.00" min="0" step="0.01" required>
+                        </div>
+                        <div class="formGroup">
+                            <label for="auctionDimensions">Dimensions *</label>
+                            <input type="text" id="auctionDimensions" placeholder="e.g., 60cm x 80cm" required>
+                        </div>
+                        <div class="formGroup">
+                            <label for="auctionStyle">Style *</label>
+                            <select id="auctionStyle" required>
+                                <option value="">Select Style</option>
+                                <option value="abstract">Abstract</option>
+                                <option value="impressionism">Impressionism</option>
+                                <option value="realism">Realism</option>
+                                <option value="expressionism">Expressionism</option>
+                                <option value="contemporary">Contemporary</option>
+                                <option value="traditional">Traditional</option>
+                            </select>
+                        </div>
+                        <div class="formGroup">
+                            <label for="auctionStartDate">Auction Start Date *</label>
+                            <input type="datetime-local" id="auctionStartDate" required>
+                        </div>
+                        <div class="formGroup">
+                            <label for="auctionEndDate">Auction End Date *</label>
+                            <input type="datetime-local" id="auctionEndDate" required>
+                        </div>
+                    </div>
+                    
+                    <div class="formGroup">
+                        <label for="auctionDescription">Description *</label>
+                        <textarea id="auctionDescription" rows="4" placeholder="Describe your artwork, inspiration, technique used..." required></textarea>
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="auctionImages">Artwork Images *</label>
+                        <div class="multiFileUpload">
+                            <input type="file" id="auctionImages" multiple accept="image/*" required>
+                            <label for="auctionImages" class="fileUploadLabel">
+                                <i class="fas fa-images"></i>
+                                Choose Multiple Images
+                            </label>
+                            <div class="uploadPreview" id="auctionImagePreview"></div>
+                        </div>
+                    </div>
+
+                    <div class="formActions">
+                        <button type="button" class="btn btn-secondary">Save as Draft</button>
+                        <button type="submit" class="btn btn-primary">Start Auction</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="contentCard">
+                <div class="cardHeader">
+                    <h2>Current Auctions</h2>
+                </div>
+                <div class="auctionList">
+                    <div class="auctionItem active">
+                        <img src="./image/slide1.jpg" alt="Modern Abstract" class="auctionImage">
+                        <div class="auctionInfo">
+                            <h4>Modern Abstract #3</h4>
+                            <p class="auctionStatus"><span class="statusBadge status-active">Active</span></p>
+                            <p class="auctionBid">Current Bid: <strong>EGP 22,500</strong></p>
+                            <p class="auctionTime"><i class="fas fa-clock"></i> Ends in 2 days, 5 hours</p>
+                            <p class="auctionBidders"><i class="fas fa-users"></i> 12 bidders</p>
+                        </div>
+                        <div class="auctionActions">
+                            <button class="btn btn-outline btn-sm">View Details</button>
+                            <button class="btn btn-primary btn-sm">Track Bids</button>
+                        </div>
+                    </div>
+                    <div class="auctionItem ended">
+                        <img src="./image/photo-1554907984-15263bfd63bd.jpeg" alt="Landscape Dreams" class="auctionImage">
+                        <div class="auctionInfo">
+                            <h4>Landscape Dreams</h4>
+                            <p class="auctionStatus"><span class="statusBadge status-ended">Ended</span></p>
+                            <p class="auctionBid">Final Bid: <strong>EGP 18,750</strong></p>
+                            <p class="auctionTime"><i class="fas fa-check"></i> Ended 3 days ago</p>
+                            <p class="auctionBidders"><i class="fas fa-users"></i> 8 bidders</p>
+                        </div>
+                        <div class="auctionActions">
+                            <button class="btn btn-outline btn-sm">View Details</button>
+                            <button class="btn btn-secondary btn-sm">See Results</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal" id="orderModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>Order Details</h2>
+                <button class="modalClose" onclick="closeModal('orderModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody">
+                <div id="orderDetails">
+                    <!-- Order details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="trackingModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>Order Tracking</h2>
+                <button class="modalClose" onclick="closeModal('trackingModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody">
+                <div id="trackingDetails">
+                    <!-- Tracking details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./public/artist-portal.js"></script>
+</body>
+</html>

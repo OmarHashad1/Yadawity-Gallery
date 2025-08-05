@@ -1,0 +1,584 @@
+/* Inventory Management Admin Page Styles */
+@import url('./admin-communication.css');
+
+/* Inventory-specific extensions */
+.inventoryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.artworkCard {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.artworkCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.artworkImage {
+    width: 100%;
+    height: 200px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.artworkImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artworkImage .placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 3rem;
+    background: var(--bg-light);
+}
+
+.artworkInfo h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.artworkMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.artworkMeta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.artworkPrice {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-gold);
+    margin-bottom: 0.75rem;
+}
+
+.artworkActions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.artworkStatus {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Table specific styles */
+.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.dataTable th,
+.dataTable td {
+    padding: 1rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.dataTable th {
+    background: var(--bg-light);
+    font-weight: 600;
+    color: var(--text-dark);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.dataTable tbody tr:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.artworkTableImage {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artworkTableImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.artworkTableImage .placeholder {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+.artworkTitle {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.artworkSubtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.stockIndicator {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    min-width: 60px;
+}
+
+.stockIndicator.in-stock {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-green);
+}
+
+.stockIndicator.low-stock {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.stockIndicator.out-of-stock {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-red);
+}
+
+/* Low Stock Alerts */
+.alertsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.alertItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(245, 158, 11, 0.05);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 8px;
+    border-left: 4px solid #f59e0b;
+}
+
+.alertIcon {
+    width: 40px;
+    height: 40px;
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f59e0b;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.alertInfo {
+    flex: 1;
+}
+
+.alertInfo h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.alertInfo p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.alertActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Recent Activity */
+.activityList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activityItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: var(--bg-light);
+}
+
+.activityIcon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-gold);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.activityInfo {
+    flex: 1;
+}
+
+.activityInfo h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.activityInfo p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.activityTime {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* Bulk Actions */
+.bulkActionsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.bulkActionBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: white;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.bulkActionBtn:hover {
+    border-color: var(--primary-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.bulkActionBtn i {
+    font-size: 1.2rem;
+    color: var(--primary-gold);
+}
+
+.selectedCount {
+    text-align: center;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* Form specific styles for artwork modal */
+.modalContent {
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.formGroup small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.formActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+/* Table Actions */
+.tableActions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.actionBtn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    background: white;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+}
+
+.actionBtn:hover {
+    color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.actionBtn.danger:hover {
+    color: var(--danger-red);
+    border-color: var(--danger-red);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+/* Checkbox styles */
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Empty State */
+.emptyState {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+.emptyState i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.emptyState h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-dark);
+}
+
+.emptyState p {
+    margin: 0 0 1.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .inventoryGrid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .bulkActionsList {
+        grid-template-columns: 1fr;
+    }
+    
+    .dataTable {
+        font-size: 0.8rem;
+    }
+    
+    .dataTable th,
+    .dataTable td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .artworkCard {
+        padding: 0.75rem;
+    }
+    
+    .artworkImage {
+        height: 150px;
+    }
+    
+    .artworkActions {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+    
+    .alertItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .activityItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .activityTime {
+        align-self: flex-end;
+    }
+    
+    .tableContainer {
+        overflow-x: auto;
+    }
+    
+    .dataTable {
+        min-width: 800px;
+    }
+    
+    .formActions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .inventoryGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .artworkImage {
+        height: 120px;
+    }
+    
+    .dataTable {
+        min-width: 600px;
+        font-size: 0.75rem;
+    }
+    
+    .dataTable th,
+    .dataTable td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .artworkTableImage {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .modalContent {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+}
+
+/* Status-specific colors */
+.status-available {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success-green);
+}
+
+.status-sold {
+    background: rgba(156, 163, 175, 0.1);
+    color: #6b7280;
+}
+
+.status-reserved {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.status-on-hold {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.status-archived {
+    background: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loadingSpinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-light);
+    border-top: 2px solid var(--primary-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

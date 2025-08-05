@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication & Support - Yadawity Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css">
+    <link rel="stylesheet" href="./public/admin-communication.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <?php include './components/includes/navbar.php'; ?>
+
+    <!-- Admin Sidebar -->
+    <aside class="adminSidebar" id="adminSidebar">
+        <div class="sidebarHeader">
+            <h3>Admin Panel</h3>
+            <button class="sidebarToggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebarNav">
+            <div class="navSection">
+                <h4>OVERVIEW</h4>
+                <a href="admin-dashboard.html" class="sidebarLink">
+                <i class="fas fa-chart-line"></i>
+                    <span>Dashboard & Analytics</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Communication</h4>
+                <a href="admin-communication.html" class="sidebarLink">
+                    <i class="fas fa-comments"></i>
+                    <span>Support Tickets</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Management</h4>
+                <a href="admin-user managment.html" class="sidebarLink">
+                    <i class="fas fa-user"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="admin-content managment.html" class="sidebarLink">
+                    <i class="fas fa-grip"></i>
+                    <span>Content managment</span>
+                </a>
+                <a href="admin- auction managment.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Auction managment</span>
+                </a>
+                <a href="admin-course managment.html" class="sidebarLink">
+                    <i class="fas fa-book-open-reader"></i>
+                    <span>Course managment</span>
+                </a>
+                <a href="admin-order transactions.html" class="sidebarLink">
+                    <i class="fas fa-truck"></i>
+                    <span>Order & transactions</span>
+                </a>
+
+                <a href="admin-system.html" class="sidebarLink">
+                    <i class="fas fa-cogs"></i>
+                    <span>System Admin</span>
+                </a>
+                <a href="admin-gallery.html" class="sidebarLink">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Management</span>
+                </a>
+                <a href="admin-marketing.html" class="sidebarLink active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="admin-inventory.html" class="sidebarLink">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <a href="admin-legal.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Legal & Compliance</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="adminMain">
+        <div class="pageHeader">
+            <div class="headerContent">
+                <h1>Communication & Support</h1>
+                <p>Manage customer support tickets, messages, and platform communications</p>
+            </div>
+            <div class="headerActions">
+                <button class="btn btn-primary" id="newAnnouncementBtn">
+                    <i class="fas fa-plus"></i>
+                    New Announcement
+                </button>
+                <button class="btn btn-secondary" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="statsGrid">
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="statContent">
+                    <h3>248</h3>
+                    <p>Open Tickets</p>
+                    <span class="statChange positive">+12 today</span>
+                </div>
+            </div>
+
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="statContent">
+                    <h3>2.4h</h3>
+                    <p>Avg Response Time</p>
+                    <span class="statChange negative">+0.3h</span>
+                </div>
+            </div>
+
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="statContent">
+                    <h3>95.2%</h3>
+                    <p>Resolution Rate</p>
+                    <span class="statChange positive">+2.1%</span>
+                </div>
+            </div>
+
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="statContent">
+                    <h3>4.7</h3>
+                    <p>Satisfaction Score</p>
+                    <span class="statChange positive">+0.2</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters & Controls -->
+        <div class="controlsPanel">
+            <div class="filterGroup">
+                <label>Status:</label>
+                <select class="filterSelect" id="statusFilter">
+                    <option value="">All Tickets</option>
+                    <option value="open">Open</option>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+
+            <div class="filterGroup">
+                <label>Priority:</label>
+                <select class="filterSelect" id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="filterGroup">
+                <label>Category:</label>
+                <select class="filterSelect" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="payment">Payment</option>
+                    <option value="artwork">Artwork</option>
+                    <option value="shipping">Shipping</option>
+                    <option value="account">Account</option>
+                    <option value="technical">Technical</option>
+                </select>
+            </div>
+
+            <div class="searchGroup">
+                <input type="text" placeholder="Search tickets..." class="searchInput" id="ticketSearch">
+                <button class="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Support Tickets Table -->
+        <div class="contentCard">
+            <div class="cardHeader">
+                <h2>Support Tickets</h2>
+                <div class="cardActions">
+                    <button class="btn btn-outline" id="exportBtn">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="tableContainer">
+                <table class="dataTable" id="ticketsTable">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Customer</th>
+                            <th>Subject</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ticketsTableBody">
+                        <!-- Sample tickets will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Messages Panel -->
+        <div class="contentCard">
+            <div class="cardHeader">
+                <h2>Recent Messages</h2>
+                <div class="cardActions">
+                    <button class="btn btn-primary btn-sm" id="composeBtn">
+                        <i class="fas fa-pen"></i>
+                        Compose
+                    </button>
+                </div>
+            </div>
+
+            <div class="messagesList" id="messagesList">
+                <!-- Messages will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Ticket Details Modal -->
+    <div class="modal" id="ticketModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>Ticket Details</h2>
+                <button class="modalClose" id="closeTicketModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody" id="ticketModalBody">
+                <!-- Ticket details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div class="modal" id="announcementModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2>New Announcement</h2>
+                <button class="modalClose" id="closeAnnouncementModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody">
+                <form id="announcementForm">
+                    <div class="formGroup">
+                        <label>Title:</label>
+                        <input type="text" id="announcementTitle" required>
+                    </div>
+                    <div class="formGroup">
+                        <label>Content:</label>
+                        <textarea id="announcementContent" rows="5" required></textarea>
+                    </div>
+                    <div class="formGroup">
+                        <label>Target Audience:</label>
+                        <select id="announcementTarget">
+                            <option value="all">All Users</option>
+                            <option value="artists">Artists Only</option>
+                            <option value="buyers">Buyers Only</option>
+                        </select>
+                    </div>
+                    <div class="formActions">
+                        <button type="submit" class="btn btn-primary">Send Announcement</button>
+                        <button type="button" class="btn btn-secondary" id="cancelAnnouncement">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./public/admin-communication.js"></script>
+</body>
+</html>

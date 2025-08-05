@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard &Analytics - Yadawity Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css">
+    <link rel="stylesheet" href="./public/admin-order mangment.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <?php include './components/includes/navbar.php'; ?>
+
+    <!-- Admin Sidebar -->
+    <aside class="adminSidebar" id="adminSidebar">
+        <div class="sidebarHeader">
+            <h3>Admin Panel</h3>
+            <button class="sidebarToggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebarNav">
+            <div class="navSection">
+                <h4>OVERVIEW</h4>
+                <a href="admin-dashboard.html" class="sidebarLink">
+                   <i class="fas fa-chart-line"></i>
+                    <span>Dashboard & Analytics</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Communication</h4>
+                <a href="admin-communication.html" class="sidebarLink">
+                    <i class="fas fa-comments"></i>
+                    <span>Support Tickets</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="sidebarLink">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+            </div>
+
+            <div class="navSection">
+                <h4>Management</h4>
+                <a href="admin-user managment.html" class="sidebarLink">
+                    <i class="fas fa-user"></i>
+                    <span>User Management</span>
+                </a>
+                <a href="admin-content managment.html" class="sidebarLink">
+                    <i class="fas fa-grip"></i>
+                    <span>Content managment</span>
+                </a>
+                <a href="admin- auction managment.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Auction managment</span>
+                </a>
+                <a href="admin-course managment.html" class="sidebarLink">
+                    <i class="fas fa-book-open-reader"></i>
+                    <span>Course managment</span>
+                </a>
+                <a href="admin-order transactions.html" class="sidebarLink">
+                    <i class="fas fa-truck"></i>
+                    <span>Order & transactions</span>
+                </a>
+
+                <a href="admin-system.html" class="sidebarLink">
+                    <i class="fas fa-cogs"></i>
+                    <span>System Admin</span>
+                </a>
+                <a href="admin-gallery.html" class="sidebarLink">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery Management</span>
+                </a>
+                <a href="admin-marketing.html" class="sidebarLink active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Marketing</span>
+                </a>
+                <a href="admin-inventory.html" class="sidebarLink">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <a href="admin-legal.html" class="sidebarLink">
+                    <i class="fas fa-gavel"></i>
+                    <span>Legal & Compliance</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+<!-- Main Content -->
+    <main class="adminMain">
+        <div class="pageHeader">
+            <div class="headerContent">
+                <h1>Order Management</h1>
+                <p>Track and manage all orders, payments, and deliveries.</p>
+            </div>
+            <div class="headerActions">
+                <button class="btn btn-secondary" id="exportOrdersBtn">
+                    <i class="fas fa-download"></i>
+                    Export Orders
+                </button>
+                <button class="btn btn-primary" id="manualOrderBtn">
+                    <i class="fas fa-plus"></i>
+                    Manual Order
+                </button>
+            </div>
+        </div>
+
+        <!-- Order Stats -->
+        <div class="statsGrid">
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="statContent">
+                    <h3>1,247</h3>
+                    <p>Total Orders</p>
+                    <span class="statChange positive">+89</span>
+                </div>
+            </div>
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="statContent">
+                    <h3>23</h3>
+                    <p>Pending</p>
+                    <span class="statChange positive">+5</span>
+                </div>
+            </div>
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="statContent">
+                    <h3>156</h3>
+                    <p>Shipped</p>
+                    <span class="statChange positive">+34</span>
+                </div>
+            </div>
+            <div class="statCard">
+                <div class="statIcon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="statContent">
+                    <h3>1,068</h3>
+                    <p>Completed</p>
+                    <span class="statChange positive">+50</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Panel -->
+        <div class="controlsPanel">
+            <div class="filterGroup">
+                <label>Status</label>
+                <select class="filterSelect" id="orderStatusFilter">
+                    <option>All Orders</option>
+                    <option>Pending</option>
+                    <option>Processing</option>
+                    <option>Shipped</option>
+                    <option>Delivered</option>
+                    <option>Cancelled</option>
+                </select>
+            </div>
+            <div class="filterGroup">
+                <label>Date Range</label>
+                <select class="filterSelect" id="dateRangeFilter">
+                    <option>All Time</option>
+                    <option>Today</option>
+                    <option>This Week</option>
+                    <option>This Month</option>
+                    <option>Last 3 Months</option>
+                </select>
+            </div>
+            <div class="searchGroup">
+                <input type="text" class="searchInput" id="orderSearch" placeholder="Search orders...">
+                <button class="searchBtn" id="searchOrdersBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="contentCard">
+            <div class="cardHeader">
+                <h2>Recent Orders</h2>
+                <div class="cardActions">
+                    <button class="btn btn-sm btn-outline" id="bulkOrderActionsBtn">Bulk Actions</button>
+                </div>
+            </div>
+            <div class="tableContainer">
+                <table class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="selectAllOrders">
+                            </th>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Artwork</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="order-checkbox" data-id="ORD-2024-001">
+                            </td>
+                            <td>#ORD-2024-001</td>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600;">Sarah Johnson</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-light);">sarah@example.com</div>
+                                </div>
+                            </td>
+                            <td>Abstract Harmony</td>
+                            <td>$3,200</td>
+                            <td>Mar 15, 2024</td>
+                            <td><span class="statusBadge status-pending">Processing</span></td>
+                            <td>
+                                <button class="actionBtn btn-view">View</button>
+                                <button class="actionBtn btn-reply">Update</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="order-checkbox" data-id="ORD-2024-002">
+                            </td>
+                            <td>#ORD-2024-002</td>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600;">Michael Brown</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-light);">michael@example.com</div>
+                                </div>
+                            </td>
+                            <td>Urban Landscape</td>
+                            <td>$2,800</td>
+                            <td>Mar 14, 2024</td>
+                            <td><span class="statusBadge status-open">Shipped</span></td>
+                            <td>
+                                <button class="actionBtn btn-view">View</button>
+                                <button class="actionBtn btn-reply">Track</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="order-checkbox" data-id="ORD-2024-003">
+                            </td>
+                            <td>#ORD-2024-003</td>
+                            <td>
+                                <div>
+                                    <div style="font-weight: 600;">Emma Davis</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-light);">emma@example.com</div>
+                                </div>
+                            </td>
+                            <td>Portrait Study #7</td>
+                            <td>$1,950</td>
+                            <td>Mar 13, 2024</td>
+                            <td><span class="statusBadge status-resolved">Delivered</span></td>
+                            <td>
+                                <button class="actionBtn btn-view">View</button>
+                                <button class="actionBtn btn-reply">Details</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebarToggle" id="mobileSidebarToggle" style="display: none; position: fixed; top: 90px; left: 20px; z-index: 1001; background: var(--primary-brown); color: white; border: none; padding: 10px; border-radius: 8px;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal" id="actionModal">
+        <div class="modalContent">
+            <div class="modalHeader">
+                <h2 id="modalTitle">Action</h2>
+                <button class="modalClose" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modalBody" id="modalBody">
+                <!-- Modal content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+   
+    <script src="./public/admin-order managment.js"></script>
+</body>
+</html>
