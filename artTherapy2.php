@@ -16,10 +16,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
-    <link rel="stylesheet" href="./public/homePage.css" />
     <link rel="stylesheet" href="./public/artTherapy2.css">
-    
+    <link rel="stylesheet" href="./public/homePage.css" />
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
 </head>
 <body>
     <?php include './components/includes/navbar.php'; ?>
@@ -95,7 +95,9 @@
       <!-- Footer -->
       <?php include './components/includes/footer.php'; ?>
 
-    
     <script src="./public/artTherapy2.js"></script>
+    <script src="./components/Navbar/navbar.js"></script>
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./app.js"></script>
 </body>
 </html>

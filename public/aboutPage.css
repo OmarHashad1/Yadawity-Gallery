@@ -1,3 +1,25 @@
+:root {
+  --primary-light: #fefefe;
+  --secondary-light: #faf8f5;
+  --accent-red: #8b1538;
+  --dark-red: #7f1d1d;
+  --burgundy: #991b1b;
+  --dark-brown: #4a2c17;
+  --medium-brown: #6b4423;
+  --light-brown: #8b7355;
+  --beige:#b8a690;
+  --beige-light: #e8dcc6;
+  --gold: #d4af37;
+  --gold-light: #f4d03f;
+   --brown-light: #6b5a47;
+   --brown-medium: #8b7355;
+  --cream: #f5f5dc;
+  --text-primary: #2c1810;
+  --text-secondary: #4a2c17;
+  --text-muted: #6b4423;
+  --background-primary: #fefefe;
+  --background-secondary: #faf8f5;
+}
 /* About Page Styles */
 .aboutMain {
   margin-top: 90px;
@@ -27,13 +49,13 @@
   transform: translateX(-50%);
   width: 80px;
   height: 3px;
-  background: linear-gradient(to right, var(--gold-accent), var(--primary-brown));
+  background: var(--beige-light);
   border-radius: 3px;
 }
 
 /* Hero Section */
 .aboutHero {
-  background: linear-gradient(135deg, var(--cream) 0%, var(--light-gold) 100%);
+  background:  var(--beige-light);
   padding: 80px 0;
   position: relative;
   overflow: hidden;
@@ -70,7 +92,7 @@
 .aboutHeroTitle {
   font-size: 3.5rem;
   font-weight: 700;
-  color: var(--primary-brown);
+  color: var(--text-muted);
   margin-bottom: 1rem;
   line-height: 1.2;
 }
@@ -85,7 +107,7 @@
 .aboutHeroDivider {
   width: 100px;
   height: 4px;
-  background: linear-gradient(to right, var(--gold-accent), var(--red-accent));
+  background: var(--beige-light);
   margin: 2rem 0;
   border-radius: 3px;
 }
@@ -201,8 +223,7 @@
 .valueIcon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--primary-brown), var(--secondary-brown));
-  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,7 +248,7 @@
 /* Team Section */
 .team {
   padding: 100px 0;
-  background: linear-gradient(135deg, var(--cream-light) 0%, var(--light-gold) 100%);
+  background:  var(--cream);
 }
 
 .teamDescription {
@@ -247,7 +268,7 @@
 }
 
 .teamCard {
-  background: var(--white);
+  background: var(--background-primary);
   border-radius:3px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(107, 68, 35, 0.1);
@@ -298,14 +319,14 @@
 .teamBio {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--text-light);
+  color: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
 }
 
 /* Call to Action Section */
 .aboutCta {
   padding: 100px 0;
-  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--secondary-brown) 100%);
-  color: var(--white);
+  background: var(--cream);
+  color: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   text-align: center;
 }
 
@@ -318,14 +339,14 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: var(--white);
+  color: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
 }
 
 .ctaDescription {
   font-size: 1.2rem;
   line-height: 1.7;
   margin-bottom: 3rem;
-  color: var(--cream);
+  color:linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
 }
 
 .ctaButtons {
@@ -347,19 +368,19 @@
 }
 
 .ctaPrimary {
-  background: var(--gold-accent);
-  color: var(--primary-brown);
-  border-color: var(--gold-accent);
+  background:  linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color:var(--white);
+  border-color:var(--white);
 }
 
 .ctaPrimary:hover {
-  background: transparent;
-  color: var(--gold-accent);
-  border-color: var(--gold-accent);
+  background:var(--white);
+  color:var(--primary-brown);
+  border-color: var(--white);
 }
 
 .ctaSecondary {
-  background: transparent;
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
   color: var(--white);
   border-color: var(--white);
 }

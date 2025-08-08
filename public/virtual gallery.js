@@ -211,12 +211,11 @@ function renderGalleries(galleriesToRender) {
 
     const galleriesHTML = currentGalleries.map(gallery => `
         <div class="virtual-gallery-card">
-            <div class="virtual-badge-card">${gallery.type.toUpperCase()}</div>
-            <div class="card-header">
-                <img src="${gallery.image}" alt="${gallery.title}" class="gallery-image">
+            <div class="gallery-image-container">
                 <div class="availability-badge ${gallery.available ? 'available' : 'unavailable'}">
-                    ${gallery.available ? 'Available' : 'Unavailable'}
+                    ${gallery.available ? 'AVAILABLE' : 'UNAVAILABLE'}
                 </div>
+                <img src="${gallery.image}" alt="${gallery.title}" class="gallery-image">
             </div>
             <div class="gallery-content">
                 <h3 class="gallery-title">${gallery.title}</h3>
@@ -228,7 +227,7 @@ function renderGalleries(galleriesToRender) {
                 <div class="gallery-features">
                     ${gallery.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
                 </div>
-                <div class="gallery-details">
+                <div class="gallery-bottom-info">
                     <div class="gallery-duration">
                         <i class="fas fa-clock"></i>
                         ${gallery.duration} min
@@ -238,10 +237,15 @@ function renderGalleries(galleriesToRender) {
                         ${gallery.rating}
                     </div>
                 </div>
-                <div class="gallery-price">$${gallery.price}</div>
-                <button class="enter-btn" onclick="enterVirtualGallery(${gallery.id})" ${!gallery.available ? 'disabled' : ''}>
-                    <i class="fas fa-vr-cardboard"></i> ${gallery.available ? 'Enter Virtual Gallery' : 'Unavailable'}
-                </button>
+                <div class="gallery-price">${gallery.price}</div>
+                <div class="gallery-actions">
+                    <button class="enter-gallery-btn" onclick="enterVirtualGallery(${gallery.id})" ${!gallery.available ? 'disabled' : ''}>
+                        ${gallery.available ? 'Enter Gallery' : 'Unavailable'}
+                    </button>
+                    <button class="wishlist-btn" onclick="addToWishlist(${gallery.id})" title="Add to Wishlist">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
             </div>
         </div>
     `).join('')
@@ -374,3 +378,28 @@ document.addEventListener('DOMContentLoaded', function() {
     if (priceSelect) priceSelect.addEventListener('change', applyFilters)
     if (durationSelect) durationSelect.addEventListener('change', applyFilters)
 });
+
+// Additional functions for the new card design
+function viewGalleryDetails(galleryId) {
+    const gallery = virtualGalleries.find(g => g.id === galleryId)
+    if (gallery) {
+        // You can implement a modal or redirect to a details page
+        alert(`Gallery Details:\n\nTitle: ${gallery.title}\nArtist: ${gallery.artist}\nPrice: $${gallery.price}\nDuration: ${gallery.duration} minutes\nRating: ${gallery.rating}\n\nDescription: ${gallery.description}`)
+    }
+}
+
+function addToWishlist(galleryId) {
+    const gallery = virtualGalleries.find(g => g.id === galleryId)
+    if (gallery) {
+        // You can implement wishlist functionality here
+        alert(`"${gallery.title}" has been added to your wishlist!`)
+        // Example: Add visual feedback
+        const wishlistBtn = event.target.closest('.wishlistBtn')
+        if (wishlistBtn) {
+            wishlistBtn.innerHTML = '<i class="fas fa-check"></i>'
+            setTimeout(() => {
+                wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>'
+            }, 2000)
+        }
+    }
+}

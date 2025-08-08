@@ -443,8 +443,6 @@ function renderGalleries(galleriesToRender) {
             <i class="fas fa-users"></i>
             ${gallery.capacity} capacity
           </div>
-        </div>
-        <div class="course-price-info">
           <div class="gallery-time">
             <i class="fas fa-calendar"></i>
             ${formatDateDisplay(gallery.date)} • ${formatTimeDisplay(gallery.timeRange)}

@@ -38,16 +38,13 @@
                 <h1 class="page-title">ARTWORKS</h1>
               </div>
         </header>
-    <!-- Search Section -->
-<!-- Search Section -->
-        <div class="search-section">
-            <!-- Hero Section -->
-            <div class="search-hero">
-                <h2>Discover Unique Artworks</h2>
-                <p class="search-subtitle">Browse through our curated collection of artworks</p>
-            </div>
 
-      <!-- Main Search Bar -->
+    <!-- Search Section (workshops style) -->
+    <div class="search-section" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 2.5rem;">
+      <div class="search-hero" style="text-align: center; margin-bottom: 1.5rem;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Find Your Next Masterpiece</h2>
+        <p class="search-subtitle" style="font-size: 1.1rem; color: rgba(255,255,255,0.9); font-style: italic;">Search and filter to discover unique artworks from our gallery</p>
+      </div>
       <div class="main-search">
         <div class="search-wrapper">
           <input 

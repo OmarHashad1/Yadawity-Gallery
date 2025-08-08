@@ -15,7 +15,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./public/homePage.css" />
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />
+    <link rel="stylesheet" href="./public/homePage.css" />
     <link rel="stylesheet" href="./public/support.css" />
     <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
 </head>
@@ -23,9 +24,6 @@
     <?php include './components/includes/navbar.php'; ?>
 
     <?php include './components/includes/burger-menu.php'; ?>
-        
-      </div>
-    </div>
 
     <!-- Hero Section -->
     <section class="supportHero">
@@ -37,11 +35,21 @@
             <div class="heroText">
                 <h1 class="heroTitle">How can we help you?</h1>
                 <p class="heroSubtitle">Your artistic journey is our priority. Find answers, get support, or connect with our dedicated team.</p>
-                <div class="heroSearchBox">
-                    <input type="text" class="heroSearchInput" id="heroSearchInput" placeholder="Search for help articles, guides, or FAQs...">
-                    <button class="heroSearchBtn" id="heroSearchBtn">
-                        <i class="fas fa-search"></i>
-                    </button>
+                
+                <!-- Main Search Bar (from sessionsTherapy.php) -->
+                <div class="main-search">
+                    <div class="search-wrapper">
+                        <input 
+                            type="text"
+                            class="search-input"
+                            id="heroSearchInput"
+                            placeholder="Search for help articles, guides, or FAQs..."
+                            autocomplete="off"
+                        >
+                        <button class="search-btn" id="heroSearchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -302,105 +310,7 @@
     <?php include './components/includes/footer.php'; ?>
 
     <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./public/support.js"></script>
     <script src="./app.js"></script>
-    <script>
-        // FAQ Accordion functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const faqQuestions = document.querySelectorAll('.faqQuestion');
-            
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', function() {
-                    const faqItem = this.parentElement;
-                    const isActive = faqItem.classList.contains('active');
-                    
-                    // Close all other FAQ items
-                    document.querySelectorAll('.faqItem').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    // Toggle current item
-                    if (!isActive) {
-                        faqItem.classList.add('active');
-                    }
-                });
-            });
-            
-            // Hero search functionality
-            const heroSearchBtn = document.getElementById('heroSearchBtn');
-            const heroSearchInput = document.getElementById('heroSearchInput');
-            
-            heroSearchBtn.addEventListener('click', function() {
-                const searchTerm = heroSearchInput.value.trim();
-                if (searchTerm) {
-                    // Here you would implement actual search functionality
-                    console.log('Searching for:', searchTerm);
-                    // For now, just scroll to FAQ section
-                    document.querySelector('.faqSection').scrollIntoView({ 
-                        behavior: 'smooth' 
-                    });
-                }
-            });
-            
-            heroSearchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    heroSearchBtn.click();
-                }
-            });
-            
-            // Contact form handling
-            const contactForm = document.getElementById('supportContactForm');
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form data
-                const formData = new FormData(this);
-                const data = {};
-                formData.forEach((value, key) => {
-                    data[key] = value;
-                });
-                
-                // Here you would send the data to your server
-                console.log('Form submitted:', data);
-                
-                // Show success message (you can customize this)
-                alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-                
-                // Reset form
-                this.reset();
-            });
-            
-            // Smooth scrolling for help card links
-            document.querySelectorAll('.helpCardLink').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    // You can implement navigation to specific help sections here
-                    console.log('Help card clicked:', this.closest('.helpCard').querySelector('h3').textContent);
-                });
-            });
-            
-            // Animation on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe elements for animations
-            document.querySelectorAll('.helpCard, .contactMethod, .resourceCard').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
-            });
-        });
-    </script>
 </body>
 </html>

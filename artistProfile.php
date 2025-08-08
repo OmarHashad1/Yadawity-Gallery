@@ -221,7 +221,6 @@
                 class="enhanced-artwork-image"
                 src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=280&fit=crop"
                 alt="Portrait of Elegance"
-                style="height: 280px; object-fit: cover"
               />
               
               <div class="artwork-overlay">
@@ -234,9 +233,9 @@
             </div>
 
             <div class="enhanced-artwork-info">
-              <div class="artwork-category">portraits</div>
+              <div class="artwork-category">PORTRAITS</div>
               <h3 class="enhanced-artwork-title">Portrait of Elegance</h3>
-              <p class="enhanced-artwork-artist">by Lady Catherine Pemberton</p>
+              <p class="enhanced-artwork-artist">By Lady Catherine Pemberton</p>
               <p class="enhanced-artwork-price">£15,000</p>
               <p class="artwork-dimensions">18" × 24"</p>
               <p class="enhanced-artwork-description">
@@ -244,14 +243,13 @@
                 nobility through masterful classical techniques and refined brushwork.
               </p>
               
-              <div >
-                <select class="add-to-cart">
-                <option>Add to Cart</option>
-                <option class="wishlist-btn" data-id="1" title="Add to Wishlist">
+              <div class="artwork-actions">
+                <button class="enhanced-add-to-cart" data-id="1">
+                  ADD TO CART
+                </button>
+                <button class="wishlist-btn" data-id="1" title="Add to Wishlist">
                   <i class="fas fa-heart"></i>
-                </option>
-                </select>
-                
+                </button>
               </div>
             </div>
           </div>
@@ -262,7 +260,6 @@
                 class="enhanced-artwork-image"
                 src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=320&fit=crop"
                 alt="The Scholar's Gaze"
-                style="height: 320px; object-fit: cover"
               />
               
               <div class="artwork-overlay">
@@ -275,9 +272,9 @@
             </div>
 
             <div class="enhanced-artwork-info">
-              <div class="artwork-category">portraits</div>
+              <div class="artwork-category">PORTRAITS</div>
               <h3 class="enhanced-artwork-title">The Scholar's Gaze</h3>
-              <p class="enhanced-artwork-artist">by Lady Catherine Pemberton</p>
+              <p class="enhanced-artwork-artist">By Lady Catherine Pemberton</p>
               <p class="enhanced-artwork-price">£22,000</p>
               <p class="artwork-dimensions">20" × 30"</p>
               <p class="enhanced-artwork-description">
@@ -286,10 +283,10 @@
               </p>
               
               <div class="artwork-actions">
-                <button class="enhanced-add-to-cart" data-id="3">
-                  Add to Cart
+                <button class="enhanced-add-to-cart" data-id="2">
+                  ADD TO CART
                 </button>
-                <button class="wishlist-btn" data-id="3" title="Add to Wishlist">
+                <button class="wishlist-btn" data-id="2" title="Add to Wishlist">
                   <i class="fas fa-heart"></i>
                 </button>
               </div>
@@ -302,7 +299,6 @@
                 class="enhanced-artwork-image"
                 src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=400&fit=crop"
                 alt="Aristocratic Heritage"
-                style="height: 400px; object-fit: cover"
               />
               
               <div class="artwork-overlay">
@@ -315,9 +311,9 @@
             </div>
 
             <div class="enhanced-artwork-info">
-              <div class="artwork-category">portraits</div>
+              <div class="artwork-category">PORTRAITS</div>
               <h3 class="enhanced-artwork-title">Aristocratic Heritage</h3>
-              <p class="enhanced-artwork-artist">by Lady Catherine Pemberton</p>
+              <p class="enhanced-artwork-artist">By Lady Catherine Pemberton</p>
               <p class="enhanced-artwork-price">£35,000</p>
               <p class="artwork-dimensions">24" × 36"</p>
               <p class="enhanced-artwork-description">
@@ -327,7 +323,7 @@
               
               <div class="artwork-actions">
                 <button class="enhanced-add-to-cart" data-id="3">
-                  Add to Cart
+                  ADD TO CART
                 </button>
                 <button class="wishlist-btn" data-id="3" title="Add to Wishlist">
                   <i class="fas fa-heart"></i>
@@ -342,7 +338,6 @@
                 class="enhanced-artwork-image"
                 src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=200&fit=crop"
                 alt="Young Virtuoso"
-                style="height: 200px; object-fit: cover"
               />
               
               <div class="artwork-overlay">
@@ -355,9 +350,9 @@
             </div>
 
             <div class="enhanced-artwork-info">
-              <div class="artwork-category">portraits</div>
+              <div class="artwork-category">PORTRAITS</div>
               <h3 class="enhanced-artwork-title">Young Virtuoso</h3>
-              <p class="enhanced-artwork-artist">by Lady Catherine Pemberton</p>
+              <p class="enhanced-artwork-artist">By Lady Catherine Pemberton</p>
               <p class="enhanced-artwork-price">£18,000</p>
               <p class="artwork-dimensions">16" × 20"</p>
               <p class="enhanced-artwork-description">
@@ -367,7 +362,7 @@
               
               <div class="artwork-actions">
                 <button class="enhanced-add-to-cart" data-id="4">
-                  Add to Cart
+                  ADD TO CART
                 </button>
                 <button class="wishlist-btn" data-id="4" title="Add to Wishlist">
                   <i class="fas fa-heart"></i>
@@ -382,7 +377,6 @@
                 class="enhanced-artwork-image"
                 src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=240&fit=crop"
                 alt="The Philanthropist"
-                style="height: 240px; object-fit: cover"
               />
               
               <div class="artwork-overlay">
@@ -395,9 +389,9 @@
             </div>
 
             <div class="enhanced-artwork-info">
-              <div class="artwork-category">portraits</div>
+              <div class="artwork-category">PORTRAITS</div>
               <h3 class="enhanced-artwork-title">The Philanthropist</h3>
-              <p class="enhanced-artwork-artist">by Lady Catherine Pemberton</p>
+              <p class="enhanced-artwork-artist">By Lady Catherine Pemberton</p>
               <p class="enhanced-artwork-price">£28,000</p>
               <p class="artwork-dimensions">22" × 30"</p>
               <p class="enhanced-artwork-description">
@@ -407,7 +401,7 @@
               
               <div class="artwork-actions">
                 <button class="enhanced-add-to-cart" data-id="5">
-                  Add to Cart
+                  ADD TO CART
                 </button>
                 <button class="wishlist-btn" data-id="5" title="Add to Wishlist">
                   <i class="fas fa-heart"></i>
@@ -422,7 +416,6 @@
                 class="enhanced-artwork-image"
                 src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=360&fit=crop"
                 alt="Evening Reflection"
-                style="height: 360px; object-fit: cover"
               />
               
               <div class="artwork-overlay">
@@ -435,9 +428,9 @@
             </div>
 
             <div class="enhanced-artwork-info">
-              <div class="artwork-category">portraits</div>
+              <div class="artwork-category">PORTRAITS</div>
               <h3 class="enhanced-artwork-title">Evening Reflection</h3>
-              <p class="enhanced-artwork-artist">by Lady Catherine Pemberton</p>
+              <p class="enhanced-artwork-artist">By Lady Catherine Pemberton</p>
               <p class="enhanced-artwork-price">£32,000</p>
               <p class="artwork-dimensions">24" × 36"</p>
               <p class="enhanced-artwork-description">
@@ -447,7 +440,7 @@
               
               <div class="artwork-actions">
                 <button class="enhanced-add-to-cart" data-id="6">
-                  Add to Cart
+                  ADD TO CART
                 </button>
                 <button class="wishlist-btn" data-id="6" title="Add to Wishlist">
                   <i class="fas fa-heart"></i>

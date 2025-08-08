@@ -3,24 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yadawity - Courses</title>
+    <title>Yadawity - Art Therapy</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
     <link rel="stylesheet" href="./public/homePage.css" />
-<link rel="stylesheet" href="./public/courses.css" />
+    <link rel="stylesheet" href="./public/courses.css" />
     <link rel="stylesheet" href="./public/artTherapy.css" />
     
 </head>
@@ -29,25 +19,6 @@
 <?php include './components/includes/navbar.php'; ?>
 
     <?php include './components/includes/burger-menu.php'; ?>
-        
-      </div>
-    </div>
-
-    <div class="mobileSearchOverlay" id="mobileSearchOverlay">
-      <div class="mobileSearchContainer">
-        <input
-          type="text"
-          placeholder="Search artists, artworks..."
-          class="mobileSearchInput"
-          id="mobileSearchInput"
-        />
-        <button class="mobileSearchClose" id="mobileSearchClose">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="searchSuggestions" id="mobileSearchSuggestions"></div>
-    </div>
-
 
       <div class="container">
         <!-- Header -->
@@ -101,14 +72,11 @@
     </div>
 
     <a href="artTherapy2.php" class="optionBtn">Now we can start!!</a>
-    <style>
-      
-    </style>
    </div>
       </div>
     <?php include './components/includes/footer.php'; ?>
-     <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./components/Navbar/navbar.js"></script>
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
     <script src="./public/course.js"></script>
-    </script>
 </body>
 </html>

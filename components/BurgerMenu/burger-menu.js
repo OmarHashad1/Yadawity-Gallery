@@ -164,7 +164,7 @@ class BurgerMenu {
             }
             
             // Reset nav-toggle state when burger menu closes
-            const navToggle = document.querySelector('.navToggle');
+            const navToggle = document.querySelector('.nav-toggle');
             if (navToggle) {
                 navToggle.classList.remove('active');
             }

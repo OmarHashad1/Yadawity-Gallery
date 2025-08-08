@@ -1,261 +1,312 @@
-// DOM Elements
-const searchInput = document.getElementById('searchInput');
-const artworksGrid = document.getElementById('artworksGrid');
-const artworkCount = document.getElementById('artworkCount');
+// Artwork Pagination and Filtering System
+// Clean implementation with exactly 6 artworks per page
 
-// Filter state
-let activeFilters = {
-  search: '',
-  category: 'all',
-  sort: 'featured',
-  minPrice: '',
-  maxPrice: ''
-};
+// Global variables
+let allArtworks = []
+let filteredArtworks = []
+let currentPage = 1
+const ARTWORKS_PER_PAGE = 6 // Exactly 6 artworks per page
+let totalPages = 1
 
-// Initialize filters
-document.addEventListener('DOMContentLoaded', () => {
-  setupEventListeners();
-  updateArtworkCount();
-});
+// DOM elements
+const searchInput = document.getElementById("searchInput")
+const categoryFilter = document.getElementById("categoryFilter")
+const sortByFilter = document.getElementById("sortBy")
+const minPriceInput = document.getElementById("minPrice")
+const maxPriceInput = document.getElementById("maxPrice")
+const artworksGrid = document.getElementById("artworksGrid")
 
-// Setup event listeners when DOM is loaded
-function setupEventListeners() {
-  // Search input event listener
-  if (searchInput) {
-    searchInput.addEventListener('input', debounce(() => {
-      applyFilters();
-    }, 300));
+// Initialize the page
+document.addEventListener("DOMContentLoaded", () => {
+  initializeArtworkSystem()
+})
 
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        applyFilters();
-      }
-    });
-  }
-
-  // Category filter
-  document.getElementById('categoryFilter').addEventListener('change', (e) => {
-    activeFilters.category = e.target.value;
-    updateActiveFilters();
-    applyFilters();
-  });
-
-  // Sort filter
-  document.getElementById('sortBy').addEventListener('change', (e) => {
-    activeFilters.sort = e.target.value;
-    updateActiveFilters();
-    applyFilters();
-  });
-
-  // Price range filters
-  document.getElementById('minPrice').addEventListener('change', (e) => {
-    activeFilters.minPrice = e.target.value;
-    updateActiveFilters();
-    applyFilters();
-  });
-
-  document.getElementById('maxPrice').addEventListener('change', (e) => {
-    activeFilters.maxPrice = e.target.value;
-    updateActiveFilters();
-    applyFilters();
-  });
-};
-
-// Update active filters display
-function updateActiveFilters() {
-  const activeFiltersContainer = document.getElementById('activeFilters');
-  activeFiltersContainer.innerHTML = '';
-
-  // Category filter tag
-  if (activeFilters.category !== 'all') {
-    addFilterTag('Category', activeFilters.category, () => {
-      activeFilters.category = 'all';
-      document.getElementById('categoryFilter').value = 'all';
-      updateActiveFilters();
-      applyFilters();
-    });
-  }
-
-  // Price range filter tag
-  if (activeFilters.minPrice || activeFilters.maxPrice) {
-    const priceText = `$${activeFilters.minPrice || '0'} - $${activeFilters.maxPrice || '∞'}`;
-    addFilterTag('Price', priceText, () => {
-      activeFilters.minPrice = '';
-      activeFilters.maxPrice = '';
-      document.getElementById('minPrice').value = '';
-      document.getElementById('maxPrice').value = '';
-      updateActiveFilters();
-      applyFilters();
-    });
-  }
-
-  // Sort filter tag
-  if (activeFilters.sort !== 'featured') {
-    const sortText = activeFilters.sort.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-    addFilterTag('Sort', sortText, () => {
-      activeFilters.sort = 'featured';
-      document.getElementById('sortBy').value = 'featured';
-      updateActiveFilters();
-      applyFilters();
-    });
-  }
-}
-
-// Add a filter tag to the active filters container
-function addFilterTag(type, value, removeCallback) {
-  const activeFiltersContainer = document.getElementById('activeFilters');
+// Initialize the artwork system
+function initializeArtworkSystem() {
+  // Get all artwork cards and store them
+  allArtworks = Array.from(document.querySelectorAll('.enhanced-artwork-card'))
+  filteredArtworks = [...allArtworks]
   
-  const filterTag = document.createElement('div');
-  filterTag.className = 'filter-tag';
-  filterTag.innerHTML = `
-    <span>${type}: ${value}</span>
-    <span class="remove-filter">×</span>
-  `;
-
-  filterTag.querySelector('.remove-filter').addEventListener('click', removeCallback);
-  activeFiltersContainer.appendChild(filterTag);
+  // Calculate total pages
+  calculateTotalPages()
+  
+  // Setup event listeners
+  setupEventListeners()
+  
+  // Initial render
+  renderCurrentPage()
+  updatePaginationDisplay()
 }
 
-// Apply filters function
+// Setup event listeners
+function setupEventListeners() {
+  if (searchInput) {
+    searchInput.addEventListener("input", debounce(applyFilters, 300))
+  }
+  if (categoryFilter) categoryFilter.addEventListener("change", applyFilters)
+  if (sortByFilter) sortByFilter.addEventListener("change", applyFilters)
+  if (minPriceInput) minPriceInput.addEventListener("input", debounce(applyFilters, 300))
+  if (maxPriceInput) maxPriceInput.addEventListener("input", debounce(applyFilters, 300))
+}
+
+// Apply all filters
 function applyFilters() {
-  const searchTerm = searchInput.value.toLowerCase().trim();
-  const artworkCards = document.querySelectorAll('.artwork-card');
-  let visibleCount = 0;
+  const searchTerm = searchInput?.value.toLowerCase().trim() || ''
+  const selectedCategory = categoryFilter?.value || 'all'
+  const selectedSort = sortByFilter?.value || 'featured'
+  const minPrice = parseInt(minPriceInput?.value) || 0
+  const maxPrice = parseInt(maxPriceInput?.value) || Infinity
 
-  artworkCards.forEach(card => {
-    const title = card.querySelector('.artwork-title').textContent.toLowerCase();
-    const artist = card.querySelector('.artwork-artist').textContent.toLowerCase();
-    const category = card.querySelector('.artwork-category').textContent.toLowerCase();
-    const description = card.querySelector('.artwork-description').textContent.toLowerCase();
-
-    const matchesSearch = !searchTerm || 
-        title.includes(searchTerm) ||
-        artist.includes(searchTerm) ||
-        category.includes(searchTerm) ||
-        description.includes(searchTerm);
-
-    if (matchesSearch) {
-      card.style.display = '';
-      visibleCount++;
-    } else {
-      card.style.display = 'none';
+  // Start with all artworks
+  filteredArtworks = allArtworks.filter(artwork => {
+    // Search filter
+    if (searchTerm) {
+      const title = artwork.querySelector('.enhanced-artwork-title')?.textContent.toLowerCase() || ''
+      const artist = artwork.querySelector('.enhanced-artwork-artist')?.textContent.toLowerCase() || ''
+      const category = artwork.dataset.category?.toLowerCase() || ''
+      const description = artwork.querySelector('.enhanced-artwork-description')?.textContent.toLowerCase() || ''
+      
+      const searchableText = `${title} ${artist} ${category} ${description}`
+      if (!searchableText.includes(searchTerm)) return false
     }
-  });
 
-  updateArtworkCount(visibleCount);
+    // Category filter
+    if (selectedCategory !== 'all' && artwork.dataset.category !== selectedCategory) {
+      return false
+    }
+
+    // Price filter
+    const price = parseInt(artwork.dataset.price) || 0
+    if (price < minPrice || price > maxPrice) {
+      return false
+    }
+
+    return true
+  })
+
+  // Sort artworks
+  sortArtworks(selectedSort)
+  
+  // Reset to first page
+  currentPage = 1
+  
+  // Update display
+  calculateTotalPages()
+  renderCurrentPage()
+  updatePaginationDisplay()
 }
 
-// Update artwork count display
-function updateArtworkCount(count) {
-  const totalCount = document.querySelectorAll('.artwork-card').length;
-  if (artworkCount) {
-    if (!count || count === totalCount) {
-      artworkCount.textContent = totalCount;
+// Sort artworks based on selected option
+function sortArtworks(sortBy) {
+  switch (sortBy) {
+    case 'price-low':
+      filteredArtworks.sort((a, b) => 
+        (parseInt(a.dataset.price) || 0) - (parseInt(b.dataset.price) || 0)
+      )
+      break
+    case 'price-high':
+      filteredArtworks.sort((a, b) => 
+        (parseInt(b.dataset.price) || 0) - (parseInt(a.dataset.price) || 0)
+      )
+      break
+    case 'artist':
+      filteredArtworks.sort((a, b) => {
+        const artistA = a.querySelector('.enhanced-artwork-artist')?.textContent || ''
+        const artistB = b.querySelector('.enhanced-artwork-artist')?.textContent || ''
+        return artistA.localeCompare(artistB)
+      })
+      break
+    case 'newest':
+      // If you have date data, implement here. For now, reverse order
+      filteredArtworks.reverse()
+      break
+    default: // 'featured'
+      // Keep original order
+      break
+  }
+}
+
+// Calculate total pages based on filtered artworks
+function calculateTotalPages() {
+  totalPages = Math.ceil(filteredArtworks.length / ARTWORKS_PER_PAGE)
+  if (totalPages === 0) totalPages = 1
+}
+
+// Render artworks for current page
+function renderCurrentPage() {
+  // Hide all artworks first
+  allArtworks.forEach(artwork => {
+    artwork.style.display = 'none'
+  })
+
+  // Calculate which artworks to show
+  const startIndex = (currentPage - 1) * ARTWORKS_PER_PAGE
+  const endIndex = startIndex + ARTWORKS_PER_PAGE
+  const artworksToShow = filteredArtworks.slice(startIndex, endIndex)
+
+  // Show artworks for current page
+  artworksToShow.forEach(artwork => {
+    artwork.style.display = 'block'
+  })
+
+  // Scroll to top smoothly
+  scrollToTop()
+}
+
+// Update pagination display
+function updatePaginationDisplay() {
+  const paginationSection = document.querySelector(".pagination-section")
+  const prevBtn = document.getElementById("prevBtn")
+  const nextBtn = document.getElementById("nextBtn")
+  const paginationNumbers = document.getElementById("paginationNumbers")
+
+  // Show/hide pagination section
+  if (totalPages <= 1) {
+    if (paginationSection) paginationSection.style.display = "none"
+    return
+  } else {
+    if (paginationSection) paginationSection.style.display = "block"
+  }
+
+  // Update navigation buttons
+  if (prevBtn) {
+    prevBtn.disabled = currentPage === 1
+    prevBtn.classList.toggle('disabled', currentPage === 1)
+  }
+
+  if (nextBtn) {
+    nextBtn.disabled = currentPage === totalPages
+    nextBtn.classList.toggle('disabled', currentPage === totalPages)
+  }
+
+  // Update page numbers
+  if (paginationNumbers) {
+    paginationNumbers.innerHTML = ""
+    
+    // Simple pagination for better UX
+    if (totalPages <= 7) {
+      // Show all pages if 7 or fewer
+      for (let i = 1; i <= totalPages; i++) {
+        createPageButton(i, paginationNumbers)
+      }
     } else {
-      artworkCount.textContent = `${count} of ${totalCount}`;
+      // Show smart pagination with ellipsis
+      createSmartPagination(paginationNumbers)
     }
   }
 }
 
-// Debounce function to limit how often a function is called
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
+// Create a page button
+function createPageButton(pageNum, container) {
+  const button = document.createElement("button")
+  button.className = `pagination-number ${pageNum === currentPage ? "active" : ""}`
+  button.textContent = pageNum
+  button.onclick = () => goToPage(pageNum)
+  container.appendChild(button)
+}
+
+// Create smart pagination with ellipsis
+function createSmartPagination(container) {
+  const delta = 2 // Number of pages to show around current page
+
+  // Always show first page
+  createPageButton(1, container)
+
+  // Show ellipsis if needed
+  if (currentPage > delta + 2) {
+    const ellipsis = document.createElement("span")
+    ellipsis.className = "pagination-dots"
+    ellipsis.textContent = "..."
+    container.appendChild(ellipsis)
+  }
+
+  // Show pages around current page
+  const start = Math.max(2, currentPage - delta)
+  const end = Math.min(totalPages - 1, currentPage + delta)
+
+  for (let i = start; i <= end; i++) {
+    createPageButton(i, container)
+  }
+
+  // Show ellipsis if needed
+  if (currentPage < totalPages - delta - 1) {
+    const ellipsis = document.createElement("span")
+    ellipsis.className = "pagination-dots"
+    ellipsis.textContent = "..."
+    container.appendChild(ellipsis)
+  }
+
+  // Always show last page (if not already shown)
+  if (totalPages > 1) {
+    createPageButton(totalPages, container)
+  }
+}
+
+// Navigation functions
+function previousPage() {
+  if (currentPage > 1) {
+    currentPage--
+    renderCurrentPage()
+    updatePaginationDisplay()
+  }
+}
+
+function nextPage() {
+  if (currentPage < totalPages) {
+    currentPage++
+    renderCurrentPage()
+    updatePaginationDisplay()
+  }
+}
+
+function goToPage(page) {
+  if (page >= 1 && page <= totalPages && page !== currentPage) {
+    currentPage = page
+    renderCurrentPage()
+    updatePaginationDisplay()
+  }
 }
 
 // Clear all filters
 function clearAllFilters() {
-  if (searchInput) {
-    searchInput.value = '';
+  if (searchInput) searchInput.value = ""
+  if (categoryFilter) categoryFilter.value = "all"
+  if (sortByFilter) sortByFilter.value = "featured"
+  if (minPriceInput) minPriceInput.value = ""
+  if (maxPriceInput) maxPriceInput.value = ""
+
+  // Reset to show all artworks
+  filteredArtworks = [...allArtworks]
+  currentPage = 1
+  
+  calculateTotalPages()
+  renderCurrentPage()
+  updatePaginationDisplay()
+}
+
+// Utility functions
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+function debounce(func, wait) {
+  let timeout
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout)
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
   }
-  applyFilters();
 }
 
-
-// Apply filters to artwork grid
-function applyFilters() {
-  const artworks = document.querySelectorAll('.enhanced-artwork-card');
-  let visibleCount = 0;
-
-  artworks.forEach(artwork => {
-    let visible = true;
-
-    // Search filter
-    if (activeFilters.search) {
-      const title = artwork.querySelector('.enhanced-artwork-title').textContent.toLowerCase();
-      const artist = artwork.querySelector('.enhanced-artwork-artist').textContent.toLowerCase();
-      const category = artwork.dataset.category.toLowerCase();
-      const description = artwork.querySelector('.enhanced-artwork-description').textContent.toLowerCase();
-      
-      visible = title.includes(activeFilters.search) || 
-                artist.includes(activeFilters.search) || 
-                category.includes(activeFilters.search) ||
-                description.includes(activeFilters.search);
-    }
-
-    // Category filter
-    if (visible && activeFilters.category !== 'all') {
-      visible = artwork.dataset.category === activeFilters.category;
-    }
-
-    // Price filter
-    const price = parseInt(artwork.dataset.price);
-    if (activeFilters.minPrice && price < parseInt(activeFilters.minPrice)) {
-      visible = false;
-    }
-    if (activeFilters.maxPrice && price > parseInt(activeFilters.maxPrice)) {
-      visible = false;
-    }
-
-    artwork.style.display = visible ? '' : 'none';
-    if (visible) visibleCount++;
-  });
-
-  // Update artwork count
-  document.getElementById('artworkCount').textContent = visibleCount;
-
-  // Sort artworks
-  sortArtworks();
-}
 // Export functions for global access
-window.applyFilters = applyFilters;
-window.clearAllFilters = clearAllFilters;
-// Export functions for global access
-window.applyFilters = applyFilters;
-window.clearAllFilters = clearAllFilters;
-
-// Sort artworks based on current sort selection
-function sortArtworks() {
-  const artworksGrid = document.getElementById('artworksGrid');
-  const artworks = Array.from(artworksGrid.children);
-
-  artworks.sort((a, b) => {
-    switch (activeFilters.sort) {
-      case 'price-low':
-        return parseInt(a.dataset.price) - parseInt(b.dataset.price);
-      case 'price-high':
-        return parseInt(b.dataset.price) - parseInt(a.dataset.price);
-      case 'newest':
-        // You would need to add data-date attributes to implement this
-        return 0;
-      case 'artist':
-        const artistA = a.querySelector('.enhanced-artwork-artist').textContent;
-        const artistB = b.querySelector('.enhanced-artwork-artist').textContent;
-        return artistA.localeCompare(artistB);
-      default:
-        return 0;
-    }
-  });
-
-  // Re-append sorted artworks
-  artworks.forEach(artwork => {
-    artworksGrid.appendChild(artwork);
-  });
-}
+window.applyFilters = applyFilters
+window.clearAllFilters = clearAllFilters
+window.previousPage = previousPage
+window.nextPage = nextPage
+window.goToPage = goToPage

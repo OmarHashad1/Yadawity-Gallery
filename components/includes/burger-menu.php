@@ -58,22 +58,6 @@
     <section class="burger-actions-section">
       <h2 class="burger-section-title">Actions</h2>
       
-      <!-- Search - Same as navbar -->
-      <div class="burger-search-container">
-        <input type="search" 
-               placeholder="Search artists, artworks..." 
-               class="burger-search-input" 
-               id="burger-search-input"
-               aria-label="Search"
-               autocomplete="off"
-               spellcheck="false">
-        <button class="burger-search-btn" 
-                id="burger-search-btn" 
-                type="button"
-                aria-label="Search">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </button>
-      </div>
 
       <!-- Icon Links - Same as navbar -->
       <div class="burger-icon-links">

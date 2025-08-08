@@ -1,3 +1,122 @@
+/* Modern Responsive Search Bar Styles (from sessionsTherapy) */
+.main-search {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  min-width: 220px;
+  margin: 0 auto 2.5rem auto;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.search-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 1.25rem 4rem 1.25rem 1.5rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 24px 0 0 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s, background 0.2s;
+  color: var(--text-primary);
+  font-weight: 500;
+  outline: none;
+  flex: 1 1 0%;
+  height: 3.5rem;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.search-input:focus,
+.search-input:hover {
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.search-btn {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: var(--primary-light);
+  border: none;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 0 24px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.search-btn:hover {
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  transform: translateY(-50%) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.search-btn i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.search-btn:hover i {
+  transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+  .main-search, .search-wrapper {
+    max-width: 98vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-search {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 0 2vw;
+    margin: 0 auto 1.5rem auto;
+  }
+  .search-wrapper {
+    width: 100%;
+    max-width: 98vw;
+  }
+  .search-input {
+    font-size: 1rem;
+    padding: 1rem 2.7rem 1rem 1rem;
+    border-radius: 24px 0 0 24px;
+    min-width: 0;
+    height: 2.7rem;
+  }
+  .search-btn {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 0 24px 24px 0;
+    right: 0.1rem;
+    font-size: 1rem;
+  }
+}
 /* Make all card text (except button) match the doctor text color */
 .course-card, .course-card *:not(.enroll-btn):not(.book-btn) {
   color: var(--text-muted) !important;
@@ -562,7 +681,8 @@ body::before {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 400px; /* Set a minimum height for consistency */
+  min-height: 400px; 
+  max-width: 400px;/* Set a minimum height for consistency */
 }
 
 .course-card:hover {
