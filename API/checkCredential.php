@@ -1,9 +1,182 @@
 <?php
+// Only set headers if this file is being accessed directly as an API endpoint
+if (basename($_SERVER['PHP_SELF']) === 'checkCredential.php') {
+    header('Content-Type: application/json');
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type');
 
+    // Handle preflight OPTIONS request
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        http_response_code(200);
+        exit();
+    }
+}
 
+include_once 'db.php';
+
+/**
+ * Function to check if user is authenticated based on session cookie
+ * Returns user information if authenticated, false otherwise
+ */
+function checkUserAuthentication() {
+    global $db;
+    
+    // Check if user_login cookie exists (this is what the login system actually sets)
+    if (!isset($_COOKIE['user_login'])) {
+        return false;
+    }
+    
+    $cookie_value = $_COOKIE['user_login'];
+    
+    // Extract user_id from cookie (format: user_id_hash)
+    $cookie_parts = explode('_', $cookie_value, 2);
+    if (count($cookie_parts) !== 2) {
+        return false;
+    }
+    
+    $user_id = (int)$cookie_parts[0];
+    $cookie_hash = $cookie_parts[1];
+    
+    // Get the most recent active session for this user
+    $query = "SELECT 
+                s.session_id,
+                s.user_id, 
+                s.login_time,
+                s.expires_at,
+                u.user_type,
+                u.first_name,
+                u.last_name,
+                u.email
+              FROM user_login_sessions s 
+              JOIN users u ON s.user_id = u.user_id 
+              WHERE s.user_id = ? 
+              AND s.is_active = 1 
+              AND s.expires_at > NOW()
+              AND u.is_active = 1
+              ORDER BY s.login_time DESC
+              LIMIT 1";
+    
+    $stmt = $db->prepare($query);
+    if (!$stmt) {
+        return false;
+    }
+    
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows === 1) {
+        $session_data = $result->fetch_assoc();
+        
+        // Verify the cookie hash matches what we expect
+        $expected_hash = hash('sha256', $session_data['email'] . $session_data['login_time'] . 'yadawity_salt');
+        
+        if ($cookie_hash === $expected_hash) {
+            // Additional token validation - check if session_id token is valid
+            $token_query = "SELECT session_id FROM user_login_sessions 
+                           WHERE session_id = ? AND user_id = ? AND is_active = 1 AND expires_at > NOW()";
+            $token_stmt = $db->prepare($token_query);
+            
+            if ($token_stmt) {
+                $token_stmt->bind_param("si", $session_data['session_id'], $user_id);
+                $token_stmt->execute();
+                $token_result = $token_stmt->get_result();
+                
+                if ($token_result->num_rows === 1) {
+                    $token_stmt->close();
+                    $stmt->close();
+                    return $session_data;
+                }
+                $token_stmt->close();
+            }
+        }
+    }
+    
+    $stmt->close();
+    return false;
+}
+
+// Handle the authentication check endpoint ONLY when called directly
+if (basename($_SERVER['PHP_SELF']) === 'checkCredential.php' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    try {
+        $auth_result = checkUserAuthentication();
+        
+        if ($auth_result) {
+            // User is authenticated
+            echo json_encode([
+                'success' => true,
+                'authenticated' => true,
+                'user_id' => (int)$auth_result['user_id'],
+                'user_type' => $auth_result['user_type'],
+                'email' => $auth_result['email']
+            ]);
+        } else {
+            // User is not authenticated
+            // Check if this is an AJAX request
+            $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+                      strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+            
+            // Check for fetch API request (common in modern JS)
+            $is_fetch = isset($_SERVER['HTTP_ACCEPT']) && 
+                       strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
+            
+            if ($is_ajax || $is_fetch || isset($_GET['json'])) {
+                // Return JSON response for AJAX/API calls
+                http_response_code(401);
+                echo json_encode([
+                    'success' => false,
+                    'authenticated' => false,
+                    'message' => 'User not authenticated or session expired',
+                    'redirect' => '../login.php'
+                ]);
+            } else {
+                // Redirect for direct browser access
+                $current_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+                $redirect_url = '../login.php';
+                
+                // Add current URL as redirect parameter if available
+                if (!empty($current_url) && !strpos($current_url, 'login.php')) {
+                    $redirect_url .= '?redirect=' . urlencode($current_url);
+                }
+                
+                header('Location: ' . $redirect_url);
+                exit();
+            }
+        }
+    } catch (Exception $e) {
+        // Check if this is an AJAX request for error handling too
+        $is_ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+                  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+        $is_fetch = isset($_SERVER['HTTP_ACCEPT']) && 
+                   strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
+        
+        if ($is_ajax || $is_fetch || isset($_GET['json'])) {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'authenticated' => false,
+                'error' => 'Authentication check failed',
+                'message' => $e->getMessage(),
+                'redirect' => '../login.php'
+            ]);
+        } else {
+            // Redirect to login with error for direct browser access
+            header('Location: ../login.php?error=auth_failed');
+            exit();
+        }
+    }
+} elseif (basename($_SERVER['PHP_SELF']) === 'checkCredential.php') {
+    // Method not allowed - only when called directly as API endpoint
+    http_response_code(405);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Method not allowed'
+    ]);
+}
 
 /*
--- Artwork Marketplace Database Schema
+DATABASE SCHEMA REFERENCE:
 
 -- Users table (combined with artist information)
 CREATE TABLE users (
@@ -27,187 +200,6 @@ education TEXT NULL,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Course table
-CREATE TABLE courses (
-course_id INT AUTO_INCREMENT PRIMARY KEY,
-title VARCHAR(255) NOT NULL,
-rate DECIMAL(3,2) DEFAULT 0.00 COMMENT 'Course rating out of 5',
-artist_id INT NOT NULL,
-duration_date INT NOT NULL COMMENT 'Duration in months',
-description TEXT,
-requirement TEXT,
-difficulty ENUM('beginner', 'intermediate', 'advanced') NOT NULL,
-course_type ENUM('online', 'offline', 'hybrid') NOT NULL,
-price DECIMAL(10,2) NOT NULL,
-thumbnail VARCHAR(500),
-is_published TINYINT(1) DEFAULT 0,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (artist_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Course enrollment table
-CREATE TABLE course_enrollments (
-id INT AUTO_INCREMENT PRIMARY KEY,
-course_id INT NOT NULL,
-user_id INT NOT NULL,
-is_payed TINYINT(1) DEFAULT 0,
-is_active TINYINT(1) DEFAULT 1,
-enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE,
-FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-UNIQUE KEY unique_enrollment (course_id, user_id)
-);
-
-CREATE TABLE galleries (
-    gallery_id INT AUTO_INCREMENT PRIMARY KEY,
-    artist_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    gallery_type ENUM('virtual', 'physical') NOT NULL,
-    
-    -- Virtual gallery fields
-    price DECIMAL(10,2) NULL,              -- Price for virtual access
-    
-    -- Physical gallery fields  
-    address TEXT NULL,
-    city VARCHAR(100) NULL,
-    phone VARCHAR(20) NULL,
-    
-    start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    duration INT NOT NULL, --in minutes               
-    is_active TINYINT(1) DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Artwork table
-CREATE TABLE artworks (
-artwork_id INT AUTO_INCREMENT PRIMARY KEY,
-artist_id INT NOT NULL,
-title VARCHAR(255) NOT NULL,
-description TEXT,
-price DECIMAL(10,2) NOT NULL,
-dimensions VARCHAR(100),
-year YEAR,
-material VARCHAR(255),
-artwork_image VARCHAR(500),
-type ENUM('painting', 'sculpture', 'photography', 'digital', 'mixed_media', 'other') NOT NULL,
-is_available TINYINT(1) DEFAULT 1,
-on_auction TINYINT(1) DEFAULT 0,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (artist_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Update gallery_items to reference artworks
-ALTER TABLE gallery_items
-ADD FOREIGN KEY (artwork_id) REFERENCES artworks(artwork_id) ON DELETE CASCADE;
-
--- Orders table
-CREATE TABLE orders (
-id INT AUTO_INCREMENT PRIMARY KEY,
-buyer_id INT NOT NULL,
-total_amount DECIMAL(10,2) NOT NULL,
-status ENUM('pending', 'paid', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
-shipping_address TEXT,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (buyer_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Order items table
-CREATE TABLE order_items (
-id INT AUTO_INCREMENT PRIMARY KEY,
-order_id INT NOT NULL,
-artwork_id INT NOT NULL,
-price DECIMAL(10,2) NOT NULL,
-quantity INT DEFAULT 1,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-FOREIGN KEY (artwork_id) REFERENCES artworks(artwork_id) ON DELETE CASCADE
-);
-
--- Artist reviews table
-CREATE TABLE artist_reviews (
-id INT AUTO_INCREMENT PRIMARY KEY,
-user_id INT NOT NULL,
-artist_id INT NOT NULL,
-artwork_id INT,
-rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-feedback TEXT,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-FOREIGN KEY (artist_id) REFERENCES users(user_id) ON DELETE CASCADE,
-FOREIGN KEY (artwork_id) REFERENCES artworks(artwork_id) ON DELETE SET NULL
-);
-
--- Subscribers table (for artist subscription plans)
-CREATE TABLE subscribers (
-id INT AUTO_INCREMENT PRIMARY KEY,
-artist_id INT NOT NULL,
-plan ENUM('basic', 'premium', 'pro') NOT NULL,
-duration INT NOT NULL COMMENT 'Duration in months',
-start_date DATE NOT NULL,
-end_date DATE NOT NULL,
-is_active TINYINT(1) DEFAULT 1,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (artist_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Exam table
-CREATE TABLE exams (
-exam_id INT AUTO_INCREMENT PRIMARY KEY,
-user_id INT NOT NULL,
-need_doctor TINYINT(1) DEFAULT 0,
-draw_img VARCHAR(500),
-exam_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
-results TEXT,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Sessions table (for user sessions, course sessions, or gallery sessions)
-CREATE TABLE sessions (
-session_id INT AUTO_INCREMENT PRIMARY KEY,
-user_id INT NOT NULL,
-session_type ENUM('user_login', 'course', 'gallery_visit', 'exam') NOT NULL,
-reference_id INT COMMENT 'ID of course, gallery, or exam depending on session_type',
-start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-end_time TIMESTAMP NULL,
-duration INT COMMENT 'Session duration in minutes',
-ip_address VARCHAR(45),
-user_agent TEXT,
-is_active TINYINT(1) DEFAULT 1,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Auction table
-CREATE TABLE auctions (
-id INT AUTO_INCREMENT PRIMARY KEY,
-product_id INT NOT NULL,
-artist_id INT NOT NULL,
-starting_bid DECIMAL(10,2) NOT NULL,
-current_bid DECIMAL(10,2) DEFAULT 0.00,
-start_time DATETIME NOT NULL,
-end_time DATETIME NOT NULL,
-status ENUM('active', 'ended', 'cancelled') DEFAULT 'active',
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (product_id) REFERENCES artworks(artwork_id) ON DELETE CASCADE,
-FOREIGN KEY (artist_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Auction bids table (to track all bids placed on auctions)
-CREATE TABLE auction_bids (
-id INT AUTO_INCREMENT PRIMARY KEY,
-auction_id INT NOT NULL,
-user_id INT NOT NULL,
-bid_amount DECIMAL(10,2) NOT NULL,
-bid_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-is_winning_bid TINYINT(1) DEFAULT 0,
-FOREIGN KEY (auction_id) REFERENCES auctions(id) ON DELETE CASCADE,
-FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
 CREATE TABLE user_login_sessions (
 session_id VARCHAR(128) PRIMARY KEY, -- Unique session token
 user_id INT NOT NULL, -- Reference to logged-in user
@@ -219,164 +211,6 @@ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE cart (
-id INT AUTO_INCREMENT PRIMARY KEY,
-user_id INT NOT NULL, -- Links to the user
-artwork_id INT NOT NULL, -- Links to the artwork
-quantity INT DEFAULT 1, -- Quantity (usually 1 for unique artworks)
-added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When added to cart
-is_active TINYINT(1) DEFAULT 1, -- Active/inactive status
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-FOREIGN KEY (artwork_id) REFERENCES artworks(artwork_id) ON DELETE CASCADE,
-UNIQUE KEY unique_cart_item (user_id, artwork_id) -- Prevents duplicates
-);
+-- [Rest of schema tables...]
 */
-
-session_start();
-
-// Database connection
-$db = new mysqli('localhost', 'Rawy', 'Ra2006wy116', 'yadawity');
-
-if($db->connect_error){
-    die("Connection Failed: " . $db->connect_error);
-}
-
-// Function to redirect
-function redirectTo($location) {
-    header("Location: " . $location);
-    exit();
-}
-
-// Function to send JSON response
-function sendResponse($success, $message, $data = null, $redirect = null) {
-    $response = array(
-        'success' => $success,
-        'message' => $message
-    );
-    
-    if ($data !== null) {
-        $response['data'] = $data;
-    }
-    
-    if ($redirect !== null) {
-        $response['redirect'] = $redirect;
-    }
-    
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    exit();
-}
-
-// Check if user_login cookie exists (instead of user_id)
-if (!isset($_COOKIE['user_login']) || empty($_COOKIE['user_login'])) {
-    // No cookie found, redirect to login
-    if (isset($_GET['format']) && $_GET['format'] === 'json') {
-        sendResponse(false, "No authentication cookie found", null, "../login.php");
-    } else {
-        redirectTo("../login.php");
-    }
-}
-
-$session_token = $_COOKIE['user_login'];
-
-// Validate session token format (should be a long string)
-if (strlen($session_token) < 10) {
-    // Invalid cookie format, redirect to login
-    if (isset($_GET['format']) && $_GET['format'] === 'json') {
-        sendResponse(false, "Invalid authentication cookie", null, "../login.php");
-    } else {
-        redirectTo("../login.php");
-    }
-}
-
-try {
-    // First, get user_id from the session token in user_login_sessions table
-    $sessionQuery = "SELECT session_id, user_id, login_time, expires_at 
-                     FROM user_login_sessions 
-                     WHERE session_id = ? AND is_active = 1 AND expires_at > NOW()
-                     ORDER BY login_time DESC 
-                     LIMIT 1";
-    
-    $sessionStmt = $db->prepare($sessionQuery);
-    $sessionStmt->bind_param("s", $session_token);
-    $sessionStmt->execute();
-    $sessionResult = $sessionStmt->get_result();
-    
-    if ($sessionResult->num_rows === 0) {
-        // No active session found, redirect to login
-        if (isset($_GET['format']) && $_GET['format'] === 'json') {
-            sendResponse(false, "No active session found. Please login again.", null, "../login.php");
-        } else {
-            redirectTo("../login.php");
-        }
-    }
-    
-    $session = $sessionResult->fetch_assoc();
-    $user_id = $session['user_id'];
-    
-    // Now check if user exists and is active
-    $userQuery = "SELECT user_id, first_name, last_name, email, user_type, is_active FROM users WHERE user_id = ? AND is_active = 1";
-    $userStmt = $db->prepare($userQuery);
-    $userStmt->bind_param("i", $user_id);
-    $userStmt->execute();
-    $userResult = $userStmt->get_result();
-    
-    if ($userResult->num_rows === 0) {
-        // User not found or inactive, redirect to login
-        if (isset($_GET['format']) && $_GET['format'] === 'json') {
-            sendResponse(false, "User not found or account inactive", null, "../login.php");
-        } else {
-            redirectTo("../login.php");
-        }
-    }
-    
-    $user = $userResult->fetch_assoc();
-    
-    // If we reach here, user is authenticated and has valid session
-    $userData = array(
-        'user_id' => $user['user_id'],
-        'name' => $user['first_name'] . ' ' . $user['last_name'],
-        'email' => $user['email'],
-        'user_type' => $user['user_type'],
-        'session_id' => $session['session_id']
-    );
-    
-    // Set session variables for the user
-    $_SESSION['user_id'] = $user['user_id'];
-    $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
-    $_SESSION['user_email'] = $user['email'];
-    $_SESSION['user_type'] = $user['user_type'];
-    
-    // Only redirect if explicitly requested via URL parameter
-    if (isset($_GET['redirect']) && $_GET['redirect'] === 'true') {
-        redirectTo("../index.php");
-    }
-    
-    // Always return JSON response (no redirect by default)
-    header('Content-Type: application/json');
-    echo json_encode([
-        'success' => true,
-        'message' => 'User authenticated successfully',
-        'user_id' => $user['user_id'],
-        'user_name' => $user['first_name'] . ' ' . $user['last_name'],
-        'user_type' => $user['user_type'],
-        'email' => $user['email'],
-        'session_id' => $session['session_id']
-    ]);
-    exit();
-    
-} catch (Exception $e) {
-    // Database error occurred
-    if (isset($_GET['format']) && $_GET['format'] === 'json') {
-        sendResponse(false, "Database error occurred", null, "../login.php");
-    } else {
-        redirectTo("../login.php");
-    }
-} finally {
-    // Close database connection
-    if (isset($userStmt)) $userStmt->close();
-    if (isset($sessionStmt)) $sessionStmt->close();
-    $db->close();
-}
 ?>

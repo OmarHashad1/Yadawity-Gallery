@@ -3,7 +3,6 @@ require_once "db.php";
 
 function checkUserAuthentication($db) {
     try {
-        // Start session safely if not already started
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -486,7 +485,7 @@ try {
         throw new Exception("Database connection failed: " . ($db->connect_error ?? "Connection not established"));
     }
 
-    // Start session safely if not already started
+    // Start session
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -560,9 +559,8 @@ try {
     <title>Join Yadawity Gallery - Create Your Account</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="../components/Navbar/navbar.css?v=<?php echo time(); ?>" />
-    <link rel="stylesheet" href="../components/BurgerMenu/burger-menu.css?v=<?php echo time(); ?>" />
-    <link rel="stylesheet" href="../public/homePage.css?v=<?php echo time(); ?>" />
+    <link rel="stylesheet" href="../components/BurgerMenu/burger-menu.css" />
+    <link rel="stylesheet" href="../public/homePage.css" />
     <style>
         * {
             margin: 0;
@@ -580,20 +578,10 @@ try {
             backdrop-filter: blur(5px);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            padding: 0px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             position: relative;
-        }
-
-        /* Fix navbar logo image path for subdirectory */
-        .logo-image {
-            content: url('../image/Logo.png') !important;
-        }
-
-        /* Remove any extra margins/padding from navbar */
-        .navbar {
-            margin: 0 !important;
-            padding: 0 !important;
         }
 
         /* Overlay for better readability */
@@ -612,10 +600,6 @@ try {
             background: linear-gradient(180deg, #faf8f5 0%, #f2ede6 100%);
             border-radius: 8px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            margin: 100px auto 20px;
-            max-width: 600px;
-            flex: 1;
-            align-self: center;
             padding: 40px;
             width: 100%;
             max-width: 500px;
@@ -623,6 +607,8 @@ try {
             animation: slideIn 0.5s ease-out;
             position: relative;
             z-index: 1;
+            margin-top: 100px; /* Account for fixed navbar */
+            margin-bottom: 20px;
         }
 
         @keyframes slideIn {
@@ -1592,31 +1578,83 @@ try {
                 display: none !important;
             }
         }
-
-        footer {
-            margin-top: auto;
-            margin-bottom: 0 !important;
-            padding-bottom: 0 !important;
-        }
-
-        /* Ensure proper footer display */
-        .footer {
-            margin-top: auto;
-            width: 100%;
-        }
-
-        /* Ensure body has proper layout */
-        body {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
     </style>
 </head>
 <body>
-    <?php include '../components/includes/navbar.php'; ?>
-    <?php include '../components/includes/burger-menu.php'; ?>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbarYadawity" id="yadawityNavbar">
+        <div class="navContainer">
+            <div class="navLogo">
+                <a href="../index.php" class="navLogoLink">
+                    <div class="logoIcon">
+                        <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 50 Q15 30 25 25 Q35 20 45 35 Q40 45 35 50 Q40 55 45 65 Q35 80 25 75 Q15 70 20 50 Z" fill="currentColor" opacity="0.8"/>
+                            <path d="M80 50 Q85 30 75 25 Q65 20 55 35 Q60 45 65 50 Q60 55 55 65 Q65 80 75 75 Q85 70 80 50 Z" fill="currentColor" opacity="0.8"/>
+                            <line x1="50" y1="20" x2="50" y2="80" stroke="currentColor" stroke-width="3"/>
+                            <path d="M50 20 Q45 15 42 12 M50 20 Q55 15 58 12" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="logoText">
+                        <span class="logoName">Yadawity</span>
+                        <span class="logoEst">EST. 2025</span>
+                    </div>
+                </a>
+            </div>
 
-    <div class="signup-container" style="margin: 100px 20px 20px;">
+            <div class="navMenu" id="navMenu">
+                <a href="../index.php" class="navLink" data-page="home">HOME</a>
+                <a href="../gallery.html" class="navLink" data-page="gallery">GALLERY</a>
+                <a href="../courses.html" class="navLink" data-page="courses">COURSES</a>
+                <a href="../artwork.html" class="navLink" data-page="atelier">ARTWORKS</a>
+                <a href="../auction.html" class="navLink" data-page="auction">AUCTION HOUSE</a>
+                <a href="../art therapy.html" class="navLink therapyNav" data-page="therapy">THERAPY</a>
+
+                <div class="navActions">
+                    <div class="searchContainer">
+                        <input type="text" placeholder="Search artists, artworks..." class="searchInput" id="navbarSearch" />
+                        <button class="searchBtn" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <a href="../wishlist.html" class="navIconLink" title="Wishlist" id="wishlistLink">
+                        <i class="fas fa-heart"></i>
+                        <span class="wishlistCount" id="wishlistCount" style="display: none">0</span>
+                    </a>
+
+                    <a href="../cart.html" class="navIconLink cartLink" title="Cart" id="cartLink">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cartCount" id="cartCount">0</span>
+                    </a>
+
+                    <div class="userDropdown">
+                        <a href="#" class="navIconLink" title="Account" id="userAccount">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <div class="userDropdownMenu" id="userMenu">
+                            <a href="../profile.html" class="dropdownItem">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                            <div class="dropdownDivider"></div>
+                            <a href="../login.php" class="dropdownItem">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navToggle" id="navToggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="signup-container">
         <div class="logo-section">
             <div class="logo">
                 <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -1671,26 +1709,26 @@ try {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="first_name">First Name *</label>
-                        <input type="text" name="first_name" id="first_name" required 
+                        <input type="text" name="first_name" id="first_name" required autocomplete="given-name"
                                value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name *</label>
-                        <input type="text" name="last_name" id="last_name" required 
+                        <input type="text" name="last_name" id="last_name" required autocomplete="family-name"
                                value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address *</label>
-                    <input type="email" name="email" id="email" required 
+                    <input type="email" name="email" id="email" required autocomplete="email"
                            placeholder="johndoe@example.com"
                            value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone Number *</label>
-                    <input type="tel" name="phone" id="phone" required 
+                    <input type="tel" name="phone" id="phone" required autocomplete="tel"
                            placeholder="+1 (555) 123-4567"
                            value="<?php echo htmlspecialchars($_POST['phone'] ?? ''); ?>">
                 </div>
@@ -1698,11 +1736,11 @@ try {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="password">Password *</label>
-                        <input type="password" name="password" id="password" required minlength="8">
+                        <input type="password" name="password" id="password" required minlength="8" autocomplete="new-password">
                     </div>
                     <div class="form-group">
                         <label for="confirm_password">Confirm Password *</label>
-                        <input type="password" name="confirm_password" id="confirm_password" required minlength="8">
+                        <input type="password" name="confirm_password" id="confirm_password" required minlength="8" autocomplete="new-password">
                     </div>
                 </div>
 
@@ -1864,9 +1902,8 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- JSEncrypt for RSA encryption -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
-    <script src="../components/Navbar/navbar.js"></script>
-    <script src="../components/BurgerMenu/burger-menu.js"></script>
     <script src="../app.js"></script>
+    <script src="../components/BurgerMenu/burger-menu.js"></script>
     
     <?php
     // Generate RSA key pair for this session
@@ -1949,9 +1986,6 @@ try {
             if (RSA_PUBLIC_KEY) {
                 encrypt = new JSEncrypt();
                 encrypt.setPublicKey(RSA_PUBLIC_KEY);
-                console.log('RSA encryption initialized successfully');
-            } else {
-                console.warn('RSA public key not available');
             }
             
             const signupForm = document.getElementById('signupForm');
@@ -2030,8 +2064,6 @@ try {
                     // FORCE RSA ENCRYPTION - SAME AS LOGIN.PHP
                     try {
                         if (RSA_PUBLIC_KEY && encrypt) {
-                            console.log('Attempting RSA encryption...');
-                            
                             // Use RSA encryption for all sensitive fields
                             const encryptedEmail = encrypt.encrypt(email);
                             const encryptedPassword = encrypt.encrypt(password);
@@ -2040,19 +2072,8 @@ try {
                             const encryptedLastName = encrypt.encrypt(lastName);
                             const encryptedPhone = encrypt.encrypt(phone);
                             
-                            console.log('RSA encryption results:', {
-                                email: !!encryptedEmail,
-                                password: !!encryptedPassword,
-                                confirmPassword: !!encryptedConfirmPassword,
-                                firstName: !!encryptedFirstName,
-                                lastName: !!encryptedLastName,
-                                phone: !!encryptedPhone
-                            });
-                            
                             if (encryptedEmail && encryptedPassword && encryptedConfirmPassword && 
                                 encryptedFirstName && encryptedLastName && encryptedPhone) {
-                                console.log('RSA encryption successful for all fields, adding encrypted fields');
-                                
                                 // Add all encrypted fields
                                 const emailField = document.createElement('input');
                                 emailField.type = 'hidden';
@@ -2097,24 +2118,19 @@ try {
                                     csrfField.name = 'csrf_token';
                                     csrfField.value = CSRF_TOKEN;
                                     submitForm.appendChild(csrfField);
-                                    console.log('CSRF token added');
                                 }
 
                                 // Submit the secure form
-                                console.log('Submitting form with RSA encryption for all sensitive fields');
                                 document.body.appendChild(submitForm);
                                 submitForm.submit();
                                 return;
                             } else {
-                                console.error('RSA encryption failed for one or more fields');
                                 throw new Error('RSA encryption failed');
                             }
                         } else {
-                            console.error('RSA not available:', { publicKey: !!RSA_PUBLIC_KEY, encrypt: !!encrypt });
                             throw new Error('RSA not available');
                         }
                     } catch (error) {
-                        console.error('Encryption failed:', error);
                         
                         Swal.fire({
                             icon: 'error',
@@ -2155,8 +2171,6 @@ try {
             <?php endif; ?>
         });
     </script>
-
-    <?php include '../components/includes/footer.php'; ?>
 </body>
 </html>
 
