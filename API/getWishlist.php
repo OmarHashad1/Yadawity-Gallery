@@ -120,6 +120,7 @@ function authenticateUser($db) {
 
 // Function to get wishlist items
 function getWishlistItems($db, $user_id) {
+    // Also left join artwork_photos to obtain a primary photo filename when available.
     $sql = "SELECT 
                 w.id as wishlist_id,
                 w.price_alert,
@@ -132,6 +133,7 @@ function getWishlistItems($db, $user_id) {
                 a.year,
                 a.material,
                 a.artwork_image,
+                ap.image_path as artwork_photo_filename,
                 a.type,
                 a.is_available,
                 a.on_auction,
@@ -142,6 +144,7 @@ function getWishlistItems($db, $user_id) {
             FROM wishlists w
             INNER JOIN artworks a ON w.artwork_id = a.artwork_id
             INNER JOIN users u ON a.artist_id = u.user_id
+            LEFT JOIN artwork_photos ap ON a.artwork_id = ap.artwork_id AND (ap.is_primary = 1 OR ap.is_primary IS NULL)
             WHERE w.user_id = ? AND w.is_active = 1
             ORDER BY w.created_at DESC";
 
@@ -158,6 +161,16 @@ function getWishlistItems($db, $user_id) {
     $wishlist_items = [];
     
     while ($row = $result->fetch_assoc()) {
+        // compute a usable artwork image URL; prefer artwork_photos filename, fallback to artworks.artwork_image
+        $image_url = null;
+        if (!empty($row['artwork_photo_filename'])) {
+            $image_url = './uploads/artworks/' . $row['artwork_photo_filename'];
+        } else if (!empty($row['artwork_image'])) {
+            $image_url = './uploads/artworks/' . $row['artwork_image'];
+        } else {
+            $image_url = null;
+        }
+
         $wishlist_items[] = [
             'wishlist_id' => (int)$row['wishlist_id'],
             'price_alert' => $row['price_alert'] ? (float)$row['price_alert'] : null,
@@ -171,6 +184,8 @@ function getWishlistItems($db, $user_id) {
                 'year' => $row['year'],
                 'material' => $row['material'],
                 'artwork_image' => $row['artwork_image'],
+                'artwork_image_url' => $image_url,
+                'artwork_photo_filename' => $row['artwork_photo_filename'],
                 'type' => $row['type'],
                 'is_available' => (bool)$row['is_available'],
                 'on_auction' => (bool)$row['on_auction']

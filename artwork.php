@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -70,7 +71,7 @@
         font-family: 'Playfair Display', serif;
         font-size: 1.5rem;
         margin: 0;
-        color: #2c3e50;
+        color: #6a5424ff;
     }
     
     .message-content p {
@@ -190,12 +191,12 @@
     }
 
     .search-wrapper:hover {
-        border-color: #d4af37;
+        border-color: #8b7355;
         box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
     }
 
     .search-wrapper:focus-within {
-        border-color: #d4af37;
+        border-color:#8b7355;
         box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
     }
 
@@ -248,20 +249,7 @@
     }
     
     /* Active Filters Styles */
-    .active-filters-section {
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background: #f8f9fa;
-        border-radius: 8px;
-        border: 1px solid #e9ecef;
-    }
-    
-    .active-filters-header h4 {
-        margin: 0 0 0.75rem 0;
-        font-size: 1rem;
-        color: #495057;
-        font-weight: 600;
-    }
+   
     
     .active-filters-container {
         display: flex;
@@ -342,21 +330,20 @@
       <!-- Main Search Bar -->
       <div class="main-search">
         <div class="search-wrapper">
-          <input 
-            type="text"
-            class="search-input"
-            id="searchInput"
-            placeholder="Search artworks by name, artist, or style..."
-            autocomplete="off"
-          >
-          <button class="search-btn" onclick="applyFilters()">
-            <i class="fas fa-search"></i>
-          </button>
+            <input 
+                type="text"
+                class="search-input"
+                id="searchInput"
+                placeholder="Search artworks by name, artist, or style..."
+                autocomplete="off"
+            >
+            <button class="search-btn" onclick="applyFilters()">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
-      </div>
     </div>
 
-    <!-- Filter Section -->
+    <!-- Enhanced Filters Container (matches auction page) -->
     <div class="filters-container">
         <div class="filters-header">
             <h3>Filter Artworks</h3>
@@ -364,7 +351,6 @@
                 <i class="fas fa-times"></i> Clear All
             </button>
         </div>
-
         <div class="filters-grid">
             <div class="filter-group">
                 <label class="filter-label">
@@ -373,34 +359,25 @@
                 </label>
                 <select class="filter-select" id="categoryFilter">
                     <option value="all">All Categories</option>
-                    <option value="portraits">Portraits</option>
-                    <option value="landscapes">Landscapes</option>
-                    <option value="abstract">Abstract</option>
-                    <option value="photography">Photography</option>
-                    <option value="mixed-media">Mixed Media</option>
+                    <!-- Options will be populated dynamically by JS if needed -->
                 </select>
             </div>
-
             <div class="filter-group">
                 <label class="filter-label">
-                    <i class="fas fa-sort"></i>
-                    Sort By
+                    <i class="fas fa-user"></i>
+                    Artist
                 </label>
-                <select class="filter-select" id="sortBy">
-                    <option value="featured">Featured</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="newest">Newest</option>
-                    <option value="artist">Artist Name</option>
+                <select class="filter-select" id="artistFilter">
+                    <option value="all">All Artists</option>
+                    <!-- Options will be populated dynamically by JS -->
                 </select>
             </div>
-
             <div class="filter-group">
                 <label class="filter-label">
                     <i class="fas fa-dollar-sign"></i>
                     Price Range
                 </label>
-                <div class="price-range-container">
+                <div class="price-range">
                     <div class="price-input-wrapper">
                         <span class="currency-symbol">$</span>
                         <input type="number" id="minPrice" class="filter-input price-input" placeholder="Min" min="0">
@@ -413,14 +390,12 @@
                 </div>
             </div>
         </div>
-
         <div class="filters-actions">
             <button class="apply-filters-btn" onclick="applyFilters()">
                 <i class="fas fa-filter"></i>
                 Apply Filters
             </button>
         </div>
-
         <!-- Active Filters Display -->
         <div class="active-filters-section" id="activeFiltersSection" style="display: none;">
             <div class="active-filters-header">

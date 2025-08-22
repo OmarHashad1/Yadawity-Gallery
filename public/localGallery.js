@@ -1,167 +1,92 @@
-// Sample galleries data
-const galleries = [
-  {
-    id: 1,
-    title: "Contemporary Art Gallery Cairo",
-    artist: "Mohamed",
-    location: "Cairo",
-    date: "today",
-    timeRange: "morning",
-    rating: 4.8,
-    image: "./image/slide1.jpg",
-    description: "Experience cutting-edge contemporary art in the heart of Cairo",
-    openHours: "9:00 AM - 12:00 PM",
-    capacity: 50,
-    available: true
-  },
-  {
-    id: 2,
-    title: "Watercolor Dreams Gallery",
-    artist: "Ahmed",
-    location: "Alexandria",
-    date: "tomorrow",
-    timeRange: "afternoon",
-    rating: 4.6,
-    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
-    description: "Traditional watercolor masterpieces by local artists",
-    openHours: "12:00 PM - 5:00 PM",
-    capacity: 30,
-    available: true
-  },
-  {
-    id: 3,
-    title: "Digital Art Showcase",
-    artist: "Essraa",
-    location: "Giza",
-    date: "this-week",
-    timeRange: "evening",
-    rating: 4.9,
-    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
-    description: "Innovative digital artworks and interactive installations",
-    openHours: "5:00 PM - 8:00 PM",
-    capacity: 40,
-    available: true
-  },
-  {
-    id: 4,
-    title: "Portrait Gallery",
-    artist: "Noor",
-    location: "Luxor",
-    date: "next-week",
-    timeRange: "morning",
-    rating: 4.7,
-    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
-    description: "Stunning portrait collection from emerging artists",
-    openHours: "9:00 AM - 12:00 PM",
-    capacity: 25,
-    available: true
-  },
-  {
-    id: 5,
-    title: "Sculpture Garden",
-    artist: "Samaa",
-    location: "Aswan",
-    date: "this-weekend",
-    timeRange: "business-hours",
-    rating: 4.5,
-    image: "./image/darker_image.webp",
-    description: "Beautiful outdoor sculpture exhibition",
-    openHours: "9:00 AM - 5:00 PM",
-    capacity: 60,
-    available: true
-  },
-  {
-    id: 6,
-    title: "Photography Studio",
-    artist: "Mariem",
-    location: "Sharm El Sheikh",
-    date: "next-weekend",
-    timeRange: "extended-hours",
-    rating: 4.9,
-    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
-    description: "Contemporary photography exhibition and workspace",
-    openHours: "9:00 AM - 9:00 PM",
-    capacity: 35,
-    available: true
-  },
-  {
-    id: 7,
-    title: "Mixed Media Workshop",
-    artist: "Soha",
-    location: "Hurghada",
-    date: "this-month",
-    timeRange: "afternoon",
-    rating: 4.4,
-    image: "./image/Artist-PainterLookingAtCamera.webp",
-    description: "Hands-on mixed media art experience",
-    openHours: "12:00 PM - 5:00 PM",
-    capacity: 20,
-    available: true
-  },
-  {
-    id: 8,
-    title: "Street Art Gallery",
-    artist: "Essam",
-    location: "Port Said",
-    date: "next-month",
-    timeRange: "evening",
-    rating: 4.6,
-    image: "./image/artist-sitting-on-the-floor.jpg",
-    description: "Urban art and street culture exhibition",
-    openHours: "5:00 PM - 8:00 PM",
-    capacity: 45,
-    available: true
-  },
-  {
-    id: 9,
-    title: "Art Nouveau Collection",
-    artist: "Mazen",
-    location: "Suez",
-    date: "today",
-    timeRange: "night",
-    rating: 4.7,
-    image: "./image/photo.jpeg",
-    description: "Classic Art Nouveau pieces and modern interpretations",
-    openHours: "8:00 PM - 11:00 PM",
-    capacity: 30,
-    available: true
-  },
-  {
-    id: 10,
-    title: "Local Artists Collective",
-    artist: "Noraa",
-    location: "Mansoura",
-    date: "tomorrow",
-    timeRange: "early-morning",
-    rating: 4.5,
-    image: "./image/Team image.jpeg",
-    description: "Showcasing the best of local artistic talent",
-    openHours: "6:00 AM - 9:00 AM",
-    capacity: 55,
-    available: true
-  },
-  {
-    id: 11,
-    title: "International Art Space",
-    artist: "Nermmen",
-    location: "Tanta",
-    date: "this-week",
-    timeRange: "late-night",
-    rating: 4.8,
-    image: "./image/images.jpeg",
-    description: "Global artists showcase with diverse cultural perspectives",
-    openHours: "11:00 PM - 2:00 AM",
-    capacity: 40,
-    available: true
-  }
-]
-
+// Live galleries loaded from API. Keep an empty array as default/fallback.
+let galleries = []
 // Global variables
-let filteredGalleries = [...galleries]
+let filteredGalleries = []
 let activeFilters = {}
 let currentPage = 1
-let galleriesPerPage = 6 // Show 6 galleries per page instead of all 12
+let galleriesPerPage = 6 // Show 6 galleries per page
 let totalPages = 1
+
+// API endpoint for local galleries
+const LOCAL_GALLERY_API = './API/getAllLocalGallery.php'
+
+// Fetch galleries from backend and normalize shape for the UI
+async function fetchGalleriesFromAPI() {
+  try {
+    const res = await fetch(LOCAL_GALLERY_API, { cache: 'no-cache' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const payload = await res.json()
+    if (!payload || !payload.success || !Array.isArray(payload.data)) {
+      console.warn('Unexpected API response', payload)
+      return []
+    }
+
+    // Normalize each gallery to the shape expected by renderGalleries
+    const normalized = payload.data.map(normalizeGalleryFromAPI)
+    return normalized
+  } catch (err) {
+    console.error('Failed to load galleries from API', err)
+    return []
+  }
+}
+
+function normalizeGalleryFromAPI(item) {
+  // item contains fields like gallery_id, title, description, city, address, start_date, duration, is_currently_active, time_remaining_minutes, artist{...}
+  const id = item.gallery_id || item.galleryId || null
+  const artistName = item.artist && item.artist.name ? item.artist.name : ((item.artist && item.artist.first_name) ? `${item.artist.first_name} ${item.artist.last_name || ''}`.trim() : 'Unknown Artist')
+  const city = item.city || item.address || ''
+  const startDate = item.start_date || null
+  const duration = Number.isFinite(Number(item.duration)) ? Number(item.duration) : null
+
+  // derive end time and openHours display
+  let openHours = ''
+  if (startDate && duration) {
+    try {
+      const start = new Date(startDate)
+      const end = new Date(start.getTime() + duration * 60000)
+      openHours = `${start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+    } catch (e) {
+      openHours = ''
+    }
+  }
+
+  // compute a coarse timeRange label from start hour
+  let timeRange = ''
+  if (startDate) {
+    const h = new Date(startDate).getHours()
+    if (h >= 6 && h < 12) timeRange = 'morning'
+    else if (h >= 12 && h < 17) timeRange = 'afternoon'
+    else if (h >= 17 && h < 21) timeRange = 'evening'
+    else timeRange = 'night'
+  }
+
+  const rawPic = (item.artist && item.artist.profile_picture) ? item.artist.profile_picture : null
+  let image = './image/placeholder-artwork.jpg'
+  if (rawPic) {
+    // If the picture is already a URL or absolute path, use it, otherwise prefix with uploads folder
+    if (/^https?:\/\//i.test(rawPic) || rawPic.startsWith('/') || rawPic.startsWith('./')) {
+      image = rawPic
+    } else {
+      image = `./uploads/${rawPic}`
+    }
+  }
+
+  return {
+    id,
+    title: item.title || 'Untitled Gallery',
+    artist: artistName,
+    location: city,
+    date: startDate || '',
+    timeRange: timeRange,
+    rating: item.rating || 0,
+    image: image,
+    description: item.description || '',
+    openHours: openHours,
+    capacity: item.capacity || null,
+    available: !!item.is_currently_active,
+    raw: item // keep original payload for anything else
+  }
+}
 
 // DOM elements
 const searchInput = document.getElementById("searchInput")
@@ -176,14 +101,56 @@ const courseCount = document.getElementById("courseCount")
 const noResults = document.getElementById("noResults")
 
 // Initialize the page
-document.addEventListener("DOMContentLoaded", () => {
-  filteredGalleries = [...galleries]
-  totalPages = Math.ceil(galleries.length / galleriesPerPage)
-  renderGalleries(galleries)
-  updatePaginationControls()
+document.addEventListener("DOMContentLoaded", async () => {
   setupEventListeners()
   setupNavigation()
+
+  // Load galleries from API and initialize UI
+  galleries = await fetchGalleriesFromAPI()
+  filteredGalleries = [...galleries]
+  // Populate filter selects from loaded galleries so filters match card data
+  populateFiltersFromGalleries(galleries)
+  totalPages = Math.ceil(filteredGalleries.length / galleriesPerPage)
+  renderGalleries(filteredGalleries)
+  updatePaginationControls()
 })
+
+// Populate filter dropdowns (artist/location) from gallery data
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
+function populateFiltersFromGalleries(galleriesArr) {
+  if (!Array.isArray(galleriesArr)) return
+
+  const artistSelect = document.getElementById('categoryFilter')
+  const locationSelect = document.getElementById('difficultyFilter')
+
+  // Collect unique artists and locations
+  const artists = Array.from(new Set(galleriesArr.map(g => g.artist).filter(Boolean))).sort((a,b) => a.localeCompare(b))
+  const locations = Array.from(new Set(galleriesArr.map(g => g.location).filter(Boolean))).sort((a,b) => a.localeCompare(b))
+
+  if (artistSelect) {
+    let html = '<option value="">All Artists</option>'
+    artists.forEach(a => {
+      html += `<option value="${escapeHtml(a)}">${escapeHtml(a)}</option>`
+    })
+    artistSelect.innerHTML = html
+  }
+
+  if (locationSelect) {
+    let html = '<option value="">All Locations</option>'
+    locations.forEach(l => {
+      html += `<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`
+    })
+    locationSelect.innerHTML = html
+  }
+}
 
 // Setup event listeners
 function setupEventListeners() {
@@ -367,8 +334,10 @@ function removeFilter(filterKey) {
       durationFilter.value = ""
       break
     case "price":
-      minPriceInput.value = ""
-      maxPriceInput.value = ""
+      const _minEl = document.getElementById('minPriceInput')
+      const _maxEl = document.getElementById('maxPriceInput')
+      if (_minEl) _minEl.value = ''
+      if (_maxEl) _maxEl.value = ''
       break
   }
   applyFilters()
@@ -380,8 +349,10 @@ function clearAllFilters() {
   categoryFilter.value = ""
   difficultyFilter.value = ""
   durationFilter.value = ""
-  minPriceInput.value = ""
-  maxPriceInput.value = ""
+  const _minEl = document.getElementById('minPriceInput')
+  const _maxEl = document.getElementById('maxPriceInput')
+  if (_minEl) _minEl.value = ''
+  if (_maxEl) _maxEl.value = ''
 
   activeFilters = {}
   filteredGalleries = [...galleries]
@@ -391,6 +362,9 @@ function clearAllFilters() {
   renderGalleries(galleries)
   updateSearchResults()
   updatePaginationControls()
+
+  // Re-populate filters from full gallery list
+  populateFiltersFromGalleries(galleries)
 
   coursesGrid.style.display = "grid"
   noResults.style.display = "none"
@@ -521,15 +495,11 @@ function openQuickView(galleryId) {
             <span><i class="fas fa-map-marker-alt"></i> ${gallery.location}</span>
             <span><i class="fas fa-clock"></i> ${gallery.openHours}</span>
             <span><i class="fas fa-calendar"></i> ${formatDateDisplay(gallery.date)}</span>
-            <span><i class="fas fa-users"></i> ${gallery.capacity} capacity</span>
+            <span><i class="fas fa-users"></i> ${gallery.capacity || 'N/A'} capacity</span>
             <span><i class="fas fa-star"></i> ${gallery.rating}</span>
           </div>
-          <div class="price-info">
-            <span class="price">$${course.price}</span>
-            ${course.originalPrice ? `<span class="original-price">$${course.originalPrice}</span>` : ''}
-          </div>
-          <button class="enroll-btn" onclick="enrollCourse(${course.id})">
-            <i class="fas fa-graduation-cap"></i> Enroll Now
+          <button class="enroll-btn" onclick="bookGallery(${gallery.id})">
+            <i class="fas fa-calendar-check"></i> Book Visit
           </button>
         </div>
         <button class="close-modal"><i class="fas fa-times"></i></button>
@@ -570,10 +540,13 @@ function updateSearchResults() {
 
 // Update gallery count
 function updateGalleryCount(count) {
+  const courseCountEl = document.getElementById('courseCount')
+  if (!courseCountEl) return
+
   if (count === galleries.length) {
-    courseCount.textContent = `Showing all ${count} galleries`
+    courseCountEl.textContent = `Showing all ${count} galleries`
   } else {
-    courseCount.textContent = `Showing ${count} of ${galleries.length} galleries`
+    courseCountEl.textContent = `Showing ${count} of ${galleries.length} galleries`
   }
 }
 
@@ -708,12 +681,15 @@ function updateGalleryCountWithPagination() {
   const startGallery = (currentPage - 1) * galleriesPerPage + 1
   const endGallery = Math.min(currentPage * galleriesPerPage, filteredGalleries.length)
   
+  const courseCountEl = document.getElementById('courseCount')
+  if (!courseCountEl) return
+
   if (filteredGalleries.length === 0) {
-    courseCount.textContent = "No galleries found"
+    courseCountEl.textContent = "No galleries found"
   } else if (filteredGalleries.length <= galleriesPerPage) {
-    courseCount.textContent = `Showing ${filteredGalleries.length} galler${filteredGalleries.length === 1 ? 'y' : 'ies'}`
+    courseCountEl.textContent = `Showing ${filteredGalleries.length} galler${filteredGalleries.length === 1 ? 'y' : 'ies'}`
   } else {
-    courseCount.textContent = `Showing ${startGallery}-${endGallery} of ${filteredGalleries.length} galleries`
+    courseCountEl.textContent = `Showing ${startGallery}-${endGallery} of ${filteredGalleries.length} galleries`
   }
 }
 

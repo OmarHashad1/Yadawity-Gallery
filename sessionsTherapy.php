@@ -1,19 +1,4 @@
--- Order items with artist_id 17
-INSERT INTO order_items (order_id, artwork_id, artwork_title, artist_id, price, quantity, subtotal) VALUES
--- Order 9 items (artist_id 17)
-(9, 201, 'Vibrant Dreams', 17, 24500.00, 2, 49000.00),
-(9, 202, 'Urban Reflections', 17, 40500.00, 1, 40500.00),
-
--- Order 10 items (artist_id 17)
-(10, 203, 'Cultural Heritage', 17, 32500.00, 2, 65000.00),
-
--- Order 11 items (artist_id 17)
-(11, 204, 'Modern Expressions', 17, 23900.00, 2, 47800.00),
-
--- Mixed orders with some artist_id 17 items
-(1, 205, 'Abstract Journey', 17, 18900.00, 1, 18900.00),
-(3, 206, 'Colorful Visions', 17, 29700.00, 1, 29700.00),
-(5, 207, 'Contemporary Flow', 17, 21500.00, 2, 43000.00);<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

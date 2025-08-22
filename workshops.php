@@ -190,6 +190,9 @@
             <!-- Course cards will be dynamically added here -->
         </div>
 
+    <!-- Course count (used by workshops.js) -->
+    <div class="course-count" id="courseCount" style="color: #fff; margin-top: 1rem;"></div>
+
         <!-- Pagination Section -->
         <section class="pagination-section">
             <div class="pagination-container">
@@ -228,5 +231,6 @@
     <script src="./components/Navbar/navbar.js"></script>
     <script src="./components/BurgerMenu/burger-menu.js"></script>
     <script src="./public/workshops.js"></script>
+        <!-- test script removed -->
 </body>
 </html>

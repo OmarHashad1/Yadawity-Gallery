@@ -7,6 +7,7 @@ const artworkCount = document.getElementById('artworkCount');
 let artworkActiveFilters = {
   search: '',
   category: 'all',
+  artist_id: 'all',
   sort: 'featured',
   minPrice: '',
   maxPrice: ''
@@ -21,23 +22,58 @@ const itemsPerPage = 9;
 
 // Initialize filters and setup when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // Populate category filter with backend-compatible options
+  const categoryFilter = document.getElementById('categoryFilter');
+  if (categoryFilter) {
+    const categories = [
+      { value: 'all', label: 'All Categories' },
+      { value: 'portraits', label: 'Portraits' },
+      { value: 'landscapes', label: 'Landscapes' },
+      { value: 'abstract', label: 'Abstract' },
+      { value: 'photography', label: 'Photography' },
+      { value: 'mixed-media', label: 'Mixed Media' }
+    ];
+    categoryFilter.innerHTML = categories.map(cat => `<option value="${cat.value}">${cat.label}</option>`).join('');
+  }
   setupArtworkEventListeners();
-  
   // Suppress image loading errors globally
   window.addEventListener('error', function(e) {
     if (e.target && e.target.tagName === 'IMG') {
-      // This is an image loading error, suppress it
       e.preventDefault();
       e.stopPropagation();
       return false;
     }
   }, true);
-  
+  // Attach Apply Filters button event (by class)
+  const applyFiltersBtns = document.getElementsByClassName('apply-filters-btn');
+  Array.from(applyFiltersBtns).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      applyFilters();
+    });
+  });
+  // Attach Clear All button event (by class)
+  const clearAllBtns = document.getElementsByClassName('clear-filters-btn');
+  Array.from(clearAllBtns).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      clearAllFilters();
+    });
+  });
   loadArtworks(1);
 });
 
 // Setup event listeners when DOM is loaded
 function setupArtworkEventListeners() {
+  // Artist filter
+  const artistFilter = document.getElementById('artistFilter');
+  if (artistFilter) {
+    artistFilter.addEventListener('change', (e) => {
+      artworkActiveFilters.artist_id = e.target.value;
+      updateArtworkActiveFilters();
+      applyFilters();
+    });
+  }
   // Search input event listener
   if (artworkSearchInput) {
     artworkSearchInput.addEventListener('input', debounce(() => {
@@ -93,6 +129,22 @@ function setupArtworkEventListeners() {
 
 // Update active filters display
 function updateArtworkActiveFilters() {
+  // Artist filter tag
+  if (artworkActiveFilters.artist_id && artworkActiveFilters.artist_id !== 'all') {
+    const artistFilter = document.getElementById('artistFilter');
+    let artistName = 'Artist';
+    if (artistFilter) {
+      const selected = artistFilter.options[artistFilter.selectedIndex];
+      artistName = selected ? selected.text : 'Artist';
+    }
+    addFilterTag('Artist', artistName, () => {
+      artworkActiveFilters.artist_id = 'all';
+      if (artistFilter) artistFilter.value = 'all';
+      updateArtworkActiveFilters();
+      applyFilters();
+    });
+    hasActiveFilters = true;
+  }
   const activeFiltersContainer = document.getElementById('activeFilters');
   const activeFiltersSection = document.getElementById('activeFiltersSection');
   
@@ -176,11 +228,21 @@ function addFilterTag(type, value, removeCallback) {
 
 // Apply filters function - Updated to work with API
 function applyFilters() {
-  if (!artworkSearchInput) return;
-  
-  // Update search term in activeFilters
-  artworkActiveFilters.search = artworkSearchInput.value.trim();
-  
+  // Update filter state from DOM
+  if (artworkSearchInput) artworkActiveFilters.search = artworkSearchInput.value.trim();
+  const categoryFilter = document.getElementById('categoryFilter');
+  if (categoryFilter) {
+    // Map frontend value to backend value if needed
+    artworkActiveFilters.category = categoryFilter.value;
+  }
+  const artistFilter = document.getElementById('artistFilter');
+  if (artistFilter) artworkActiveFilters.artist_id = artistFilter.value;
+  const minPriceFilter = document.getElementById('minPrice');
+  if (minPriceFilter) artworkActiveFilters.minPrice = minPriceFilter.value;
+  const maxPriceFilter = document.getElementById('maxPrice');
+  if (maxPriceFilter) artworkActiveFilters.maxPrice = maxPriceFilter.value;
+  const sortByFilter = document.getElementById('sortBy');
+  if (sortByFilter) artworkActiveFilters.sort = sortByFilter.value;
   // Load artworks with current filters
   loadArtworks(1); // Reset to page 1 when applying filters
 }
@@ -308,19 +370,18 @@ function loadArtworks(page = 1) {
     if (artworkActiveFilters.search) {
       params.append('search', artworkActiveFilters.search);
     }
-    
     if (artworkActiveFilters.category && artworkActiveFilters.category !== 'all') {
       params.append('category', artworkActiveFilters.category);
     }
-    
+    if (artworkActiveFilters.artist_id && artworkActiveFilters.artist_id !== 'all') {
+      params.append('artist_id', artworkActiveFilters.artist_id);
+    }
     if (artworkActiveFilters.sort && artworkActiveFilters.sort !== 'featured') {
       params.append('sort_by', artworkActiveFilters.sort);
     }
-    
     if (artworkActiveFilters.minPrice) {
       params.append('min_price', artworkActiveFilters.minPrice);
     }
-    
     if (artworkActiveFilters.maxPrice) {
       params.append('max_price', artworkActiveFilters.maxPrice);
     }
@@ -360,17 +421,48 @@ function loadArtworks(page = 1) {
 
 // Render artworks to the grid
 function renderArtworks(artworks) {
+  // Only populate artist dropdown once, on first load
+  if (!renderArtworks.artistDropdownPopulated) {
+    const artistFilter = document.getElementById('artistFilter');
+    if (artistFilter) {
+      fetch('./API/getAllArtworks.php?limit=10000')
+        .then(res => res.json())
+        .then(data => {
+          // Deduplicate by artist_id and display_name
+          const seen = new Set();
+          const uniqueArtists = [];
+          if (data && data.data) {
+            data.data.forEach(a => {
+              if (a.artist && a.artist.artist_id && a.artist.display_name) {
+                const key = a.artist.artist_id + '|' + a.artist.display_name;
+                if (!seen.has(key)) {
+                  seen.add(key);
+                  uniqueArtists.push({ id: a.artist.artist_id, name: a.artist.display_name });
+                }
+              }
+            });
+          }
+          const options = ['<option value="all">All Artists</option>'];
+          uniqueArtists.forEach(artist => {
+            options.push(`<option value="${artist.id}">${artist.name}</option>`);
+          });
+          artistFilter.innerHTML = options.join('');
+          // Set the dropdown to the current filter value
+          if (artistFilter.value !== artworkActiveFilters.artist_id) {
+            artistFilter.value = artworkActiveFilters.artist_id;
+          }
+        });
+    }
+    renderArtworks.artistDropdownPopulated = true;
+  }
   const artworksGrid = document.getElementById('artworksGrid');
   const loadingMessage = document.getElementById('loadingMessage');
-  
   // Clear existing content
   artworksGrid.innerHTML = '';
-  
   artworks.forEach(artwork => {
     const card = createArtworkCard(artwork);
     artworksGrid.appendChild(card);
   });
-  
   // Re-add loading message for future use
   if (loadingMessage) {
     artworksGrid.appendChild(loadingMessage);
@@ -385,25 +477,23 @@ function createArtworkCard(artwork) {
   card.setAttribute('data-category', artwork.type);
   card.setAttribute('data-price', artwork.price);
   
-  // Only show image if artwork has image_src and it's not missing
+  // Only show image if artwork has image_src
   let imageElement = '';
   
-  if (artwork.image_src && !artwork.image_missing) {
+  if (artwork.image_src) {
     imageElement = `
       <img src="${escapeHtml(artwork.image_src)}" 
            alt="${escapeHtml(artwork.title)}" 
            class="enhanced-artwork-image" 
            loading="lazy" 
-           onerror="this.src='/image/placeholder-artwork.jpg'"
            data-artwork-id="${artwork.artwork_id}">
     `;
   } else {
     imageElement = `
-      <img src="/image/placeholder-artwork.jpg" 
-           alt="${escapeHtml(artwork.title)}" 
-           class="enhanced-artwork-image" 
-           loading="lazy" 
-           data-artwork-id="${artwork.artwork_id}">
+      <div class="no-image-available">
+        <i class="fas fa-image no-image-icon"></i>
+        <div class="no-image-text">No image available</div>
+      </div>
     `;
   }
   

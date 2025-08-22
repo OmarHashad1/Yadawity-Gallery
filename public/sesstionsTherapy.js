@@ -1,179 +1,67 @@
-// Sample galleries data
-const galleries = [
-  {
-    id: 1,
-    title: "Contemporary Art Gallery Cairo",
-    artist: "Dr. Ahmed Hassan",
-    category: "Cognitive Art Therapy",
-    location: "Cairo",
-    street: "Tahrir Street",
-    date: "2025-07-30",
-    time: "09:00",
-    price: 100,
-    rating: 4.8,
-    image: "./image/slide1.jpg",
-    description: "Experience cutting-edge contemporary art in the heart of Cairo",
-    openHours: "9:00 AM - 12:00 PM",
-    capacity: 50,
-    available: true
-  },
-  {
-    id: 2,
-    title: "Watercolor Dreams Gallery",
-    artist: "Dr. Sara Youssef",
-    category: "Dialectical Behavior Therapy (DBT) with Art",
-    location: "Alexandria",
-    street: "El Merghany Street",
-    date: "2025-07-31",
-    time: "11:00",
-    price: 120,
-    rating: 4.6,
-    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
-    description: "Traditional watercolor masterpieces by local artists",
-    openHours: "12:00 PM - 5:00 PM",
-    capacity: 30,
-    available: true
-  },
-  {
-    id: 3,
-    title: "Digital Art Showcase",
-    artist: "Dr. Mona Khaled",
-    category: "Trauma-Informed Art Therapy",
-    location: "Giza",
-    street: "El Haram Street",
-    date: "2025-08-01",
-    time: "12:30",
-    price: 150,
-    rating: 4.9,
-    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
-    description: "Innovative digital artworks and interactive installations",
-    openHours: "5:00 PM - 8:00 PM",
-    capacity: 40,
-    available: true
-  },
-  {
-    id: 4,
-    title: "Portrait Gallery",
-    artist: "Dr. Tarek Nabil",
-    category: "Behavioral Art Therapy",
-    location: "Mansoura",
-    street: "Port Said Street",
-    date: "2025-08-02",
-    time: "09:00",
-    price: 90,
-    rating: 4.7,
-    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
-    description: "Stunning portrait collection from emerging artists",
-    openHours: "9:00 AM - 12:00 PM",
-    capacity: 25,
-    available: true
-  },
-  {
-    id: 5,
-    title: "Sculpture Garden",
-    artist: "Samaa",
-    location: "Aswan",
-    date: "this-weekend",
-    timeRange: "business-hours",
-    rating: 4.5,
-    image: "./image/darker_image.webp",
-    description: "Beautiful outdoor sculpture exhibition",
-    openHours: "9:00 AM - 5:00 PM",
-    capacity: 60,
-    available: true
-  },
-  {
-    id: 6,
-    title: "Photography Studio",
-    artist: "Mariem",
-    location: "Sharm El Sheikh",
-    date: "next-weekend",
-    timeRange: "extended-hours",
-    rating: 4.9,
-    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
-    description: "Contemporary photography exhibition and workspace",
-    openHours: "9:00 AM - 9:00 PM",
-    capacity: 35,
-    available: true
-  },
-  {
-    id: 7,
-    title: "Mixed Media Workshop",
-    artist: "Soha",
-    location: "Hurghada",
-    date: "this-month",
-    timeRange: "afternoon",
-    rating: 4.4,
-    image: "./image/Artist-PainterLookingAtCamera.webp",
-    description: "Hands-on mixed media art experience",
-    openHours: "12:00 PM - 5:00 PM",
-    capacity: 20,
-    available: true
-  },
-  {
-    id: 8,
-    title: "Street Art Gallery",
-    artist: "Essam",
-    location: "Port Said",
-    date: "next-month",
-    timeRange: "evening",
-    rating: 4.6,
-    image: "./image/artist-sitting-on-the-floor.jpg",
-    description: "Urban art and street culture exhibition",
-    openHours: "5:00 PM - 8:00 PM",
-    capacity: 45,
-    available: true
-  },
-  {
-    id: 9,
-    title: "Art Nouveau Collection",
-    artist: "Mazen",
-    location: "Suez",
-    date: "today",
-    timeRange: "night",
-    rating: 4.7,
-    image: "./image/photo.jpeg",
-    description: "Classic Art Nouveau pieces and modern interpretations",
-    openHours: "8:00 PM - 11:00 PM",
-    capacity: 30,
-    available: true
-  },
-  {
-    id: 10,
-    title: "Local Artists Collective",
-    artist: "Noraa",
-    location: "Mansoura",
-    date: "tomorrow",
-    timeRange: "early-morning",
-    rating: 4.5,
-    image: "./image/Team image.jpeg",
-    description: "Showcasing the best of local artistic talent",
-    openHours: "6:00 AM - 9:00 AM",
-    capacity: 55,
-    available: true
-  },
-  {
-    id: 11,
-    title: "International Art Space",
-    artist: "Nermmen",
-    location: "Tanta",
-    date: "this-week",
-    timeRange: "late-night",
-    rating: 4.8,
-    image: "./image/images.jpeg",
-    description: "Global artists showcase with diverse cultural perspectives",
-    openHours: "11:00 PM - 2:00 AM",
-    capacity: 40,
-    available: true
-  }
-]
+// Fetch sessions from API and use as galleries data
+let galleries = [];
+let filteredGalleries = [];
+let activeFilters = {};
+let currentPage = 1;
+let galleriesPerPage = 6; // Show 6 galleries per page
+let totalPages = 1;
 
-// Global variables
-let filteredGalleries = [...galleries]
-let activeFilters = {}
-let currentPage = 1
-let galleriesPerPage = 6 // Show 6 galleries per page instead of all 12
-let totalPages = 1
+// Fetch data from API on page load
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("/API/getSessions.php")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success && Array.isArray(data.data)) {
+        galleries = data.data.map((session) => ({
+          id: session.id || session.session_id || session.ID || Math.random(),
+          title: session.title || session.session_title || "Session",
+          artist: session.artist_name || session.doctor || session.artist || "Unknown",
+          category: session.category || "",
+          location: session.city || session.location || "",
+          street: session.street || "",
+          date: session.date || session.session_date || "",
+          time: session.time || session.session_time || "",
+          price: session.price || 0,
+          rating: session.rating || 4.5,
+          image: session.image || "./image/slide1.jpg",
+          description: session.description || "",
+          openHours: session.openHours || "",
+          capacity: session.capacity || 0,
+          available: session.available !== undefined ? session.available : true
+        }));
+        filteredGalleries = [...galleries];
+        totalPages = Math.ceil(galleries.length / galleriesPerPage);
+
+        // Dynamically populate filter dropdowns
+        populateFilterDropdown(doctorFilter, galleries.map(g => g.artist), 'All Doctors');
+        populateFilterDropdown(categoryFilter, galleries.map(g => g.category), 'All Categories');
+        populateFilterDropdown(cityFilter, galleries.map(g => g.location), 'All Cities');
+        populateFilterDropdown(streetFilter, galleries.map(g => g.street), 'All Streets');
+
+        renderGalleries(galleries);
+        updatePaginationControls();
+        setupEventListeners();
+        setupNavigation();
+      } else {
+        galleries = [];
+        filteredGalleries = [];
+        renderGalleries([]);
+      }
+    })
+    .catch((err) => {
+      galleries = [];
+      filteredGalleries = [];
+      renderGalleries([]);
+    });
+// Helper to populate filter dropdowns with unique values
+function populateFilterDropdown(selectElement, values, allLabel) {
+  if (!selectElement) return;
+  const unique = Array.from(new Set(values.filter(v => v && v.trim() !== '')));
+  selectElement.innerHTML = `<option value="">${allLabel}</option>` +
+    unique.map(v => `<option value="${v}">${v}</option>`).join('');
+}
+});
+
 
 // DOM elements
 const searchInput = document.getElementById("searchInput")

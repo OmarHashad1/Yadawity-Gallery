@@ -1,181 +1,76 @@
-// Sample courses data
-const courses = [
-  {
-    id: 1,
-    title: "Digital Painting Masterclass",
-    instructor: "Sarah Johnson",
-    category: "Digital Art",
-    difficulty: "intermediate",
-    duration: "12 weeks",
-    students: 1250,
-    rating: 4.8,
-    price: 149,
-    originalPrice: 199,
-    image: "./image/slide1.jpg",
-    description: "Master digital painting techniques from concept to completion",
-  },
-  {
-    id: 2,
-    title: "Traditional Watercolor Basics",
-    instructor: "Ahmed Hassan",
-    category: "Traditional Art",
-    difficulty: "beginner",
-    duration: "8 weeks",
-    students: 890,
-    rating: 4.6,
-    price: 89,
-    originalPrice: null,
-    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
-    description: "Learn the fundamentals of watercolor painting",
-  },
-  {
-    id: 3,
-    title: "Character Design for Games",
-    instructor: "Maria Rodriguez",
-    category: "Concept Art",
-    difficulty: "advanced",
-    duration: "16 weeks",
-    students: 567,
-    rating: 4.9,
-    price: 299,
-    originalPrice: 399,
-    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
-    description: "Create compelling characters for video games and animation",
-  },
-  {
-    id: 4,
-    title: "Portrait Drawing Fundamentals",
-    instructor: "David Chen",
-    category: "Drawing",
-    difficulty: "beginner",
-    duration: "10 weeks",
-    students: 1456,
-    rating: 4.7,
-    price: 119,
-    originalPrice: null,
-    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
-    description: "Master the art of realistic portrait drawing",
-  },
-  {
-    id: 5,
-    title: "3D Modeling with Blender",
-    instructor: "Alex Thompson",
-    category: "3D Art",
-    difficulty: "intermediate",
-    duration: "14 weeks",
-    students: 723,
-    rating: 4.5,
-    price: 199,
-    originalPrice: 249,
-    image: "./image/darker_image.webp",
-    description: "Learn professional 3D modeling techniques",
-  },
-  {
-    id: 6,
-    title: "Fine Art Oil Painting",
-    instructor: "Isabella Martinez",
-    category: "Fine Art",
-    difficulty: "advanced",
-    duration: "18 weeks",
-    students: 345,
-    rating: 4.9,
-    price: 349,
-    originalPrice: null,
-    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
-    description: "Classical oil painting techniques and methods",
-  },
-  {
-    id: 7,
-    title: "Ceramic Pottery Workshop",
-    instructor: "Michael Brown",
-    category: "Ceramics",
-    difficulty: "beginner",
-    duration: "6 weeks",
-    students: 234,
-    rating: 4.4,
-    price: 159,
-    originalPrice: 189,
-    image: "./image/Artist-PainterLookingAtCamera.webp",
-    description: "Hands-on pottery and ceramic techniques",
-  },
-  {
-    id: 8,
-    title: "Street Art & Murals",
-    instructor: "Carlos Rivera",
-    category: "Street Art",
-    difficulty: "intermediate",
-    duration: "8 weeks",
-    students: 456,
-    rating: 4.6,
-    price: 129,
-    originalPrice: null,
-    image: "./image/artist-sitting-on-the-floor.jpg",
-    description: "Urban art techniques and mural creation",
-  },
-  {
-    id: 9,
-    title: "Fashion Illustration",
-    instructor: "Sophie Laurent",
-    category: "Fashion Art",
-    difficulty: "intermediate",
-    duration: "10 weeks",
-    students: 678,
-    rating: 4.7,
-    price: 179,
-    originalPrice: 219,
-    image: "./image/photo.jpeg",
-    description: "Create stunning fashion illustrations and designs",
-  },
-  {
-    id: 10,
-    title: "Typography & Lettering",
-    instructor: "James Wilson",
-    category: "Typography",
-    difficulty: "beginner",
-    duration: "7 weeks",
-    students: 892,
-    rating: 4.5,
-    price: 99,
-    originalPrice: null,
-    image: "./image/Team image.jpeg",
-    description: "Master the art of beautiful lettering and typography",
-  },
-  {
-    id: 11,
-    title: "Photography Composition",
-    instructor: "Emma Davis",
-    category: "Photography",
-    difficulty: "beginner",
-    duration: "9 weeks",
-    students: 1123,
-    rating: 4.8,
-    price: 139,
-    originalPrice: 169,
-    image: "./image/unnamed.jpg",
-    description: "Learn professional photography composition techniques",
-  },
-  {
-    id: 12,
-    title: "Abstract Art Exploration",
-    instructor: "Robert Kim",
-    category: "Fine Art",
-    difficulty: "intermediate",
-    duration: "11 weeks",
-    students: 445,
-    rating: 4.6,
-    price: 189,
-    originalPrice: null,
-    image: "./image/_grj4724.jpg",
-    description: "Explore abstract art techniques and creative expression",
-  },
-]
+// Fetch courses from API
+let courses = [];
+let filteredCourses = [];
+let activeFilters = {};
+let currentPage = 1;
+let coursesPerPage = 6; // Show 6 courses per page
+let totalPages = 1;
+
+async function fetchCoursesFromAPI() {
+  try {
+    const response = await fetch('./API/getAllcourses.php');
+    const result = await response.json();
+    if (result.success && Array.isArray(result.data)) {
+      // Map API data to expected format for rendering
+      courses = result.data.map(course => ({
+        id: course.course_id,
+        title: course.title,
+        instructor: course.artist ? course.artist.full_name : 'Unknown',
+        category: course.course_type || '',
+        difficulty: course.difficulty || '',
+        duration: course.duration_date ? `${course.duration_date} weeks` : '',
+        students: course.enrollments ? course.enrollments.total : 0,
+        rating: course.rate || 0,
+        price: course.price || 0,
+        originalPrice: null, // You can update this if your API provides it
+        image: course.thumbnail_url ? course.thumbnail_url.replace('..', '.') : './image/placeholder.jpg',
+        description: course.description || '',
+      }));
+      filteredCourses = [...courses];
+      totalPages = Math.ceil(courses.length / coursesPerPage);
+      updateFilterDropdowns();
+      renderCourses(courses);
+      updatePaginationControls();
+    } else {
+      courses = [];
+      filteredCourses = [];
+      updateFilterDropdowns();
+      renderCourses([]);
+    }
+  } catch (error) {
+    console.error('Failed to fetch courses:', error);
+    courses = [];
+    filteredCourses = [];
+    updateFilterDropdowns();
+    renderCourses([]);
+  }
+}
+
+// Dynamically update filter dropdowns based on course data
+function updateFilterDropdowns() {
+  // Category
+  const categories = Array.from(new Set(courses.map(c => c.category).filter(Boolean)));
+  categoryFilter.innerHTML = '<option value="">All Categories</option>' +
+    categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+
+  // Difficulty
+  const difficulties = Array.from(new Set(courses.map(c => c.difficulty).filter(Boolean)));
+  difficultyFilter.innerHTML = '<option value="">All Levels</option>' +
+    difficulties.map(diff => `<option value="${diff}">${capitalize(diff)}</option>`).join('');
+
+  // Duration (show unique week values, e.g. 8 weeks, 12 weeks)
+  const durations = Array.from(new Set(courses.map(c => c.duration).filter(Boolean)));
+  durationFilter.innerHTML = '<option value="">Any Duration</option>' +
+    durations.map(dur => `<option value="${dur}">${dur}</option>`).join('');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+// ...existing code...
+// ...existing code...
 
 // Global variables
-let filteredCourses = [...courses]
-let activeFilters = {}
-let currentPage = 1
-let coursesPerPage = 6 // Show 6 courses per page instead of all 12
-let totalPages = 1
 
 // DOM elements
 const searchInput = document.getElementById("searchInput")
@@ -192,13 +87,10 @@ const noResults = document.getElementById("noResults")
 
 // Initialize the page
 document.addEventListener("DOMContentLoaded", () => {
-  filteredCourses = [...courses]
-  totalPages = Math.ceil(courses.length / coursesPerPage)
-  renderCourses(courses)
-  updatePaginationControls()
-  setupEventListeners()
-  setupNavigation()
-})
+  fetchCoursesFromAPI();
+  setupEventListeners();
+  setupNavigation();
+});
 
 // Setup event listeners
 function setupEventListeners() {

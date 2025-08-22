@@ -70,6 +70,7 @@
             </div>
 
             <div class="filters-grid">
+
                 <div class="filter-group">
                     <label class="filter-label">
                         <i class="fas fa-palette"></i>
@@ -97,6 +98,17 @@
                         <option value="live">Live Now</option>
                         <option value="upcoming">Upcoming</option>
                         <option value="ended">Ended</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">
+                        <i class="fas fa-user"></i>
+                        Artist
+                    </label>
+                    <select class="filter-select" id="artistFilter">
+                        <option value="all">All Artists</option>
+                        <!-- Options will be populated dynamically by JS -->
                     </select>
                 </div>
 

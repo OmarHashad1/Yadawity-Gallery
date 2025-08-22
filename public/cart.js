@@ -5,12 +5,114 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeCartPage() {
-    initializeCartActions();
-    initializeQuantityControls();
     initializePromoCode();
-    updateOrderSummary();
-    updateCartCount();
-    updateWishlistCount();
+    // Fetch cart from API and render items, then wire up actions and update summary
+    fetchCartFromAPI();
+}
+
+// Fetch cart data from server API and render
+function fetchCartFromAPI() {
+    const endpoint = '/API/getCart.php';
+
+    fetch(endpoint, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(json => {
+        if (!json || json.success !== true) {
+            console.warn('Cart API error:', json);
+            showEmptyCartState();
+            if (json && json.message) showNotification(json.message, 'error');
+            return;
+        }
+
+        const items = json.data && json.data.cart_items ? json.data.cart_items : [];
+        renderCartItems(items);
+        // Re-run handlers and summary after rendering
+        initializeCartActions();
+        initializeQuantityControls();
+        updateOrderSummary();
+        updateCartCount();
+        updateWishlistCount();
+    })
+    .catch(err => {
+        console.error('Failed to fetch cart:', err);
+        showEmptyCartState();
+        showNotification('Unable to load cart. Please try again later.', 'error');
+    });
+}
+
+// Render cart items into DOM
+function renderCartItems(items) {
+    const container = document.querySelector('.cartItems');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    if (!items || items.length === 0) {
+        showEmptyCartState();
+        return;
+    }
+
+    items.forEach(ci => {
+        const art = ci.artwork || {};
+        const artist = ci.artist || {};
+        const price = art.price ? Math.round(art.price) : 0;
+        const qty = ci.quantity ? parseInt(ci.quantity) : 1;
+
+        // Prefer API-provided artwork_image_url; otherwise build path from filename
+        let imgSrc = art.artwork_image_url || art.artwork_image || '';
+        if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('/') && !imgSrc.startsWith('./') && !imgSrc.startsWith('../')) {
+            imgSrc = './uploads/artworks/' + imgSrc;
+        }
+        if (!imgSrc) imgSrc = './image/placeholder-artwork.jpg';
+
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cartItem';
+        cartItem.dataset.price = price;
+        cartItem.dataset.id = ci.cart_id || '';
+
+        cartItem.innerHTML = `
+            <div class="itemImage">
+                <img src="${imgSrc}" alt="${escapeHtml(art.title || '')}" />
+            </div>
+            <div class="itemDetails">
+                <h3 class="itemTitle">${escapeHtml(art.title || '')}</h3>
+                <p class="itemArtist">by ${escapeHtml(artist.name || '')}</p>
+                <p class="itemSpecs">${escapeHtml(art.dimensions || '')}</p>
+                <div class="itemActions">
+                    <button class="saveForLaterBtn"><i class="fas fa-heart"></i> Save for Later</button>
+                    <button class="removeItemBtn"><i class="fas fa-trash"></i> Remove</button>
+                </div>
+            </div>
+            <div class="itemPricing">
+                <div class="quantity">
+                    <label>Qty:</label>
+                    <div class="quantityControls">
+                        <button class="qtyBtn minus">-</button>
+                        <input type="number" value="${qty}" min="1" max="10" class="qtyInput">
+                        <button class="qtyBtn plus">+</button>
+                    </div>
+                </div>
+                <div class="price">EGP ${price.toLocaleString()}</div>
+            </div>
+        `;
+
+        container.appendChild(cartItem);
+    });
+}
+
+// Simple HTML escaper used when inserting text into templates
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 // Cart Actions

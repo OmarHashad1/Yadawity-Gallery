@@ -1,205 +1,81 @@
-// Sample galleries data
-const galleries = [
-  {
-    id: 1,
-    title: "Contemporary Art Gallery Cairo",
-    artist: "Dr. Ahmed Hassan",
-    category: "Cognitive Art Therapy",
-    location: "Cairo",
-    street: "Tahrir Street",
-    date: "2025-07-30",
-    time: "09:00",
-    price: 100,
-    rating: 4.8,
-    image: "./image/slide1.jpg",
-    description: "Experience cutting-edge contemporary art in the heart of Cairo",
-    openHours: "9:00 AM - 12:00 PM",
-    capacity: 50,
-    available: true
-  },
-  {
-    id: 2,
-    title: "Watercolor Dreams Gallery",
-    artist: "Dr. Sara Youssef",
-    category: "Dialectical Behavior Therapy (DBT) with Art",
-    location: "Alexandria",
-    street: "El Merghany Street",
-    date: "2025-07-31",
-    time: "11:00",
-    price: 120,
-    rating: 4.6,
-    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
-    description: "Traditional watercolor masterpieces by local artists",
-    openHours: "12:00 PM - 5:00 PM",
-    capacity: 30,
-    available: true
-  },
-  {
-    id: 3,
-    title: "Digital Art Showcase",
-    artist: "Dr. Mona Khaled",
-    category: "Trauma-Informed Art Therapy",
-    location: "Giza",
-    street: "El Haram Street",
-    date: "2025-08-01",
-    time: "12:30",
-    price: 150,
-    rating: 4.9,
-    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
-    description: "Innovative digital artworks and interactive installations",
-    openHours: "5:00 PM - 8:00 PM",
-    capacity: 40,
-    available: true
-  },
-  {
-    id: 4,
-    title: "Portrait Gallery",
-    artist: "Dr. Tarek Nabil",
-    category: "Behavioral Art Therapy",
-    location: "Mansoura",
-    street: "Port Said Street",
-    date: "2025-08-02",
-    time: "09:00",
-    price: 90,
-    rating: 4.7,
-    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
-    description: "Stunning portrait collection from emerging artists",
-    openHours: "9:00 AM - 12:00 PM",
-    capacity: 25,
-    available: true
-  },
-  {
-    id: 5,
-    title: "Sculpture Garden",
-    artist: "Samaa",
-    location: "Aswan",
-    date: "this-weekend",
-    timeRange: "business-hours",
-    rating: 4.5,
-    image: "./image/darker_image.webp",
-    description: "Beautiful outdoor sculpture exhibition",
-    openHours: "9:00 AM - 5:00 PM",
-    capacity: 60,
-    available: true
-  },
-  {
-    id: 6,
-    title: "Photography Studio",
-    artist: "Mariem",
-    location: "Sharm El Sheikh",
-    date: "next-weekend",
-    timeRange: "extended-hours",
-    rating: 4.9,
-    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
-    description: "Contemporary photography exhibition and workspace",
-    openHours: "9:00 AM - 9:00 PM",
-    capacity: 35,
-    available: true
-  },
-  {
-    id: 7,
-    title: "Mixed Media Workshop",
-    artist: "Soha",
-    location: "Hurghada",
-    date: "this-month",
-    timeRange: "afternoon",
-    rating: 4.4,
-    image: "./image/Artist-PainterLookingAtCamera.webp",
-    description: "Hands-on mixed media art experience",
-    openHours: "12:00 PM - 5:00 PM",
-    capacity: 20,
-    available: true
-  },
-  {
-    id: 8,
-    title: "Street Art Gallery",
-    artist: "Essam",
-    location: "Port Said",
-    date: "next-month",
-    timeRange: "evening",
-    rating: 4.6,
-    image: "./image/artist-sitting-on-the-floor.jpg",
-    description: "Urban art and street culture exhibition",
-    openHours: "5:00 PM - 8:00 PM",
-    capacity: 45,
-    available: true
-  },
-  {
-    id: 9,
-    title: "Art Nouveau Collection",
-    artist: "Mazen",
-    location: "Suez",
-    date: "today",
-    timeRange: "night",
-    rating: 4.7,
-    image: "./image/photo.jpeg",
-    description: "Classic Art Nouveau pieces and modern interpretations",
-    openHours: "8:00 PM - 11:00 PM",
-    capacity: 30,
-    available: true
-  },
-  {
-    id: 10,
-    title: "Local Artists Collective",
-    artist: "Noraa",
-    location: "Mansoura",
-    date: "tomorrow",
-    timeRange: "early-morning",
-    rating: 4.5,
-    image: "./image/Team image.jpeg",
-    description: "Showcasing the best of local artistic talent",
-    openHours: "6:00 AM - 9:00 AM",
-    capacity: 55,
-    available: true
-  },
-  {
-    id: 11,
-    title: "International Art Space",
-    artist: "Nermmen",
-    location: "Tanta",
-    date: "this-week",
-    timeRange: "late-night",
-    rating: 4.8,
-    image: "./image/images.jpeg",
-    description: "Global artists showcase with diverse cultural perspectives",
-    openHours: "11:00 PM - 2:00 AM",
-    capacity: 40,
-    available: true
-  }
-]
 
 // Global variables
-let filteredGalleries = [...galleries]
-let activeFilters = {}
-let currentPage = 1
-let galleriesPerPage = 6 // Show 6 galleries per page instead of all 12
-let totalPages = 1
+let galleries = [];
+let filteredGalleries = [];
+let activeFilters = {};
+let currentPage = 1;
+let galleriesPerPage = 6; // Show 6 galleries per page instead of all 12
+let totalPages = 1;
 
 // DOM elements
-const searchInput = document.getElementById("searchInput")
-const doctorFilter = document.getElementById("doctorFilter")
-const categoryFilter = document.getElementById("categoryFilter")
-const cityFilter = document.getElementById("cityFilter")
-const streetFilter = document.getElementById("streetFilter")
-const minPriceInput = document.getElementById("minPrice")
-const maxPriceInput = document.getElementById("maxPrice")
-const dateFilter = document.getElementById("dateFilter")
-const timeFilter = document.getElementById("timeFilter")
-const activeFiltersContainer = document.getElementById("activeFilters")
-const searchResults = document.getElementById("searchResults")
-const coursesGrid = document.getElementById("coursesGrid")
-const courseCount = document.getElementById("courseCount")
-const noResults = document.getElementById("noResults")
+const searchInput = document.getElementById("searchInput");
+const doctorFilter = document.getElementById("doctorFilter");
+const categoryFilter = document.getElementById("categoryFilter");
+const cityFilter = document.getElementById("cityFilter");
+const streetFilter = document.getElementById("streetFilter");
+const minPriceInput = document.getElementById("minPrice");
+const maxPriceInput = document.getElementById("maxPrice");
+const dateFilter = document.getElementById("dateFilter");
+const timeFilter = document.getElementById("timeFilter");
+const activeFiltersContainer = document.getElementById("activeFilters");
+const searchResults = document.getElementById("searchResults");
+const coursesGrid = document.getElementById("coursesGrid");
+const courseCount = document.getElementById("courseCount");
+const noResults = document.getElementById("noResults");
 
-// Initialize the page
+// Fetch data and initialize
 document.addEventListener("DOMContentLoaded", () => {
-  filteredGalleries = [...galleries]
-  totalPages = Math.ceil(galleries.length / galleriesPerPage)
-  renderGalleries(galleries)
-  updatePaginationControls()
-  setupEventListeners()
-  setupNavigation()
-})
+  // rendering confirmed; no test card injected
+  fetch("./API/getWorkshops.php")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('Fetched workshops data:', data);
+      if (data.success && Array.isArray(data.data)) {
+        galleries = data.data;
+        filteredGalleries = [...galleries];
+        totalPages = Math.ceil(galleries.length / galleriesPerPage);
+        populateWorkshopFilters(galleries);
+        renderGalleries(galleries);
+        updatePaginationControls();
+        setupEventListeners();
+        setupNavigation();
+      } else {
+        coursesGrid.innerHTML = '<div style="color:red">Failed to load workshops.</div>';
+      }
+    })
+    .catch((err) => {
+      console.error('Error fetching workshops:', err);
+      coursesGrid.innerHTML = '<div style="color:red">Error loading workshops.</div>';
+    });
+});
+
+// Populate filter dropdowns dynamically from workshops data
+function populateWorkshopFilters(workshops) {
+  // Doctor
+  if (doctorFilter) {
+    const doctors = Array.from(new Set(workshops.map(w => w.doctor_name).filter(Boolean)));
+    doctorFilter.innerHTML = '<option value="">All Doctors</option>' + doctors.map(d => `<option value="${d}">${d}</option>`).join('');
+  }
+  // Category
+  if (categoryFilter) {
+    const categories = Array.from(new Set(workshops.map(w => w.category).filter(Boolean)));
+    categoryFilter.innerHTML = '<option value="">All Categories</option>' + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
+  // City
+  if (cityFilter) {
+    const cities = Array.from(new Set(workshops.map(w => w.city).filter(Boolean)));
+    cityFilter.innerHTML = '<option value="">All Cities</option>' + cities.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
+  // Street
+  if (streetFilter) {
+    const streets = Array.from(new Set(workshops.map(w => w.street).filter(Boolean)));
+    streetFilter.innerHTML = '<option value="">All Streets</option>' + streets.map(s => `<option value="${s}">${s}</option>`).join('');
+  }
+}
+
+// Global variables
+// ...existing code...
+
 
 // Setup event listeners
 function setupEventListeners() {
@@ -289,85 +165,83 @@ function applyFilters() {
   // Reset active filters
   activeFilters = {}
 
-  // Filter galleries
-  filteredGalleries = galleries.filter((gallery) => {
-    let matches = true
+  // Filter workshops using correct fields from API
+  filteredGalleries = galleries.filter((workshop) => {
+    let matches = true;
 
     // Search term filter
     if (searchTerm) {
       const searchableText =
-        `${gallery.title} ${gallery.artist} ${gallery.location} ${gallery.description}`.toLowerCase()
-      matches = matches && searchableText.includes(searchTerm)
-      if (searchTerm) activeFilters.search = searchTerm
+        `${workshop.title} ${workshop.doctor_name} ${workshop.city} ${workshop.street} ${workshop.workshop_description}`.toLowerCase();
+      matches = matches && searchableText.includes(searchTerm);
+      if (searchTerm) activeFilters.search = searchTerm;
     }
 
-
-    // Doctor filter (artist)
+    // Doctor filter
     if (selectedDoctor) {
-      matches = matches && gallery.artist === selectedDoctor
-      activeFilters.doctor = selectedDoctor
+      matches = matches && workshop.doctor_name === selectedDoctor;
+      activeFilters.doctor = selectedDoctor;
     }
 
     // Category filter
     if (selectedCategory) {
-      matches = matches && gallery.category === selectedCategory
-      activeFilters.category = selectedCategory
+      matches = matches && workshop.category === selectedCategory;
+      activeFilters.category = selectedCategory;
     }
 
     // City filter
     if (selectedCity) {
-      matches = matches && gallery.location === selectedCity
-      activeFilters.city = selectedCity
+      matches = matches && workshop.city === selectedCity;
+      activeFilters.city = selectedCity;
     }
 
     // Street filter
     if (selectedStreet) {
-      matches = matches && gallery.street === selectedStreet
-      activeFilters.street = selectedStreet
+      matches = matches && workshop.street === selectedStreet;
+      activeFilters.street = selectedStreet;
     }
 
     // Price filter
     if (minPrice > 0 || maxPrice < Number.POSITIVE_INFINITY) {
-      matches = matches && gallery.price >= minPrice && gallery.price <= maxPrice
-      activeFilters.price = `$${minPrice} - $${maxPrice === Number.POSITIVE_INFINITY ? "∞" : maxPrice}`
+      matches = matches && workshop.price >= minPrice && workshop.price <= maxPrice;
+      activeFilters.price = `$${minPrice} - $${maxPrice === Number.POSITIVE_INFINITY ? "∞" : maxPrice}`;
     }
 
     // Date filter
     if (selectedDate) {
-      matches = matches && gallery.date === selectedDate
-      activeFilters.date = selectedDate
+      matches = matches && workshop.date === selectedDate;
+      activeFilters.date = selectedDate;
     }
 
     // Time filter
     if (selectedTime) {
-      matches = matches && gallery.time === selectedTime
-      activeFilters.time = selectedTime
+      matches = matches && workshop.open_time === selectedTime;
+      activeFilters.time = selectedTime;
     }
 
-    return matches
-  })
+    return matches;
+  });
 
   // Reset to first page when filters change
-  currentPage = 1
+  currentPage = 1;
 
   // Update UI
-  renderActiveFilters()
-  renderGalleries(filteredGalleries)
-  updateSearchResults()
-  updatePaginationControls()
+  renderActiveFilters();
+  renderGalleries(filteredGalleries);
+  updateSearchResults();
+  updatePaginationControls();
 
   // Show/hide no results
+  const paginationSection = document.querySelector(".pagination-section");
   if (filteredGalleries.length === 0) {
-    coursesGrid.style.display = "none"
-    noResults.style.display = "block"
-    // Hide pagination when no results
-    const paginationSection = document.querySelector(".pagination-section")
-    if (paginationSection) {
-      paginationSection.style.display = "none"
-    }
+    coursesGrid.innerHTML = '';
+    coursesGrid.style.display = "none";
+    noResults.style.display = "block";
+    if (paginationSection) paginationSection.style.display = "none";
   } else {
-    coursesGrid.style.display = "grid"
-    noResults.style.display = "none"
+    coursesGrid.style.display = "grid";
+    noResults.style.display = "none";
+    if (paginationSection) paginationSection.style.display = "block";
   }
 }
 
@@ -431,71 +305,63 @@ function clearAllFilters() {
   filteredGalleries = [...galleries]
   currentPage = 1
 
-  renderActiveFilters()
-  renderGalleries(galleries)
-  updateSearchResults()
-  updatePaginationControls()
-
-  coursesGrid.style.display = "grid"
-  noResults.style.display = "none"
+  renderActiveFilters();
+  renderGalleries(galleries);
+  updateSearchResults();
+  updatePaginationControls();
+  coursesGrid.style.display = "grid";
+  noResults.style.display = "none";
+  const paginationSection = document.querySelector(".pagination-section");
+  if (paginationSection) paginationSection.style.display = "block";
 }
 
 // Render courses
 function renderGalleries(galleriesToRender) {
-  coursesGrid.innerHTML = ""
+  console.log('Rendering galleries:', galleriesToRender);
+  coursesGrid.innerHTML = "";
 
   // Pagination logic
-  const startIndex = (currentPage - 1) * galleriesPerPage
-  const endIndex = startIndex + galleriesPerPage
-  const paginatedGalleries = galleriesToRender.slice(startIndex, endIndex)
+  const startIndex = (currentPage - 1) * galleriesPerPage;
+  const endIndex = startIndex + galleriesPerPage;
+  const paginatedGalleries = galleriesToRender.slice(startIndex, endIndex);
 
-  paginatedGalleries.forEach((gallery) => {
+  if (paginatedGalleries.length === 0) {
+    coursesGrid.innerHTML = '<div style="color: #fff; text-align: center; padding: 2rem;">No workshops available.</div>';
+    return;
+  }
+
+  paginatedGalleries.forEach((workshop) => {
     const galleryCard = document.createElement("div");
     galleryCard.className = "course-card";
 
-    const starsHTML = Array(5)
-      .fill()
-      .map((_, i) => `<span class="star">${i < Math.floor(gallery.rating) ? "★" : "☆"}</span>`)
-      .join("");
-
-    const availabilityBadge = gallery.available 
-      ? `<div class="availability-badge available"><span class="availability-dot"></span><span>Available</span></div>`
-      : `<div class="availability-badge unavailable"><span class="availability-dot"></span><span>Booked</span></div>`;
-
-    const priceHTML = gallery.price !== undefined ? `$${gallery.price}` : '';
+    // Use workshop_photo for image, fallback to placeholder
+  // Use root-relative paths and set onerror to fallback to placeholder
+  const imageSrc = workshop.workshop_photo ? `/image/${workshop.workshop_photo}` : '/image/placeholder-artwork.jpg';
+  const doctorPhoto = workshop.doctor_photo ? `/image/${workshop.doctor_photo}` : '/image/placeholder-artwork.jpg';
+    const priceHTML = workshop.price !== undefined ? `$${workshop.price}` : '';
 
     galleryCard.innerHTML = `
-      ${availabilityBadge}
-      <div class="course-rating">
-        <div class="stars-container">${starsHTML}</div>
-        <span class="rating-text">${gallery.rating}</span>
-      </div>
-      <img src="${gallery.image}" alt="${gallery.title}" class="course-image">
-      <div class="course-overlay">
-        <div class="quick-actions">
-          <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-        </div>
-      </div>
+  <img src="${imageSrc}" onerror="this.onerror=null;this.src='/image/placeholder-artwork.jpg'" alt="${workshop.title}" class="course-image">
       <div class="course-content">
-        <h3 class="course-title">${gallery.title}</h3>
-        <div class="course-instructor"><b>Doctor:</b> ${gallery.artist}</div>
-        <div class="course-category"><b>Category:</b> ${gallery.category || ''}</div>
+        <h3 class="course-title">${workshop.title}</h3>
+        <div class="course-instructor"><b>Doctor:</b> ${workshop.doctor_name || ''}</div>
+        <div class="course-category"><b>Category:</b> ${workshop.category || ''}</div>
         <div class="course-location">
-          <span><i class='fas fa-map-marker-alt'></i> <b>City:</b> ${gallery.location || ''}</span>
-          <span><i class='fas fa-road'></i> <b>Street:</b> ${gallery.street || ''}</span>
+          <span><i class='fas fa-map-marker-alt'></i> <b>City:</b> ${workshop.city || ''}</span>
+          <span><i class='fas fa-road'></i> <b>Street:</b> ${workshop.street || ''}</span>
         </div>
         <div class="course-datetime">
-          <span><i class='fas fa-calendar-alt'></i> <b>Date:</b> ${gallery.date || ''}</span>
-          <span><i class='fas fa-clock'></i> <b>Time:</b> ${gallery.time || ''}</span>
+          <span><i class='fas fa-calendar-alt'></i> <b>Date:</b> ${workshop.date || ''}</span>
+          <span><i class='fas fa-clock'></i> <b>Time:</b> ${workshop.open_time || ''}</span>
         </div>
         <div class="course-meta">
-          <div class="course-duration"><i class="fas fa-clock"></i> <b>Open:</b> ${gallery.openHours}</div>
-          <div class="course-students"><i class="fas fa-users"></i> <b>Capacity:</b> ${gallery.capacity}</div>
+          <div class="course-students"><i class="fas fa-users"></i> <b>Capacity:</b> ${workshop.capacity}</div>
         </div>
-        <div class="course-price-info">
+        <div class="course-description">${workshop.workshop_description || ''}</div>
+  <div class="course-price-info">
           <div class="course-price"><span class="price">${priceHTML}</span></div>
         </div>
-        <button class="enroll-btn" onclick="bookGallery(${gallery.id})">
+        <button class="enroll-btn" onclick="bookGallery(${workshop.id})">
           <i class="fas fa-calendar-check"></i> Book Visit
         </button>
       </div>
@@ -515,8 +381,8 @@ function renderGalleries(galleriesToRender) {
   });
 
   // Update pagination info
-  totalPages = Math.ceil(galleriesToRender.length / galleriesPerPage)
-  updatePaginationInfo()
+  totalPages = Math.ceil(galleriesToRender.length / galleriesPerPage);
+  updatePaginationInfo();
 }
 
 // Helper functions for display formatting
@@ -559,17 +425,16 @@ function openQuickView(galleryId) {
   overlay.innerHTML = `
     <div class="quick-view-modal">
       <div class="quick-view-content">
-        <img src="${gallery.image}" alt="${gallery.title}" class="quick-view-image">
+        <img src="${gallery.workshop_photo ? '/image/' + gallery.workshop_photo : '/image/placeholder-artwork.jpg'}" onerror="this.onerror=null;this.src='/image/placeholder-artwork.jpg'" alt="${gallery.title}" class="quick-view-image">
         <div class="quick-view-details">
           <h2>${gallery.title}</h2>
-          <p class="instructor">Artist: ${gallery.artist}</p>
-          <p class="description">${gallery.description}</p>
+          <p class="instructor">Doctor: ${gallery.doctor_name || ''}</p>
+          <p class="description">${gallery.workshop_description || ''}</p>
           <div class="meta-info">
-            <span><i class="fas fa-map-marker-alt"></i> ${gallery.location}</span>
-            <span><i class="fas fa-clock"></i> ${gallery.openHours}</span>
+            <span><i class="fas fa-map-marker-alt"></i> ${gallery.city || ''} ${gallery.street || ''}</span>
+            <span><i class="fas fa-clock"></i> ${gallery.open_time || ''}</span>
             <span><i class="fas fa-calendar"></i> ${formatDateDisplay(gallery.date)}</span>
             <span><i class="fas fa-users"></i> ${gallery.capacity} capacity</span>
-            <span><i class="fas fa-star"></i> ${gallery.rating}</span>
           </div>
           <div class="price-info">
             <span class="price">$${course.price}</span>

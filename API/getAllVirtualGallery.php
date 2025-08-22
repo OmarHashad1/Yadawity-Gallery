@@ -48,10 +48,8 @@ function getVirtualGalleryQuery() {
                 END as time_remaining_minutes
                 
             FROM galleries g
-            INNER JOIN users u ON g.artist_id = u.user_id
-            WHERE g.gallery_type = 'virtual' 
-                AND g.is_active = 1 
-                AND u.is_active = 1
+            LEFT JOIN users u ON g.artist_id = u.user_id
+            WHERE g.gallery_type = 'virtual'
             ORDER BY 
                 CASE 
                     WHEN g.start_date <= NOW() AND 

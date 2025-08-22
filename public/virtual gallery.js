@@ -1,163 +1,18 @@
-// Sample virtual galleries data
-const virtualGalleries = [
-  {
-    id: 1,
-    title: "Contemporary Art VR Experience",
-    artist: "mohamed",
-    price: 25,
-    duration: 45,
-    rating: 4.8,
-    image: "./image/slide1.jpg",
-    description: "Experience cutting-edge contemporary art in virtual reality",
-    features: ["VR Compatible", "Interactive", "360° View"],
-    type: "premium",
-    available: true
-  },
-  {
-    id: 2,
-    title: "Watercolor Dreams Virtual Gallery",
-    artist: "ahmed",
-    price: 18,
-    duration: 35,
-    rating: 4.6,
-    image: "./image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg",
-    description: "Traditional watercolor masterpieces in immersive virtual environment",
-    features: ["HD Quality", "Guided Tour", "Art History"],
-    type: "standard",
-    available: true
-  },
-  {
-    id: 3,
-    title: "Digital Art Interactive Showcase",
-    artist: "essraa",
-    price: 32,
-    duration: 60,
-    rating: 4.9,
-    image: "./image/STC_EDS_MINAG_R_L_2011_229-001.jpg",
-    description: "Innovative digital artworks and interactive installations",
-    features: ["Interactive", "AR Elements", "Behind-the-scenes"],
-    type: "premium",
-    available: true
-  },
-  {
-    id: 4,
-    title: "Portrait Gallery Virtual Tour",
-    artist: "noor",
-    price: 22,
-    duration: 40,
-    rating: 4.7,
-    image: "./image/photo-1554907984-15263bfd63bd.jpeg",
-    description: "Stunning portrait collection from emerging artists",
-    features: ["VR Compatible", "Artist Commentary", "Close-up Details"],
-    type: "standard",
-    available: true
-  },
-  {
-    id: 5,
-    title: "3D Sculpture Garden Experience",
-    artist: "samaa",
-    price: 28,
-    duration: 50,
-    rating: 4.5,
-    image: "./image/darker_image.webp",
-    description: "Beautiful 3D sculpture exhibition in virtual space",
-    features: ["3D Modeling", "Spatial Audio", "Interactive"],
-    type: "premium",
-    available: true
-  },
-  {
-    id: 6,
-    title: "Photography Studio Virtual Visit",
-    artist: "mariem",
-    price: 35,
-    duration: 55,
-    rating: 4.9,
-    image: "./image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg",
-    description: "Contemporary photography exhibition and workspace tour",
-    features: ["Ultra HD", "Professional Insights", "Equipment Demo"],
-    type: "premium",
-    available: true
-  },
-  {
-    id: 7,
-    title: "Mixed Media Workshop VR",
-    artist: "soha",
-    price: 42,
-    duration: 75,
-    rating: 4.4,
-    image: "./image/Artist-PainterLookingAtCamera.webp",
-    description: "Hands-on mixed media art experience in virtual reality",
-    features: ["Interactive Workshop", "Material Demo", "Technique Guide"],
-    type: "premium",
-    available: true
-  },
-  {
-    id: 8,
-    title: "Emerging Artists Collective",
-    artist: "essam",
-    price: 15,
-    duration: 30,
-    rating: 4.3,
-    image: "./image/artist-sitting-on-the-floor.jpg",
-    description: "Discover new talent in this virtual emerging artists showcase",
-    features: ["Emerging Artists", "Fresh Perspectives", "Affordable"],
-    type: "standard",
-    available: true
-  },
-  {
-    id: 9,
-    title: "Master Painter's Studio",
-    artist: "mazen",
-    price: 65,
-    duration: 90,
-    rating: 4.8,
-    image: "./image/d4s5689-2-300dpi-1500x998.jpg",
-    description: "Exclusive access to master painter's private studio",
-    features: ["Master Class", "Exclusive Access", "Technique Analysis"],
-    type: "premium",
-    available: true
-  },
-  {
-    id: 10,
-    title: "Abstract Art Journey",
-    artist: "noraa",
-    price: 38,
-    duration: 65,
-    rating: 4.6,
-    image: "./image/photoo.webp",
-    description: "Journey through abstract art movements and styles",
-    features: ["Art History", "Movement Analysis", "Interactive Timeline"],
-    type: "standard",
-    available: true
-  },
-  {
-    id: 11,
-    title: "Cultural Heritage VR Experience",
-    artist: "nermen",
-    price: 78,
-    duration: 120,
-    rating: 4.9,
-    image: "./image/https___s3.us-east-1.amazonaws.com_uploads.thevendry.co_23050_1701148429274_240517998_10159366377565970_3232763438623679454_n.webp",
-    description: "Immersive cultural heritage experience with historical context",
-    features: ["Cultural Heritage", "Historical Context", "Educational", "Premium Experience"],
-    type: "premium",
-    available: true
-  }
-]
-
 // Global variables
-let filteredGalleries = [...virtualGalleries]
-let currentPage = 1
-const galleriesPerPage = 6
+let virtualGalleries = [];
+let filteredGalleries = [];
+let currentPage = 1;
+const galleriesPerPage = 6;
 
 // Function to apply filters
 function applyFilters() {
     filteredGalleries = virtualGalleries.filter(gallery => {
         // Artist filter
-        const artistSelect = document.getElementById('artistSelect')
+        const artistSelect = document.getElementById('artistSelect');
         if (artistSelect && artistSelect.value && artistSelect.value !== 'all') {
-            if (gallery.artist.toLowerCase() !== artistSelect.value.toLowerCase()) {
-                return false
+            // Compare with artist_full (case-insensitive)
+            if ((gallery.artist_full || '').toLowerCase() !== artistSelect.value.toLowerCase()) {
+                return false;
             }
         }
 
@@ -221,11 +76,17 @@ function renderGalleries(galleriesToRender) {
                 <h3 class="gallery-title">${gallery.title}</h3>
                 <div class="gallery-artist">
                     <i class="fas fa-user-circle"></i>
-                    ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}
+                    ${gallery.artist_full}
                 </div>
                 <p class="gallery-description">${gallery.description}</p>
                 <div class="gallery-features">
-                    ${gallery.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
+                    <span class="feature-tag">Type: ${gallery.type}</span>
+                    <span class="feature-tag">Start: ${gallery.start_date}</span>
+                    <span class="feature-tag">End: ${gallery.end_date || ''}</span>
+                    <span class="feature-tag">Location: ${gallery.artist_location || ''}</span>
+                    <span class="feature-tag">Specialty: ${gallery.artist_specialty || ''}</span>
+                    <span class="feature-tag">Bio: ${gallery.artist_bio || ''}</span>
+                    <span class="feature-tag">Time Remaining: ${gallery.time_remaining_minutes} min</span>
                 </div>
                 <div class="gallery-bottom-info">
                     <div class="gallery-duration">
@@ -237,10 +98,10 @@ function renderGalleries(galleriesToRender) {
                         ${gallery.rating}
                     </div>
                 </div>
-                <div class="gallery-price">${gallery.price}</div>
+                <div class="gallery-price">$${gallery.price}</div>
                 <div class="gallery-actions">
-                    <button class="enter-gallery-btn" onclick="enterVirtualGallery(${gallery.id})" ${!gallery.available ? 'disabled' : ''}>
-                        ${gallery.available ? 'Enter Gallery' : 'Unavailable'}
+                    <button class="enter-gallery-btn" onclick="enterVirtualGallery(${gallery.id})">
+                        Book Visit
                     </button>
                     <button class="wishlist-btn" onclick="addToWishlist(${gallery.id})" title="Add to Wishlist">
                         <i class="fas fa-heart"></i>
@@ -313,38 +174,32 @@ function updateResultsCount() {
 
 // Function to enter virtual gallery
 function enterVirtualGallery(galleryId) {
-    const gallery = virtualGalleries.find(g => g.id === galleryId)
-    if (gallery && gallery.available) {
-        // Show loading state
-        const enterBtn = event.target
-        const originalText = enterBtn.innerHTML
-        enterBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading Virtual Experience...'
-        enterBtn.disabled = true
-
-        // Simulate loading time
+    const gallery = virtualGalleries.find(g => g.id === galleryId);
+    if (gallery) {
+        const enterBtn = event.target;
+        const originalText = enterBtn.innerHTML;
+        enterBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
+        enterBtn.disabled = true;
         setTimeout(() => {
             alert(
                 `🎨 Welcome to "${gallery.title}"!\n\n` +
-                `Artist: ${gallery.artist.charAt(0).toUpperCase() + gallery.artist.slice(1)}\n` +
+                `Artist: ${gallery.artist_full}\n` +
                 `Duration: ${gallery.duration} minutes\n` +
                 `Rating: ${gallery.rating}/5.0\n` +
                 `Price: $${gallery.price}\n\n` +
                 `Features: ${gallery.features.join(", ")}\n\n` +
                 `${gallery.description}\n\n` +
-                `🚀 Launching virtual experience...\n` +
+                `🚀 Booking confirmed!\n` +
                 `Thank you for choosing Yadawity Virtual Galleries!`
-            )
-
-            // Success state
-            enterBtn.innerHTML = '<i class="fas fa-check"></i> Experience Launched!'
-            enterBtn.style.background = "linear-gradient(45deg, #22c55e, #16a34a)"
-
+            );
+            enterBtn.innerHTML = '<i class="fas fa-check"></i> Booked!';
+            enterBtn.style.background = "linear-gradient(45deg, #22c55e, #16a34a)";
             setTimeout(() => {
-                enterBtn.innerHTML = originalText
-                enterBtn.style.background = ""
-                enterBtn.disabled = false
-            }, 3000)
-        }, 2000)
+                enterBtn.innerHTML = originalText;
+                enterBtn.style.background = "";
+                enterBtn.disabled = false;
+            }, 3000);
+        }, 2000);
     }
 }
 
@@ -364,42 +219,95 @@ function clearAllFilters() {
     updateResultsCount()
 }
 
-// Initialize when DOM is loaded
+// Fetch galleries from API
+async function fetchVirtualGalleries() {
+    try {
+        const response = await fetch('./API/getAllVirtualGallery.php');
+        let result;
+        try {
+            result = await response.json();
+        } catch (jsonErr) {
+            console.error('JSON parse error:', jsonErr);
+            const text = await response.text();
+            console.error('Raw response:', text);
+            document.getElementById('galleriesContainer').innerHTML = `<div class="no-results">API returned invalid JSON.<br>${jsonErr.message}</div>`;
+            return;
+        }
+        if (result.success && Array.isArray(result.data)) {
+            virtualGalleries = result.data.map(gallery => ({
+                id: gallery.gallery_id,
+                title: gallery.title,
+                artist: gallery.artist.first_name ? gallery.artist.first_name.toLowerCase() : '',
+                artist_full: gallery.artist.name,
+                price: gallery.price || 0,
+                duration: gallery.duration,
+                rating: 5.0, // Default or you can add rating in DB/API
+                image: gallery.artist.profile_picture ? `./image/${gallery.artist.profile_picture}` : './image/Logo.png',
+                description: gallery.description,
+                features: [gallery.artist.specialty || 'Art', gallery.artist.location || '', gallery.artist.bio || ''],
+                type: gallery.status && gallery.status.is_premium ? 'premium' : 'standard',
+                available: gallery.is_currently_active
+            }));
+            // Dynamically populate artist filter
+            updateArtistFilter(virtualGalleries);
+            filteredGalleries = [...virtualGalleries];
+            renderGalleries(filteredGalleries);
+            updateResultsCount();
+        } else {
+            const errorMsg = result && result.error ? result.error : 'No virtual galleries found.';
+            document.getElementById('galleriesContainer').innerHTML = `<div class=\"no-results\">${errorMsg}</div>`;
+            if (result && result.error) console.error('API error:', result.error);
+        }
+// Dynamically update artist filter dropdown
+function updateArtistFilter(galleries) {
+    const artistSelect = document.getElementById('artistSelect');
+    if (!artistSelect) return;
+    // Get unique artists (by full name)
+    const uniqueArtists = Array.from(new Set(galleries.map(g => g.artist_full)));
+    let options = '<option value="all">All Artists</option>';
+    uniqueArtists.forEach(artist => {
+        if (artist && artist.trim() !== '') {
+            options += `<option value="${artist.toLowerCase()}">${artist}</option>`;
+        }
+    });
+    artistSelect.innerHTML = options;
+}
+    } catch (error) {
+        console.error('Fetch error:', error);
+        document.getElementById('galleriesContainer').innerHTML = `<div class="no-results">Error loading galleries.<br>${error.message}</div>`;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    renderGalleries(virtualGalleries)
-    updateResultsCount()
-    
+    fetchVirtualGalleries();
     // Set up filter event listeners
-    const artistSelect = document.getElementById('artistSelect')
-    const priceSelect = document.getElementById('priceSelect')
-    const durationSelect = document.getElementById('durationSelect')
-    
-    if (artistSelect) artistSelect.addEventListener('change', applyFilters)
-    if (priceSelect) priceSelect.addEventListener('change', applyFilters)
-    if (durationSelect) durationSelect.addEventListener('change', applyFilters)
+    const artistSelect = document.getElementById('artistSelect');
+    const priceSelect = document.getElementById('priceSelect');
+    const durationSelect = document.getElementById('durationSelect');
+    if (artistSelect) artistSelect.addEventListener('change', applyFilters);
+    if (priceSelect) priceSelect.addEventListener('change', applyFilters);
+    if (durationSelect) durationSelect.addEventListener('change', applyFilters);
 });
 
 // Additional functions for the new card design
 function viewGalleryDetails(galleryId) {
-    const gallery = virtualGalleries.find(g => g.id === galleryId)
+    const gallery = virtualGalleries.find(g => g.id === galleryId);
     if (gallery) {
-        // You can implement a modal or redirect to a details page
-        alert(`Gallery Details:\n\nTitle: ${gallery.title}\nArtist: ${gallery.artist}\nPrice: $${gallery.price}\nDuration: ${gallery.duration} minutes\nRating: ${gallery.rating}\n\nDescription: ${gallery.description}`)
+        alert(`Gallery Details:\n\nTitle: ${gallery.title}\nArtist: ${gallery.artist_full}\nPrice: $${gallery.price}\nDuration: ${gallery.duration} minutes\nRating: ${gallery.rating}\n\nDescription: ${gallery.description}`);
     }
 }
 
 function addToWishlist(galleryId) {
-    const gallery = virtualGalleries.find(g => g.id === galleryId)
+    const gallery = virtualGalleries.find(g => g.id === galleryId);
     if (gallery) {
-        // You can implement wishlist functionality here
-        alert(`"${gallery.title}" has been added to your wishlist!`)
+        alert(`"${gallery.title}" has been added to your wishlist!`);
         // Example: Add visual feedback
-        const wishlistBtn = event.target.closest('.wishlistBtn')
+        const wishlistBtn = event.target.closest('.wishlistBtn');
         if (wishlistBtn) {
-            wishlistBtn.innerHTML = '<i class="fas fa-check"></i>'
+            wishlistBtn.innerHTML = '<i class="fas fa-check"></i>';
             setTimeout(() => {
-                wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>'
-            }, 2000)
+                wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
+            }, 2000);
         }
     }
 }

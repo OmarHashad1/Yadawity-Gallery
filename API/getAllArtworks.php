@@ -240,7 +240,7 @@ function formatArtworkData($row) {
     
     // Step 1: Check if we have a filename from artwork_photos table (primary source)
     if (!empty($filename_from_photos_table)) {
-        $image_path = '/uploads/artworks/' . $filename_from_photos_table;
+        $image_path = './uploads/artworks/' . $filename_from_photos_table;
         $full_image_path = __DIR__ . '/../uploads/artworks/' . $filename_from_photos_table;
         
         // Set the image source
@@ -259,7 +259,7 @@ function formatArtworkData($row) {
     // Step 2: Fallback to artwork_image from artworks table
     else if (!empty($artwork['artwork_image'])) {
         $fallback_filename = $artwork['artwork_image'];
-        $image_path = '/uploads/artworks/' . $fallback_filename;
+        $image_path = './uploads/artworks/' . $fallback_filename;
         $full_image_path = __DIR__ . '/../uploads/artworks/' . $fallback_filename;
         
         $artwork['image_src'] = $image_path;

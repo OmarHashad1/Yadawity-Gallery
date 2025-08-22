@@ -21,6 +21,7 @@ const noResults = document.getElementById('noResults');
 const searchInput = document.getElementById('searchInput');
 const categoryFilter = document.getElementById('categoryFilter');
 const statusFilter = document.getElementById('statusFilter');
+const artistFilter = document.getElementById('artistFilter');
 const minPriceInput = document.getElementById('minPrice');
 const maxPriceInput = document.getElementById('maxPrice');
 
@@ -33,11 +34,12 @@ async function loadAuctions(filters = {}) {
         // Build URL with filters
         const params = new URLSearchParams();
         
-        if (filters.search) params.append('search', filters.search);
-        if (filters.category && filters.category !== 'all') params.append('category', filters.category);
-        if (filters.status) params.append('status', filters.status);
-        if (filters.min_price) params.append('min_price', filters.min_price);
-        if (filters.max_price) params.append('max_price', filters.max_price);
+    if (filters.search) params.append('search', filters.search);
+    if (filters.type && filters.type !== 'all') params.append('type', filters.type);
+    if (filters.status) params.append('status', filters.status);
+    if (filters.artist_id && filters.artist_id !== 'all') params.append('artist_id', filters.artist_id);
+    if (filters.min_price) params.append('min_price', filters.min_price);
+    if (filters.max_price) params.append('max_price', filters.max_price);
         
         // Add pagination
         params.append('limit', auctionsPerPage);
@@ -52,17 +54,45 @@ async function loadAuctions(filters = {}) {
         if (data.success) {
             auctions = data.data;
             totalPages = Math.ceil(data.total_count / auctionsPerPage);
-            
+
+            // Populate filters dynamically
+            populateFilterDropdowns(auctions);
+
             renderAuctions(auctions);
             updatePaginationControls();
             updateAuctionCount(data.total_count);
-            
+
             // Initialize timers for newly loaded auctions
             initializeTimers();
         } else {
             console.error('API Error:', data.message);
             showError('Failed to load auctions: ' + data.message);
         }
+// Dynamically populate filter dropdowns based on auction data
+function populateFilterDropdowns(auctions) {
+    // Category
+    if (categoryFilter) {
+        const categories = Array.from(new Set(auctions.map(a => a.category && a.category.trim()).filter(Boolean)));
+        categoryFilter.innerHTML = '<option value="all">All Categories</option>' +
+            categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    }
+    // Status
+    if (statusFilter) {
+        const statuses = Array.from(new Set(auctions.map(a => a.auction && a.auction.status && a.auction.status.trim()).filter(Boolean)));
+        statusFilter.innerHTML = '<option value="all">All Statuses</option>' +
+            statuses.map(st => `<option value="${st}">${st.charAt(0).toUpperCase() + st.slice(1)}</option>`).join('');
+    }
+    // Artist
+    if (artistFilter) {
+        const artists = Array.from(new Map(
+            auctions
+                .filter(a => a.artist && a.artist.artist_id && a.artist.display_name)
+                .map(a => [a.artist.artist_id, a.artist.display_name])
+        ));
+        artistFilter.innerHTML = '<option value="all">All Artists</option>' +
+            artists.map(([id, name]) => `<option value="${id}">${name}</option>`).join('');
+    }
+}
     } catch (error) {
         console.error('Error loading auctions:', error);
         showError('Failed to load auctions. Please try again.');
@@ -138,8 +168,15 @@ function setupEventListeners() {
     // Filter dropdowns and inputs
     if (categoryFilter) categoryFilter.addEventListener("change", applyFilters);
     if (statusFilter) statusFilter.addEventListener("change", applyFilters);
+    if (artistFilter) artistFilter.addEventListener("change", applyFilters);
     if (minPriceInput) minPriceInput.addEventListener("input", debounce(applyFilters, 300));
     if (maxPriceInput) maxPriceInput.addEventListener("input", debounce(applyFilters, 300));
+    // Artist
+    if (artistFilter) {
+        const artists = Array.from(new Set(auctions.map(a => a.artist && (a.artist.display_name || a.artist.name || a.artist).trim()).filter(Boolean)));
+        artistFilter.innerHTML = '<option value="all">All Artists</option>' +
+            artists.map(artist => `<option value="${artist}">${artist}</option>`).join('');
+    }
 }
 
 // Render auctions on the page
@@ -163,7 +200,8 @@ function renderAuctions(auctionsToRender) {
     auctionsToRender.forEach(auction => {
         const card = document.createElement("div");
         card.className = `auctionCard ${getStatusClass(auction.auction.status)}`;
-        card.dataset.category = auction.category.toLowerCase();
+        card.dataset.category = auction.category ? auction.category.toLowerCase() : '';
+        card.dataset.artistId = auction.artist && auction.artist.artist_id ? auction.artist.artist_id : '';
         card.dataset.price = auction.auction.current_bid || auction.auction.starting_bid;
 
         card.innerHTML = `
@@ -181,11 +219,11 @@ function renderAuctions(auctionsToRender) {
             <div class="auctionInfo">
                 <div class="auctionContent">
                     <h3 class="auctionTitle">${auction.title}</h3>
-                    <p class="auctionArtist">${auction.artist.display_name}</p>
+                    <p class="auctionArtist">${auction.artist && auction.artist.display_name ? auction.artist.display_name : ''}</p>
                     <p class="auctionDescription">
-                        ${auction.description.length > 100 ? 
+                        ${auction.description && auction.description.length > 100 ? 
                             auction.description.substring(0, 100) + '...' : 
-                            auction.description}
+                            auction.description || ''}
                     </p>
                     
                     ${getPriceHTML(auction)}
@@ -388,13 +426,15 @@ function getCurrentFilters() {
     const selectedStatus = statusFilter ? statusFilter.value : '';
     const minPrice = minPriceInput ? parseFloat(minPriceInput.value) || null : null;
     const maxPrice = maxPriceInput ? parseFloat(maxPriceInput.value) || null : null;
-    
+    const selectedArtist = artistFilter ? artistFilter.value : '';
+
     if (searchTerm) filters.search = searchTerm;
-    if (selectedCategory && selectedCategory !== 'all') filters.category = selectedCategory;
+    if (selectedCategory && selectedCategory !== 'all') filters.type = selectedCategory;
     if (selectedStatus && selectedStatus !== 'all') filters.status = selectedStatus;
+    if (selectedArtist && selectedArtist !== 'all') filters.artist_id = selectedArtist;
     if (minPrice) filters.min_price = minPrice;
     if (maxPrice) filters.max_price = maxPrice;
-    
+
     return filters;
 }
 
@@ -487,16 +527,17 @@ function clearAllFilters() {
     if (searchInput) searchInput.value = '';
     if (categoryFilter) categoryFilter.value = 'all';
     if (statusFilter) statusFilter.value = 'all';
+    if (artistFilter) artistFilter.value = 'all';
     if (minPriceInput) minPriceInput.value = '';
     if (maxPriceInput) maxPriceInput.value = '';
-    
+
     // Reset active filters
     activeFilters = {};
-    
+
     // Reset to first page and reload
     currentPage = 1;
     loadAuctions();
-    
+
     // Update display
     renderActiveFilters();
 }
@@ -853,6 +894,11 @@ function renderActiveFilters() {
                 displayValue = `Search: ${value}`;
             } else if (key === 'minPrice' || key === 'maxPrice') {
                 displayValue = `${key === 'minPrice' ? 'Min' : 'Max'} Price: EGP ${value.toLocaleString()}`;
+            } else if (key === 'artist' || key === 'artist_id') {
+                // Show artist name instead of ID
+                const artistOption = artistFilter ? artistFilter.querySelector(`option[value='${value}']`) : null;
+                const artistName = artistOption ? artistOption.textContent : value;
+                displayValue = `Artist: ${artistName}`;
             } else {
                 displayValue = `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`;
             }
@@ -879,6 +925,9 @@ function removeFilter(filterKey) {
         case 'status':
             if (statusFilter) statusFilter.value = '';
             break;
+        case 'artist':
+            if (artistFilter) artistFilter.value = 'all';
+            break;
         case 'minPrice':
             if (minPriceInput) minPriceInput.value = '';
             break;
@@ -898,30 +947,33 @@ function applyFilters() {
     const selectedStatus = statusFilter ? statusFilter.value : '';
     const minPrice = minPriceInput ? parseFloat(minPriceInput.value) || null : null;
     const maxPrice = maxPriceInput ? parseFloat(maxPriceInput.value) || null : null;
+    const selectedArtist = artistFilter ? artistFilter.value : '';
 
     // Build filters object
     const filters = {};
-    
+
     if (searchTerm) filters.search = searchTerm;
-    if (selectedCategory && selectedCategory !== 'all') filters.category = selectedCategory;
+    if (selectedCategory && selectedCategory !== 'all') filters.type = selectedCategory;
     if (selectedStatus && selectedStatus !== 'all') filters.status = selectedStatus;
+    if (selectedArtist && selectedArtist !== 'all') filters.artist_id = selectedArtist;
     if (minPrice) filters.min_price = minPrice;
     if (maxPrice) filters.max_price = maxPrice;
 
     // Reset to first page when filters change
     currentPage = 1;
-    
+
     // Update active filters for display
     activeFilters = {};
     if (searchTerm) activeFilters.searchTerm = searchTerm;
     if (selectedCategory && selectedCategory !== 'all') activeFilters.category = selectedCategory;
     if (selectedStatus && selectedStatus !== 'all') activeFilters.status = selectedStatus;
+    if (selectedArtist && selectedArtist !== 'all') activeFilters.artist = selectedArtist;
     if (minPrice) activeFilters.minPrice = minPrice;
     if (maxPrice) activeFilters.maxPrice = maxPrice;
 
     // Load auctions with filters
     loadAuctions(filters);
-    
+
     // Update active filters display
     renderActiveFilters();
 }
@@ -1055,7 +1107,7 @@ function toggleWatchlist(event) {
 // Open auction preview page
 function openAuctionPreview(auctionId) {
     // In a real application, this would navigate to the auction preview page
-    window.location.href = `auction-preview.html?id=${auctionId}`;
+    window.location.href = `auction-preview.php?id=${auctionId}`;
 }
 
 // Utility functions

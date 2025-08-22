@@ -923,84 +923,87 @@ body {
 
 /* Ensure paginationContainer class uses same styling */
 .paginationContainer {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 8px !important;
-    margin: 32px auto !important;
-    padding: 15px 20px !important;
-    background: linear-gradient(135deg, #f8f6f1, #faf8f4) !important;
-    border-radius: 3px !important;
-    border: 1px solid #e8ddd4 !important;
-    flex-wrap: nowrap !important;
-    width: fit-content !important;
-    flex-direction: row !important;
-}
-
-/* Ensure orders pagination specifically uses horizontal layout */
-#ordersPagination {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 8px !important;
-    margin: 32px auto !important;
-    padding: 15px 20px !important;
-    background: linear-gradient(135deg, #f8f6f1, #faf8f4) !important;
-    border-radius: 3px !important;
-    border: 1px solid #e8ddd4 !important;
-    flex-wrap: nowrap !important;
-    width: fit-content !important;
-    flex-direction: row !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 32px auto;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #f8f6f1, #faf8f4);
+    border-radius: 3px;
+    border: 1px solid #e8ddd4;
+    flex-wrap: nowrap;
+    width: fit-content;
 }
 
 .pagination-container button,
 .paginationContainer button {
-    padding: 8px 12px !important;
-    border: 1px solid var(--border-light) !important;
-    background: white !important;
-    color: var(--primary-brown) !important;
-    border-radius: 6px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    font-weight: 500 !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    min-width: auto !important;
-    font-size: 0.9rem !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    margin: 0 !important;
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    background: white;
+    color: var(--primary-brown);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: auto;
+    font-size: 0.9rem;
 }
 
 .pagination-container button:hover:not(:disabled),
 .paginationContainer button:hover:not(:disabled) {
-    background: var(--gold-accent) !important;
-    color: white !important;
-    border-color: var(--gold-accent) !important;
+    background: var(--gold-accent);
+    color: white;
+    border-color: var(--gold-accent);
 }
 
 .pagination-container button:disabled,
 .paginationContainer button:disabled {
-    opacity: 0.5 !important;
-    cursor: not-allowed !important;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* Ensure page info spans are inline */
-#reviewsPageInfo,
-#ordersPageInfo,
-.pagination-container .page-info,
-.paginationContainer .page-info {
-    font-weight: 600 !important;
-    color: var(--primary-brown) !important;
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    padding: 8px 12px !important;
-    font-size: 0.9rem !important;
-    background: white !important;
-    border: 1px solid #e8ddd4 !important;
-    border-radius: 6px !important;
-    margin: 0 8px !important;
-    display: inline-block !important;
+#reviewsPageInfo {
+    font-weight: 600;
+    color: var(--primary-brown);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    background: white;
+    border: 1px solid #e8ddd4;
+    border-radius: 6px;
+    margin: 0 8px;
+}
+
+/* Ensure orders pagination uses the same styling */
+#ordersPageInfo {
+    font-weight: 600;
+    color: var(--primary-brown);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    background: white;
+    border: 1px solid #e8ddd4;
+    border-radius: 6px;
+    margin: 0 8px;
+}
+
+/* Generic page info styling for any pagination */
+.pagination-container .page-info {
+    font-weight: 600;
+    color: var(--primary-brown);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    background: white;
+    border: 1px solid #e8ddd4;
+    border-radius: 6px;
+    margin: 0 8px;
 }
 
 .empty-state {

@@ -65,9 +65,10 @@ function addFilterConditions($query, $filters, &$params, &$types): mixed {
         $types .= "s";
     }
 
-    if ($filters['artist_id']) {
+    // Only filter by artist if artist_id is a positive integer
+    if (isset($filters['artist_id']) && is_numeric($filters['artist_id']) && (int)$filters['artist_id'] > 0) {
         $query .= " AND a.artist_id = ?";
-        $params[] = $filters['artist_id'];
+        $params[] = (int)$filters['artist_id'];
         $types .= "i";
     }
 

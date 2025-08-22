@@ -7777,7 +7777,7 @@ async function loadArtistProfile() {
         console.log('Loading artist profile from cookie...');
         
         // Fetch artist information (API will read user ID from cookie)
-        const profileResponse = await fetch(`http://localhost/API/getArtistInfo.php`, {
+        const profileResponse = await fetch(`./API/getArtistInfo.php`, {
             method: 'GET',
             credentials: 'include',
             headers: {

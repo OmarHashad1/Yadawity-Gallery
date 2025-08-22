@@ -7,10 +7,137 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeWishlistPage() {
     initializeWishlistActions();
     initializeFilters();
-    initializeItemActions();
-    updateWishlistStats();
+    // Fetch wishlist from API and render items, then wire item actions
+    fetchWishlistFromAPI();
     updateCartCount();
-    updateWishlistCount();
+}
+
+// Fetch wishlist data from server API and render
+function fetchWishlistFromAPI() {
+    const endpoint = '/API/getWishlist.php';
+
+    fetch(endpoint, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+        if (!json || json.success !== true) {
+            // If not logged in or no wishlist, show empty state
+            console.warn('Wishlist API error:', json);
+            showEmptyState();
+            if (json && json.message) showNotification(json.message, 'error');
+            return;
+        }
+
+        const items = json.data && json.data.wishlist_items ? json.data.wishlist_items : [];
+        renderWishlistItems(items);
+        updateWishlistStats();
+        updateWishlistCount();
+    })
+    .catch(err => {
+        console.error('Failed to fetch wishlist:', err);
+        showEmptyState();
+        showNotification('Unable to load wishlist. Please try again later.', 'error');
+    });
+}
+
+// Render wishlist items into the DOM
+function renderWishlistItems(items) {
+    const container = document.querySelector('.wishlistGrid');
+    const emptyState = document.querySelector('.emptyWishlist');
+    const wishlistStats = document.querySelector('.wishlistStats');
+    const wishlistActions = document.querySelector('.wishlistActions');
+
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    if (!items || items.length === 0) {
+        showEmptyState();
+        return;
+    }
+
+    // Build each item
+    items.forEach(item => {
+        const art = item.artwork || {};
+        const artist = item.artist || {};
+        const price = art.price ? Math.round(art.price) : 0;
+        const category = art.type || '';
+        // Determine image source (supports full URLs, server-relative paths, or stored filenames)
+        // Prefer a ready-to-use URL provided by the API
+        let imgSrc = art.artwork_image_url || art.artwork_image || '';
+
+        // If the returned value is just a filename (no protocol or leading slash),
+        // assume it's stored under uploads/artworks/ which other APIs use.
+        if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('/') && !imgSrc.startsWith('./') && !imgSrc.startsWith('../')) {
+            imgSrc = './uploads/artworks/' + imgSrc;
+        }
+
+        // Final fallback to placeholder
+        if (!imgSrc) imgSrc = './image/placeholder-artwork.jpg';
+
+        const isAvailable = art.is_available ? true : false;
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'wishlistItem';
+        itemEl.dataset.category = category;
+        itemEl.dataset.price = price;
+
+        itemEl.innerHTML = `
+            <div class="wishlistImageContainer">
+                <img src="${imgSrc}" alt="${escapeHtml(art.title || 'Artwork')}" class="wishlistImage" />
+                <div class="wishlistBadge ${isAvailable ? 'available' : 'limited'}">
+                    <i class="fas ${isAvailable ? 'fa-check-circle' : 'fa-hourglass-half'}"></i>
+                    <span>${isAvailable ? 'Available' : 'Limited'}</span>
+                </div>
+                <button class="removeBtn" title="Remove from Wishlist">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="wishlistInfo">
+                <h3 class="wishlistTitle">${escapeHtml(art.title || '')}</h3>
+                <p class="wishlistArtist">by ${escapeHtml(artist.name || '')}</p>
+                <p class="wishlistDescription">${escapeHtml((art.description || '').slice(0, 160))}${(art.description && art.description.length>160)?'...':''}</p>
+                <div class="wishlistPricing">
+                    <span class="wishlistPrice">EGP ${price.toLocaleString()}</span>
+                    <span class="wishlistStatus ${isAvailable ? '' : 'limited'}">${isAvailable ? 'In Stock' : 'Only a few left'}</span>
+                </div>
+                <div class="wishlistActions">
+                    <button class="addToCartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Add to Cart
+                    </button>
+                    <button class="viewDetailsBtn" data-artwork-id="${art.artwork_id}">
+                        <i class="fas fa-eye"></i>
+                        View Details
+                    </button>
+                </div>
+                <div class="wishlistMeta">
+                    <span class="addedDate">Added: ${escapeHtml(item.added_to_wishlist || '')}</span>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(itemEl);
+    });
+
+    // Wire up event handlers for dynamically added items
+    initializeItemActions();
+}
+
+// Simple HTML escaper to avoid injecting raw data
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 // Wishlist Actions

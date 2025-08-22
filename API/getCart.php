@@ -157,6 +157,7 @@ function getCartQuery() {
                 a.description,
                 a.price,
                 a.artwork_image,
+                ap.image_path as artwork_photo_filename,
                 a.dimensions,
                 a.year,
                 a.material,
@@ -170,6 +171,7 @@ function getCartQuery() {
                 (c.quantity * a.price) as item_total
             FROM cart c
             INNER JOIN artworks a ON c.artwork_id = a.artwork_id
+            LEFT JOIN artwork_photos ap ON a.artwork_id = ap.artwork_id AND (ap.is_primary = 1 OR ap.is_primary IS NULL)
             INNER JOIN users u ON a.artist_id = u.user_id
             WHERE c.user_id = ? 
             AND c.is_active = 1
@@ -187,7 +189,9 @@ function formatCartItem($row) {
             'description' => $row['description'],
             'price' => (float)$row['price'],
             'artwork_image' => $row['artwork_image'],
-            'artwork_image_url' => $row['artwork_image'] ? '../uploads/artworks/' . $row['artwork_image'] : null,
+            'artwork_photo_filename' => isset($row['artwork_photo_filename']) ? $row['artwork_photo_filename'] : null,
+            // Prefer the artwork_photos filename when available, otherwise fallback to artworks.artwork_image
+            'artwork_image_url' => (!empty($row['artwork_photo_filename']) ? './uploads/artworks/' . $row['artwork_photo_filename'] : (!empty($row['artwork_image']) ? './uploads/artworks/' . $row['artwork_image'] : null)),
             'dimensions' => $row['dimensions'],
             'year' => $row['year'] ? (int)$row['year'] : null,
             'material' => $row['material'],
