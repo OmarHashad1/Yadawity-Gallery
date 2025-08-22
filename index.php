@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Yadawity Gallery: Discover classical art, healing, and heritage. Explore master artists, curated artworks, and testimonials from art lovers and collectors.">
     <title>Yadawity Gallery</title>
 
     <link

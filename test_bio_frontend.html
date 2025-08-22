@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bio Test</title>
+</head>
+<body>
+    <h2>Bio Update Test</h2>
+    <textarea id="artistBio" placeholder="Enter bio here...">Current bio content from database</textarea>
+    <br><br>
+    <button onclick="testBioSave()">Test Bio Save</button>
+    <br><br>
+    <div id="result"></div>
+
+    <script>
+    async function testBioSave() {
+        console.log('=== Bio Save Test ===');
+        
+        // Get the bio field (same as in artist-portal.js)
+        const artistBio = document.getElementById('artistBio');
+        
+        if (artistBio) {
+            const bioValue = artistBio.value || '';
+            console.log('📝 Bio field value:', bioValue);
+            console.log('📝 Bio field length:', bioValue.length);
+            console.log('📝 Bio field type:', typeof bioValue);
+            
+            // Prepare data (same as in artist-portal.js)
+            const profileData = {
+                artist_bio: bioValue
+            };
+            
+            console.log('📦 Profile data to send:', profileData);
+            
+            try {
+                // Make API call (same as in artist-portal.js)
+                const response = await fetch('./API/updateArtistProfile.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                console.log('📡 Response status:', response.status);
+                
+                const result = await response.json();
+                console.log('📋 API result:', result);
+                
+                document.getElementById('result').innerHTML = 
+                    '<strong>Result:</strong> ' + JSON.stringify(result, null, 2);
+                    
+            } catch (error) {
+                console.error('❌ Error:', error);
+                document.getElementById('result').innerHTML = 
+                    '<strong>Error:</strong> ' + error.message;
+            }
+            
+        } else {
+            console.error('❌ Bio field not found');
+            document.getElementById('result').innerHTML = 
+                '<strong>Error:</strong> Bio field not found';
+        }
+    }
+    </script>
+</body>
+</html>

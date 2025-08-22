@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Test</title>
+</head>
+<body>
+    <h1>Cookie Authentication Test</h1>
+    <div id="output"></div>
+    
+    <script>
+        // Set the test cookie
+        const testUserCookie = '1_92022b808b38754ceb03807fa2c87427f9f306b2bcea8bea0eeafa0cfaf3f831';
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (30 * 24 * 60 * 60 * 1000));
+        document.cookie = `user_login=${testUserCookie}; path=/; expires=${expires.toUTCString()}`;
+        
+        console.log('Cookie set:', document.cookie);
+        
+        // Test the API
+        fetch('./API/getArtistReviews.php?page=1&limit=10&type=all&date=all', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            document.getElementById('output').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('output').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+        });
+    </script>
+</body>
+</html>

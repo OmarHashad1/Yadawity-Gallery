@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+-- Order items with artist_id 17
+INSERT INTO order_items (order_id, artwork_id, artwork_title, artist_id, price, quantity, subtotal) VALUES
+-- Order 9 items (artist_id 17)
+(9, 201, 'Vibrant Dreams', 17, 24500.00, 2, 49000.00),
+(9, 202, 'Urban Reflections', 17, 40500.00, 1, 40500.00),
+
+-- Order 10 items (artist_id 17)
+(10, 203, 'Cultural Heritage', 17, 32500.00, 2, 65000.00),
+
+-- Order 11 items (artist_id 17)
+(11, 204, 'Modern Expressions', 17, 23900.00, 2, 47800.00),
+
+-- Mixed orders with some artist_id 17 items
+(1, 205, 'Abstract Journey', 17, 18900.00, 1, 18900.00),
+(3, 206, 'Colorful Visions', 17, 29700.00, 1, 29700.00),
+(5, 207, 'Contemporary Flow', 17, 21500.00, 2, 43000.00);<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,45 +22,16 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="./components/Navbar/navbar.css" />`n    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
+    <link rel="stylesheet" href="./components/Navbar/navbar.css" />
+    <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
     <link rel="stylesheet" href="./public/homePage.css" />
-<link rel="stylesheet" href="./public/sessionsTherapy.css" />
+    <link rel="stylesheet" href="./public/sessionsTherapy.css" />
 </head>
 <body>
     
 <?php include './components/includes/navbar.php'; ?>
 
     <?php include './components/includes/burger-menu.php'; ?>
-        
-      </div>
-    </div>
-
-    <div class="mobileSearchOverlay" id="mobileSearchOverlay">
-      <div class="mobileSearchContainer">
-        <input
-          type="text"
-          placeholder="Search artists, artworks..."
-          class="mobileSearchInput"
-          id="mobileSearchInput"
-        />
-        <button class="mobileSearchClose" id="mobileSearchClose">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="searchSuggestions" id="mobileSearchSuggestions"></div>
-    </div>
-
 
       <div class="container">
         <!-- Header -->
@@ -261,8 +247,8 @@
     </div>
 
     <?php include './components/includes/footer.php'; ?>
-     <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./components/Navbar/navbar.js"></script>
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
     <script src="./public/sesstionsTherapy.js"></script>
-    </script>
 </body>
 </html>

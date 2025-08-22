@@ -1,181 +1,126 @@
 // Auction Page JavaScript
 
-// Sample auction data
-const auctions = [
-    {
-        id: 1,
-        title: "Abstract Harmony",
-        artist: "Marina Kovač",
-        category: "paintings",
-        status: "live",
-        price: 75000,
-        bidders: 12,
-        endTime: "2025-01-25T18:30:00",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-        description: "Oil on canvas, 80x100cm. A stunning piece exploring the balance between chaos and order..."
-    },
-    {
-        id: 2,
-        title: "Bronze Elegance",
-        artist: "Ahmed Hassan",
-        category: "sculptures",
-        status: "upcoming",
-        price: 120000,
-        watching: 28,
-        startTime: "2025-01-26T15:00:00",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-        description: "Limited edition bronze sculpture, 45cm height. Masterful craftsmanship showcasing..."
-    },
-    {
-        id: 3,
-        title: "Urban Reflections",
-        artist: "Sarah Chen",
-        category: "photography",
-        status: "live",
-        price: 35000,
-        bidders: 8,
-        endTime: "2025-01-25T20:15:00",
-        image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=300&fit=crop",
-        description: "Limited edition fine art photography print, 70x50cm. Captures the soul of modern..."
-    },
-    {
-        id: 4,
-        title: "Classical Portrait",
-        artist: "Elena Popović",
-        category: "paintings",
-        status: "ended",
-        price: 180000,
-        winner: "user_1847",
-        image: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=300&fit=crop",
-        description: "Oil on canvas masterpiece, 90x70cm. Exquisite portraiture technique from renowned..."
-    },
-    {
-        id: 5,
-        title: "Digital Dreams",
-        artist: "Marcus Rodriguez",
-        category: "mixed-media",
-        status: "upcoming",
-        price: 95000,
-        watching: 15,
-        startTime: "2025-01-27T19:00:00",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-        description: "Mixed media on canvas with digital elements, 100x80cm. A groundbreaking fusion of..."
-    },
-    {
-        id: 6,
-        title: "Sunset Serenity",
-        artist: "Omar Farouk",
-        category: "paintings",
-        status: "live",
-        price: 45000,
-        bidders: 6,
-        endTime: "2025-01-25T22:00:00",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-        description: "Acrylic on canvas landscape, 60x80cm. Breathtaking color palette capturing the magic..."
-    },
-    {
-        id: 7,
-        title: "Modern Forms",
-        artist: "Layla Mahmoud",
-        category: "sculptures",
-        status: "upcoming",
-        price: 85000,
-        watching: 22,
-        startTime: "2025-01-28T16:00:00",
-        image: "https://images.unsplash.com/photo-1594736797933-d0ac6a4d5d0e?w=400&h=300&fit=crop",
-        description: "Contemporary ceramic sculpture, 60cm height. Bold geometric forms that challenge traditional boundaries..."
-    },
-    {
-        id: 8,
-        title: "Collage Dreams",
-        artist: "Nadia Rostom",
-        category: "mixed-media",
-        status: "live",
-        price: 62000,
-        bidders: 9,
-        endTime: "2025-01-26T14:20:00",
-        image: "https://images.unsplash.com/photo-1549490349-8643362247b5?w=400&h=300&fit=crop",
-        description: "Mixed media collage, 75x95cm. Innovative layering techniques creating depth and narrative..."
-    },
-    {
-        id: 9,
-        title: "City Lights",
-        artist: "Karim El-Sharif",
-        category: "photography",
-        status: "ended",
-        price: 28000,
-        winner: "art_collector_92",
-        image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-        description: "Night photography series, 50x70cm print. Stunning urban landscapes captured during golden hour..."
-    },
-    {
-        id: 10,
-        title: "Geometric Abstractions",
-        artist: "Isabella Torres",
-        category: "paintings",
-        status: "upcoming",
-        price: 67000,
-        watching: 18,
-        startTime: "2025-01-29T14:00:00",
-        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop",
-        description: "Contemporary abstract painting, 85x110cm. Bold geometric patterns in vibrant colors..."
-    },
-    {
-        id: 11,
-        title: "Marble Elegance",
-        artist: "Roberto Silva",
-        category: "sculptures",
-        status: "live",
-        price: 150000,
-        bidders: 14,
-        endTime: "2025-01-26T16:45:00",
-        image: "https://images.unsplash.com/photo-1594736797933-d0ac6a4d5d0e?w=400&h=300&fit=crop",
-        description: "Carved marble sculpture, 75cm height. Classical technique meets contemporary vision..."
-    },
-    {
-        id: 12,
-        title: "Street Stories",
-        artist: "Maya Johnson",
-        category: "photography",
-        status: "ended",
-        price: 42000,
-        winner: "photo_enthusiast_23",
-        image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=400&h=300&fit=crop",
-        description: "Documentary photography series, 60x90cm prints. Capturing authentic moments of urban life..."
-    }
-];
-
-// Global variables for pagination and filtering
-let filteredAuctions = [...auctions];
+// Global variables for auction data
+let auctions = [];
+let filteredAuctions = [];
 let activeFilters = {};
+let isLoading = false;
+
+// API endpoint for auctions
+const AUCTION_API_URL = './API/getAllAuction.php';
+
+// Pagination variables
 let currentPage = 1;
-let auctionsPerPage = 6; // Show 6 auctions per page
+const auctionsPerPage = 12;
 let totalPages = 1;
 
 // DOM elements
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const statusFilter = document.getElementById("statusFilter");
-const minPriceInput = document.getElementById("minPrice");
-const maxPriceInput = document.getElementById("maxPrice");
+const auctionGrid = document.getElementById('auctionGrid');
+const loadingContainer = document.getElementById('loadingContainer');
+const noResults = document.getElementById('noResults');
+const searchInput = document.getElementById('searchInput');
+const categoryFilter = document.getElementById('categoryFilter');
+const statusFilter = document.getElementById('statusFilter');
+const minPriceInput = document.getElementById('minPrice');
+const maxPriceInput = document.getElementById('maxPrice');
+
+// Load auctions from API
+async function loadAuctions(filters = {}) {
+    isLoading = true;
+    showLoading();
+    
+    try {
+        // Build URL with filters
+        const params = new URLSearchParams();
+        
+        if (filters.search) params.append('search', filters.search);
+        if (filters.category && filters.category !== 'all') params.append('category', filters.category);
+        if (filters.status) params.append('status', filters.status);
+        if (filters.min_price) params.append('min_price', filters.min_price);
+        if (filters.max_price) params.append('max_price', filters.max_price);
+        
+        // Add pagination
+        params.append('limit', auctionsPerPage);
+        params.append('offset', (currentPage - 1) * auctionsPerPage);
+        
+        const url = `${AUCTION_API_URL}?${params.toString()}`;
+        console.log('Loading auctions from:', url);
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success) {
+            auctions = data.data;
+            totalPages = Math.ceil(data.total_count / auctionsPerPage);
+            
+            renderAuctions(auctions);
+            updatePaginationControls();
+            updateAuctionCount(data.total_count);
+            
+            // Initialize timers for newly loaded auctions
+            initializeTimers();
+        } else {
+            console.error('API Error:', data.message);
+            showError('Failed to load auctions: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error loading auctions:', error);
+        showError('Failed to load auctions. Please try again.');
+    } finally {
+        isLoading = false;
+        hideLoading();
+    }
+}
+
+// Show loading spinner
+function showLoading() {
+    if (loadingContainer) {
+        loadingContainer.style.display = 'flex';
+    }
+    if (auctionGrid) {
+        auctionGrid.style.opacity = '0.5';
+    }
+}
+
+// Hide loading spinner
+function hideLoading() {
+    if (loadingContainer) {
+        loadingContainer.style.display = 'none';
+    }
+    if (auctionGrid) {
+        auctionGrid.style.opacity = '1';
+    }
+}
+
+// Show error message
+function showError(message) {
+    if (auctionGrid) {
+        auctionGrid.innerHTML = `
+            <div class="error-message">
+                <div class="error-icon">⚠️</div>
+                <h3>Error Loading Auctions</h3>
+                <p>${message}</p>
+                <button class="retry-btn" onclick="loadAuctions()">Try Again</button>
+            </div>
+        `;
+    }
+}
+
+// Additional DOM elements
 const activeFiltersContainer = document.getElementById("activeFilters");
 const searchResults = document.getElementById("searchResults");
-const auctionGrid = document.querySelector(".auctionGrid");
-const noResults = document.getElementById("noResults");
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeAuctionPage();
 });
 
 function initializeAuctionPage() {
-    // Initialize data-driven auction grid
-    filteredAuctions = [...auctions];
-    totalPages = Math.ceil(auctions.length / auctionsPerPage);
+    // Load auctions from API
+    loadAuctions();
     
-    // Use paginated rendering from the start
-    renderPaginatedAuctions();
-    updatePaginationControls();
+    // Setup event listeners and initialize components
     setupEventListeners();
+    updatePaginationControls();
     
     initializeTimers();
     initializeWatchlist();
@@ -199,47 +144,54 @@ function setupEventListeners() {
 
 // Render auctions on the page
 function renderAuctions(auctionsToRender) {
+    if (!auctionGrid) return;
+    
     // Clear existing auctions
     auctionGrid.innerHTML = '';
-    noResults.style.display = 'none';
-
-    if (auctionsToRender.length === 0) {
-        noResults.style.display = 'block';
+    
+    if (!auctionsToRender || auctionsToRender.length === 0) {
+        showNoResults();
         return;
+    }
+
+    // Hide no results
+    if (noResults) {
+        noResults.style.display = 'none';
     }
 
     // Create auction cards
     auctionsToRender.forEach(auction => {
         const card = document.createElement("div");
-        card.className = `auctionCard ${auction.status}`;
-        card.dataset.category = auction.category;
-        card.dataset.price = auction.price;
+        card.className = `auctionCard ${getStatusClass(auction.auction.status)}`;
+        card.dataset.category = auction.category.toLowerCase();
+        card.dataset.price = auction.auction.current_bid || auction.auction.starting_bid;
 
         card.innerHTML = `
-            <div class="auctionImage">
-                <img src="${auction.image}" alt="${auction.title}">
+            <div class="auctionImageContainer">
+                <img 
+                    src="${auction.image_missing ? '/image/placeholder-artwork.jpg' : (auction.image_src || '/image/placeholder-artwork.jpg')}" 
+                    alt="${auction.title}"
+                    class="auctionImage"
+                    onerror="this.src='/image/placeholder-artwork.jpg'"
+                />
+                ${getStatusHTML(auction)}
+                ${getTimerHTML(auction)}
             </div>
+            
             <div class="auctionInfo">
-                <h3 class="auctionTitle">${auction.title}</h3>
-                <p class="auctionArtist">${auction.artist}</p>
-                <div class="auctionMeta">
-                    <span class="auctionStatus ${auction.status}">${auction.status.charAt(0).toUpperCase() + auction.status.slice(1)}</span>
-                    <span class="biddersCount">${auction.bidders ? auction.bidders + ' bidders' : ''}</span>
+                <div class="auctionContent">
+                    <h3 class="auctionTitle">${auction.title}</h3>
+                    <p class="auctionArtist">${auction.artist.display_name}</p>
+                    <p class="auctionDescription">
+                        ${auction.description.length > 100 ? 
+                            auction.description.substring(0, 100) + '...' : 
+                            auction.description}
+                    </p>
+                    
+                    ${getPriceHTML(auction)}
+                    ${getBidsCountHTML(auction)}
                 </div>
-                <div class="auctionPrice">
-                    ${auction.status === 'ended' ? 'Sold for' : 'Current bid'}: <span class="priceValue">${formatPrice(auction.price)}</span>
-                </div>
-                <div class="auctionTimer" data-end-time="${auction.endTime}">
-                    <span class="timeRemaining"></span>
-                </div>
-                <div class="auctionActions">
-                    <a href="#" class="bidNowBtn" onclick="openAuctionPreview(${auction.id}); return false;">
-                        <i class="fas fa-gavel"></i> ${auction.status === 'live' ? 'Bid Now' : 'View Details'}
-                    </a>
-                    <a href="#" class="watchBtn ${auction.watching ? '' : 'disabled'}" onclick="toggleWatchlist(event, ${auction.id}); return false;">
-                        <i class="far fa-heart"></i> ${auction.watching ? 'Watching' : 'Watch'}
-                    </a>
-                </div>
+                ${getActionsHTML(auction)}
             </div>
         `;
 
@@ -250,42 +202,310 @@ function renderAuctions(auctionsToRender) {
     initializeTimers();
 }
 
-// Pagination functions
+// Render paginated auctions (for compatibility with existing code)
+function renderPaginatedAuctions() {
+    // This function is now handled by renderAuctions since we're using API pagination
+    // Keeping for backward compatibility
+    console.log('renderPaginatedAuctions called - handled by API pagination');
+}
+
+// Helper function to show no results
+function showNoResults() {
+    if (auctionGrid) {
+        auctionGrid.innerHTML = `
+            <div class="no-results-container">
+                <div class="no-results-icon">🎨</div>
+                <h3>No auctions found</h3>
+                <p>Try adjusting your search terms or filters</p>
+                <button class="clear-search-btn" onclick="clearAllFilters()">Clear All Filters</button>
+            </div>
+        `;
+    }
+}
+
+// Get status CSS class
+function getStatusClass(status) {
+    const statusMap = {
+        'active': 'live',
+        'upcoming': 'upcoming', 
+        'starting_soon': 'upcoming',
+        'sold': 'ended',
+        'cancelled': 'ended'
+    };
+    return statusMap[status] || 'upcoming';
+}
+
+// Generate status HTML
+function getStatusHTML(auction) {
+    const status = auction.auction.status;
+    const statusClass = getStatusClass(status);
+    
+    let statusText = status.toUpperCase();
+    let icon = 'fas fa-clock';
+    
+    switch (status) {
+        case 'active':
+            statusText = 'LIVE';
+            icon = 'fas fa-circle';
+            break;
+        case 'upcoming':
+        case 'starting_soon':
+            statusText = 'UPCOMING';
+            icon = 'fas fa-clock';
+            break;
+        case 'sold':
+            statusText = 'SOLD';
+            icon = 'fas fa-check';
+            break;
+        case 'cancelled':
+            statusText = 'CANCELLED';
+            icon = 'fas fa-times';
+            break;
+    }
+    
+    return `<div class="auctionStatus ${statusClass}">
+        <i class="${icon}"></i>
+        <span>${statusText}</span>
+    </div>`;
+}
+
+// Generate timer HTML
+function getTimerHTML(auction) {
+    const status = auction.auction.status;
+    const endTime = auction.auction.end_time;
+    const startTime = auction.auction.start_time;
+    
+    if (status === 'active' && endTime) {
+        return `<div class="auctionTimer" data-end-time="${endTime}">
+            <i class="fas fa-hourglass-half"></i>
+            <span class="timeRemaining">Loading...</span>
+        </div>`;
+    } else if ((status === 'upcoming' || status === 'starting_soon') && startTime) {
+        return `<div class="auctionTimer" data-start-time="${startTime}">
+            <i class="fas fa-calendar"></i>
+            <span class="timeRemaining">Loading...</span>
+        </div>`;
+    }
+    
+    return '';
+}
+
+// Generate price HTML
+function getPriceHTML(auction) {
+    const currentBid = auction.auction.current_bid;
+    const startingBid = auction.auction.starting_bid;
+    const displayPrice = currentBid || startingBid;
+    
+    return `<div class="auctionPricing">
+        <div class="currentBid">
+            <span class="bidLabel">${currentBid ? 'Current Bid' : 'Starting Bid'}</span>
+            <span class="bidAmount">EGP ${parseFloat(displayPrice).toLocaleString()}</span>
+        </div>
+    </div>`;
+}
+
+// Generate bids count HTML
+function getBidsCountHTML(auction) {
+    const bidCount = auction.auction.bid_count || 0;
+    
+    return `<div class="bidsCount">
+        <i class="fas fa-gavel"></i>
+        <span>${bidCount} ${bidCount === 1 ? 'bid' : 'bids'}</span>
+    </div>`;
+}
+
+// Generate actions HTML
+function getActionsHTML(auction) {
+    const status = auction.auction.status;
+    const auctionId = auction.auction_id;
+    
+    let primaryButton = '';
+    
+    switch (status) {
+        case 'active':
+            primaryButton = `<button class="bidNowBtn" onclick="openAuctionPreview(${auctionId})">
+                <i class="fas fa-gavel"></i>
+                Bid Now
+            </button>`;
+            break;
+        case 'upcoming':
+        case 'starting_soon':
+            primaryButton = `<button class="preRegisterBtn" onclick="openAuctionPreview(${auctionId})">
+                <i class="fas fa-bell"></i>
+                Pre-Register
+            </button>`;
+            break;
+        default:
+            primaryButton = `<button class="viewDetailsBtn" onclick="openAuctionPreview(${auctionId})">
+                <i class="fas fa-eye"></i>
+                View Details
+            </button>`;
+            break;
+    }
+    
+    const watchIcon = status === 'sold' || status === 'cancelled' ? 'fas fa-heart disabled' : 'far fa-heart';
+    const watchDisabled = status === 'sold' || status === 'cancelled' ? 'disabled' : '';
+    
+    return `<div class="auctionActions">
+        ${primaryButton}
+        <button class="watchBtn ${watchDisabled}">
+            <i class="${watchIcon}"></i>
+        </button>
+    </div>`;
+}
+
+// Pagination functions - now reload from API
 function previousPage() {
-    if (currentPage > 1) {
+    if (currentPage > 1 && !isLoading) {
         currentPage--;
-        renderPaginatedAuctions();
-        updatePaginationControls();
+        loadAuctions(getCurrentFilters());
         scrollToTop();
     }
 }
 
 function nextPage() {
-    if (currentPage < totalPages) {
+    if (currentPage < totalPages && !isLoading) {
         currentPage++;
-        renderPaginatedAuctions();
-        updatePaginationControls();
+        loadAuctions(getCurrentFilters());
         scrollToTop();
     }
 }
 
 function goToPage(page) {
-    if (page >= 1 && page <= totalPages) {
+    if (page >= 1 && page <= totalPages && page !== currentPage && !isLoading) {
         currentPage = page;
-        renderPaginatedAuctions();
-        updatePaginationControls();
+        loadAuctions(getCurrentFilters());
         scrollToTop();
     }
 }
 
-function renderPaginatedAuctions() {
-    // Calculate start and end indices for current page
-    const startIndex = (currentPage - 1) * auctionsPerPage;
-    const endIndex = startIndex + auctionsPerPage;
-    const paginatedAuctions = filteredAuctions.slice(startIndex, endIndex);
+// Helper function to get current filters
+function getCurrentFilters() {
+    const filters = {};
     
-    renderAuctionsGrid(paginatedAuctions);
-    updateAuctionCount();
+    const searchTerm = searchInput ? searchInput.value.trim() : '';
+    const selectedCategory = categoryFilter ? categoryFilter.value : '';
+    const selectedStatus = statusFilter ? statusFilter.value : '';
+    const minPrice = minPriceInput ? parseFloat(minPriceInput.value) || null : null;
+    const maxPrice = maxPriceInput ? parseFloat(maxPriceInput.value) || null : null;
+    
+    if (searchTerm) filters.search = searchTerm;
+    if (selectedCategory && selectedCategory !== 'all') filters.category = selectedCategory;
+    if (selectedStatus && selectedStatus !== 'all') filters.status = selectedStatus;
+    if (minPrice) filters.min_price = minPrice;
+    if (maxPrice) filters.max_price = maxPrice;
+    
+    return filters;
+}
+
+// Scroll to top helper
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Update pagination controls
+function updatePaginationControls() {
+    const paginationSection = document.querySelector('.pagination-section');
+    const prevBtn = document.getElementById('prevPage');
+    const nextBtn = document.getElementById('nextPage');
+    const pageNumbers = document.getElementById('pageNumbers');
+    const currentPageSpan = document.getElementById('currentPage');
+    const totalPagesSpan = document.getElementById('totalPages');
+    
+    if (!paginationSection) return;
+    
+    // Show/hide pagination based on total pages
+    if (totalPages <= 1) {
+        paginationSection.style.display = 'none';
+        return;
+    } else {
+        paginationSection.style.display = 'block';
+    }
+    
+    // Update prev/next buttons
+    if (prevBtn) {
+        prevBtn.disabled = currentPage <= 1;
+    }
+    if (nextBtn) {
+        nextBtn.disabled = currentPage >= totalPages;
+    }
+    
+    // Update page info
+    if (currentPageSpan) currentPageSpan.textContent = currentPage;
+    if (totalPagesSpan) totalPagesSpan.textContent = totalPages;
+    
+    // Update page numbers
+    if (pageNumbers) {
+        pageNumbers.innerHTML = generatePageNumbers();
+    }
+}
+
+// Generate page numbers HTML
+function generatePageNumbers() {
+    let pagesHtml = '';
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+        // Show all pages
+        for (let i = 1; i <= totalPages; i++) {
+            const activeClass = i === currentPage ? 'active' : '';
+            pagesHtml += `<button class="pagination-number ${activeClass}" onclick="goToPage(${i})">${i}</button>`;
+        }
+    } else {
+        // Show pages with ellipsis
+        const startPage = Math.max(1, currentPage - 2);
+        const endPage = Math.min(totalPages, currentPage + 2);
+        
+        // First page
+        if (startPage > 1) {
+            pagesHtml += `<button class="pagination-number" onclick="goToPage(1)">1</button>`;
+            if (startPage > 2) {
+                pagesHtml += `<span class="pagination-dots">...</span>`;
+            }
+        }
+        
+        // Middle pages
+        for (let i = startPage; i <= endPage; i++) {
+            const activeClass = i === currentPage ? 'active' : '';
+            pagesHtml += `<button class="pagination-number ${activeClass}" onclick="goToPage(${i})">${i}</button>`;
+        }
+        
+        // Last page
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                pagesHtml += `<span class="pagination-dots">...</span>`;
+            }
+            pagesHtml += `<button class="pagination-number" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+        }
+    }
+    
+    return pagesHtml;
+}
+
+// Clear all filters function
+function clearAllFilters() {
+    if (searchInput) searchInput.value = '';
+    if (categoryFilter) categoryFilter.value = 'all';
+    if (statusFilter) statusFilter.value = 'all';
+    if (minPriceInput) minPriceInput.value = '';
+    if (maxPriceInput) maxPriceInput.value = '';
+    
+    // Reset active filters
+    activeFilters = {};
+    
+    // Reset to first page and reload
+    currentPage = 1;
+    loadAuctions();
+    
+    // Update display
+    renderActiveFilters();
+}
+
+// These functions are no longer needed since we load directly from API
+// but keeping updateAuctionCount for compatibility
+function updateAuctionCount(totalCount = 0) {
+    // Update any UI elements that show total auction count
+    console.log(`Total auctions: ${totalCount}`);
 }
 
 function renderAuctionsGrid(auctionsToRender) {
@@ -324,9 +544,10 @@ function renderAuctionsGrid(auctionsToRender) {
         auctionCard.innerHTML = `
             <div class="auctionImageContainer">
                 <img 
-                    src="${auction.image}" 
+                    src="${auction.image_missing ? '/image/placeholder-artwork.jpg' : (auction.image_src || auction.image || '/image/placeholder-artwork.jpg')}" 
                     alt="${auction.title}"
                     class="auctionImage"
+                    onerror="this.src='/image/placeholder-artwork.jpg'"
                 />
                 ${statusHTML}
                 ${timerHTML}
@@ -372,14 +593,34 @@ function getStatusHTML(auction) {
             </div>`;
 }
 
+function getStatusHTML(auction) {
+    const status = auction.auction.status;
+    const statusMap = {
+        'active': { class: 'live', icon: 'fas fa-circle', text: 'LIVE' },
+        'upcoming': { class: 'upcoming', icon: 'fas fa-calendar', text: 'UPCOMING' },
+        'starting_soon': { class: 'upcoming', icon: 'fas fa-calendar', text: 'STARTING SOON' },
+        'sold': { class: 'ended', icon: 'fas fa-check', text: 'SOLD' },
+        'cancelled': { class: 'ended', icon: 'fas fa-times', text: 'CANCELLED' }
+    };
+    
+    const statusInfo = statusMap[status] || statusMap['upcoming'];
+    
+    return `<div class="auctionStatus ${statusInfo.class}">
+                <i class="${statusInfo.icon}"></i>
+                <span>${statusInfo.text}</span>
+            </div>`;
+}
+
 function getTimerHTML(auction) {
-    if (auction.status === 'live' && auction.endTime) {
-        return `<div class="auctionTimer" data-end-time="${auction.endTime}">
+    const status = auction.auction.status;
+    
+    if (status === 'active' && auction.auction.end_time) {
+        return `<div class="auctionTimer" data-end-time="${auction.auction.end_time}">
                     <i class="fas fa-clock"></i>
                     <span class="timeRemaining">Calculating...</span>
                 </div>`;
-    } else if (auction.status === 'upcoming' && auction.startTime) {
-        return `<div class="auctionTimer" data-start-time="${auction.startTime}">
+    } else if ((status === 'upcoming' || status === 'starting_soon') && auction.auction.start_time) {
+        return `<div class="auctionTimer" data-start-time="${auction.auction.start_time}">
                     <i class="fas fa-calendar-alt"></i>
                     <span class="timeRemaining">Calculating...</span>
                 </div>`;
@@ -388,48 +629,83 @@ function getTimerHTML(auction) {
 }
 
 function getPriceHTML(auction) {
-    const label = auction.status === 'ended' ? 'Final Price' : 
-                 auction.status === 'upcoming' ? 'Starting Bid' : 'Current Bid';
+    const status = auction.auction.status;
+    let label, price;
     
-    return `<div class="currentBid">
-                <span class="bidLabel">${label}</span>
-                <span class="bidAmount">EGP ${auction.price.toLocaleString()}</span>
+    if (status === 'sold' || status === 'cancelled') {
+        label = 'Final Price';
+        price = auction.auction.formatted_current_bid || auction.auction.formatted_starting_bid;
+    } else if (status === 'upcoming' || status === 'starting_soon') {
+        label = 'Starting Bid';
+        price = auction.auction.formatted_starting_bid;
+    } else {
+        label = 'Current Bid';
+        price = auction.auction.formatted_current_bid || auction.auction.formatted_starting_bid;
+    }
+    
+    return `<div class="auctionPricing">
+                <div class="currentBid">
+                    <span class="bidLabel">${label}</span>
+                    <span class="bidAmount">${price}</span>
+                </div>
             </div>`;
 }
 
 function getBidsCountHTML(auction) {
-    if (auction.status === 'live' && auction.bidders) {
-        return `<i class="fas fa-users"></i>
-                <span>${auction.bidders} bidders</span>`;
-    } else if (auction.status === 'upcoming' && auction.watching) {
-        return `<i class="fas fa-eye"></i>
-                <span>${auction.watching} watching</span>`;
-    } else if (auction.status === 'ended' && auction.winner) {
-        return `<i class="fas fa-trophy"></i>
-                <span>Won by ${auction.winner}</span>`;
+    const status = auction.auction.status;
+    
+    if (status === 'active') {
+        // For active auctions, show bidder count (we can get this from auction bids later)
+        return `<div class="bidsCount">
+                    <i class="fas fa-users"></i>
+                    <span>Active bidding</span>
+                </div>`;
+    } else if (status === 'upcoming' || status === 'starting_soon') {
+        return `<div class="bidsCount">
+                    <i class="fas fa-eye"></i>
+                    <span>Auction starting soon</span>
+                </div>`;
+    } else if (status === 'sold') {
+        return `<div class="bidsCount">
+                    <i class="fas fa-trophy"></i>
+                    <span>Auction completed</span>
+                </div>`;
+    } else if (status === 'cancelled') {
+        return `<div class="bidsCount">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Auction cancelled</span>
+                </div>`;
     }
     return '';
 }
 
 function getActionsHTML(auction) {
-    const mainButtonText = auction.status === 'live' ? 'Bid Now' : 
-                          auction.status === 'upcoming' ? 'Pre-Register' : 'View Details';
-    const mainButtonClass = auction.status === 'live' ? 'bidNowBtn' : 
-                           auction.status === 'upcoming' ? 'preRegisterBtn' : 'viewDetailsBtn';
-    const mainButtonIcon = auction.status === 'live' ? 'fas fa-gavel' : 
-                          auction.status === 'upcoming' ? 'fas fa-bell' : 'fas fa-eye';
+    const buttonText = auction.button_text;
+    const buttonType = auction.button_type;
     
-    const watchButtonDisabled = auction.status === 'ended' ? 'disabled' : '';
-    const watchButtonTitle = auction.status === 'ended' ? 'Auction Ended' : 'Add to Watchlist';
-    const watchButtonIcon = auction.status === 'ended' ? 'fas fa-check' : 'far fa-heart';
+    let buttonClass, buttonIcon;
     
-    return `<button class="${mainButtonClass}" onclick="openAuctionPreview('auction-${auction.id}')">
-                <i class="${mainButtonIcon}"></i>
-                ${mainButtonText}
-            </button>
-            <button class="watchBtn ${watchButtonDisabled}" title="${watchButtonTitle}">
-                <i class="${watchButtonIcon}"></i>
-            </button>`;
+    if (buttonType === 'pre-register') {
+        buttonClass = 'preRegisterBtn';
+        buttonIcon = 'fas fa-bell';
+    } else {
+        buttonClass = 'viewDetailsBtn';
+        buttonIcon = 'fas fa-eye';
+    }
+    
+    const watchButtonDisabled = (auction.auction.status === 'sold' || auction.auction.status === 'cancelled') ? 'disabled' : '';
+    const watchButtonTitle = watchButtonDisabled ? 'Auction Ended' : 'Add to Watchlist';
+    const watchButtonIcon = watchButtonDisabled ? 'fas fa-check' : 'far fa-heart';
+    
+    return `<div class="auctionActions">
+                <button class="${buttonClass}" onclick="openAuctionPreview('auction-${auction.artwork_id}')">
+                    <i class="${buttonIcon}"></i>
+                    ${buttonText}
+                </button>
+                <button class="watchBtn ${watchButtonDisabled}" title="${watchButtonTitle}">
+                    <i class="${watchButtonIcon}"></i>
+                </button>
+            </div>`;
 }
 
 function updatePaginationControls() {
@@ -554,7 +830,6 @@ function clearAllFilters() {
     totalPages = Math.ceil(auctions.length / auctionsPerPage);
 
     renderActiveFilters();
-    renderPaginatedAuctions();
     updatePaginationControls();
 
     if (searchResults) {
@@ -614,58 +889,41 @@ function removeFilter(filterKey) {
     applyFilters();
 }
 
-// Updated applyFilters function
+// Updated applyFilters function - now calls API with filters
 function applyFilters() {
-    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    if (isLoading) return; // Prevent multiple concurrent requests
+    
+    const searchTerm = searchInput ? searchInput.value.trim() : '';
     const selectedCategory = categoryFilter ? categoryFilter.value : '';
     const selectedStatus = statusFilter ? statusFilter.value : '';
-    const minPrice = minPriceInput ? Number.parseFloat(minPriceInput.value) || 0 : 0;
-    const maxPrice = maxPriceInput ? Number.parseFloat(maxPriceInput.value) || Number.POSITIVE_INFINITY : Number.POSITIVE_INFINITY;
+    const minPrice = minPriceInput ? parseFloat(minPriceInput.value) || null : null;
+    const maxPrice = maxPriceInput ? parseFloat(maxPriceInput.value) || null : null;
 
-    // Reset active filters
-    activeFilters = {};
-
-    // Filter auctions
-    filteredAuctions = auctions.filter(auction => {
-        let matches = true;
-
-        // Search term filter
-        if (searchTerm) {
-            const searchableText = `${auction.title} ${auction.artist} ${auction.category} ${auction.description}`.toLowerCase();
-            matches = matches && searchableText.includes(searchTerm);
-            if (searchTerm) activeFilters.searchTerm = searchTerm;
-        }
-
-        // Category filter
-        if (selectedCategory) {
-            matches = matches && auction.category === selectedCategory;
-            activeFilters.category = selectedCategory;
-        }
-
-        // Status filter
-        if (selectedStatus) {
-            matches = matches && auction.status === selectedStatus;
-            activeFilters.status = selectedStatus;
-        }
-
-        // Price filter
-        if (minPrice > 0 || maxPrice < Number.POSITIVE_INFINITY) {
-            matches = matches && auction.price >= minPrice && auction.price <= maxPrice;
-            if (minPrice > 0) activeFilters.minPrice = minPrice;
-            if (maxPrice < Number.POSITIVE_INFINITY) activeFilters.maxPrice = maxPrice;
-        }
-
-        return matches;
-    });
+    // Build filters object
+    const filters = {};
+    
+    if (searchTerm) filters.search = searchTerm;
+    if (selectedCategory && selectedCategory !== 'all') filters.category = selectedCategory;
+    if (selectedStatus && selectedStatus !== 'all') filters.status = selectedStatus;
+    if (minPrice) filters.min_price = minPrice;
+    if (maxPrice) filters.max_price = maxPrice;
 
     // Reset to first page when filters change
     currentPage = 1;
-    totalPages = Math.ceil(filteredAuctions.length / auctionsPerPage);
+    
+    // Update active filters for display
+    activeFilters = {};
+    if (searchTerm) activeFilters.searchTerm = searchTerm;
+    if (selectedCategory && selectedCategory !== 'all') activeFilters.category = selectedCategory;
+    if (selectedStatus && selectedStatus !== 'all') activeFilters.status = selectedStatus;
+    if (minPrice) activeFilters.minPrice = minPrice;
+    if (maxPrice) activeFilters.maxPrice = maxPrice;
 
-    // Update UI
+    // Load auctions with filters
+    loadAuctions(filters);
+    
+    // Update active filters display
     renderActiveFilters();
-    renderPaginatedAuctions();
-    updatePaginationControls();
 }
 
 // Timer functionality for live auctions

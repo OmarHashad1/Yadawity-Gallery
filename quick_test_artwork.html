@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quick Artwork Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin: 10px 0; }
+        input, textarea, select { width: 300px; padding: 5px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; }
+        .result { margin: 20px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h2>Quick Artwork Creation Test</h2>
+    
+    <form id="quickTest">
+        <div class="form-group">
+            <label>Title:</label><br>
+            <input type="text" id="title" value="Quick Test Artwork" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Description:</label><br>
+            <textarea id="description" required>Test artwork description</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Price:</label><br>
+            <input type="number" id="price" value="150" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Category:</label><br>
+            <select id="category" required>
+                <option value="paintings">Paintings</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Style:</label><br>
+            <select id="style" required>
+                <option value="abstract">Abstract</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Width (cm):</label><br>
+            <input type="number" id="width" value="60" step="0.1" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Height (cm):</label><br>
+            <input type="number" id="height" value="80" step="0.1" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Primary Image:</label><br>
+            <input type="file" id="primaryImage" accept="image/*" required>
+        </div>
+        
+        <button type="button" onclick="testQuickSubmit()">Create Artwork</button>
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+        async function testQuickSubmit() {
+            const result = document.getElementById('result');
+            const primaryImage = document.getElementById('primaryImage').files[0];
+            
+            if (!primaryImage) {
+                result.innerHTML = '<div class="error">Please select a primary image!</div>';
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('title').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('price', document.getElementById('price').value);
+            formData.append('category', document.getElementById('category').value);
+            formData.append('style', document.getElementById('style').value);
+            formData.append('width', document.getElementById('width').value);
+            formData.append('height', document.getElementById('height').value);
+            formData.append('artist_id', '17'); // Using artist 17 from the logs
+            formData.append('primary_image', primaryImage);
+            
+            result.innerHTML = '<div style="color: blue;">Creating artwork...</div>';
+            
+            try {
+                const response = await fetch('./API/addArtwork.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Success!</h3>
+                            <p><strong>Artwork ID:</strong> ${data.data.artwork_id}</p>
+                            <p><strong>Title:</strong> ${data.data.artwork_title}</p>
+                            <p><strong>Images:</strong> ${data.data.images_uploaded}</p>
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `
+                        <div class="error">
+                            <h3>❌ Error</h3>
+                            <p>${data.message}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                result.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Network Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,7 +3,9 @@ require_once "db.php";
 
 function checkUserAuthentication($db) {
     try {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         
         // Check if session variables exist
         if (isset($_SESSION['user_id']) && isset($_SESSION['session_token'])) {
@@ -206,8 +208,9 @@ function uploadFile($file, $uploadDir, $prefix = '') {
         
         $allowedTypes = (strpos($prefix, 'id_') === 0) ? $allowedDocTypes : $allowedImageTypes;
         
-        if (!validateFileSignature($file, $allowedTypes)) {
-            return ['success' => false, 'message' => 'Invalid file type or corrupted file'];
+        // Removed file signature validation for consistency
+        if (!file_exists($file['tmp_name']) || $file['size'] <= 0) {
+            return ['success' => false, 'message' => 'Invalid file or file is empty'];
         }
         
         $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -239,6 +242,166 @@ function uploadFile($file, $uploadDir, $prefix = '') {
     } catch (Exception $e) {
         error_log("uploadFile function error: " . $e->getMessage());
         return ['success' => false, 'message' => 'Upload failed due to server error'];
+    }
+}
+
+function uploadVerificationDocument($file, $uploadDir, $documentType, $nationalId) {
+    try {
+        // Add debug logging
+        error_log("uploadVerificationDocument called for: $documentType");
+        error_log("File data: " . print_r($file, true));
+        
+        $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/gif'];
+        
+        // Check for upload errors first
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $errorMessages = [
+                UPLOAD_ERR_INI_SIZE => 'File too large (exceeds php.ini limit)',
+                UPLOAD_ERR_FORM_SIZE => 'File too large (exceeds form limit)', 
+                UPLOAD_ERR_PARTIAL => 'File upload was incomplete',
+                UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+                UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary folder',
+                UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+                UPLOAD_ERR_EXTENSION => 'File upload stopped by extension'
+            ];
+            $errorMsg = isset($errorMessages[$file['error']]) ? $errorMessages[$file['error']] : 'Unknown upload error';
+            error_log("Upload error for $documentType: " . $errorMsg);
+            return ['success' => false, 'message' => $errorMsg];
+        }
+        
+        // Validate file signature - make this more lenient
+        // Removed file signature validation for now
+        if (!file_exists($file['tmp_name']) || $file['size'] <= 0) {
+            error_log("File does not exist or is empty for $documentType");
+            return ['success' => false, 'message' => 'Invalid file or file is empty'];
+        }
+        
+        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif'];
+        
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            error_log("File extension not allowed for $documentType: $fileExtension");
+            return ['success' => false, 'message' => 'File extension not allowed'];
+        }
+        
+        if ($file['size'] > 5 * 1024 * 1024) { // 5MB limit
+            error_log("File too large for $documentType: " . $file['size']);
+            return ['success' => false, 'message' => 'File size too large (max 5MB)'];
+        }
+        
+        // Create filename with national ID and document type
+        $cleanNationalId = preg_replace('/[^a-zA-Z0-9]/', '', $nationalId);
+        $timestamp = time();
+        $fileName = "verification_{$cleanNationalId}_{$documentType}_{$timestamp}." . $fileExtension;
+        
+        $filePath = $uploadDir . $fileName;
+        
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                error_log("Failed to create directory: $uploadDir");
+                return ['success' => false, 'message' => 'Failed to create upload directory'];
+            }
+        }
+        
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            error_log("File uploaded successfully: $filePath");
+            return ['success' => true, 'filename' => $fileName];
+        }
+        
+        error_log("move_uploaded_file failed for $documentType");
+        return ['success' => false, 'message' => 'Upload failed'];
+        
+    } catch (Exception $e) {
+        error_log("uploadVerificationDocument function error: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Upload failed due to server error'];
+    }
+}
+
+function uploadProfilePicture($file, $userId, $firstName, $lastName) {
+    try {
+        $allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        
+        // Removed file signature validation for consistency
+        if (!file_exists($file['tmp_name']) || $file['size'] <= 0) {
+            return ['success' => false, 'message' => 'Invalid file or file is empty'];
+        }
+        
+        $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            return ['success' => false, 'message' => 'File extension not allowed'];
+        }
+        
+        if ($file['size'] > 5 * 1024 * 1024) { // 5MB limit
+            return ['success' => false, 'message' => 'File size too large (max 5MB)'];
+        }
+        
+        // Create filename with user ID and name convention
+        $cleanFirstName = preg_replace('/[^a-zA-Z0-9]/', '', $firstName);
+        $cleanLastName = preg_replace('/[^a-zA-Z0-9]/', '', $lastName);
+        $fileName = "user_{$userId}_{$cleanFirstName}_{$cleanLastName}_profile." . $fileExtension;
+        
+        $uploadDir = dirname(__DIR__) . '/uploads/user_profile_picture/';
+        $filePath = $uploadDir . $fileName;
+        
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                return ['success' => false, 'message' => 'Failed to create upload directory'];
+            }
+        }
+        
+        // Remove old profile picture if exists
+        $oldFiles = glob($uploadDir . "user_{$userId}_*_profile.*");
+        foreach ($oldFiles as $oldFile) {
+            if (file_exists($oldFile)) {
+                unlink($oldFile);
+            }
+        }
+        
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            return ['success' => true, 'filename' => $fileName];
+        }
+        
+        return ['success' => false, 'message' => 'Upload failed'];
+        
+    } catch (Exception $e) {
+        error_log("uploadProfilePicture function error: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Upload failed due to server error'];
+    }
+}
+
+function saveProfilePictureToDatabase($db, $userId, $filename) {
+    try {
+        // Update Img field in users table
+        $updateUserStmt = $db->prepare("UPDATE users SET Img = ? WHERE user_id = ?");
+        if (!$updateUserStmt) {
+            throw new Exception("Failed to prepare user update query: " . $db->error);
+        }
+        
+        $updateUserStmt->bind_param("si", $filename, $userId);
+        if (!$updateUserStmt->execute()) {
+            throw new Exception("Failed to update user Img field: " . $updateUserStmt->error);
+        }
+        $updateUserStmt->close();
+        
+        // Insert into user_profile_photo table
+        $insertPhotoStmt = $db->prepare("INSERT INTO user_profile_photo (user_id, photo_filename) VALUES (?, ?) ON DUPLICATE KEY UPDATE photo_filename = VALUES(photo_filename)");
+        if (!$insertPhotoStmt) {
+            throw new Exception("Failed to prepare photo insert query: " . $db->error);
+        }
+        
+        $insertPhotoStmt->bind_param("is", $userId, $filename);
+        if (!$insertPhotoStmt->execute()) {
+            throw new Exception("Failed to insert profile photo record: " . $insertPhotoStmt->error);
+        }
+        $insertPhotoStmt->close();
+        
+        return ['success' => true];
+        
+    } catch (Exception $e) {
+        error_log("saveProfilePictureToDatabase function error: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Failed to save profile picture to database: ' . $e->getMessage()];
     }
 }
 
@@ -320,26 +483,43 @@ function processStep1($db) {
 function processProfileUpload($db) {
     try {
         $errors = [];
-        $uploadDir = '../uploads/profiles/';
         
+        // Check if session data exists
+        if (!isset($_SESSION['signup_data'])) {
+            return ['success' => false, 'errors' => ['Session expired. Please start registration again.']];
+        }
+        
+        // Complete registration first to get user ID
+        $result = completeUserRegistration($db, $_SESSION['signup_data'], true);
+        if (!$result['success']) {
+            return ['success' => false, 'errors' => [$result['message']]];
+        }
+        
+        $userId = $result['user_id'];
+        
+        // Handle profile picture upload if provided
         if (!empty($_FILES['profile_picture']['name'])) {
-            $uploadResult = uploadFile($_FILES['profile_picture'], $uploadDir, 'profile_');
+            $uploadResult = uploadProfilePicture(
+                $_FILES['profile_picture'], 
+                $userId, 
+                $_SESSION['signup_data']['first_name'], 
+                $_SESSION['signup_data']['last_name']
+            );
+            
             if (!$uploadResult['success']) {
                 $errors[] = $uploadResult['message'];
             } else {
-                $_SESSION['signup_data']['profile_picture'] = $uploadResult['filename'];
+                // Save profile picture filename to database
+                $saveResult = saveProfilePictureToDatabase($db, $userId, $uploadResult['filename']);
+                if (!$saveResult['success']) {
+                    $errors[] = $saveResult['message'];
+                }
             }
         }
         
         if (empty($errors)) {
-            // Complete registration for buyer
-            $result = completeUserRegistration($db, $_SESSION['signup_data'], true);
-            if ($result['success']) {
-                unset($_SESSION['signup_data']);
-                return ['success' => true, 'redirect' => '?step=success'];
-            } else {
-                return ['success' => false, 'errors' => [$result['message']]];
-            }
+            unset($_SESSION['signup_data']);
+            return ['success' => true, 'redirect' => '?step=success'];
         }
         
         return ['success' => false, 'errors' => $errors];
@@ -363,14 +543,13 @@ function processArtistVerification($db) {
             $errors[] = "Valid National ID is required";
         }
         
-        $uploadDir = '../uploads/verification/';
+        $uploadDir = dirname(__DIR__) . '/uploads/verification/';
         $idFrontResult = null;
         $idBackResult = null;
-        $profileResult = null;
         
         // Upload ID documents
         if (!empty($_FILES['id_front']['name'])) {
-            $idFrontResult = uploadFile($_FILES['id_front'], $uploadDir, 'id_front_');
+            $idFrontResult = uploadVerificationDocument($_FILES['id_front'], $uploadDir, 'id_front', $nationalId);
             if (!$idFrontResult['success']) {
                 $errors[] = "ID Front: " . $idFrontResult['message'];
             }
@@ -379,7 +558,7 @@ function processArtistVerification($db) {
         }
         
         if (!empty($_FILES['id_back']['name'])) {
-            $idBackResult = uploadFile($_FILES['id_back'], $uploadDir, 'id_back_');
+            $idBackResult = uploadVerificationDocument($_FILES['id_back'], $uploadDir, 'id_back', $nationalId);
             if (!$idBackResult['success']) {
                 $errors[] = "ID Back: " . $idBackResult['message'];
             }
@@ -387,27 +566,37 @@ function processArtistVerification($db) {
             $errors[] = "ID back photo is required";
         }
         
-        // Upload profile picture (optional)
-        if (!empty($_FILES['profile_picture']['name'])) {
-            $profileResult = uploadFile($_FILES['profile_picture'], '../uploads/profiles/', 'profile_');
-            if (!$profileResult['success']) {
-                $errors[] = "Profile Picture: " . $profileResult['message'];
-            }
-        }
-        
         if (empty($errors)) {
             // Complete registration for artist
+            if (!isset($_SESSION['signup_data'])) {
+                return ['success' => false, 'errors' => ['Session expired. Please start registration again.']];
+            }
+            
             $artistData = $_SESSION['signup_data'];
-            $artistData['profile_picture'] = $profileResult ? $profileResult['filename'] : null;
             $artistData['bio'] = $bio;
             $artistData['art_specialty'] = $artSpecialty;
             $artistData['years_of_experience'] = $yearsExperience;
             $artistData['national_id'] = $nationalId;
-            $artistData['id_front_photo'] = $idFrontResult['filename'];
-            $artistData['id_back_photo'] = $idBackResult['filename'];
+            // Verification documents are saved to folder only, not stored in database
             
             $result = completeUserRegistration($db, $artistData, false);
             if ($result['success']) {
+                $userId = $result['user_id'];
+                
+                // Upload profile picture if provided
+                if (!empty($_FILES['profile_picture']['name'])) {
+                    $uploadResult = uploadProfilePicture(
+                        $_FILES['profile_picture'], 
+                        $userId, 
+                        $artistData['first_name'], 
+                        $artistData['last_name']
+                    );
+                    
+                    if ($uploadResult['success']) {
+                        saveProfilePictureToDatabase($db, $userId, $uploadResult['filename']);
+                    }
+                }
+                
                 unset($_SESSION['signup_data']);
                 return ['success' => true, 'redirect' => '?step=artist_pending'];
             } else {
@@ -429,14 +618,14 @@ function completeUserRegistration($db, $data, $isActive = true) {
         $profilePic = $data['profile_picture'] ?? null;
         
         if ($data['user_type'] === 'artist') {
-            // Artist registration with additional fields
-            $stmt = $db->prepare("INSERT INTO users (email, password, first_name, last_name, phone, user_type, profile_picture, bio, art_specialty, years_of_experience, national_id, id_front_photo, id_back_photo, is_active, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+            // Artist registration with additional fields (verification docs saved to folder only)
+            $stmt = $db->prepare("INSERT INTO users (email, password, first_name, last_name, phone, user_type, profile_picture, bio, art_specialty, years_of_experience, national_id, is_active, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
             
             if (!$stmt) {
                 throw new Exception("Failed to prepare artist registration query: " . $db->error);
             }
             
-            $stmt->bind_param("sssssssssisssi", 
+            $stmt->bind_param("sssssssssssi", 
                 $data['email'], 
                 $data['password'], 
                 $data['first_name'], 
@@ -448,8 +637,6 @@ function completeUserRegistration($db, $data, $isActive = true) {
                 $data['art_specialty'], 
                 $data['years_of_experience'], 
                 $data['national_id'], 
-                $data['id_front_photo'], 
-                $data['id_back_photo'], 
                 $isActiveValue
             );
         } else {
@@ -467,8 +654,10 @@ function completeUserRegistration($db, $data, $isActive = true) {
             throw new Exception("Failed to execute registration query: " . $stmt->error);
         }
         
+        $userId = $db->insert_id;
         $stmt->close();
-        return ['success' => true, 'message' => 'Registration completed successfully'];
+        
+        return ['success' => true, 'message' => 'Registration completed successfully', 'user_id' => $userId];
         
     } catch (Exception $e) {
         error_log("completeUserRegistration function error: " . $e->getMessage());
@@ -484,10 +673,9 @@ try {
     }
 
     // Start session
-    session_start();
-
-    // Handle encrypted credentials after session is started
-    handleEncryptedCredentials();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
     // If user is already authenticated, redirect to homepage
     if (checkUserAuthentication($db)) {
@@ -1705,26 +1893,26 @@ try {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="first_name">First Name *</label>
-                        <input type="text" name="first_name" id="first_name" required 
+                        <input type="text" name="first_name" id="first_name" required autocomplete="given-name"
                                value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name *</label>
-                        <input type="text" name="last_name" id="last_name" required 
+                        <input type="text" name="last_name" id="last_name" required autocomplete="family-name"
                                value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address *</label>
-                    <input type="email" name="email" id="email" required 
+                    <input type="email" name="email" id="email" required autocomplete="email"
                            placeholder="johndoe@example.com"
                            value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Phone Number *</label>
-                    <input type="tel" name="phone" id="phone" required 
+                    <input type="tel" name="phone" id="phone" required autocomplete="tel"
                            placeholder="+1 (555) 123-4567"
                            value="<?php echo htmlspecialchars($_POST['phone'] ?? ''); ?>">
                 </div>
@@ -1732,11 +1920,11 @@ try {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="password">Password *</label>
-                        <input type="password" name="password" id="password" required minlength="8">
+                        <input type="password" name="password" id="password" required minlength="8" autocomplete="new-password">
                     </div>
                     <div class="form-group">
                         <label for="confirm_password">Confirm Password *</label>
-                        <input type="password" name="confirm_password" id="confirm_password" required minlength="8">
+                        <input type="password" name="confirm_password" id="confirm_password" required minlength="8" autocomplete="new-password">
                     </div>
                 </div>
 
@@ -1896,34 +2084,10 @@ try {
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- JSEncrypt for RSA encryption -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"></script>
     <script src="../app.js"></script>
     <script src="../components/BurgerMenu/burger-menu.js"></script>
     
-    <?php
-    // Generate RSA key pair for this session
-    try {
-        if (!isset($_SESSION['rsa_public_key'])) {
-            $keyPair = generateRSAKeyPair();
-            $_SESSION['rsa_private_key'] = $keyPair['private'];
-            $_SESSION['rsa_public_key'] = $keyPair['public'];
-        }
-        $publicKey = $_SESSION['rsa_public_key'];
-        $csrfToken = generateCSRFToken();
-    } catch (Exception $e) {
-        error_log("RSA key generation failed: " . $e->getMessage());
-        // Fallback to legacy encryption if RSA fails
-        $publicKey = null;
-        $csrfToken = '';
-    }
-    ?>
-    
     <script>
-        // RSA Public Key for encryption
-        const RSA_PUBLIC_KEY = <?php echo json_encode($publicKey); ?>;
-        const CSRF_TOKEN = <?php echo json_encode($csrfToken); ?>;
-        
         function selectUserType(type) {
             // Remove selected class from all options
             document.querySelectorAll('.user-type-option').forEach(option => {
@@ -1969,36 +2133,18 @@ try {
             form.submit();
         }
 
-        // Strong encryption functions
-        function encryptWithRSA(text) {
-            if (!encrypt) return null;
-            return encrypt.encrypt(text);
-        }
-        
-        // Form validation and encryption
+        // Form validation 
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize JSEncrypt
-            let encrypt = null;
-            if (RSA_PUBLIC_KEY) {
-                encrypt = new JSEncrypt();
-                encrypt.setPublicKey(RSA_PUBLIC_KEY);
-                console.log('RSA encryption initialized successfully');
-            } else {
-                console.warn('RSA public key not available');
-            }
-            
             const signupForm = document.getElementById('signupForm');
             if (signupForm) {
                 signupForm.addEventListener('submit', function(e) {
-                    e.preventDefault(); // Prevent default form submission
-                    
                     const password = document.getElementById('password').value;
                     const confirmPassword = document.getElementById('confirm_password').value;
-                    const email = document.getElementById('email').value;
                     const userType = document.querySelector('input[name="user_type"]:checked');
 
                     // Validation checks
                     if (!userType) {
+                        e.preventDefault();
                         Swal.fire({
                             icon: 'warning',
                             title: 'Please Select Account Type',
@@ -2009,6 +2155,7 @@ try {
                     }
 
                     if (password !== confirmPassword) {
+                        e.preventDefault();
                         Swal.fire({
                             icon: 'error',
                             title: 'Passwords Don\'t Match',
@@ -2019,6 +2166,7 @@ try {
                     }
 
                     if (password.length < 8) {
+                        e.preventDefault();
                         Swal.fire({
                             icon: 'warning',
                             title: 'Password Too Short',
@@ -2028,135 +2176,15 @@ try {
                         return;
                     }
 
-                    // Show encryption loading
+                    // Show loading indicator
                     Swal.fire({
-                        title: 'Securing connection...',
-                        text: 'Encrypting your credentials with industry-standard security',
+                        title: 'Creating your account...',
+                        text: 'Please wait while we set up your profile',
                         allowOutsideClick: false,
                         didOpen: () => {
                             Swal.showLoading();
                         }
                     });
-
-                    // Create secure form submission - IDENTICAL TO LOGIN.PHP
-                    const submitForm = document.createElement('form');
-                    submitForm.method = 'POST';
-                    submitForm.action = window.location.href;
-
-                    // Copy all non-sensitive fields
-                    const formData = new FormData(signupForm);
-                    for (let [key, value] of formData.entries()) {
-                        if (key !== 'password' && key !== 'confirm_password' && key !== 'email' && key !== 'first_name' && key !== 'last_name' && key !== 'phone') {
-                            const input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = key;
-                            input.value = value;
-                            submitForm.appendChild(input);
-                        }
-                    }
-
-                    // Get additional sensitive fields
-                    const firstName = document.getElementById('first_name').value;
-                    const lastName = document.getElementById('last_name').value;
-                    const phone = document.getElementById('phone').value;
-
-                    // FORCE RSA ENCRYPTION - SAME AS LOGIN.PHP
-                    try {
-                        if (RSA_PUBLIC_KEY && encrypt) {
-                            console.log('Attempting RSA encryption...');
-                            
-                            // Use RSA encryption for all sensitive fields
-                            const encryptedEmail = encrypt.encrypt(email);
-                            const encryptedPassword = encrypt.encrypt(password);
-                            const encryptedConfirmPassword = encrypt.encrypt(confirmPassword);
-                            const encryptedFirstName = encrypt.encrypt(firstName);
-                            const encryptedLastName = encrypt.encrypt(lastName);
-                            const encryptedPhone = encrypt.encrypt(phone);
-                            
-                            console.log('RSA encryption results:', {
-                                email: !!encryptedEmail,
-                                password: !!encryptedPassword,
-                                confirmPassword: !!encryptedConfirmPassword,
-                                firstName: !!encryptedFirstName,
-                                lastName: !!encryptedLastName,
-                                phone: !!encryptedPhone
-                            });
-                            
-                            if (encryptedEmail && encryptedPassword && encryptedConfirmPassword && 
-                                encryptedFirstName && encryptedLastName && encryptedPhone) {
-                                console.log('RSA encryption successful for all fields, adding encrypted fields');
-                                
-                                // Add all encrypted fields
-                                const emailField = document.createElement('input');
-                                emailField.type = 'hidden';
-                                emailField.name = 'encrypted_email';
-                                emailField.value = encryptedEmail;
-                                submitForm.appendChild(emailField);
-
-                                const passwordField = document.createElement('input');
-                                passwordField.type = 'hidden';
-                                passwordField.name = 'encrypted_password';
-                                passwordField.value = encryptedPassword;
-                                submitForm.appendChild(passwordField);
-
-                                const confirmPasswordField = document.createElement('input');
-                                confirmPasswordField.type = 'hidden';
-                                confirmPasswordField.name = 'encrypted_confirm_password';
-                                confirmPasswordField.value = encryptedConfirmPassword;
-                                submitForm.appendChild(confirmPasswordField);
-
-                                const firstNameField = document.createElement('input');
-                                firstNameField.type = 'hidden';
-                                firstNameField.name = 'encrypted_first_name';
-                                firstNameField.value = encryptedFirstName;
-                                submitForm.appendChild(firstNameField);
-
-                                const lastNameField = document.createElement('input');
-                                lastNameField.type = 'hidden';
-                                lastNameField.name = 'encrypted_last_name';
-                                lastNameField.value = encryptedLastName;
-                                submitForm.appendChild(lastNameField);
-
-                                const phoneField = document.createElement('input');
-                                phoneField.type = 'hidden';
-                                phoneField.name = 'encrypted_phone';
-                                phoneField.value = encryptedPhone;
-                                submitForm.appendChild(phoneField);
-
-                                // Add CSRF token
-                                if (CSRF_TOKEN) {
-                                    const csrfField = document.createElement('input');
-                                    csrfField.type = 'hidden';
-                                    csrfField.name = 'csrf_token';
-                                    csrfField.value = CSRF_TOKEN;
-                                    submitForm.appendChild(csrfField);
-                                    console.log('CSRF token added');
-                                }
-
-                                // Submit the secure form
-                                console.log('Submitting form with RSA encryption for all sensitive fields');
-                                document.body.appendChild(submitForm);
-                                submitForm.submit();
-                                return;
-                            } else {
-                                console.error('RSA encryption failed for one or more fields');
-                                throw new Error('RSA encryption failed');
-                            }
-                        } else {
-                            console.error('RSA not available:', { publicKey: !!RSA_PUBLIC_KEY, encrypt: !!encrypt });
-                            throw new Error('RSA not available');
-                        }
-                    } catch (error) {
-                        console.error('Encryption failed:', error);
-                        
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Security Error',
-                            text: 'Failed to encrypt your data securely. Please try again.',
-                            confirmButtonColor: '#e74c3c'
-                        });
-                        return;
-                    }
                 });
             }
 

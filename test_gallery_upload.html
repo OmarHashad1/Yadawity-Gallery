@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Gallery Image Upload</title>
+    <style>
+        .uploadZone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px;
+        }
+        
+        .uploadZone:hover,
+        .uploadZone.dragover {
+            border-color: #6B4423;
+            background: #f0f0f0;
+        }
+        
+        .uploadedImages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px;
+        }
+        
+        .artworkImagePreview {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .artworkImagePreview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .removeImageBtn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+        }
+        
+        .imageInfo {
+            position: absolute;
+            bottom: 20px;
+            left: 5px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        
+        .imageCaption {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gallery Image Upload Test</h1>
+    
+    <div class="uploadZone" id="testUploadZone">
+        <h3>Drag & Drop Gallery Images Here</h3>
+        <p>or <span class="uploadLink">browse files</span></p>
+        <div>
+            <span>• JPG, PNG, WEBP up to 50MB each</span><br>
+            <span>• Minimum 800x600 pixels recommended</span><br>
+            <span>• Maximum 15 images</span>
+        </div>
+        <input type="file" id="testFileInput" multiple accept="image/*" hidden>
+    </div>
+    
+    <div class="uploadedImages" id="testUploadedImages">
+        <!-- Uploaded images will appear here -->
+    </div>
+    
+    <button onclick="testFormSubmission()">Test Form Submission</button>
+    <div id="result"></div>
+
+    <script>
+        let testUploadedFiles = [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadZone = document.getElementById('testUploadZone');
+            const fileInput = document.getElementById('testFileInput');
+            
+            uploadZone.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            uploadZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            uploadZone.addEventListener('dragleave', function() {
+                this.classList.remove('dragover');
+            });
+            
+            uploadZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+            
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+        });
+        
+        function handleFiles(files) {
+            console.log('Files selected:', files.length);
+            
+            for (let file of files) {
+                console.log('Processing file:', file.name, file.size, file.type);
+                
+                // Basic validation
+                if (!file.type.startsWith('image/')) {
+                    alert('Only image files are allowed');
+                    continue;
+                }
+                
+                if (file.size > 50 * 1024 * 1024) {
+                    alert('File too large: ' + file.name);
+                    continue;
+                }
+                
+                testUploadedFiles.push(file);
+                
+                // Create preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imagePreview = document.createElement('div');
+                    imagePreview.classList.add('artworkImagePreview');
+                    
+                    imagePreview.innerHTML = `
+                        <img src="${e.target.result}" alt="Gallery Image">
+                        <button type="button" class="removeImageBtn" onclick="removeImage(this)">
+                            ×
+                        </button>
+                        <div class="imageInfo">
+                            ${Math.round(file.size / 1024)}KB
+                        </div>
+                        <div class="imageCaption">Gallery Image</div>
+                    `;
+                    
+                    document.getElementById('testUploadedImages').appendChild(imagePreview);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function removeImage(button) {
+            const imagePreview = button.closest('.artworkImagePreview');
+            const index = Array.from(imagePreview.parentNode.children).indexOf(imagePreview);
+            testUploadedFiles.splice(index, 1);
+            imagePreview.remove();
+        }
+        
+        function testFormSubmission() {
+            console.log('Testing form submission with', testUploadedFiles.length, 'files');
+            
+            const formData = new FormData();
+            formData.append('title', 'Test Gallery');
+            formData.append('description', 'Test Description');
+            formData.append('gallery_type', 'virtual');
+            formData.append('price', '100');
+            formData.append('duration', '60');
+            formData.append('start_date', '2025-12-31 12:00:00');
+            
+            testUploadedFiles.forEach((file, index) => {
+                formData.append('gallery_images[]', file, `gallery_image_${index + 1}.${file.name.split('.').pop()}`);
+            });
+            
+            fetch('API/addGallery.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data);
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            });
+        }
+    </script>
+</body>
+</html>

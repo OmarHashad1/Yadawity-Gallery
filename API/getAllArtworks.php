@@ -9,16 +9,29 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 
 function getFilterParameters() {
+    // Handle both page-based and offset-based pagination
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : null;
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : null;
+    $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+    
+    // If page is provided, convert to offset
+    if ($page !== null && $limit !== null) {
+        $offset = ($page - 1) * $limit;
+    }
+    
     return [
-        'limit' => isset($_GET['limit']) ? (int)$_GET['limit'] : null,
-        'offset' => isset($_GET['offset']) ? (int)$_GET['offset'] : 0,
+        'limit' => $limit,
+        'offset' => $offset,
+        'page' => $page, // Keep track of the original page for response
+        'search' => isset($_GET['search']) ? trim($_GET['search']) : null,
+        'category' => isset($_GET['category']) ? trim($_GET['category']) : null,
         'type' => isset($_GET['type']) ? trim($_GET['type']) : null,
         'artist_id' => isset($_GET['artist_id']) ? (int)$_GET['artist_id'] : null,
         'available_only' => isset($_GET['available_only']) ? (bool)$_GET['available_only'] : false,
-        'sort_by' => isset($_GET['sort_by']) ? trim($_GET['sort_by']) : 'created_at',
+        'sort_by' => isset($_GET['sort_by']) ? trim($_GET['sort_by']) : 'featured',
         'sort_order' => isset($_GET['sort_order']) && strtoupper($_GET['sort_order']) === 'ASC' ? 'ASC' : 'DESC',
-        'min_price' => isset($_GET['min_price']) ? (float)$_GET['min_price'] : null,
-        'max_price' => isset($_GET['max_price']) ? (float)$_GET['max_price'] : null,
+        'min_price' => isset($_GET['min_price']) && $_GET['min_price'] !== '' ? (float)$_GET['min_price'] : null,
+        'max_price' => isset($_GET['max_price']) && $_GET['max_price'] !== '' ? (float)$_GET['max_price'] : null,
         'year' => isset($_GET['year']) ? (int)$_GET['year'] : null,
         'material' => isset($_GET['material']) ? trim($_GET['material']) : null
     ];
@@ -35,21 +48,50 @@ function buildArtworksQuery(): string {
             a.price,
             a.dimensions,
             a.artwork_image,
+            ap.image_path as artwork_photo_filename,
             a.type,
             a.is_available,
             a.on_auction,
             u.first_name as artist_first_name,
             u.last_name as artist_last_name,
-            COUNT(ar.id) as review_count,
+            COUNT(ar.review_id) as review_count,
             COALESCE(AVG(ar.rating), 0) as average_rating
         FROM artworks a
         LEFT JOIN users u ON a.artist_id = u.user_id
-        LEFT JOIN artist_reviews ar ON a.artist_id = ar.artist_id
+        LEFT JOIN artist_reviews ar ON a.artist_id = ar.artist_user_id
+        LEFT JOIN artwork_photos ap ON a.artwork_id = ap.artwork_id AND (ap.is_primary = 1 OR ap.is_primary IS NULL)
         WHERE u.is_active = 1 AND a.on_auction = 0
     ";
 }
 
 function addFilterConditions($query, $filters, &$params, &$types): mixed {
+    // Search functionality - search in title, description, artist name
+    if ($filters['search']) {
+        $query .= " AND (a.title LIKE ? OR a.description LIKE ? OR CONCAT(u.first_name, ' ', u.last_name) LIKE ?)";
+        $search_term = '%' . $filters['search'] . '%';
+        $params[] = $search_term;
+        $params[] = $search_term;
+        $params[] = $search_term;
+        $types .= "sss";
+    }
+
+    // Category filter (maps to type)
+    if ($filters['category'] && $filters['category'] !== 'all') {
+        $category_type_map = [
+            'portraits' => 'painting',
+            'landscapes' => 'painting',
+            'abstract' => 'painting',
+            'photography' => 'photography',
+            'mixed-media' => 'mixed_media'
+        ];
+        
+        if (isset($category_type_map[$filters['category']])) {
+            $query .= " AND a.type = ?";
+            $params[] = $category_type_map[$filters['category']];
+            $types .= "s";
+        }
+    }
+
     if ($filters['type']) {
         $query .= " AND a.type = ?";
         $params[] = $filters['type'];
@@ -97,17 +139,25 @@ function addSortingAndPagination($query, $filters, &$params, &$types) {
     // Group by artwork to handle the LEFT JOIN with reviews
     $query .= " GROUP BY a.artwork_id";
 
-    // Add sorting
-    $allowed_sort_fields = ['created_at', 'price', 'title', 'year', 'average_rating'];
-    if (in_array($filters['sort_by'], $allowed_sort_fields)) {
-        // Handle the ambiguous created_at column by specifying table alias
-        if ($filters['sort_by'] === 'created_at') {
-            $query .= " ORDER BY a.created_at " . $filters['sort_order'];
-        } else {
-            $query .= " ORDER BY " . $filters['sort_by'] . " " . $filters['sort_order'];
-        }
-    } else {
-        $query .= " ORDER BY a.created_at DESC";
+    // Add sorting - handle frontend sort options
+    switch ($filters['sort_by']) {
+        case 'price-low':
+            $query .= " ORDER BY a.price ASC";
+            break;
+        case 'price-high':
+            $query .= " ORDER BY a.price DESC";
+            break;
+        case 'newest':
+            $query .= " ORDER BY a.created_at DESC";
+            break;
+        case 'artist':
+            $query .= " ORDER BY CONCAT(u.first_name, ' ', u.last_name) ASC";
+            break;
+        case 'featured':
+        default:
+            // Featured sorting: prioritize available items, then by rating, then by date
+            $query .= " ORDER BY a.is_available DESC, average_rating DESC, a.created_at DESC";
+            break;
     }
 
     // Add pagination
@@ -166,6 +216,7 @@ function formatArtworkData($row) {
         'formatted_price' => '$' . number_format((float)$row['price'], 0),
         'dimensions' => $row['dimensions'],
         'artwork_image' => $row['artwork_image'],
+        'artwork_photo_filename' => $row['artwork_photo_filename'], // Filename from artwork_photos table
         'type' => $row['type'],
         'category' => ucfirst($row['type']),
         'is_available' => (bool)$row['is_available'],
@@ -183,13 +234,51 @@ function formatArtworkData($row) {
         ]
     ];
 
-    // Add image URL
-    if ($artwork['artwork_image']) {
-        $artwork['artwork_image_url'] = './image/' . $artwork['artwork_image'];
-        $artwork['image_src'] = './image/' . $artwork['artwork_image'];
-    } else {
-        $artwork['artwork_image_url'] = './image/placeholder-artwork.jpg';
-        $artwork['image_src'] = './image/placeholder-artwork.jpg';
+    // Process image: artwork_id -> artwork_photos table -> uploads/artworks folder
+    $artwork_id = $artwork['artwork_id'];
+    $filename_from_photos_table = $artwork['artwork_photo_filename'];
+    
+    // Step 1: Check if we have a filename from artwork_photos table (primary source)
+    if (!empty($filename_from_photos_table)) {
+        $image_path = '/uploads/artworks/' . $filename_from_photos_table;
+        $full_image_path = __DIR__ . '/../uploads/artworks/' . $filename_from_photos_table;
+        
+        // Set the image source
+        $artwork['image_src'] = $image_path;
+        $artwork['artwork_image_url'] = $image_path;
+        
+        // Check if file actually exists in uploads/artworks folder
+        if (!file_exists($full_image_path)) {
+            $artwork['image_missing'] = true;
+            $artwork['debug_info'] = "File not found: uploads/artworks/" . $filename_from_photos_table;
+        } else {
+            $artwork['image_missing'] = false;
+            $artwork['debug_info'] = "Found: uploads/artworks/" . $filename_from_photos_table;
+        }
+    }
+    // Step 2: Fallback to artwork_image from artworks table
+    else if (!empty($artwork['artwork_image'])) {
+        $fallback_filename = $artwork['artwork_image'];
+        $image_path = '/uploads/artworks/' . $fallback_filename;
+        $full_image_path = __DIR__ . '/../uploads/artworks/' . $fallback_filename;
+        
+        $artwork['image_src'] = $image_path;
+        $artwork['artwork_image_url'] = $image_path;
+        
+        if (!file_exists($full_image_path)) {
+            $artwork['image_missing'] = true;
+            $artwork['debug_info'] = "Fallback file not found: uploads/artworks/" . $fallback_filename;
+        } else {
+            $artwork['image_missing'] = false;
+            $artwork['debug_info'] = "Fallback found: uploads/artworks/" . $fallback_filename;
+        }
+    }
+    // Step 3: No image available - leave empty
+    else {
+        $artwork['image_src'] = null;
+        $artwork['artwork_image_url'] = null;
+        $artwork['image_missing'] = true;
+        $artwork['debug_info'] = "No filename found for artwork_id: " . $artwork_id;
     }
 
     // Add status for card display
@@ -262,18 +351,24 @@ function buildResponse($artworks, $total_count, $filters) {
 
     // Add pagination info if applicable
     if ($filters['limit']) {
+        $current_page = $filters['page'] ? $filters['page'] : (floor($filters['offset'] / $filters['limit']) + 1);
+        $total_pages = ceil($total_count / $filters['limit']);
+        
         $response['pagination'] = [
             'limit' => $filters['limit'],
             'offset' => $filters['offset'],
-            'total_pages' => ceil($total_count / $filters['limit']),
-            'current_page' => floor($filters['offset'] / $filters['limit']) + 1,
-            'has_next' => ($filters['offset'] + $filters['limit']) < $total_count,
-            'has_previous' => $filters['offset'] > 0
+            'page' => $current_page,
+            'total_pages' => $total_pages,
+            'current_page' => $current_page,
+            'has_next' => $current_page < $total_pages,
+            'has_previous' => $current_page > 1
         ];
     }
 
     // Add filter summary
     $response['filters_applied'] = [
+        'search' => $filters['search'],
+        'category' => $filters['category'],
         'type' => $filters['type'],
         'artist_id' => $filters['artist_id'],
         'available_only' => $filters['available_only'],

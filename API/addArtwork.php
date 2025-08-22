@@ -3,6 +3,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Start session
+session_start();
+
 require_once "db.php";
 
 // Set proper headers for JSON response
@@ -28,9 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// File upload function with duplicate prevention
-function uploadArtworkImage($file, $artistId, $artworkId = null, $uploadDir = '../uploads/artworks/') {
+// File upload function for auction artwork images
+function uploadAuctionImage($file, $artistId, $artworkId, $imageIndex, $uploadDir = null) {
     try {
+        // Set default upload directory with correct path
+        if ($uploadDir === null) {
+            $uploadDir = dirname(__DIR__) . '/uploads/artworks/';
+        }
+        
+        // Create upload directory if it doesn't exist
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                return ['success' => false, 'message' => 'Failed to create upload directory: ' . $uploadDir];
+            }
+        }
+        
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         
@@ -44,217 +59,177 @@ function uploadArtworkImage($file, $artistId, $artworkId = null, $uploadDir = '.
             return ['success' => false, 'message' => 'Invalid file extension.'];
         }
         
-        // Check file size (max 5MB)
-        if ($file['size'] > 5 * 1024 * 1024) {
-            return ['success' => false, 'message' => 'File size too large. Maximum 5MB allowed.'];
+        // Check file size (max 50MB for auction images)
+        if ($file['size'] > 50 * 1024 * 1024) {
+            return ['success' => false, 'message' => 'File size too large. Maximum 50MB allowed for auction images.'];
         }
         
-        // Create upload directory if it doesn't exist
-        if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0755, true)) {
-                return ['success' => false, 'message' => 'Failed to create upload directory.'];
-            }
-        }
+        // Validate image dimensions (minimum 300x300 for auction images)
+     
         
-        // Generate hash of file content to check for duplicates
+        
+        // Generate unique filename
         $fileHash = md5_file($file['tmp_name']);
-        
-        // Check for existing files with same hash for this artist/artwork combination
-        if ($artworkId) {
-            $pattern = $uploadDir . "artist_{$artistId}_artwork_{$artworkId}_*";
-            $existingFiles = glob($pattern);
-            foreach ($existingFiles as $existingFile) {
-                if (file_exists($existingFile) && md5_file($existingFile) === $fileHash) {
-                    return [
-                        'success' => false, 
-                        'message' => 'This image has already been uploaded for this artwork.',
-                        'duplicate' => true
-                    ];
-                }
-            }
-        } else {
-            // For temp files, check against existing temp files for this artist
-            $pattern = $uploadDir . "artist_{$artistId}_temp_*";
-            $existingFiles = glob($pattern);
-            foreach ($existingFiles as $existingFile) {
-                if (file_exists($existingFile) && md5_file($existingFile) === $fileHash) {
-                    return [
-                        'success' => false, 
-                        'message' => 'This image has already been uploaded.',
-                        'duplicate' => true
-                    ];
-                }
-            }
-        }
-        
-        // Generate structured filename with hash for uniqueness
         $timestamp = time();
-        $shortHash = substr($fileHash, 0, 8); // Use first 8 characters of hash
+        $filename = "artist_{$artistId}_artwork_{$artworkId}_img_{$imageIndex}_{$timestamp}_{$fileHash}.{$fileExtension}";
+        $targetPath = $uploadDir . $filename;
         
-        if ($artworkId) {
-            $fileName = "artist_{$artistId}_artwork_{$artworkId}_{$timestamp}_{$shortHash}.{$fileExtension}";
+        // Move uploaded file - use copy for testing if move_uploaded_file fails
+        $moveSuccess = false;
+        if (is_uploaded_file($file['tmp_name'])) {
+            // Real uploaded file
+            $moveSuccess = move_uploaded_file($file['tmp_name'], $targetPath);
         } else {
-            // For initial upload before artwork ID is generated
-            $fileName = "artist_{$artistId}_temp_{$timestamp}_{$shortHash}.{$fileExtension}";
+            // For testing purposes - use copy instead
+            $moveSuccess = copy($file['tmp_name'], $targetPath);
         }
         
-        $filePath = $uploadDir . $fileName;
-        
-        // Check if filename already exists (unlikely but safe)
-        if (file_exists($filePath)) {
-            return ['success' => false, 'message' => 'File with this name already exists.'];
+        if (!$moveSuccess) {
+            return ['success' => false, 'message' => 'Failed to move uploaded file.'];
         }
         
-        // Move uploaded file to temporary location first
-        if (move_uploaded_file($file['tmp_name'], $filePath)) {
-            return [
-                'success' => true, 
-                'filename' => $fileName, 
-                'filepath' => $filePath,
-                'hash' => $fileHash
-            ];
+        // Verify the file was uploaded successfully
+        if (!file_exists($targetPath)) {
+            return ['success' => false, 'message' => 'File upload verification failed.'];
         }
         
-        return ['success' => false, 'message' => 'Failed to upload file.'];
+        return [
+            'success' => true,
+            'filename' => $filename,
+            'path' => $targetPath,
+            'size' => $file['size']
+        ];
         
     } catch (Exception $e) {
-        error_log("File upload error: " . $e->getMessage());
-        return ['success' => false, 'message' => 'Upload failed due to server error.'];
+        return ['success' => false, 'message' => 'Upload error: ' . $e->getMessage()];
     }
 }
 
-// Function to clean up uploaded files if artwork creation fails
+// Cleanup function for uploaded files in case of error
 function cleanupUploadedFiles($filenames, $uploadDir = '../uploads/artworks/') {
-    if (!$filenames || !is_array($filenames)) {
-        return;
-    }
-    
     foreach ($filenames as $filename) {
         $filePath = $uploadDir . $filename;
         if (file_exists($filePath)) {
-            if (unlink($filePath)) {
-                error_log("Cleaned up file: " . $filename);
-            } else {
-                error_log("Failed to clean up file: " . $filename);
-            }
+            unlink($filePath);
         }
     }
 }
 
-// Function to rename temporary file with actual artwork ID
-function renameTempArtworkImage($tempFilename, $artistId, $artworkId, $uploadDir = '../uploads/artworks/') {
-    try {
-        if (!$tempFilename || !$artistId || !$artworkId) {
-            return $tempFilename; // Return original if parameters are missing
-        }
-        
-        $tempPath = $uploadDir . $tempFilename;
-        
-        // Check if temporary file exists
-        if (!file_exists($tempPath)) {
-            error_log("Temporary file not found: " . $tempPath);
-            return $tempFilename;
-        }
-        
-        // Extract file extension and hash from temp filename
-        $fileExtension = pathinfo($tempFilename, PATHINFO_EXTENSION);
-        
-        // Extract hash from temp filename (assuming format: artist_X_temp_timestamp_hash.ext)
-        $filenameParts = explode('_', basename($tempFilename, '.' . $fileExtension));
-        $shortHash = end($filenameParts); // Get the last part which should be the hash
-        
-        // Generate final filename with artwork ID
-        $timestamp = time();
-        $finalFilename = "artist_{$artistId}_artwork_{$artworkId}_{$timestamp}_{$shortHash}.{$fileExtension}";
-        $finalPath = $uploadDir . $finalFilename;
-        
-        // Check if target filename already exists
-        if (file_exists($finalPath)) {
-            error_log("Target filename already exists: " . $finalFilename);
-            return $tempFilename; // Keep temp name if conflict
-        }
-        
-        // Rename the file
-        if (rename($tempPath, $finalPath)) {
-            error_log("File renamed from {$tempFilename} to {$finalFilename}");
-            return $finalFilename;
-        } else {
-            error_log("Failed to rename file from {$tempFilename} to {$finalFilename}");
-            return $tempFilename; // Return original if rename fails
-        }
-        
-    } catch (Exception $e) {
-        error_log("File rename error: " . $e->getMessage());
-        return $tempFilename; // Return original if error occurs
-    }
-}
-
-// Main execution
 try {
-    // Debug: Log received data
-    error_log("POST data: " . print_r($_POST, true));
-    error_log("FILES data: " . print_r($_FILES, true));
+    // Start transaction
+    $db->autocommit(false);
     
-    // Validate database connection
-    if (!isset($db) || $db->connect_error) {
-        throw new Exception("Database connection failed: " . ($db->connect_error ?? "Unknown error"));
-    }
-    
-    // Get POST data
+    // Get form data
     $postData = $_POST;
     
-    // Track uploaded files for cleanup if needed
-    $uploadedFiles = [];
+    // Determine if this is auction or regular artwork based on field names
+    $isAuction = isset($postData['start_date']) && isset($postData['end_date']);
     
-    // Required fields validation
+    // Normalize field names - handle both auction and regular artwork formats
+    if (!$isAuction) {
+        // For regular artwork, map to expected field names
+        if (isset($postData['title']) && !isset($postData['artwork_title'])) {
+            $postData['artwork_title'] = $postData['title'];
+        }
+        if (isset($postData['price']) && !isset($postData['starting_bid'])) {
+            $postData['starting_bid'] = $postData['price'];
+        }
+        if (isset($postData['style']) && !isset($postData['art_style'])) {
+            $postData['art_style'] = $postData['style'];
+        }
+        if (isset($postData['material'])) {
+            // Material is already in the correct field name
+        }
+    }
+    
+    // Validate required fields
     $errors = [];
-    
-    if (empty($postData['title'])) {
-        $errors[] = 'Artwork title is required';
+    if ($isAuction) {
+        // Auction required fields
+        $requiredFields = [
+            'artwork_title' => 'Artwork Title',
+            'starting_bid' => 'Starting Bid',
+            'art_style' => 'Art Style',
+            'width' => 'Width',
+            'height' => 'Height',
+            'year' => 'Year',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date',
+            'description' => 'Description'
+        ];
+    } else {
+        // Regular artwork required fields
+        $requiredFields = [
+            'artwork_title' => 'Artwork Title',
+            'starting_bid' => 'Price',
+            'category' => 'Category',
+            'description' => 'Description'
+        ];
     }
     
-    if (empty($postData['price']) || !is_numeric($postData['price']) || $postData['price'] <= 0) {
-        $errors[] = 'Valid price is required';
+    foreach ($requiredFields as $field => $label) {
+        if (empty($postData[$field])) {
+            $errors[] = "$label is required";
+        }
     }
     
-    if (empty($postData['category'])) {
-        $errors[] = 'Category is required';
+    // Validate numeric fields
+    if (!empty($postData['starting_bid'])) {
+        if (!is_numeric($postData['starting_bid']) || $postData['starting_bid'] <= 0) {
+            $errors[] = 'Starting bid must be a positive number';
+        }
     }
-    
-    if (empty($postData['description'])) {
-        $errors[] = 'Description is required';
-    }
-    
-    if (empty($postData['artist_id']) || !is_numeric($postData['artist_id'])) {
-        $errors[] = 'Valid artist ID is required';
-    }
-    
-    // Validate dimensions if provided
-    $width = null;
-    $height = null;
-    $depth = null;
     
     if (!empty($postData['width'])) {
         if (!is_numeric($postData['width']) || $postData['width'] <= 0) {
-            $errors[] = 'Valid width is required if specified';
-        } else {
-            $width = floatval($postData['width']);
+            $errors[] = 'Width must be a positive number';
         }
     }
     
     if (!empty($postData['height'])) {
         if (!is_numeric($postData['height']) || $postData['height'] <= 0) {
-            $errors[] = 'Valid height is required if specified';
-        } else {
-            $height = floatval($postData['height']);
+            $errors[] = 'Height must be a positive number';
         }
     }
     
-    if (!empty($postData['depth'])) {
-        if (!is_numeric($postData['depth']) || $postData['depth'] <= 0) {
-            $errors[] = 'Valid depth is required if specified';
-        } else {
-            $depth = floatval($postData['depth']);
+    if (!empty($postData['year'])) {
+        $currentYear = date('Y');
+        if (!is_numeric($postData['year']) || $postData['year'] < 1800 || $postData['year'] > $currentYear) {
+            $errors[] = "Year must be between 1800 and $currentYear";
+        }
+    }
+    
+    // Validate dates (only for auctions)
+    if ($isAuction) {
+        if (!empty($postData['start_date'])) {
+            $startDate = DateTime::createFromFormat('Y-m-d\TH:i', $postData['start_date']);
+            if (!$startDate) {
+                $errors[] = 'Invalid start date format';
+            } else {
+                $now = new DateTime();
+                if ($startDate <= $now) {
+                    $errors[] = 'Start date must be in the future';
+                }
+            }
+        }
+        
+        if (!empty($postData['end_date'])) {
+            $endDate = DateTime::createFromFormat('Y-m-d\TH:i', $postData['end_date']);
+            if (!$endDate) {
+                $errors[] = 'Invalid end date format';
+            } else if (isset($startDate) && $endDate <= $startDate) {
+                $errors[] = 'End date must be after start date';
+            }
+        }
+        
+        // Validate images are provided for auctions
+        if (!isset($_FILES['auction_images']) || empty($_FILES['auction_images']['name'][0])) {
+            $errors[] = 'At least one image is required for auction';
+        }
+    } else {
+        // For regular artwork, check for artwork_image
+        if (!isset($_FILES['artwork_image']) || $_FILES['artwork_image']['error'] !== UPLOAD_ERR_OK) {
+            // Image is optional for regular artwork
         }
     }
     
@@ -264,163 +239,335 @@ try {
         echo json_encode([
             'success' => false,
             'message' => 'Validation failed',
-            'errors' => $errors,
-            'received_data' => $postData
+            'errors' => $errors
         ]);
         exit;
     }
     
-    // Handle image upload AFTER validation passes but BEFORE database insertion
-    $artworkImage = null;
-    if (isset($_FILES['artwork_image']) && $_FILES['artwork_image']['error'] === UPLOAD_ERR_OK) {
-        $uploadResult = uploadArtworkImage($_FILES['artwork_image'], $postData['artist_id']);
-        if (!$uploadResult['success']) {
-            http_response_code(400);
-            echo json_encode([
-                'success' => false,
-                'message' => 'Image upload failed',
-                'error' => $uploadResult['message'],
-                'duplicate' => $uploadResult['duplicate'] ?? false
-            ]);
-            exit;
-        }
-        $artworkImage = $uploadResult['filename'];
-        $uploadedFiles[] = $artworkImage; // Track for potential cleanup
+    // Get artist ID from session
+    if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Authentication required. Please log in to add artwork.'
+        ]);
+        exit;
     }
     
-    // Sanitize input
-    $title = trim(strip_tags($postData['title']));
-    $description = trim(strip_tags($postData['description']));
-    $price = floatval($postData['price']);
-    $category = trim(strtolower($postData['category']));
-    $material = !empty($postData['material']) ? trim($postData['material']) : '';
-    $style = !empty($postData['style']) ? trim($postData['style']) : '';
-    $year = !empty($postData['year']) ? intval($postData['year']) : date('Y');
-    $artist_id = intval($postData['artist_id']);
+    // Extract validated data
+    $artist_id = (int)$_SESSION['user_id'];
+    $artwork_title = $postData['artwork_title'];
+    $starting_bid = floatval($postData['starting_bid']);
     
-    // Create dimensions string if dimensions are provided
-    $dimensions = null;
-    if ($width !== null && $height !== null) {
+    // Handle optional fields with defaults
+    $art_style = $postData['art_style'] ?? $postData['style'] ?? 'contemporary';
+    $width = !empty($postData['width']) ? floatval($postData['width']) : null;
+    $height = !empty($postData['height']) ? floatval($postData['height']) : null;
+    $depth = !empty($postData['depth']) ? floatval($postData['depth']) : null;
+    $year = !empty($postData['year']) ? intval($postData['year']) : date('Y');
+    $description = $postData['description'];
+    $material = $postData['material'] ?? $art_style;
+    $category = $postData['category'] ?? 'painting';
+    
+    // Create dimensions string if width and height are provided
+    $dimensions = '';
+    if ($width && $height) {
         $dimensions = $width . 'cm × ' . $height . 'cm';
         if ($depth !== null) {
             $dimensions .= ' × ' . $depth . 'cm';
         }
     }
     
-    // Map category to database enum values
-    $typeMapping = [
-        'painting' => 'painting',
-        'sculpture' => 'sculpture', 
-        'photography' => 'photography',
-        'digital' => 'digital',
-        'mixed' => 'mixed_media',
-        'mixed_media' => 'mixed_media',
-        'textile' => 'other',
-        'other' => 'other'
-    ];
-    $artworkType = isset($typeMapping[$category]) ? $typeMapping[$category] : 'other';
-    
-    // Build material string from style and material
-    $materialString = '';
-    if (!empty($style)) {
-        $materialString = $style;
-    }
-    if (!empty($material)) {
-        $materialString .= (!empty($materialString) ? ' - ' : '') . $material;
-    }
-    if (empty($materialString)) {
-        $materialString = 'Mixed Media'; // Default value
+    // Only process auction-specific fields if this is an auction
+    if ($isAuction) {
+        $start_date = $postData['start_date'];
+        $end_date = $postData['end_date'];
+        
+        // Format datetime strings for database
+        $start_datetime = date('Y-m-d H:i:s', strtotime($start_date));
+        $end_datetime = date('Y-m-d H:i:s', strtotime($end_date));
     }
     
-    // Prepare SQL statement - matching the exact database schema
-    $sql = "INSERT INTO artworks (
-        artist_id, title, description, price, dimensions, year, 
-        material, artwork_image, type, is_available, on_auction
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0)";
+    // Handle image uploads first to get the primary image path
+    $primaryImagePath = null;
+    $uploaded_images = [];
+    $tempUploadedFiles = []; // Store temp file info for later processing
     
-    $stmt = $db->prepare($sql);
-    if (!$stmt) {
-        throw new Exception("Failed to prepare statement: " . $db->error);
+    // Check if primary image is uploaded
+    if (isset($_FILES['primary_image']) && $_FILES['primary_image']['error'] === UPLOAD_ERR_OK) {
+        // Store temp file info, don't upload yet
+        $tempUploadedFiles['primary_image'] = $_FILES['primary_image'];
     }
     
-    // Debug: Log the values being bound
-    error_log("Binding values: artist_id=$artist_id, title=$title, description=$description, price=$price, dimensions=$dimensions, year=$year, material=$materialString, artwork_image=$artworkImage, type=$artworkType");
-    
-    $stmt->bind_param(
-        "issdsisss",
-        $artist_id,
-        $title,
-        $description,
-        $price,
-        $dimensions,
-        $year,
-        $materialString,
-        $artworkImage,
-        $artworkType
-    );
-    
-    // Execute database insertion
-    if (!$stmt->execute()) {
-        // Database insertion failed - clean up uploaded files
-        cleanupUploadedFiles($uploadedFiles);
-        throw new Exception("Failed to insert artwork: " . $stmt->error);
-    }
-    
-    $artworkId = $db->insert_id;
-    $stmt->close();
-    
-    // Rename uploaded image file with actual artwork ID (only if database insertion succeeded)
-    $finalImageName = $artworkImage;
-    if ($artworkImage) {
-        $renameResult = renameTempArtworkImage($artworkImage, $artist_id, $artworkId);
-        if ($renameResult && $renameResult !== $artworkImage) {
-            $finalImageName = $renameResult; // Use renamed file
-            
-            // Update database with final image name
-            $updateImageSql = "UPDATE artworks SET artwork_image = ? WHERE artwork_id = ?";
-            $updateStmt = $db->prepare($updateImageSql);
-            if ($updateStmt) {
-                $updateStmt->bind_param("si", $finalImageName, $artworkId);
-                $updateStmt->execute();
-                $updateStmt->close();
+    // Handle multiple images (auction_images[] for auctions, artwork_images[] for artworks)
+    $imageField = $isAuction ? 'auction_images' : 'artwork_images';
+    if (isset($_FILES[$imageField]) && is_array($_FILES[$imageField]['name'])) {
+        $tempUploadedFiles['additional_images'] = [];
+        for ($i = 0; $i < count($_FILES[$imageField]['name']); $i++) {
+            if ($_FILES[$imageField]['error'][$i] === UPLOAD_ERR_OK) {
+                $tempUploadedFiles['additional_images'][] = [
+                    'name' => $_FILES[$imageField]['name'][$i],
+                    'type' => $_FILES[$imageField]['type'][$i],
+                    'tmp_name' => $_FILES[$imageField]['tmp_name'][$i],
+                    'size' => $_FILES[$imageField]['size'][$i],
+                    'error' => $_FILES[$imageField]['error'][$i]
+                ];
             }
         }
     }
     
-    // Send success response
-    http_response_code(201);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Artwork published successfully!',
-        'data' => [
-            'artwork_id' => $artworkId,
-            'title' => $title,
-            'price' => $price,
-            'dimensions' => $dimensions,
-            'type' => $artworkType,
-            'material' => $materialString,
-            'artwork_image' => $finalImageName,
-            'year' => $year
-        ]
-    ]);
-    
-} catch (Exception $e) {
-    // Clean up any uploaded files if artwork creation failed
-    if (isset($uploadedFiles) && !empty($uploadedFiles)) {
-        cleanupUploadedFiles($uploadedFiles);
+    // Check if single artwork_image is uploaded (from regular artwork form)
+    if (isset($_FILES['artwork_image']) && $_FILES['artwork_image']['error'] === UPLOAD_ERR_OK) {
+        if (!isset($tempUploadedFiles['primary_image'])) {
+            $tempUploadedFiles['primary_image'] = $_FILES['artwork_image'];
+        }
     }
     
-    error_log("addArtwork error: " . $e->getMessage());
+    // Map art style to artwork type
+    $typeMapping = [
+        'abstract' => 'painting',
+        'realism' => 'painting',
+        'impressionism' => 'painting',
+        'cubism' => 'painting',
+        'expressionism' => 'painting',
+        'surrealism' => 'painting',
+        'pop-art' => 'painting',
+        'minimalism' => 'mixed_media',
+        'contemporary' => 'mixed_media',
+        'sculpture' => 'sculpture',
+        'photography' => 'photography',
+        'digital' => 'digital'
+    ];
+    $artworkType = isset($typeMapping[$art_style]) ? $typeMapping[$art_style] : 'painting';
+    
+    // Insert artwork into artworks table
+    if ($isAuction) {
+        // For auctions, set on_auction = 1
+        $artworkSql = "INSERT INTO artworks (
+            artist_id, title, description, price, dimensions, year, 
+            material, artwork_image, type, is_available, on_auction
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1)";
+    } else {
+        // For regular artwork, set on_auction = 0
+        $artworkSql = "INSERT INTO artworks (
+            artist_id, title, description, price, dimensions, year, 
+            material, artwork_image, type, is_available, on_auction
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0)";
+    }
+    
+    $artworkStmt = $db->prepare($artworkSql);
+    if (!$artworkStmt) {
+        throw new Exception("Failed to prepare artwork statement: " . $db->error);
+    }
+    
+    // Handle dimensions - use null if empty
+    $dimensionsForDb = !empty($dimensions) ? $dimensions : null;
+    $tempPrimaryImagePath = null; // Will be updated after processing images
+    
+    $artworkStmt->bind_param(
+        "issdsisss",
+        $artist_id,
+        $artwork_title,
+        $description,
+        $starting_bid, // Use starting bid as price
+        $dimensionsForDb,
+        $year,
+        $material,
+        $tempPrimaryImagePath, // Will be null initially
+        $artworkType
+    );
+    
+    if (!$artworkStmt->execute()) {
+        throw new Exception("Failed to insert artwork: " . $artworkStmt->error);
+    }
+    
+    $artwork_id = $db->insert_id;
+    $artworkStmt->close();
+    
+    // Now process the uploaded images with the correct artwork_id
+    $primaryImagePath = null;
+    $uploaded_images = [];
+    $totalUploadedImages = [];
+    $uploadErrors = [];
+    
+    // Process primary image if uploaded
+    if (isset($tempUploadedFiles['primary_image'])) {
+        $upload_result = uploadAuctionImage($tempUploadedFiles['primary_image'], $artist_id, $artwork_id, 0);
+        if ($upload_result['success']) {
+            $primaryImagePath = $upload_result['filename'];
+        } else {
+            throw new Exception('Primary image upload failed: ' . $upload_result['message']);
+        }
+    }
+    
+    // Process additional images if uploaded
+    if (isset($tempUploadedFiles['additional_images']) && !empty($tempUploadedFiles['additional_images'])) {
+        foreach ($tempUploadedFiles['additional_images'] as $index => $file) {
+            $upload_result = uploadAuctionImage($file, $artist_id, $artwork_id, $index + 1);
+            if ($upload_result['success']) {
+                $uploaded_images[] = [
+                    'path' => $upload_result['filename'],
+                    'is_primary' => 0 // Additional images are not primary
+                ];
+            } else {
+                $uploadErrors[] = "Failed to upload image " . ($index + 1) . ": " . $upload_result['message'];
+            }
+        }
+    }
+    
+    // If no primary image was uploaded but we have additional images, use the first one as primary
+    if ($primaryImagePath === null && !empty($uploaded_images)) {
+        $primaryImagePath = $uploaded_images[0]['path'];
+        $uploaded_images[0]['is_primary'] = 1;
+    }
+    
+    // Update the artwork record with the primary image path if we have one
+    if ($primaryImagePath !== null) {
+        $updateImageSql = "UPDATE artworks SET artwork_image = ? WHERE artwork_id = ?";
+        $updateStmt = $db->prepare($updateImageSql);
+        if ($updateStmt) {
+            $updateStmt->bind_param("si", $primaryImagePath, $artwork_id);
+            $updateStmt->execute();
+            $updateStmt->close();
+        }
+    }
+    
+    // Only create auction if this is an auction
+    if ($isAuction) {
+        // Insert auction into auctions table
+        $auctionSql = "INSERT INTO auctions (
+            product_id, artist_id, starting_bid, current_bid, 
+            start_time, end_time, status
+        ) VALUES (?, ?, ?, ?, ?, ?, 'active')";
+        
+        $auctionStmt = $db->prepare($auctionSql);
+        if (!$auctionStmt) {
+            throw new Exception("Failed to prepare auction statement: " . $db->error);
+        }
+        
+        $auctionStmt->bind_param(
+            "iiddss",
+            $artwork_id,    // This references artwork_id from artworks table
+            $artist_id,     // Include artist_id as required by the table
+            $starting_bid,
+            $starting_bid,  // current_bid starts as starting_bid
+            $start_datetime,
+            $end_datetime
+        );
+        
+        if (!$auctionStmt->execute()) {
+            throw new Exception("Failed to insert auction: " . $auctionStmt->error);
+        }
+        
+        $auction_id = $db->insert_id;
+        $auctionStmt->close();
+    } else {
+        $auction_id = null; // No auction created for regular artwork
+    }
+    
+    // Handle image uploads and store in artwork_photos table
+    // Variables already initialized after artwork insertion
+    
+    // Insert primary image into artwork_photos table if exists
+    if ($primaryImagePath !== null) {
+        $photoSql = "INSERT INTO artwork_photos (artwork_id, image_path, is_primary) VALUES (?, ?, 1)";
+        $photoStmt = $db->prepare($photoSql);
+        
+        if ($photoStmt) {
+            $photoStmt->bind_param("is", $artwork_id, $primaryImagePath);
+            if (!$photoStmt->execute()) {
+                throw new Exception("Failed to insert primary photo record: " . $photoStmt->error);
+            }
+            $photoStmt->close();
+            $totalUploadedImages[] = $primaryImagePath;
+        } else {
+            throw new Exception("Failed to prepare primary photo statement: " . $db->error);
+        }
+    }
+    
+    // Insert additional images into artwork_photos table
+    if (!empty($uploaded_images)) {
+        $photoSql = "INSERT INTO artwork_photos (artwork_id, image_path, is_primary) VALUES (?, ?, ?)";
+        $photoStmt = $db->prepare($photoSql);
+        
+        if ($photoStmt) {
+            foreach ($uploaded_images as $image) {
+                // Only add if it's not the same as the primary image
+                if ($image['path'] !== $primaryImagePath) {
+                    $photoStmt->bind_param("isi", $artwork_id, $image['path'], $image['is_primary']);
+                    if (!$photoStmt->execute()) {
+                        throw new Exception("Failed to insert photo record: " . $photoStmt->error);
+                    }
+                    $totalUploadedImages[] = $image['path'];
+                }
+            }
+            $photoStmt->close();
+        } else {
+            throw new Exception("Failed to prepare photo statement: " . $db->error);
+        }
+    }
+    
+    // For auctions, at least one image is required
+    if ($isAuction && empty($totalUploadedImages)) {
+        throw new Exception("No images were successfully uploaded for auction.");
+    }
+    
+    // Commit transaction
+    $db->commit();
+    
+    // Success response
+    http_response_code(200);
+    if ($isAuction) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Auction created successfully!',
+            'data' => [
+                'artwork_id' => $artwork_id,
+                'auction_id' => $auction_id,
+                'artwork_title' => $artwork_title,
+                'starting_bid' => $starting_bid,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'images_uploaded' => count($totalUploadedImages),
+                'image_files' => $totalUploadedImages
+            ],
+            'warnings' => !empty($uploadErrors) ? $uploadErrors : null
+        ]);
+    } else {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Artwork added successfully!',
+            'data' => [
+                'artwork_id' => $artwork_id,
+                'artwork_title' => $artwork_title,
+                'price' => $starting_bid,
+                'category' => $category,
+                'images_uploaded' => count($totalUploadedImages),
+                'image_files' => $totalUploadedImages
+            ],
+            'warnings' => !empty($uploadErrors) ? $uploadErrors : null
+        ]);
+    }
+    
+} catch (Exception $e) {
+    // Rollback transaction
+    $db->rollback();
+    
+    // Clean up any uploaded files
+    if (!empty($totalUploadedImages)) {
+        cleanupUploadedFiles($totalUploadedImages);
+    }
+    
+    error_log("Auction creation error: " . $e->getMessage());
+    
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'An error occurred while adding the artwork',
-        'error' => $e->getMessage()
+        'message' => 'Failed to create auction: ' . $e->getMessage(),
+        'error_code' => 'AUCTION_CREATION_FAILED'
     ]);
 } finally {
-    // Close database connection if it exists
-    if (isset($db) && !$db->connect_error) {
-        $db->close();
-    }
+    // Reset autocommit
+    $db->autocommit(true);
 }
 ?>

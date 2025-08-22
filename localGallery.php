@@ -3,23 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery Hub - Book Your Perfect Gallery Experience</title>
+    <title>Yadawity - Local Galleries</title>
    
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="./components/Navbar/navbar.css" />
     <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
     <link rel="stylesheet" href="./public/homePage.css" />
-    <link rel="stylesheet" href="./public/local gallery.css">
+    <link rel="stylesheet" href="./public/localGallery.css">
 </head>
 <body>
     <?php include './components/includes/navbar.php'; ?>
@@ -42,7 +33,7 @@
             </div>
 
             <!-- Main Search Bar -->
-             <div class="main-search">
+            <div class="main-search">
                 <div class="search-wrapper">
                     <input 
                         type="text"
@@ -200,6 +191,8 @@
     </div>
 <?php include './components/includes/footer.php'; ?>
 
-    <script src="./public/local gallery.js"></script>
+    <script src="./components/Navbar/navbar.js"></script>
+    <script src="./components/BurgerMenu/burger-menu.js"></script>
+    <script src="./public/localGallery.js"></script>
 </body>
 </html>

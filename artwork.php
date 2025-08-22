@@ -24,6 +24,298 @@
     <link rel="stylesheet" href="./components/BurgerMenu/burger-menu.css" />
     <link rel="stylesheet" href="./public/homePage.css" />
     <link rel="stylesheet" href="./public/artwork.css">
+    
+    <style>
+    .gallery-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 0;
+    }
+    
+    .gallery-header h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
+        color: #2c3e50;
+        margin: 0;
+    }
+    
+    .artwork-count-container {
+        background: #f8f9fa;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 500;
+        color: #666;
+    }
+    
+    .no-artworks-message,
+    .error-message {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin: 2rem 0;
+    }
+    
+    .message-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .message-content h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        margin: 0;
+        color: #2c3e50;
+    }
+    
+    .message-content p {
+        color: #666;
+        margin: 0;
+        max-width: 400px;
+    }
+    
+    .retry-btn {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.3s ease;
+    }
+    
+    .retry-btn:hover {
+        background: #2980b9;
+    }
+    
+    .enhanced-artwork-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+        background: #f8f9fa;
+    }
+    
+    .no-image-available {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+        border: 2px dashed #dee2e6;
+        transition: all 0.3s ease;
+    }
+    
+    .no-image-available:hover {
+        background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        border-color: #adb5bd;
+    }
+    
+    .no-image-icon {
+        font-size: 3rem;
+        color: #adb5bd;
+        margin-bottom: 0.5rem;
+    }
+    
+    .no-image-text {
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    .image-error-indicator {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(231, 76, 60, 0.9);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        z-index: 10;
+    }
+    
+    .enhanced-add-to-cart:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    
+    .enhanced-add-to-cart:disabled:hover {
+        background: #95a5a6;
+        transform: none;
+    }
+    
+    @media (max-width: 768px) {
+        .gallery-header {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .gallery-header h2 {
+            font-size: 1.5rem;
+        }
+    }
+    
+    /* Search Bar Styles - Matching Auction/Course Pages */
+    .main-search {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto 3rem;
+    }
+    
+    .search-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: rgb(255, 255, 255);
+        border-radius: 3px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .search-wrapper:hover {
+        border-color: #d4af37;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .search-wrapper:focus-within {
+        border-color: #d4af37;
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        background: transparent;
+        color: #2c1810;
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        border-radius: 0;
+    }
+
+    .search-input::placeholder {
+        color: #6b4423;
+        opacity: 0.8;
+    }
+
+    .search-btn {
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
+        border: none;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 50px;
+        height: 90%;
+        border-radius: 3px;
+    }
+
+    .search-btn:hover {
+        background: linear-gradient(135deg, #4a2c17 0%, #6b4423 100%);
+        transform: scale(1.02);
+    }
+
+    .search-btn i {
+        font-size: 1.1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .search-btn:hover i {
+        transform: scale(1.1);
+    }
+    
+    /* Active Filters Styles */
+    .active-filters-section {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .active-filters-header h4 {
+        margin: 0 0 0.75rem 0;
+        font-size: 1rem;
+        color: #495057;
+        font-weight: 600;
+    }
+    
+    .active-filters-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .filter-tag {
+        display: inline-flex;
+        align-items: center;
+        background: #6b4423;
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        gap: 0.5rem;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .filter-tag .remove-filter {
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: background 0.2s ease;
+    }
+    
+    .filter-tag .remove-filter:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+        .active-filters-section {
+            margin: 1rem -1rem 0 -1rem;
+        }
+        
+        .filter-tag {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+        }
+    }
+    </style>
   </head>
 
   <body>
@@ -128,6 +420,16 @@
                 Apply Filters
             </button>
         </div>
+
+        <!-- Active Filters Display -->
+        <div class="active-filters-section" id="activeFiltersSection" style="display: none;">
+            <div class="active-filters-header">
+                <h4>Active Filters:</h4>
+            </div>
+            <div class="active-filters-container" id="activeFilters">
+                <!-- Active filter tags will be displayed here -->
+            </div>
+        </div>
     </div>
 
     </div>
@@ -137,294 +439,19 @@
     
     <!-- Artwork Gallery Section -->
     <section class="artwork-gallery">
+      <div class="gallery-header">
+        <h2>Available Artworks</h2>
+        <div class="artwork-count-container">
+          <span>Showing <span id="artworkCount">0</span> artworks</span>
+        </div>
+      </div>
       
-
       <div class="artworks-grid" id="artworksGrid">
-        <!-- Artwork Card 1 -->
-        <div class="enhanced-artwork-card" data-category="painting" data-price="1200">
-          <div class="artwork-image-container">
-            <img src="image/photo.jpeg" alt="Abstract Painting" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Painting</div>
-            <h3 class="enhanced-artwork-title">Abstract Harmony</h3>
-            <p class="enhanced-artwork-artist">By Sarah Johnson</p>
-            <p class="enhanced-artwork-price">$1,200</p>
-            <p class="artwork-dimensions">36" × 48" × 1.5"</p>
-            <p class="enhanced-artwork-description">A vibrant exploration of color and movement, this piece captures the essence of modern abstract expressionism.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 2 -->
-        <div class="enhanced-artwork-card" data-category="sculpture" data-price="2500">
-          <div class="artwork-image-container">
-            <img src="image/photo-1554907984-15263bfd63bd.jpeg" alt="Bronze Sculpture" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Sculpture</div>
-            <h3 class="enhanced-artwork-title">Bronze Elegance</h3>
-            <p class="enhanced-artwork-artist">By Michael Chen</p>
-            <p class="enhanced-artwork-price">$2,500</p>
-            <p class="artwork-dimensions">24" × 12" × 12"</p>
-            <p class="enhanced-artwork-description">A masterful bronze sculpture that embodies grace and motion in three dimensions.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 3 -->
-        <div class="enhanced-artwork-card" data-category="photography" data-price="800">
-          <div class="artwork-image-container">
-            <img src="image/darker_image.webp" alt="Urban Photography" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Photography</div>
-            <h3 class="enhanced-artwork-title">Urban Reflections</h3>
-            <p class="enhanced-artwork-artist">By Emma Davis</p>
-            <p class="enhanced-artwork-price">$800</p>
-            <p class="artwork-dimensions">24" × 36"</p>
-            <p class="enhanced-artwork-description">A striking black and white photograph capturing the essence of city life.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 4 -->
-        <div class="enhanced-artwork-card" data-category="painting" data-price="1800">
-          <div class="artwork-image-container">
-            <img src="image/STC_EDS_MINAG_R_L_2011_229-001.jpg" alt="Oil Painting" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Painting</div>
-            <h3 class="enhanced-artwork-title">Serenity Falls</h3>
-            <p class="enhanced-artwork-artist">By Robert Wilson</p>
-            <p class="enhanced-artwork-price">$1,800</p>
-            <p class="artwork-dimensions">40" × 30" × 1.5"</p>
-            <p class="enhanced-artwork-description">A serene landscape capturing the majesty of nature in oil on canvas.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 5 -->
-        <div class="enhanced-artwork-card" data-category="digital" data-price="600">
-          <div class="artwork-image-container">
-            <img src="image/images.jpeg" alt="Digital Art" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Digital Art</div>
-            <h3 class="enhanced-artwork-title">Digital Dreams</h3>
-            <p class="enhanced-artwork-artist">By Alex Thompson</p>
-            <p class="enhanced-artwork-price">$600</p>
-            <p class="artwork-dimensions">24" × 24"</p>
-            <p class="enhanced-artwork-description">A mesmerizing digital creation blending technology and artistic vision.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 6 -->
-        <div class="enhanced-artwork-card" data-category="mixed-media" data-price="1500">
-          <div class="artwork-image-container">
-            <img src="image/AllentownArtMuseum_Gallery01_DiscoverLehighValley_2450c76f-4de5-402c-a060-d0a8ff3b1d37.jpg" alt="Mixed Media" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Mixed Media</div>
-            <h3 class="enhanced-artwork-title">Textural Symphony</h3>
-            <p class="enhanced-artwork-artist">By Maria Garcia</p>
-            <p class="enhanced-artwork-price">$1,500</p>
-            <p class="artwork-dimensions">36" × 48"</p>
-            <p class="enhanced-artwork-description">An innovative mixed media piece combining various materials and techniques.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 7 -->
-        <div class="enhanced-artwork-card" data-category="painting" data-price="2200">
-          <div class="artwork-image-container">
-            <img src="image/artist-sitting-on-the-floor.jpg" alt="Contemporary Painting" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Painting</div>
-            <h3 class="enhanced-artwork-title">Modern Expression</h3>
-            <p class="enhanced-artwork-artist">By David Martinez</p>
-            <p class="enhanced-artwork-price">$2,200</p>
-            <p class="artwork-dimensions">48" × 36" × 2"</p>
-            <p class="enhanced-artwork-description">A bold contemporary painting that challenges traditional artistic boundaries with vibrant colors and dynamic composition.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 8 -->
-        <div class="enhanced-artwork-card" data-category="photography" data-price="950">
-          <div class="artwork-image-container">
-            <img src="image/Artist-PainterLookingAtCamera.webp" alt="Portrait Photography" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Photography</div>
-            <h3 class="enhanced-artwork-title">Artist's Gaze</h3>
-            <p class="enhanced-artwork-artist">By Sophie Anderson</p>
-            <p class="enhanced-artwork-price">$950</p>
-            <p class="artwork-dimensions">20" × 30"</p>
-            <p class="enhanced-artwork-description">An intimate portrait capturing the creative spirit and determination of an artist in their element.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 9 -->
-        <div class="enhanced-artwork-card" data-category="abstract" data-price="1650">
-          <div class="artwork-image-container">
-            <img src="image/_grj4724.jpg" alt="Abstract Art" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Abstract</div>
-            <h3 class="enhanced-artwork-title">Cosmic Fragments</h3>
-            <p class="enhanced-artwork-artist">By Jennifer Lee</p>
-            <p class="enhanced-artwork-price">$1,650</p>
-            <p class="artwork-dimensions">42" × 54" × 1.5"</p>
-            <p class="enhanced-artwork-description">An explosive abstract composition that explores the relationship between chaos and harmony through bold gestural marks.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 10 -->
-        <div class="enhanced-artwork-card" data-category="sculpture" data-price="3200">
-          <div class="artwork-image-container">
-            <img src="image/2d58ceedffd1ba6b3e8e2adc4371208f.jpg" alt="Modern Sculpture" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Sculpture</div>
-            <h3 class="enhanced-artwork-title">Geometric Harmony</h3>
-            <p class="enhanced-artwork-artist">By Marcus Johnson</p>
-            <p class="enhanced-artwork-price">$3,200</p>
-            <p class="artwork-dimensions">30" × 18" × 18"</p>
-            <p class="enhanced-artwork-description">A contemporary sculpture exploring geometric forms and negative space with precision-crafted metal components.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 11 -->
-        <div class="enhanced-artwork-card" data-category="digital" data-price="750">
-          <div class="artwork-image-container">
-            <img src="image/photoo.webp" alt="Digital Landscape" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Digital Art</div>
-            <h3 class="enhanced-artwork-title">Digital Horizon</h3>
-            <p class="enhanced-artwork-artist">By Kevin Park</p>
-            <p class="enhanced-artwork-price">$750</p>
-            <p class="artwork-dimensions">32" × 24"</p>
-            <p class="enhanced-artwork-description">A stunning digital landscape that blurs the line between reality and imagination with ethereal lighting effects.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Artwork Card 12 -->
-        <div class="enhanced-artwork-card" data-category="painting" data-price="1950">
-          <div class="artwork-image-container">
-            <img src="image/slide1.jpg" alt="Impressionist Painting" class="enhanced-artwork-image">
-            <div class="artwork-overlay">
-              <div class="quick-actions">
-                <button class="quick-action-btn"><i class="fas fa-eye"></i></button>
-              </div>
-            </div>
-          </div>
-          <div class="enhanced-artwork-info">
-            <div class="artwork-category">Painting</div>
-            <h3 class="enhanced-artwork-title">Garden Reverie</h3>
-            <p class="enhanced-artwork-artist">By Isabella Rodriguez</p>
-            <p class="enhanced-artwork-price">$1,950</p>
-            <p class="artwork-dimensions">40" × 32" × 1.5"</p>
-            <p class="enhanced-artwork-description">An impressionist-inspired garden scene that captures the fleeting beauty of light dancing through foliage.</p>
-            <div class="artwork-actions">
-              <button class="enhanced-add-to-cart">Add to Cart</button>
-              <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-            </div>
+        <!-- Artworks will be loaded dynamically via JavaScript -->
+        <div class="loading-message" id="loadingMessage">
+          <div class="message-content">
+            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #3498db; margin-bottom: 1rem;"></i>
+            <p>Loading artworks...</p>
           </div>
         </div>
       </div>

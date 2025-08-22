@@ -4,6 +4,11 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Cache-Control: no-cache, no-store, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+header('ETag: ' . md5(microtime()));
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
@@ -14,26 +19,126 @@ include 'db.php';
 // Use correct database connection variable
 $conn = $db;
 
+// Function to validate user cookie and get user ID
+function validateUserCookie($conn) {
+    if (!isset($_COOKIE['user_login'])) {
+        return null;
+    }
+    
+    $cookieValue = $_COOKIE['user_login'];
+    
+    // Extract user ID from cookie (format: user_id_hash)
+    $parts = explode('_', $cookieValue, 2);
+    if (count($parts) !== 2) {
+        return null;
+    }
+    
+    $user_id = (int)$parts[0];
+    $provided_hash = $parts[1];
+    
+    if ($user_id <= 0) {
+        return null;
+    }
+    
+    // Get user data
+    $stmt = $conn->prepare("SELECT email, is_active FROM users WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows === 0) {
+        return null;
+    }
+    
+    $user = $result->fetch_assoc();
+    
+    // Check if user is active
+    if (!$user['is_active']) {
+        return null;
+    }
+    
+    // Get all active login sessions for this user
+    $session_stmt = $conn->prepare("
+        SELECT login_time 
+        FROM user_login_sessions 
+        WHERE user_id = ? AND is_active = 1 
+        ORDER BY login_time DESC
+    ");
+    $session_stmt->bind_param("i", $user_id);
+    $session_stmt->execute();
+    $session_result = $session_stmt->get_result();
+    
+    // Try to validate the hash against any active session
+    while ($session = $session_result->fetch_assoc()) {
+        $expected_hash = hash('sha256', $user['email'] . $session['login_time'] . 'yadawity_salt');
+        if ($provided_hash === $expected_hash) {
+            return $user_id; // Hash matches one of the active sessions
+        }
+    }
+    
+    // No matching hash found
+    return null;
+}
+
+// Function to get authenticated user ID
+function getAuthenticatedUserId($conn) {
+    // COMPLETELY destroy any existing session data to prevent contamination
+    $_SESSION = array();
+    
+    // Destroy the session cookie if it exists
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    // Destroy session completely
+    session_destroy();
+    
+    // Start fresh session to ensure no contamination
+    session_start();
+    
+    // ONLY use cookie authentication - no session fallbacks
+    $cookie_user_id = validateUserCookie($conn);
+    if ($cookie_user_id) {
+        error_log("getAuthenticatedUserId: Using cookie authentication for user_id = " . $cookie_user_id);
+        return $cookie_user_id;
+    }
+    
+    error_log("getAuthenticatedUserId: No valid authentication found");
+    return null;
+}
+
 function getArtistProducts($conn, $artist_id) {
     try {
+        // Debug logging
+        error_log("getArtistProducts: Using artist_id = " . $artist_id);
+        
         $query = "
             SELECT 
                 a.artwork_id,
                 a.title,
+                a.description,
                 a.price,
+                a.dimensions,
                 a.artwork_image,
                 a.type,
                 a.is_available,
                 a.on_auction,
                 a.created_at,
+                auc.id as auction_id,
                 COUNT(DISTINCT oi.id) as cart_count,
                 COUNT(DISTINCT w.id) as wishlist_count,
-                COUNT(DISTINCT o.id) as sales_count,
-                COALESCE(SUM(oi.price * oi.quantity), 0) as total_earnings
+                COUNT(DISTINCT CASE WHEN o.status IN ('paid', 'shipped', 'delivered') THEN o.id END) as sales_count,
+                COALESCE(SUM(CASE WHEN o.status IN ('paid', 'shipped', 'delivered') THEN oi.price * oi.quantity END), 0) as total_earnings
             FROM artworks a
+            LEFT JOIN auctions auc ON a.artwork_id = auc.product_id AND a.artist_id = auc.artist_id
+            LEFT JOIN cart c ON a.artwork_id = c.artwork_id
+            LEFT JOIN wishlists w ON a.artwork_id = w.artwork_id
             LEFT JOIN order_items oi ON a.artwork_id = oi.artwork_id
-            LEFT JOIN orders o ON oi.order_id = o.id AND o.status IN ('paid', 'shipped', 'delivered')
-            LEFT JOIN wishlist w ON a.artwork_id = w.artwork_id
+            LEFT JOIN orders o ON oi.order_id = o.id
             WHERE a.artist_id = ?
             GROUP BY a.artwork_id
             ORDER BY a.created_at DESC
@@ -58,10 +163,14 @@ function getArtistProducts($conn, $artist_id) {
             $products[] = [
                 'id' => $row['artwork_id'],
                 'title' => $row['title'],
+                'description' => $row['description'],
                 'price' => (float)$row['price'],
-                'image' => $row['artwork_image'] ? './image/' . $row['artwork_image'] : './image/placeholder-artwork.jpg',
+                'dimensions' => $row['dimensions'],
+                'image' => $row['artwork_image'] ? '/uploads/artworks/' . $row['artwork_image'] : '/image/placeholder-artwork.jpg',
                 'type' => $row['type'],
                 'status' => $status,
+                'auction_id' => $row['auction_id'], // Include auction_id for items that are on auction
+                'on_auction' => (bool)$row['on_auction'], // Include on_auction flag
                 'cart_count' => (int)$row['cart_count'],
                 'wishlist_count' => (int)$row['wishlist_count'],
                 'sales_count' => (int)$row['sales_count'],
@@ -71,6 +180,10 @@ function getArtistProducts($conn, $artist_id) {
         }
         
         $stmt->close();
+        
+        // Debug logging
+        error_log("getArtistProducts: Found " . count($products) . " products for artist_id " . $artist_id);
+        
         return $products;
         
     } catch (Exception $e) {
@@ -82,11 +195,10 @@ function getArtistGalleries($conn, $artist_id) {
     try {
         $query = "
             SELECT 
-                g.id,
+                g.gallery_id as id,
                 g.title,
                 g.description,
                 g.gallery_type,
-                g.location,
                 g.address,
                 g.city,
                 g.phone,
@@ -94,17 +206,13 @@ function getArtistGalleries($conn, $artist_id) {
                 g.duration,
                 g.is_active,
                 g.created_at,
-                COUNT(DISTINCT gi.artwork_id) as artwork_count,
-                COUNT(DISTINCT ce.user_id) as enrolled_count,
-                COUNT(DISTINCT gc.user_id) as cart_count,
-                COUNT(DISTINCT gw.user_id) as wishlist_count
+                g.img,
+                0 as artwork_count,
+                0 as enrolled_count,
+                0 as cart_count,
+                0 as wishlist_count
             FROM galleries g
-            LEFT JOIN gallery_items gi ON g.id = gi.gallery_id
-            LEFT JOIN course_enrollments ce ON g.id = ce.course_id
-            LEFT JOIN gallery_cart gc ON g.id = gc.gallery_id
-            LEFT JOIN gallery_wishlist gw ON g.id = gw.gallery_id
             WHERE g.artist_id = ?
-            GROUP BY g.id
             ORDER BY g.created_at DESC
         ";
         
@@ -117,6 +225,20 @@ function getArtistGalleries($conn, $artist_id) {
         $local_galleries = [];
         
         while ($row = $result->fetch_assoc()) {
+            // Handle gallery image path - check if it already contains the full path
+            $gallery_image = '';
+            if ($row['img']) {
+                if (strpos($row['img'], 'uploads/galleries/') === 0) {
+                    // Already contains full path, just add leading slash
+                    $gallery_image = '/' . $row['img'];
+                } else {
+                    // Just filename, prepend the uploads/galleries/ path
+                    $gallery_image = '/uploads/galleries/' . $row['img'];
+                }
+            } else {
+                $gallery_image = '/image/default-gallery.jpg';
+            }
+            
             $gallery_data = [
                 'id' => $row['id'],
                 'title' => $row['title'],
@@ -127,14 +249,14 @@ function getArtistGalleries($conn, $artist_id) {
                 'enrolled_count' => (int)$row['enrolled_count'],
                 'cart_count' => (int)$row['cart_count'],
                 'wishlist_count' => (int)$row['wishlist_count'],
-                'created_at' => $row['created_at']
+                'created_at' => $row['created_at'],
+                'image' => $gallery_image
             ];
             
             if ($row['gallery_type'] === 'virtual') {
                 $gallery_data['status'] = $row['is_active'] ? 'Published' : 'Draft';
                 $virtual_galleries[] = $gallery_data;
-            } else {
-                $gallery_data['location'] = $row['location'];
+            } else { // physical gallery
                 $gallery_data['address'] = $row['address'];
                 $gallery_data['city'] = $row['city'];
                 $gallery_data['phone'] = $row['phone'];
@@ -195,7 +317,7 @@ function getArtistSummaryStats($conn, $artist_id) {
                 COUNT(DISTINCT w.id) as total_wishlist,
                 COUNT(DISTINCT c.id) as total_cart
             FROM artworks a
-            LEFT JOIN wishlist w ON a.artwork_id = w.artwork_id
+            LEFT JOIN wishlists w ON a.artwork_id = w.artwork_id
             LEFT JOIN cart c ON a.artwork_id = c.artwork_id
             WHERE a.artist_id = ?
         ";
@@ -221,17 +343,69 @@ function getArtistSummaryStats($conn, $artist_id) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
-        // Get artist ID from session or query parameter
-        $artist_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : (isset($_GET['artist_id']) ? (int)$_GET['artist_id'] : 11);
-        
-        if (!$artist_id) {
-            throw new Exception("Artist ID is required");
+        // Check if user_id is provided directly in the URL parameter
+        if (isset($_GET['user_id']) && is_numeric($_GET['user_id'])) {
+            $artist_id = (int)$_GET['user_id'];
+            error_log("Using provided user_id: " . $artist_id);
+            
+            // Validate that this user exists and is active
+            $user_check_stmt = $conn->prepare("SELECT user_id FROM users WHERE user_id = ? AND is_active = 1");
+            $user_check_stmt->bind_param("i", $artist_id);
+            $user_check_stmt->execute();
+            $user_check_result = $user_check_stmt->get_result();
+            
+            if ($user_check_result->num_rows === 0) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'User not found or inactive.',
+                    'error_code' => 'USER_NOT_FOUND'
+                ]);
+                exit;
+            }
+        } else {
+            // Fall back to cookie validation
+            $artist_id = getAuthenticatedUserId($conn);
+            
+            // Debug logging
+            error_log("getArtistStatistics: Authenticated artist_id = " . ($artist_id ?? 'null'));
+            if (isset($_COOKIE['user_login'])) {
+                error_log("getArtistStatistics: Cookie present = " . substr($_COOKIE['user_login'], 0, 10) . "...");
+            }
+            
+            if (!$artist_id) {
+                http_response_code(401);
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'User not authenticated. Please log in.',
+                    'error_code' => 'AUTHENTICATION_REQUIRED'
+                ]);
+                exit;
+            }
         }
         
         // Validate database connection
         if (!isset($conn) || $conn->connect_error) {
             throw new Exception("Database connection failed");
         }
+        
+        // Get artist info
+        $artist_info_query = "SELECT first_name, last_name, email FROM users WHERE user_id = ? AND is_active = 1";
+        $artist_stmt = $conn->prepare($artist_info_query);
+        $artist_stmt->bind_param("i", $artist_id);
+        $artist_stmt->execute();
+        $artist_result = $artist_stmt->get_result();
+        
+        if ($artist_result->num_rows === 0) {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Artist not found or inactive.',
+                'error_code' => 'ARTIST_NOT_FOUND'
+            ]);
+            exit;
+        }
+        
+        $artist_info = $artist_result->fetch_assoc();
         
         // Get all data
         $products = getArtistProducts($conn, $artist_id);
@@ -243,6 +417,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'message' => 'Artist statistics retrieved successfully',
             'data' => [
                 'artist_id' => $artist_id,
+                'artist_info' => $artist_info,
                 'summary' => $summary_stats,
                 'products' => $products,
                 'virtual_galleries' => $galleries['virtual_galleries'],

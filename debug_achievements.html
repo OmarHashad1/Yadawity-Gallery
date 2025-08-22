@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Achievement Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .achievement-item { 
+            background: white; 
+            padding: 10px; 
+            margin: 5px 0; 
+            border-radius: 4px; 
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button { margin: 5px; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Debug Achievement Loading</h1>
+    
+    <div class="debug-section">
+        <h3>Test API Loading</h3>
+        <button class="btn-primary" onclick="testAPILoad()">Load from getAchievements API</button>
+        <div id="apiResults"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Test Direct Population</h3>
+        <button class="btn-primary" onclick="testDirectPopulation()">Test Direct Population</button>
+        <div id="achievementsList"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Console Output</h3>
+        <div id="consoleOutput" style="background: black; color: green; padding: 10px; font-family: monospace; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+    
+    <script>
+        // Override console.log to also display in the page
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        function addToConsole(message, type = 'log') {
+            const output = document.getElementById('consoleOutput');
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? 'red' : (type === 'warn' ? 'yellow' : 'green');
+            div.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToConsole('WARN: ' + args.join(' '), 'warn');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole('ERROR: ' + args.join(' '), 'error');
+        };
+        
+        // Test API loading
+        async function testAPILoad() {
+            console.log('🔍 Testing API load...');
+            
+            try {
+                const response = await fetch('./API/getAchievements.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                console.log('📡 API Response:', result);
+                
+                const resultsDiv = document.getElementById('apiResults');
+                resultsDiv.innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+                
+                if (result.success && result.data) {
+                    console.log('✅ API returned data, testing population...');
+                    testPopulateWithData(result.data);
+                }
+                
+            } catch (error) {
+                console.error('❌ API Error:', error);
+            }
+        }
+        
+        // Test direct population with sample data
+        function testDirectPopulation() {
+            console.log('🔍 Testing direct population...');
+            
+            const sampleData = [
+                { achievement_id: 1, achievement_name: "Test Achievement 1" },
+                { achievement_id: 2, achievement_name: "Test Achievement 2" },
+                "Legacy String Achievement"
+            ];
+            
+            testPopulateWithData(sampleData);
+        }
+        
+        // Test populate function
+        function testPopulateWithData(data) {
+            console.log('🎯 Testing populateAchievements with data:', data);
+            
+            // Copy the functions from artist-portal.js
+            populateAchievements(data);
+        }
+        
+        // Copy of populateAchievements function
+        function populateAchievements(achievementsData) {
+            console.log('🔍 populateAchievements called with data:', achievementsData);
+            console.log('🔍 Data type:', typeof achievementsData);
+            console.log('🔍 Is array:', Array.isArray(achievementsData));
+            
+            const achievementsList = document.getElementById('achievementsList');
+            if (!achievementsList) {
+                console.warn('❌ achievementsList element not found');
+                return;
+            }
+            
+            // Clear existing achievements
+            achievementsList.innerHTML = '';
+            
+            if (!achievementsData || achievementsData.length === 0) {
+                console.log('📝 No achievements to display');
+                return;
+            }
+            
+            console.log('🏆 Populating achievements:', achievementsData);
+            
+            // Handle new API format (array of objects with achievement_id and achievement_name)
+            achievementsData.forEach((achievement, index) => {
+                console.log(`🔍 Processing achievement ${index}:`, achievement);
+                console.log(`🔍 Achievement type:`, typeof achievement);
+                
+                if (typeof achievement === 'object' && achievement !== null) {
+                    console.log(`✅ Creating achievement item for object:`, achievement);
+                    createAchievementItem(achievement);
+                } else if (typeof achievement === 'string') {
+                    console.log(`⚠️ Got string achievement (legacy format):`, achievement);
+                    // Handle legacy string format by converting to object format
+                    createAchievementItem({
+                        achievement_id: null,
+                        achievement_name: achievement
+                    });
+                } else {
+                    console.warn(`❌ Unknown achievement format:`, achievement);
+                }
+            });
+        }
+        
+        // Copy of createAchievementItem function
+        function createAchievementItem(achievementData) {
+            console.log('🎯 createAchievementItem called with:', achievementData);
+            console.log('🎯 Data type:', typeof achievementData);
+            
+            const achievementsList = document.getElementById('achievementsList');
+            if (!achievementsList) {
+                console.warn('❌ achievementsList element not found in createAchievementItem');
+                return;
+            }
+            
+            // Handle both old format (string) and new format (object)
+            let achievementText, achievementId;
+            if (typeof achievementData === 'string') {
+                console.log('📝 Processing string achievement:', achievementData);
+                achievementText = achievementData;
+                achievementId = null; // For legacy achievements without ID
+            } else if (typeof achievementData === 'object' && achievementData !== null) {
+                console.log('📝 Processing object achievement:', achievementData);
+                achievementText = achievementData.achievement_name || achievementData.text || achievementData.toString();
+                achievementId = achievementData.achievement_id || achievementData.id || null;
+            } else {
+                console.error('❌ Invalid achievement data format:', achievementData);
+                return;
+            }
+            
+            console.log('📝 Final values - Text:', achievementText, 'ID:', achievementId);
+            
+            const achievementDiv = document.createElement('div');
+            achievementDiv.className = 'achievement-item';
+            if (achievementId) {
+                achievementDiv.setAttribute('data-achievement-id', achievementId);
+            }
+            achievementDiv.innerHTML = `
+                <span>${achievementText}</span>
+                <button type="button" class="btn-danger" onclick="console.log('Delete clicked for: ${achievementText}')" title="Remove achievement">
+                    Delete
+                </button>
+            `;
+            
+            achievementsList.appendChild(achievementDiv);
+            console.log('✅ Achievement item created and added to list');
+        }
+        
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            console.log('🚀 Debug page loaded');
+        });
+    </script>
+</body>
+</html>

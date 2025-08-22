@@ -1200,31 +1200,10 @@ body {
    ========================================== */
 .footer {
   font-family: "Inter", sans-serif;
-  position: relative;
-  background-image:url(../image/fb0e872e-e7a1-4c35-9eff-5bca0ce50d34.png);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-color: #2a2a2a;
   color: white;
   padding: 60px 0 30px;
   width: 100%;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(40, 39, 39, 0.8);
-  z-index: 1;
-}
-
-.footer-content,
-.footer-bottom {
-  position: relative;
-  z-index: 2;
 }
 
 .footer-content {
@@ -1326,6 +1305,27 @@ body {
   gap: 12px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 12px;
+  padding: 4px 0;
+}
+
+.contact-item i {
+  width: 20px;
+  height: 20px;
+  color: #cc9966 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+  border-radius: 50%;
+  background-color: rgba(204, 153, 102, 0.1);
+  padding: 8px;
+}
+
+.contact-item span {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
 }
 
 .contact-icon {

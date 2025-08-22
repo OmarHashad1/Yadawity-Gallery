@@ -10,6 +10,13 @@
   --shadow-light: rgba(107, 68, 35, 0.1);
   --shadow-medium: rgba(107, 68, 35, 0.2);
   --gradient-primary: linear-gradient(135deg, var(--primary-brown), var(--gold-accent));
+  
+  /* Additional variables for search box */
+  --primary-light: #fefefe;
+  --brown-medium: #6b4423;
+  --brown-light: #8b7355;
+  --text-primary: #2c1810;
+  --text-muted: #6b4423;
 }
 
 /* Container */
@@ -79,47 +86,73 @@
   line-height: 1.6;
 }
 
-.heroSearchBox {
-  display: flex;
+/* Main Search Bar (from sessionsTherapy.php) */
+.main-search {
+  position: relative;
   max-width: 600px;
-  max-height: 160px;
   margin: 0 auto;
-  background: white;
-  border-radius: 3px;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-.heroSearchInput {
-  flex: 1;
-  padding: 18px 25px;
-  border: none;
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1.25rem 4rem 1.25rem 1.5rem;
   font-size: 1rem;
-  color: var(--text-dark);
-  background: transparent;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
-.heroSearchInput::placeholder {
-  color: var(--text-light);
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
 }
 
-.heroSearchInput:focus {
+.search-input:focus {
+  background: white;
   outline: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
-.heroSearchBtn {
-  background: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
-  border: 2px;
-  border-color: linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
-  border-radius: 3px;
-  padding: 2px 19px;
-  color: white;
+.search-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: var(--primary-light);
+  border: none;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  z-index: 3;
 }
 
-.heroSearchBtn:hover {
-  background:  linear-gradient(135deg,   #8b7355 0%,  #6b5a47 100%);
+.search-btn:hover {
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  transform: translateY(-50%) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.search-btn i {
+  font-size: 1rem;
 }
 
 /* Quick Help Section */
@@ -259,22 +292,22 @@
 
 .faqQuestion i {
   color: var(--primary-brown);
-  transition: transform 0.3s ease;
-}
-
-.faqItem.active .faqQuestion i {
-  transform: rotate(45deg);
+  transition: all 0.3s ease;
 }
 
 .faqAnswer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s ease;
   background: #f9f9f9;
 }
 
 .faqItem.active .faqAnswer {
-  max-height: 200px;
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .faqAnswer p {

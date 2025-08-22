@@ -223,7 +223,7 @@ function setActivePage() {
     });
     
     // If no link matches, set home as active for root path
-    if (currentPath === '/' || currentPath === '/index.html') {
+    if (currentPath === '/' || currentPath === '/index.php') {
         const homeLink = document.querySelector('.navLink[href*="index"], .navLink[href="/"], .navLink[href="#home"]');
         if (homeLink) {
             homeLink.classList.add('active');
@@ -505,86 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-//support page
-document.addEventListener('DOMContentLoaded', function() {
-  // Hero search functionality
-  const heroSearchBtn = document.getElementById('heroSearchBtn');
-  const heroSearchInput = document.getElementById('heroSearchInput');
-  
-  if (heroSearchBtn && heroSearchInput) {
-    heroSearchBtn.addEventListener('click', function() {
-        const searchTerm = heroSearchInput.value.trim();
-        if (searchTerm) {
-            console.log('Searching for:', searchTerm);
-            // Scroll to FAQ section
-            const faqSection = document.querySelector('.faqSection');
-            if (faqSection) {
-                faqSection.scrollIntoView({ 
-                    behavior: 'smooth' 
-                });
-            }
-        }
-    });
-    
-    heroSearchInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            heroSearchBtn.click();
-        }
-    });
-  }
-
-  // FAQ functionality
-  const faqItems = document.querySelectorAll('.faqItem');
-  faqItems.forEach(item => {
-      const question = item.querySelector('.faqQuestion');
-      if (question) {
-          question.addEventListener('click', function() {
-              const isActive = item.classList.contains('active');
-              
-              // Close all FAQ items
-              faqItems.forEach(faqItem => {
-                  faqItem.classList.remove('active');
-                  const faqIcon = faqItem.querySelector('.faqQuestion i');
-                  if (faqIcon) {
-                      faqIcon.className = 'fas fa-plus';
-                  }
-              });
-              
-              // Open clicked item if it wasn't active
-              if (!isActive) {
-                  item.classList.add('active');
-                  const icon = question.querySelector('i');
-                  if (icon) {
-                      icon.className = 'fas fa-minus';
-                  }
-              }
-          });
-      }
-  });
-
-  // Contact form
-  const supportContactForm = document.getElementById('supportContactForm');
-  if (supportContactForm) {
-      supportContactForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const submitBtn = this.querySelector('.submitBtn');
-          if (submitBtn) {
-              const originalText = submitBtn.innerHTML;
-              submitBtn.innerHTML = '<span>Sending...</span> <i class="fas fa-circle-notch fa-spin"></i>';
-              submitBtn.disabled = true;
-              
-              setTimeout(() => {
-                  alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-                  this.reset();
-                  submitBtn.innerHTML = originalText;
-                  submitBtn.disabled = false;
-              }, 2000);
-          }
-      });
-  }
-});
 
 //courses page 
 // Course data
@@ -1067,45 +987,56 @@ document.addEventListener('DOMContentLoaded', function() {
     const minArrowDown = document.querySelector('.min-arrow-down');
     const minPriceInput = document.getElementById('minPrice');
     
-    minArrowUp.addEventListener('click', function() {
-        const currentValue = parseInt(minPriceInput.value) || 0;
-        minPriceInput.value = currentValue + 10;
-        applyFilters();
-    });
-    
-    minArrowDown.addEventListener('click', function() {
-        const currentValue = parseInt(minPriceInput.value) || 0;
-        if (currentValue >= 10) {
-            minPriceInput.value = currentValue - 10;
+    if (minArrowUp && minPriceInput) {
+        minArrowUp.addEventListener('click', function() {
+            const currentValue = parseInt(minPriceInput.value) || 0;
+            minPriceInput.value = currentValue + 10;
             applyFilters();
-        }
-    });
+        });
+    }
+    
+    if (minArrowDown && minPriceInput) {
+        minArrowDown.addEventListener('click', function() {
+            const currentValue = parseInt(minPriceInput.value) || 0;
+            if (currentValue >= 10) {
+                minPriceInput.value = currentValue - 10;
+                applyFilters();
+            }
+        });
+    }
     
     // Max price arrows functionality
     const maxArrowUp = document.querySelector('.max-arrow-up');
     const maxArrowDown = document.querySelector('.max-arrow-down');
     const maxPriceInput = document.getElementById('maxPrice');
     
-    maxArrowUp.addEventListener('click', function() {
-        const currentValue = parseInt(maxPriceInput.value) || 0;
-        maxPriceInput.value = currentValue + 10;
-        applyFilters();
-    });
-    
-    maxArrowDown.addEventListener('click', function() {
-        const currentValue = parseInt(maxPriceInput.value) || 0;
-        if (currentValue >= 10) {
-            maxPriceInput.value = currentValue - 10;
+    if (maxArrowUp && maxPriceInput) {
+        maxArrowUp.addEventListener('click', function() {
+            const currentValue = parseInt(maxPriceInput.value) || 0;
+            maxPriceInput.value = currentValue + 10;
             applyFilters();
-        }
-    });
+        });
+    }
+    
+    if (maxArrowDown && maxPriceInput) {
+        maxArrowDown.addEventListener('click', function() {
+            const currentValue = parseInt(maxPriceInput.value) || 0;
+            if (currentValue >= 10) {
+                maxPriceInput.value = currentValue - 10;
+                applyFilters();
+            }
+        });
+    }
     
     // Clear search on escape key
-    document.getElementById('searchInput').addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            clearAllFilters();
-        }
-    });
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                clearAllFilters();
+            }
+        });
+    }
 });
 
 // Smooth Scrolling

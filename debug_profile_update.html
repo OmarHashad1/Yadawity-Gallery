@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Profile Update Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 20px; 
+            border: 1px solid #ddd; 
+            border-radius: 8px;
+        }
+        button { 
+            padding: 10px 20px; 
+            margin: 5px; 
+            background: #007cba; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer;
+        }
+        button:hover { background: #005a87; }
+        input, textarea { 
+            width: 100%; 
+            padding: 8px; 
+            margin: 5px 0; 
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result { 
+            margin-top: 10px; 
+            padding: 10px; 
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Profile Update Debug Test</h1>
+    
+    <div class="test-section">
+        <h2>Step 1: Check Authentication</h2>
+        <button onclick="checkAuth()">Check Cookie & Auth</button>
+        <div id="authResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 2: Test API Direct Call</h2>
+        <button onclick="testAPI()">Test Update API</button>
+        <div id="apiResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 3: Test Profile Form</h2>
+        <form id="testForm" onsubmit="testFormSubmit(event)">
+            <label>Bio:</label>
+            <textarea id="artistBio" placeholder="Enter test bio">Test bio content from form</textarea>
+            
+            <label>Phone:</label>
+            <input type="text" id="artistPhone" value="+20 1234567890" placeholder="Phone number">
+            
+            <label>Email:</label>
+            <input type="email" id="artistEmail" value="test@example.com" placeholder="Email address">
+            
+            <button type="submit">Save Profile (Form Submit)</button>
+        </form>
+        <div id="formResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Step 4: Debug Console</h2>
+        <button onclick="clearConsole()">Clear Console</button>
+        <button onclick="showConsole()">Show Console Logs</button>
+        <div id="consoleOutput" style="background: #f8f9fa; padding: 10px; font-family: monospace; white-space: pre-wrap; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        let consoleLogs = [];
+        
+        console.log = function(...args) {
+            consoleLogs.push('LOG: ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            consoleLogs.push('ERROR: ' + args.join(' '));
+            originalError.apply(console, args);
+        };
+        
+        console.warn = function(...args) {
+            consoleLogs.push('WARN: ' + args.join(' '));
+            originalWarn.apply(console, args);
+        };
+        
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="result ${type}">${message}</div>`;
+        }
+        
+        async function checkAuth() {
+            showResult('authResult', 'Checking authentication...', 'info');
+            
+            const cookies = document.cookie;
+            console.log('All cookies:', cookies);
+            
+            if (cookies.includes('user_login')) {
+                const userLogin = cookies.split('user_login=')[1]?.split(';')[0];
+                showResult('authResult', `✅ Authentication cookie found: ${userLogin}`, 'success');
+            } else {
+                showResult('authResult', '❌ No user_login cookie found. You may need to login first.', 'error');
+            }
+        }
+        
+        async function testAPI() {
+            showResult('apiResult', 'Testing API call...', 'info');
+            
+            const testData = {
+                artist_bio: 'Direct API test at ' + new Date().toISOString(),
+                phone_number: '+20 9999999999'
+            };
+            
+            try {
+                console.log('Making direct API call with data:', testData);
+                
+                const response = await fetch('./API/updateArtistProfile.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('API Response status:', response.status);
+                console.log('API Response headers:', Object.fromEntries(response.headers.entries()));
+                
+                const result = await response.json();
+                console.log('API Response data:', result);
+                
+                if (result.success) {
+                    showResult('apiResult', `✅ API Success: ${result.message}`, 'success');
+                } else {
+                    showResult('apiResult', `❌ API Error: ${result.message}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('API Test Error:', error);
+                showResult('apiResult', `❌ API Call Failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testFormSubmit(event) {
+            event.preventDefault();
+            showResult('formResult', 'Testing form submission...', 'info');
+            
+            const formData = {
+                artist_bio: document.getElementById('artistBio').value,
+                phone_number: document.getElementById('artistPhone').value,
+                email: document.getElementById('artistEmail').value
+            };
+            
+            console.log('Form data collected:', formData);
+            
+            try {
+                const response = await fetch('./API/updateArtistProfile.php', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showResult('formResult', `✅ Form Submit Success: ${result.message}`, 'success');
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire('Success!', result.message, 'success');
+                    }
+                } else {
+                    showResult('formResult', `❌ Form Submit Error: ${result.message}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Form Submit Error:', error);
+                showResult('formResult', `❌ Form Submit Failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function clearConsole() {
+            consoleLogs = [];
+            document.getElementById('consoleOutput').textContent = 'Console cleared.';
+        }
+        
+        function showConsole() {
+            document.getElementById('consoleOutput').textContent = consoleLogs.join('\n');
+        }
+        
+        // Auto-check auth on load
+        window.addEventListener('load', function() {
+            setTimeout(checkAuth, 500);
+        });
+    </script>
+</body>
+</html>

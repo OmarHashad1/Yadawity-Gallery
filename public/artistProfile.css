@@ -564,6 +564,254 @@
     color: var(--text-dark);
   }
 
+  /* Enhanced Artwork Cards Styles - Fixed Layout */
+  .mansoryLayoutProductCard {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+
+  .galleryContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+
+  .enhanced-artwork-card {
+    background: #f8f7f4;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .enhanced-artwork-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .artwork-image-container {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    height: 280px;
+    flex-shrink: 0;
+  }
+
+  .enhanced-artwork-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .enhanced-artwork-card:hover .enhanced-artwork-image {
+    transform: scale(1.02);
+  }
+
+  .artwork-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .enhanced-artwork-card:hover .artwork-overlay {
+    opacity: 1;
+  }
+
+  .quick-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .quick-action-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 4px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+    font-size: 1rem;
+  }
+
+  .quick-action-btn:hover {
+    background: white;
+    transform: scale(1.05);
+  }
+
+  .enhanced-artwork-info {
+    padding: 2rem;
+    text-align: center;
+    background: #f8f7f4;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .artwork-category {
+    background: none;
+    color: #8b7355;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .enhanced-artwork-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+  }
+
+  .enhanced-artwork-artist {
+    color: #8b7355;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .enhanced-artwork-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #8b7355;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.5px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .artwork-dimensions {
+    color: #8b7355;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .enhanced-artwork-description {
+    color: #5a6c7d;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    text-align: left;
+    flex-grow: 1;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .artwork-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+  }
+
+  .enhanced-add-to-cart {
+    background: #8b7355;
+    color: white;
+    border: 2px solid #8b7355;
+    padding: 0.8rem 2rem;
+    border-radius: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-grow: 1;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .enhanced-add-to-cart:hover {
+    background: white;
+    color: #8b7355;
+    border-color: #8b7355;
+  }
+
+  .wishlist-btn {
+    background: white;
+    border: 2px solid #8b7355;
+    color: #8b7355;
+    width: 45px;
+    height: 45px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .wishlist-btn:hover {
+    background: #8b7355;
+    color: white;
+  }
+
+  /* Remove old styles that conflict */
+  .add-to-cart {
+    display: none;
+  }
+
+  /* Animation Classes */
+  .fade-in-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: fadeInLeft 0.6s ease forwards;
+  }
+
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fadeInLeft {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
   .rating-section {
     background: #fff8ee;
     padding: 25px;
@@ -850,6 +1098,52 @@
 
     .products-grid {
       grid-template-columns: 1fr;
+    }
+
+    .galleryContainer {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+
+    .mansoryLayoutProductCard {
+      padding: 0 1rem;
+    }
+
+    .enhanced-artwork-card {
+      margin-bottom: 1rem;
+      max-width: 100%;
+    }
+
+    .artwork-image-container {
+      height: 250px;
+    }
+
+    .enhanced-artwork-info {
+      padding: 1.5rem;
+    }
+
+    .enhanced-artwork-title {
+      font-size: 1.2rem;
+    }
+
+    .enhanced-artwork-price {
+      font-size: 1.2rem;
+    }
+
+    .artwork-actions {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .enhanced-add-to-cart {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    .wishlist-btn {
+      width: 100%;
+      height: 45px;
     }
 
     .chat-popup {

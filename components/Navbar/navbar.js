@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeNavbar() {
     // Initialize all navbar functions
     setupMobileMenu();
-    setupSearch();
+    // setupSearch removed since search input is no longer in navbar
     setupUserDropdown();
     setupScrollEffects();
     setupCounters();
@@ -121,7 +121,7 @@ function logout() {
 // Enhanced Mobile Menu Toggle
 function setupMobileMenu() {
     const navToggle = document.querySelector('.nav-toggle');
-    const burgerMenuOverlay = document.getElementById('burgerMenuOverlay');
+    const burgerMenuOverlay = document.getElementById('burger-menu-overlay');
     const navbar = document.querySelector('.navbar');
 
     if (navToggle && burgerMenuOverlay) {
@@ -151,94 +151,6 @@ function setupMobileMenu() {
     }
 }
 
-// Enhanced Search Functionality
-function setupSearch() {
-    const searchInput = document.querySelector('.search-input');
-    const searchBtn = document.querySelector('.search-btn');
-    let searchTimeout;
-
-    // Desktop search
-    if (searchBtn && searchInput) {
-        searchBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            performSearch(searchInput.value);
-        });
-
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                performSearch(this.value);
-            }
-        });
-
-        // Real-time search suggestions with debouncing
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                if (this.value.length > 2) {
-                    showSearchSuggestions(this.value);
-                } else {
-                    hideSearchSuggestions();
-                }
-            }, 300);
-        });
-
-        // Enhanced focus effects
-        searchInput.addEventListener('focus', function() {
-            this.parentElement.classList.add('focused');
-        });
-
-        searchInput.addEventListener('blur', function() {
-            setTimeout(() => {
-                this.parentElement.classList.remove('focused');
-                hideSearchSuggestions();
-            }, 200);
-        });
-    }
-}
-
-function performSearch(query) {
-    if (query.trim()) {
-        console.log('Performing search for:', query);
-        
-        // Add loading animation to search button
-        const searchBtn = document.querySelector('.search-btn');
-        if (searchBtn) {
-            searchBtn.style.animation = 'spin 1s linear infinite';
-            searchBtn.innerHTML = '<i class="fas fa-spinner"></i>';
-            
-            // Simulate search delay
-            setTimeout(() => {
-                searchBtn.style.animation = '';
-                searchBtn.innerHTML = '<i class="fas fa-search"></i>';
-                
-                // In production, redirect to search results
-                showNotification(`Searching for "${query}"...`, 'info');
-            }, 1000);
-        }
-    }
-}
-
-function showSearchSuggestions(query) {
-    // Simulate search suggestions - in production, this would be an API call
-    const suggestions = [
-        'Impressionist Paintings',
-        'Modern Sculpture',
-        'Portrait Photography',
-        'Abstract Art',
-        'Digital Art Course'
-    ].filter(item => item.toLowerCase().includes(query.toLowerCase()));
-
-    if (suggestions.length > 0) {
-        console.log('Showing suggestions:', suggestions);
-        // Here you would show actual suggestions dropdown
-    }
-}
-
-function hideSearchSuggestions() {
-    console.log('Hiding search suggestions');
-    // Here you would hide the suggestions dropdown
-}
 
 // Enhanced User Dropdown
 function setupUserDropdown() {
@@ -450,13 +362,34 @@ const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
 document.head.appendChild(styleSheet);
 
+
+
+
+// Global search function
+function performSearch(query) {
+    if (!query || query.trim() === '') {
+        console.log('Empty search query');
+        return;
+    }
+    
+    console.log('Performing search for:', query);
+    
+    // Redirect to artwork page with search parameter
+    const searchUrl = `artwork.php?search=${encodeURIComponent(query.trim())}`;
+    window.location.href = searchUrl;
+}
+
+// Make performSearch available globally
+window.performSearch = performSearch;
+
 // Export functions for use in other scripts
 window.NavbarController = {
     simulateLogin,
     logout,
     updateCartCount,
     updateWishlistCount,
-    showNotification
+    showNotification,
+    performSearch
 };
 
 function closeMobileSearch() {

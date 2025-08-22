@@ -214,6 +214,125 @@ body::before {
 }
 
 /* Search Section Styles */
+.main-search {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  min-width: 220px;
+  margin: 0 auto 2.5rem auto;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.search-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 1.25rem 4rem 1.25rem 1.5rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 24px 0 0 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s, background 0.2s;
+  color: var(--text-primary);
+  font-weight: 500;
+  outline: none;
+  flex: 1 1 0%;
+  height: 3.5rem;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.search-input:focus,
+.search-input:hover {
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.search-btn {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: var(--primary-light);
+  border: none;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 0 24px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+}
+
+.search-btn:hover {
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  transform: translateY(-50%) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.search-btn i {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.search-btn:hover i {
+  transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+  .main-search, .search-wrapper {
+    max-width: 98vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-search {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 0 2vw;
+    margin: 0 auto 1.5rem auto;
+  }
+  .search-wrapper {
+    width: 100%;
+    max-width: 98vw;
+  }
+  .search-input {
+    font-size: 1rem;
+    padding: 1rem 2.7rem 1rem 1rem;
+    border-radius: 24px 0 0 24px;
+    min-width: 0;
+    height: 2.7rem;
+  }
+  .search-btn {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 0 24px 24px 0;
+    right: 0.7rem;
+    font-size: 1rem;
+  }
+}
+
 .search-section {
   margin-bottom: 4rem;
 }
@@ -252,55 +371,56 @@ body::before {
 }
 
 .search-input {
-  padding: 0.85rem 3.5rem 0.85rem 1.5rem;
-  border: 2px solid var(--shadow-light);
-  border-radius: 25px;
-  outline: none;
-  font-size: 0.9rem;
   width: 100%;
-  max-width: 500px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--text-dark);
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 15px var(--shadow-light);
+  padding: 1.25rem 4rem 1.25rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
 
-
-
-
-
-
-
-
-
+.search-input:focus {
+  background: white;
+  outline: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 0 2px rgba(212, 175, 55, 0.2);
+}
 
 .search-btn {
   position: absolute;
   right: 1rem;
-  background: linear-gradient(135deg, var(--gold-accent) 0%, var(--primary-brown) 100%);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: var(--primary-light);
   border: none;
-  color: var(--white);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0.6rem;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px var(--shadow-light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
 }
 
-
-
-
-
-
+.search-btn:hover {
+  background: linear-gradient(135deg, var(--brown-medium) 0%, var(--brown-light) 100%);
+  color: #fff;
+  transform: translateY(-50%) translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
 
 .search-btn i {
   font-size: 1rem;
@@ -310,6 +430,7 @@ body::before {
 .search-btn:hover i {
   transform: scale(1.1);
 }
+
 
 /* Filters Container */
 .filters-container {
@@ -553,7 +674,8 @@ body::before {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 400px; /* Set a minimum height for consistency */
+  min-height: 400px;
+  max-width: 400px; /* Set a minimum height for consistency */
 }
 
 .course-card:hover {
@@ -1008,6 +1130,255 @@ body::before {
   
   .quick-view-image {
     max-height: 300px;
+  }
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    padding: 3rem 1.5rem 2rem;
+  }
+  
+  .main-search {
+    max-width: 450px;
+  }
+  
+  .search-input {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .search-btn {
+    padding: 0.9rem 1.2rem;
+    min-width: 55px;
+  }
+  
+  .courses-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 2rem 1rem 1.5rem;
+  }
+  
+  .page-header {
+    margin-bottom: 3rem;
+    padding: 1rem 0;
+  }
+  
+  .search-section {
+    margin-bottom: 2.5rem;
+  }
+  
+  .search-hero h2 {
+    font-size: 2rem;
+  }
+  
+  .main-search {
+    max-width: 350px;
+  }
+  
+  .search-input {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .search-btn {
+    padding: 0.8rem 1rem;
+    min-width: 45px;
+  }
+  
+  .search-btn i {
+    font-size: 1rem;
+  }
+  
+  .filters-container {
+    padding: 1.5rem;
+  }
+  
+  .filters-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .courses-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .course-card {
+    min-height: 350px;
+  }
+  
+  .course-image {
+    height: 180px;
+  }
+  
+  .pagination-container {
+    padding: 0.75rem 1.5rem;
+    min-width: 280px;
+  }
+  
+  .pagination-controls {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem 0.75rem 1rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .search-hero h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .search-subtitle {
+    font-size: 1rem;
+  }
+  
+  .main-search {
+    margin: 0 auto 2rem;
+    max-width: 280px;
+  }
+  
+  .search-input {
+    font-size: 13px;
+    padding: 0.65rem 0.8rem;
+  }
+  
+  .search-btn {
+    padding: 0.65rem 0.8rem;
+    min-width: 40px;
+  }
+  
+  .search-btn i {
+    font-size: 0.9rem;
+  }
+  
+  .filters-container {
+    padding: 1rem;
+  }
+  
+  .filters-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .filter-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .courses-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .course-card {
+    min-height: 320px;
+    margin: 0 0.5rem;
+  }
+  
+  .course-image {
+    height: 160px;
+  }
+  
+  .course-content {
+    padding: 1rem;
+  }
+  
+  .course-title {
+    font-size: 1.1rem;
+  }
+  
+  .course-price {
+    font-size: 1.1rem;
+  }
+  
+  .pagination-container {
+    padding: 0.5rem 1rem;
+    min-width: 240px;
+  }
+  
+  .pagination-controls {
+    gap: 0.5rem;
+  }
+  
+  .pagination-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .pagination-numbers {
+    gap: 0.25rem;
+  }
+  
+  .pagination-number {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .search-hero h2 {
+    font-size: 1.3rem;
+  }
+  
+  .main-search {
+    max-width: 240px;
+  }
+  
+  .search-input {
+    font-size: 12px;
+    padding: 0.5rem 0.6rem;
+  }
+  
+  .search-btn {
+    padding: 0.5rem 0.6rem;
+    min-width: 35px;
+  }
+  
+  .search-btn i {
+    font-size: 0.8rem;
+  }
+  
+  .course-card {
+    margin: 0;
+    min-height: 300px;
+  }
+  
+  .course-image {
+    height: 140px;
+  }
+  
+  .pagination-container {
+    min-width: 200px;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .pagination-btn span {
+    display: none;
+  }
+  
+  .pagination-btn {
+    padding: 0.4rem;
   }
 }
 

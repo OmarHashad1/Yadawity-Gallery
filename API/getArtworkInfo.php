@@ -45,11 +45,11 @@ function buildArtworkQuery() {
             u.bio as artist_bio,
             u.email as artist_email,
             u.phone as artist_phone,
-            COUNT(ar.id) as review_count,
-            COALESCE(AVG(ar.rating), 0) as average_rating
+            COUNT(r.review_id) as review_count,
+            COALESCE(AVG(r.rating), 0) as average_rating
         FROM artworks a
         LEFT JOIN users u ON a.artist_id = u.user_id
-        LEFT JOIN artist_reviews ar ON a.artist_id = ar.artist_id
+        LEFT JOIN reviews r ON a.artwork_id = r.artwork_id AND r.review_type = 'artwork'
         WHERE a.artwork_id = ? AND u.is_active = 1
         GROUP BY a.artwork_id
     ";
@@ -93,11 +93,11 @@ function formatArtworkData($row) {
 
     // Add image URLs
     if ($artwork['artwork_image']) {
-        $artwork['artwork_image_url'] = './image/' . $artwork['artwork_image'];
-        $artwork['image_src'] = './image/' . $artwork['artwork_image'];
+        $artwork['artwork_image_url'] = '/uploads/artworks/' . $artwork['artwork_image'];
+        $artwork['image_src'] = '/uploads/artworks/' . $artwork['artwork_image'];
     } else {
-        $artwork['artwork_image_url'] = './image/placeholder-artwork.jpg';
-        $artwork['image_src'] = './image/placeholder-artwork.jpg';
+        $artwork['artwork_image_url'] = '/image/placeholder-artwork.jpg';
+        $artwork['image_src'] = '/image/placeholder-artwork.jpg';
     }
 
     // Add artist profile picture URL
@@ -134,6 +134,55 @@ function formatArtworkData($row) {
     return $artwork;
 }
 
+function getArtworkPhotos($db, $artwork_id) {
+    try {
+        $query = "
+            SELECT 
+                photo_id,
+                artwork_id,
+                image_path,
+                is_primary,
+                created_at
+            FROM artwork_photos 
+            WHERE artwork_id = ? 
+            ORDER BY is_primary DESC, photo_id ASC
+        ";
+        
+        $stmt = $db->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Photo query preparation failed: " . $db->error);
+        }
+        
+        $stmt->bind_param("i", $artwork_id);
+        
+        if (!$stmt->execute()) {
+            throw new Exception("Photo query execution failed: " . $stmt->error);
+        }
+        
+        $result = $stmt->get_result();
+        $photos = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            $photos[] = [
+                'photo_id' => (int)$row['photo_id'],
+                'artwork_id' => (int)$row['artwork_id'],
+                'image_path' => $row['image_path'],
+                'photo_url' => '/uploads/artworks/' . $row['image_path'],
+                'is_primary' => (bool)$row['is_primary'],
+                'created_at' => $row['created_at'] ?? null
+            ];
+        }
+        
+        $stmt->close();
+        
+        return $photos;
+        
+    } catch (Exception $e) {
+        error_log("Error fetching artwork photos: " . $e->getMessage());
+        return []; // Return empty array if photos can't be fetched
+    }
+}
+
 function getArtworkById($db, $artwork_id) {
     try {
         $query = buildArtworkQuery();
@@ -158,7 +207,13 @@ function getArtworkById($db, $artwork_id) {
         
         $stmt->close();
         
-        return formatArtworkData($row);
+        // Get basic artwork data
+        $artwork = formatArtworkData($row);
+        
+        // Get artwork photos from artwork_photos table
+        $artwork['photos'] = getArtworkPhotos($db, $artwork_id);
+        
+        return $artwork;
         
     } catch (Exception $e) {
         if ($e->getCode() === 404) {

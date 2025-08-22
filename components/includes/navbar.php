@@ -38,12 +38,6 @@
         </div>
 
         <div class="nav-actions">
-            <div class="search-container">
-                <input type="text" placeholder="Search artists, artworks..." class="search-input" id="navbar-search">
-                <button class="search-btn" id="search-button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
 
                 <a href="wishlist.php" class="nav-icon-link" title="Wishlist" id="wishlist-link">
                     <i class="fas fa-heart"></i>
@@ -120,4 +114,4 @@
             <span class="bar"></span>
         </div>
     </div>
-</nav>
+ </nav>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Primary Image Functionality</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        .upload-zone { 
+            border: 2px dashed #ccc; 
+            padding: 20px; 
+            text-align: center; 
+            margin: 10px 0;
+        }
+        .image-preview { 
+            max-width: 200px; 
+            max-height: 200px; 
+            margin: 10px 0;
+        }
+        button { padding: 10px 20px; margin: 5px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Test Primary Image Functionality</h1>
+    
+    <div class="test-section">
+        <h2>1. Test Primary Image Upload</h2>
+        <div class="upload-zone" id="primaryUploadZone">
+            <p>Drop primary image here or click to select</p>
+            <input type="file" id="primaryImageInput" accept="image/*" style="display: none;">
+        </div>
+        <div id="primaryPreview"></div>
+        <button onclick="clearPrimaryImage()">Clear Primary Image</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Test Additional Images Upload</h2>
+        <div class="upload-zone" id="additionalUploadZone">
+            <p>Drop additional images here or click to select</p>
+            <input type="file" id="additionalImagesInput" accept="image/*" multiple style="display: none;">
+        </div>
+        <div id="additionalPreview"></div>
+        <button onclick="clearAdditionalImages()">Clear Additional Images</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Test Form Data Creation</h2>
+        <form id="testForm">
+            <input type="text" id="artworkTitle" placeholder="Artwork Title" required>
+            <textarea id="artworkDescription" placeholder="Artwork Description" required></textarea>
+            <input type="number" id="artworkPrice" placeholder="Price" required>
+            <button type="button" onclick="testFormSubmission()">Test Form Data</button>
+        </form>
+        <div id="formTestResult"></div>
+    </div>
+
+    <script>
+        let primaryImage = null;
+        let additionalImages = [];
+
+        // Validate image file
+        function validateImageFile(file) {
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (!allowedTypes.includes(file.type)) {
+                return { isValid: false, message: 'Invalid file type. Please upload JPEG, PNG, GIF, or WebP images.' };
+            }
+
+            if (file.size > maxSize) {
+                return { isValid: false, message: 'File size too large. Maximum size is 5MB.' };
+            }
+
+            return { isValid: true, message: 'Valid image file.' };
+        }
+
+        // Primary image handling
+        document.getElementById('primaryUploadZone').addEventListener('click', () => {
+            document.getElementById('primaryImageInput').click();
+        });
+
+        document.getElementById('primaryImageInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handlePrimaryImage(file);
+            }
+        });
+
+        document.getElementById('primaryUploadZone').addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        });
+
+        document.getElementById('primaryUploadZone').addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                handlePrimaryImage(file);
+            }
+        });
+
+        function handlePrimaryImage(file) {
+            const validation = validateImageFile(file);
+            if (!validation.isValid) {
+                document.getElementById('primaryPreview').innerHTML = 
+                    `<p class="error">${validation.message}</p>`;
+                return;
+            }
+
+            primaryImage = file;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('primaryPreview').innerHTML = `
+                    <div>
+                        <p class="success">Primary image selected: ${file.name}</p>
+                        <img src="${e.target.result}" alt="Primary preview" class="image-preview">
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearPrimaryImage() {
+            primaryImage = null;
+            document.getElementById('primaryPreview').innerHTML = '';
+            document.getElementById('primaryImageInput').value = '';
+        }
+
+        // Additional images handling
+        document.getElementById('additionalUploadZone').addEventListener('click', () => {
+            document.getElementById('additionalImagesInput').click();
+        });
+
+        document.getElementById('additionalImagesInput').addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleAdditionalImages(files);
+        });
+
+        document.getElementById('additionalUploadZone').addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+        });
+
+        document.getElementById('additionalUploadZone').addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = Array.from(e.dataTransfer.files);
+            handleAdditionalImages(files);
+        });
+
+        function handleAdditionalImages(files) {
+            for (const file of files) {
+                const validation = validateImageFile(file);
+                if (validation.isValid) {
+                    additionalImages.push(file);
+                }
+            }
+            updateAdditionalPreview();
+        }
+
+        function updateAdditionalPreview() {
+            const preview = document.getElementById('additionalPreview');
+            if (additionalImages.length === 0) {
+                preview.innerHTML = '';
+                return;
+            }
+
+            let html = `<p class="success">${additionalImages.length} additional images selected:</p>`;
+            additionalImages.forEach((file, index) => {
+                html += `<div style="display: inline-block; margin: 5px;">
+                    <p>${file.name}</p>
+                    <button onclick="removeAdditionalImage(${index})">Remove</button>
+                </div>`;
+            });
+            preview.innerHTML = html;
+        }
+
+        function removeAdditionalImage(index) {
+            additionalImages.splice(index, 1);
+            updateAdditionalPreview();
+        }
+
+        function clearAdditionalImages() {
+            additionalImages = [];
+            document.getElementById('additionalPreview').innerHTML = '';
+            document.getElementById('additionalImagesInput').value = '';
+        }
+
+        // Test form submission
+        function testFormSubmission() {
+            const title = document.getElementById('artworkTitle').value;
+            const description = document.getElementById('artworkDescription').value;
+            const price = document.getElementById('artworkPrice').value;
+
+            if (!title || !description || !price) {
+                document.getElementById('formTestResult').innerHTML = 
+                    '<p class="error">Please fill in all required fields.</p>';
+                return;
+            }
+
+            if (!primaryImage) {
+                document.getElementById('formTestResult').innerHTML = 
+                    '<p class="error">Please select a primary image.</p>';
+                return;
+            }
+
+            // Create FormData object
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('price', price);
+            formData.append('primary_image', primaryImage);
+
+            additionalImages.forEach((file, index) => {
+                formData.append('artwork_images[]', file);
+            });
+
+            // Display FormData contents
+            let result = '<p class="success">FormData created successfully:</p><ul>';
+            for (let [key, value] of formData.entries()) {
+                if (value instanceof File) {
+                    result += `<li><strong>${key}:</strong> ${value.name} (${value.size} bytes)</li>`;
+                } else {
+                    result += `<li><strong>${key}:</strong> ${value}</li>`;
+                }
+            }
+            result += '</ul>';
+            
+            document.getElementById('formTestResult').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
